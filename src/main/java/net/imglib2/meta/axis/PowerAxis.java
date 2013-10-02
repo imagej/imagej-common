@@ -35,81 +35,56 @@
  * #L%
  */
 
-package net.imglib2.meta;
+package net.imglib2.meta.axis;
 
-import java.util.List;
-
-import net.imglib2.RealInterval;
-import net.imglib2.meta.axis.IdentityAxis;
+import net.imglib2.meta.Axes;
+import net.imglib2.meta.AxisType;
+import net.imglib2.meta.CalibratedAxis;
 
 /**
- * A simple default {@link CalibratedRealInterval} implementation.
+ * PowerAxis is a {@link CalibratedAxis } that scales raw values by the equation
+ * y = a + b*x^c.
  * 
  * @author Barry DeZonia
  */
-public class DefaultCalibratedRealInterval extends
-	AbstractCalibratedRealInterval<CalibratedAxis>
-{
+public class PowerAxis extends Variable3Axis {
 
-	// -- public constructors --
+	// -- constructors --
 
-	public DefaultCalibratedRealInterval(final RealInterval interval) {
-		super(interval);
-		assignDefaultAxes();
+	public PowerAxis(final double power) {
+		this(Axes.unknown(), power);
 	}
 
-	public DefaultCalibratedRealInterval(final RealInterval interval,
-		final CalibratedAxis... axes)
+	public PowerAxis(final AxisType type, final double power) {
+		this(type, null, 0, 1, power);
+	}
+
+	public PowerAxis(final AxisType type, final String unit, final double a,
+		final double b, final double c)
 	{
-		super(interval, axes);
+		super(type, unit, a, b, c);
 	}
 
-	public DefaultCalibratedRealInterval(final RealInterval interval,
-		final List<CalibratedAxis> axes)
-	{
-		super(interval, axes);
+	// -- CalibratedAxis methods --
+
+	@Override
+	public double calibratedValue(final double rawValue) {
+		return a() + b() * Math.pow(rawValue, c());
 	}
 
-	public DefaultCalibratedRealInterval(final double[] extents) {
-		super(extents);
-		assignDefaultAxes();
+	@Override
+	public double rawValue(final double calibratedValue) {
+		return Math.pow(((calibratedValue - a()) / b()), (1.0 / c()));
 	}
 
-	public DefaultCalibratedRealInterval(final double[] extents,
-		final CalibratedAxis... axes)
-	{
-		super(extents, axes);
+	@Override
+	public String generalEquation() {
+		return "y = a + b*x^c";
 	}
 
-	public DefaultCalibratedRealInterval(final double[] extents,
-		final List<CalibratedAxis> axes)
-	{
-		super(extents, axes);
-	}
-
-	public DefaultCalibratedRealInterval(final double[] min, final double[] max) {
-		super(min, max);
-		assignDefaultAxes();
-	}
-
-	public DefaultCalibratedRealInterval(final double[] min, final double[] max,
-		final CalibratedAxis... axes)
-	{
-		super(min, max, axes);
-	}
-
-	public DefaultCalibratedRealInterval(final double[] min, final double[] max,
-		final List<CalibratedAxis> axes)
-	{
-		super(min, max, axes);
-	}
-
-	// -- Helper methods --
-
-	private void assignDefaultAxes() {
-		for (int d = 0; d < numDimensions(); d++) {
-			setAxis(new IdentityAxis(), d);
-		}
+	@Override
+	public PowerAxis copy() {
+		return new PowerAxis(type(), unit(), a(), b(), c());
 	}
 
 }

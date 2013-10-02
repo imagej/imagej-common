@@ -35,81 +35,35 @@
  * #L%
  */
 
-package net.imglib2.meta;
+package net.imglib2.meta.axis;
 
-import java.util.List;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import net.imglib2.meta.AbstractMetaTest;
+import net.imglib2.meta.Axes;
 
-import net.imglib2.RealInterval;
-import net.imglib2.meta.axis.IdentityAxis;
+import org.junit.Test;
 
 /**
- * A simple default {@link CalibratedRealInterval} implementation.
+ * Tests {@link IdentityAxis}.
  * 
  * @author Barry DeZonia
  */
-public class DefaultCalibratedRealInterval extends
-	AbstractCalibratedRealInterval<CalibratedAxis>
-{
+public class IdentityAxisTest extends AbstractMetaTest {
 
-	// -- public constructors --
-
-	public DefaultCalibratedRealInterval(final RealInterval interval) {
-		super(interval);
-		assignDefaultAxes();
-	}
-
-	public DefaultCalibratedRealInterval(final RealInterval interval,
-		final CalibratedAxis... axes)
-	{
-		super(interval, axes);
-	}
-
-	public DefaultCalibratedRealInterval(final RealInterval interval,
-		final List<CalibratedAxis> axes)
-	{
-		super(interval, axes);
-	}
-
-	public DefaultCalibratedRealInterval(final double[] extents) {
-		super(extents);
-		assignDefaultAxes();
-	}
-
-	public DefaultCalibratedRealInterval(final double[] extents,
-		final CalibratedAxis... axes)
-	{
-		super(extents, axes);
-	}
-
-	public DefaultCalibratedRealInterval(final double[] extents,
-		final List<CalibratedAxis> axes)
-	{
-		super(extents, axes);
-	}
-
-	public DefaultCalibratedRealInterval(final double[] min, final double[] max) {
-		super(min, max);
-		assignDefaultAxes();
-	}
-
-	public DefaultCalibratedRealInterval(final double[] min, final double[] max,
-		final CalibratedAxis... axes)
-	{
-		super(min, max, axes);
-	}
-
-	public DefaultCalibratedRealInterval(final double[] min, final double[] max,
-		final List<CalibratedAxis> axes)
-	{
-		super(min, max, axes);
-	}
-
-	// -- Helper methods --
-
-	private void assignDefaultAxes() {
-		for (int d = 0; d < numDimensions(); d++) {
-			setAxis(new IdentityAxis(), d);
-		}
+	@Test
+	public void test() {
+		IdentityAxis axis = new IdentityAxis();
+		assertUnknown(axis);
+		axis = new IdentityAxis(Axes.Y);
+		assertEquals(Axes.Y, axis.type());
+		assertNull(axis.unit());
+		axis.setUnit("BAMBALOOIE");
+		assertEquals("BAMBALOOIE", axis.unit());
+		axis.setType(Axes.CHANNEL);
+		assertEquals(Axes.CHANNEL, axis.type());
+		assertEquals(5, axis.calibratedValue(5), 0);
+		assertEquals(5, axis.rawValue(5), 0);
 	}
 
 }

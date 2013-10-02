@@ -39,77 +39,24 @@ package net.imglib2.meta;
 
 import java.util.List;
 
-import net.imglib2.RealInterval;
-import net.imglib2.meta.axis.IdentityAxis;
+import net.imglib2.meta.axis.LinearAxis;
 
 /**
- * A simple default {@link CalibratedRealInterval} implementation.
+ * A simple default {@link LinearSpace}.
  * 
  * @author Barry DeZonia
  */
-public class DefaultCalibratedRealInterval extends
-	AbstractCalibratedRealInterval<CalibratedAxis>
-{
+public class DefaultLinearSpace extends AbstractLinearSpace<LinearAxis> {
 
-	// -- public constructors --
-
-	public DefaultCalibratedRealInterval(final RealInterval interval) {
-		super(interval);
-		assignDefaultAxes();
+	public DefaultLinearSpace(final int numDims) {
+		super(numDims);
 	}
 
-	public DefaultCalibratedRealInterval(final RealInterval interval,
-		final CalibratedAxis... axes)
-	{
-		super(interval, axes);
+	public DefaultLinearSpace(final LinearAxis... axes) {
+		super(axes);
 	}
 
-	public DefaultCalibratedRealInterval(final RealInterval interval,
-		final List<CalibratedAxis> axes)
-	{
-		super(interval, axes);
+	public DefaultLinearSpace(final List<LinearAxis> axes) {
+		super(axes);
 	}
-
-	public DefaultCalibratedRealInterval(final double[] extents) {
-		super(extents);
-		assignDefaultAxes();
-	}
-
-	public DefaultCalibratedRealInterval(final double[] extents,
-		final CalibratedAxis... axes)
-	{
-		super(extents, axes);
-	}
-
-	public DefaultCalibratedRealInterval(final double[] extents,
-		final List<CalibratedAxis> axes)
-	{
-		super(extents, axes);
-	}
-
-	public DefaultCalibratedRealInterval(final double[] min, final double[] max) {
-		super(min, max);
-		assignDefaultAxes();
-	}
-
-	public DefaultCalibratedRealInterval(final double[] min, final double[] max,
-		final CalibratedAxis... axes)
-	{
-		super(min, max, axes);
-	}
-
-	public DefaultCalibratedRealInterval(final double[] min, final double[] max,
-		final List<CalibratedAxis> axes)
-	{
-		super(min, max, axes);
-	}
-
-	// -- Helper methods --
-
-	private void assignDefaultAxes() {
-		for (int d = 0; d < numDimensions(); d++) {
-			setAxis(new IdentityAxis(), d);
-		}
-	}
-
 }

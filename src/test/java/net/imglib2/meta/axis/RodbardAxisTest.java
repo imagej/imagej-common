@@ -35,81 +35,54 @@
  * #L%
  */
 
-package net.imglib2.meta;
+package net.imglib2.meta.axis;
 
-import java.util.List;
+import static org.junit.Assert.assertEquals;
+import net.imglib2.meta.AbstractMetaTest;
+import net.imglib2.meta.Axes;
 
-import net.imglib2.RealInterval;
-import net.imglib2.meta.axis.IdentityAxis;
+import org.junit.Test;
 
 /**
- * A simple default {@link CalibratedRealInterval} implementation.
+ * Tests {@link RodbardAxis}.
  * 
  * @author Barry DeZonia
  */
-public class DefaultCalibratedRealInterval extends
-	AbstractCalibratedRealInterval<CalibratedAxis>
-{
+public class RodbardAxisTest extends AbstractMetaTest {
 
-	// -- public constructors --
+	@Test
+	public void testCtor() {
+		final RodbardAxis axis = new RodbardAxis(Axes.Z, "lp", 1, 2, 3, 4);
 
-	public DefaultCalibratedRealInterval(final RealInterval interval) {
-		super(interval);
-		assignDefaultAxes();
+		assertEquals(Axes.Z, axis.type());
+		assertEquals("lp", axis.unit());
+		assertEquals(1, axis.a(), 0);
+		assertEquals(2, axis.b(), 0);
+		assertEquals(3, axis.c(), 0);
+		assertEquals(4, axis.d(), 0);
+		assertEquals(calValue(4, axis), axis.calibratedValue(4), 0);
 	}
 
-	public DefaultCalibratedRealInterval(final RealInterval interval,
-		final CalibratedAxis... axes)
-	{
-		super(interval, axes);
-	}
+	@Test
+	public void testOtherStuff() {
+		final RodbardAxis axis = new RodbardAxis(Axes.Z, "lp", 1, 2, 3, 4);
 
-	public DefaultCalibratedRealInterval(final RealInterval interval,
-		final List<CalibratedAxis> axes)
-	{
-		super(interval, axes);
-	}
+		axis.setA(2.2);
+		axis.setB(3.3);
+		axis.setC(5.5);
+		axis.setD(7.7);
+		assertEquals(2.2, axis.a(), 0);
+		assertEquals(3.3, axis.b(), 0);
+		assertEquals(5.5, axis.c(), 0);
+		assertEquals(7.7, axis.d(), 0);
 
-	public DefaultCalibratedRealInterval(final double[] extents) {
-		super(extents);
-		assignDefaultAxes();
-	}
-
-	public DefaultCalibratedRealInterval(final double[] extents,
-		final CalibratedAxis... axes)
-	{
-		super(extents, axes);
-	}
-
-	public DefaultCalibratedRealInterval(final double[] extents,
-		final List<CalibratedAxis> axes)
-	{
-		super(extents, axes);
-	}
-
-	public DefaultCalibratedRealInterval(final double[] min, final double[] max) {
-		super(min, max);
-		assignDefaultAxes();
-	}
-
-	public DefaultCalibratedRealInterval(final double[] min, final double[] max,
-		final CalibratedAxis... axes)
-	{
-		super(min, max, axes);
-	}
-
-	public DefaultCalibratedRealInterval(final double[] min, final double[] max,
-		final List<CalibratedAxis> axes)
-	{
-		super(min, max, axes);
-	}
-
-	// -- Helper methods --
-
-	private void assignDefaultAxes() {
-		for (int d = 0; d < numDimensions(); d++) {
-			setAxis(new IdentityAxis(), d);
+		for (int i = 0; i < 100; i++) {
+			assertEquals(axis.rawValue(axis.calibratedValue(i)), i, 0.0001);
 		}
 	}
 
+	private double calValue(final double raw, final RodbardAxis axis) {
+		return axis.a() + (axis.b() - axis.a()) /
+			(1 + Math.pow((raw / axis.c()), axis.d()));
+	}
 }

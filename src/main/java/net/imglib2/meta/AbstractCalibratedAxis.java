@@ -37,79 +37,42 @@
 
 package net.imglib2.meta;
 
-import java.util.List;
-
-import net.imglib2.RealInterval;
-import net.imglib2.meta.axis.IdentityAxis;
-
 /**
- * A simple default {@link CalibratedRealInterval} implementation.
+ * Abstract base class for {@link CalibratedAxis}.
  * 
  * @author Barry DeZonia
  */
-public class DefaultCalibratedRealInterval extends
-	AbstractCalibratedRealInterval<CalibratedAxis>
+public abstract class AbstractCalibratedAxis extends DefaultTypedAxis implements
+	CalibratedAxis
 {
 
-	// -- public constructors --
+	private String unit;
 
-	public DefaultCalibratedRealInterval(final RealInterval interval) {
-		super(interval);
-		assignDefaultAxes();
+	public AbstractCalibratedAxis(final AxisType type) {
+		super(type);
 	}
 
-	public DefaultCalibratedRealInterval(final RealInterval interval,
-		final CalibratedAxis... axes)
-	{
-		super(interval, axes);
+	public AbstractCalibratedAxis(final AxisType type, final String unit) {
+		super(type);
+		setUnit(unit);
 	}
 
-	public DefaultCalibratedRealInterval(final RealInterval interval,
-		final List<CalibratedAxis> axes)
-	{
-		super(interval, axes);
+	// -- CalibratedAxis methods --
+
+	@Override
+	public String unit() {
+		return unit;
 	}
 
-	public DefaultCalibratedRealInterval(final double[] extents) {
-		super(extents);
-		assignDefaultAxes();
+	@Override
+	public void setUnit(final String unit) {
+		this.unit = unit;
 	}
 
-	public DefaultCalibratedRealInterval(final double[] extents,
-		final CalibratedAxis... axes)
-	{
-		super(extents, axes);
-	}
-
-	public DefaultCalibratedRealInterval(final double[] extents,
-		final List<CalibratedAxis> axes)
-	{
-		super(extents, axes);
-	}
-
-	public DefaultCalibratedRealInterval(final double[] min, final double[] max) {
-		super(min, max);
-		assignDefaultAxes();
-	}
-
-	public DefaultCalibratedRealInterval(final double[] min, final double[] max,
-		final CalibratedAxis... axes)
-	{
-		super(min, max, axes);
-	}
-
-	public DefaultCalibratedRealInterval(final double[] min, final double[] max,
-		final List<CalibratedAxis> axes)
-	{
-		super(min, max, axes);
-	}
-
-	// -- Helper methods --
-
-	private void assignDefaultAxes() {
-		for (int d = 0; d < numDimensions(); d++) {
-			setAxis(new IdentityAxis(), d);
-		}
+	@Override
+	public double averageScale(final double rawValue1, final double rawValue2) {
+		return (calibratedValue(rawValue2) - calibratedValue(rawValue1)) /
+			(rawValue2 - rawValue1);
 	}
 
 }
