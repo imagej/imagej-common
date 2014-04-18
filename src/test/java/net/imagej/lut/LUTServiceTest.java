@@ -87,7 +87,7 @@ public class LUTServiceTest {
 			Thread.currentThread().setContextClassLoader(loader);
 
 			final Map<String, URL> luts = lutService.findLUTs();
-			assertEquals(1, luts.size());
+			assertEquals(39, luts.size());
 			assertTrue(luts.containsKey("hello world/bang.lut"));
 		}
 		finally {
