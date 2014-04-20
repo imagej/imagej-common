@@ -31,6 +31,7 @@
 
 package net.imagej.app;
 
+import org.scijava.Priority;
 import org.scijava.app.AbstractApp;
 import org.scijava.app.App;
 import org.scijava.plugin.Plugin;
@@ -41,7 +42,8 @@ import org.scijava.plugin.Plugin;
  * @author Curtis Rueden
  * @see org.scijava.app.AppService
  */
-@Plugin(type = App.class, name = ImageJApp.NAME)
+@Plugin(type = App.class, name = ImageJApp.NAME,
+	priority = Priority.HIGH_PRIORITY)
 public class ImageJApp extends AbstractApp {
 
 	public static final String NAME = "ImageJ";
