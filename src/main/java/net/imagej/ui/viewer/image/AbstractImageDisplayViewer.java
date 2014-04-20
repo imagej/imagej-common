@@ -41,6 +41,8 @@ import net.imagej.display.event.DelayedPositionEvent;
 import net.imagej.display.event.PanZoomEvent;
 import net.imagej.event.DatasetRestructuredEvent;
 import net.imagej.event.DatasetUpdatedEvent;
+import net.imglib2.img.Img;
+import net.imglib2.img.cell.AbstractCellImg;
 import net.imglib2.meta.Axes;
 import net.imglib2.meta.AxisType;
 
@@ -131,6 +133,23 @@ public abstract class AbstractImageDisplayViewer extends
 //			.isDisplayFractionalScales() ? ZoomScaleOption.OPTIONS_FRACTIONAL_SCALE
 //			: ZoomScaleOption.OPTIONS_PERCENT_SCALE;
 		return ZoomScaleOption.OPTIONS_PERCENT_SCALE;
+	}
+
+	// -- Internal AbstractDisplayViewer methods --
+
+	@Override
+	protected void updateTitle() {
+		String trailer = "";
+		final Dataset ds = imageDisplayService.getActiveDataset(display);
+		if (ds != null) {
+			final Img<?> img = ds.getImgPlus().getImg();
+			if (AbstractCellImg.class.isAssignableFrom(img.getClass())) {
+				trailer = " (V)";
+			}
+		}
+		String name = getDisplay().getName();
+		if (name == null) name = "";
+		getWindow().setTitle(name + trailer);
 	}
 
 	// -- Helper methods --
