@@ -49,11 +49,6 @@ public class ImageJApp extends AbstractApp {
 	public static final String NAME = "ImageJ";
 
 	@Override
-	public String getTitle() {
-		return NAME;
-	}
-
-	@Override
 	public String getGroupId() {
 		return "net.imagej";
 	}
