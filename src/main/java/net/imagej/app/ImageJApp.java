@@ -55,7 +55,7 @@ public class ImageJApp extends AbstractApp {
 
 	@Override
 	public String getArtifactId() {
-		return "ij-core";
+		return "imagej-common";
 	}
 
 }
