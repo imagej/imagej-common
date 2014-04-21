@@ -29,33 +29,31 @@
  * #L%
  */
 
-package net.imagej.app;
+package net.imagej.ui.viewer.table;
 
-import org.scijava.Priority;
-import org.scijava.app.AbstractApp;
-import org.scijava.app.App;
-import org.scijava.plugin.Plugin;
+import net.imagej.table.Table;
+import net.imagej.table.TableDisplay;
+
+import org.scijava.display.Display;
+import org.scijava.ui.viewer.AbstractDisplayViewer;
 
 /**
- * Application metadata about ImageJ.
+ * Implements the UI-independent elements of a {@link Table} viewer.
  * 
  * @author Curtis Rueden
- * @see org.scijava.app.AppService
  */
-@Plugin(type = App.class, name = ImageJApp.NAME,
-	priority = Priority.HIGH_PRIORITY)
-public class ImageJApp extends AbstractApp {
-
-	public static final String NAME = "ImageJ";
+public abstract class AbstractTableDisplayViewer extends
+	AbstractDisplayViewer<Table<?, ?>> implements TableDisplayViewer
+{
 
 	@Override
-	public String getGroupId() {
-		return "net.imagej";
+	public boolean canView(final Display<?> d) {
+		return d instanceof TableDisplay;
 	}
 
 	@Override
-	public String getArtifactId() {
-		return "imagej-common";
+	public TableDisplay getDisplay() {
+		return (TableDisplay) super.getDisplay();
 	}
 
 }

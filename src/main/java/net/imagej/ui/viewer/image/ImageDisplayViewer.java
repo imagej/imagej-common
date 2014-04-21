@@ -29,33 +29,24 @@
  * #L%
  */
 
-package net.imagej.app;
+package net.imagej.ui.viewer.image;
 
-import org.scijava.Priority;
-import org.scijava.app.AbstractApp;
-import org.scijava.app.App;
-import org.scijava.plugin.Plugin;
+import org.scijava.ui.viewer.DisplayViewer;
+
+import net.imagej.Dataset;
+import net.imagej.display.DataView;
+import net.imagej.display.ImageDisplay;
 
 /**
- * Application metadata about ImageJ.
- * 
- * @author Curtis Rueden
- * @see org.scijava.app.AppService
+ * A display viewer for {@link DataView}s.
+ *
+ * @author Lee Kamentsky
  */
-@Plugin(type = App.class, name = ImageJApp.NAME,
-	priority = Priority.HIGH_PRIORITY)
-public class ImageJApp extends AbstractApp {
+public interface ImageDisplayViewer extends DisplayViewer<DataView> {
 
-	public static final String NAME = "ImageJ";
+	Dataset capture();
 
 	@Override
-	public String getGroupId() {
-		return "net.imagej";
-	}
-
-	@Override
-	public String getArtifactId() {
-		return "imagej-common";
-	}
+	ImageDisplay getDisplay();
 
 }

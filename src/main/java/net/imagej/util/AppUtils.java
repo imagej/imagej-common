@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.scijava.app.App;
 import org.scijava.util.FileUtils;
 
 /**
@@ -63,8 +64,10 @@ public final class AppUtils {
 	 * is used. Otherwise, we scan up the tree from this class for a suitable
 	 * directory.
 	 * 
+	 * @deprecated Use {@link App#getBaseDirectory()} instead.
 	 * @see org.scijava.util.AppUtils#getBaseDirectory(String, Class, String)
 	 */
+	@Deprecated
 	public static File getBaseDirectory() {
 		return org.scijava.util.AppUtils.getBaseDirectory("ij.dir", AppUtils.class,
 			"core/core");

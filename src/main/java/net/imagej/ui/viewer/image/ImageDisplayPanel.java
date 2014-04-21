@@ -29,33 +29,22 @@
  * #L%
  */
 
-package net.imagej.app;
+package net.imagej.ui.viewer.image;
 
-import org.scijava.Priority;
-import org.scijava.app.AbstractApp;
-import org.scijava.app.App;
-import org.scijava.plugin.Plugin;
+import org.scijava.ui.viewer.DisplayPanel;
+
+import net.imagej.display.DataView;
+import net.imagej.display.ImageDisplay;
 
 /**
- * Application metadata about ImageJ.
+ * This is a panel that can go inside a display window. It displays
+ * {@link DataView}s.
  * 
  * @author Curtis Rueden
- * @see org.scijava.app.AppService
  */
-@Plugin(type = App.class, name = ImageJApp.NAME,
-	priority = Priority.HIGH_PRIORITY)
-public class ImageJApp extends AbstractApp {
-
-	public static final String NAME = "ImageJ";
+public interface ImageDisplayPanel extends DisplayPanel {
 
 	@Override
-	public String getGroupId() {
-		return "net.imagej";
-	}
-
-	@Override
-	public String getArtifactId() {
-		return "imagej-common";
-	}
+	ImageDisplay getDisplay();
 
 }

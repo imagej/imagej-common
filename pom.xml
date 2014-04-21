@@ -203,6 +203,10 @@
 		</dependency>
 	</dependencies>
 
+	<properties>
+		<scijava-common.version>2.16.0</scijava-common.version>
+	</properties>
+
 	<build>
 		<plugins>
 			<plugin>

@@ -46,7 +46,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.imagej.app.ImageJApp;
-import net.imagej.util.AppUtils;
 
 import org.scijava.AbstractContextual;
 import org.scijava.Context;
@@ -91,7 +90,7 @@ public class ConfigFileParameters extends AbstractContextual {
 	 * file location.
 	 */
 	public ConfigFileParameters(final Context context) {
-		this(context, getCfgFile());
+		this(context, null);
 	}
 
 	/**
@@ -101,7 +100,7 @@ public class ConfigFileParameters extends AbstractContextual {
 	public ConfigFileParameters(final Context context, final File configFile) {
 		setContext(context);
 		this.dataMap = new HashMap<String, String>();
-		this.configFile = configFile;
+		this.configFile = configFile == null ? defaultConfigFile() : configFile;
 		initialize();
 	}
 
@@ -161,15 +160,13 @@ public class ConfigFileParameters extends AbstractContextual {
 		save();
 	}
 
-	// -- utility methods --
+	// -- private helpers --
 
 	/** Finds the default name/location of the launcher config file. */
-	public static File getCfgFile() {
-		final File directory = AppUtils.getBaseDirectory();
+	private File defaultConfigFile() {
+		final File directory = appService.getApp().getBaseDirectory();
 		return new File(directory, CONFIG_FILE);
 	}
-
-	// -- private helpers --
 
 	/**
 	 * Initializes launcher config values. If possible loads values from launcher
