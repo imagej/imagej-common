@@ -31,6 +31,7 @@
 
 package net.imagej.display;
 
+import org.scijava.input.InputService;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import org.scijava.service.AbstractService;
