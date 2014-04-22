@@ -32,10 +32,6 @@
 package net.imagej.display;
 
 import static org.junit.Assert.assertEquals;
-import net.imagej.display.DefaultImageCanvas;
-import net.imagej.display.DefaultImageDisplay;
-import net.imagej.display.ImageCanvas;
-import net.imagej.display.ImageDisplay;
 
 import org.junit.Test;
 import org.scijava.Context;

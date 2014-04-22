@@ -35,11 +35,11 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.scijava.util.RealRect;
-
 import net.imglib2.RandomAccess;
 import net.imglib2.meta.Axes;
 import net.imglib2.type.numeric.RealType;
+
+import org.scijava.util.RealRect;
 
 /**
  * This class, which does flood filling, is used by the FloodFillTool. It was

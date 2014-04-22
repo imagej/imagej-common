@@ -33,9 +33,6 @@ package net.imagej.display;
 
 import java.util.List;
 
-import org.scijava.display.Display;
-import org.scijava.util.ColorRGB;
-
 import net.imagej.ChannelCollection;
 import net.imagej.Dataset;
 import net.imglib2.RandomAccessibleInterval;
@@ -44,6 +41,9 @@ import net.imglib2.display.ColorTable;
 import net.imglib2.display.projector.composite.CompositeXYProjector;
 import net.imglib2.display.screenimage.awt.ARGBScreenImage;
 import net.imglib2.type.numeric.RealType;
+
+import org.scijava.display.Display;
+import org.scijava.util.ColorRGB;
 
 /**
  * A linkage between a {@link Dataset} and a {@link Display}. The view takes

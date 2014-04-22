@@ -31,9 +31,9 @@
 
 package net.imagej.widget;
 
-import org.scijava.widget.InputWidget;
-
 import net.imglib2.display.ColorTable;
+
+import org.scijava.widget.InputWidget;
 
 /**
  * Widget interface for color tables.

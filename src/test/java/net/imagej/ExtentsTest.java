@@ -33,8 +33,6 @@ package net.imagej;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import net.imagej.Extents;
-import net.imagej.Position;
 
 import org.junit.Test;
 

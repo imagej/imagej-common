@@ -32,8 +32,6 @@
 package net.imagej;
 
 import static org.junit.Assert.assertTrue;
-import net.imagej.Dataset;
-import net.imagej.DatasetService;
 import net.imglib2.Cursor;
 import net.imglib2.RandomAccess;
 import net.imglib2.img.Img;

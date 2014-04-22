@@ -32,7 +32,6 @@
 package net.imagej.types;
 
 import static org.junit.Assert.assertEquals;
-import net.imagej.types.BigComplex;
 
 import org.junit.Test;
 

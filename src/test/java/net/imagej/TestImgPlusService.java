@@ -33,7 +33,6 @@ package net.imagej;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import net.imagej.ImgPlusService;
 import net.imglib2.img.array.ArrayImg;
 import net.imglib2.img.array.ArrayImgs;
 import net.imglib2.meta.ImgPlus;

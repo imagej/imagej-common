@@ -35,8 +35,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import net.imagej.Extents;
-import net.imagej.Position;
 
 import org.junit.Test;
 

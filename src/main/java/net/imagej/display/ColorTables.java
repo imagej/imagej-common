@@ -31,10 +31,10 @@
 
 package net.imagej.display;
 
-import org.scijava.util.ColorRGB;
-
 import net.imglib2.display.ColorTable;
 import net.imglib2.display.ColorTable8;
+
+import org.scijava.util.ColorRGB;
 
 /**
  * Built-in lookup tables.

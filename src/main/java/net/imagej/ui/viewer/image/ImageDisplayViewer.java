@@ -31,11 +31,11 @@
 
 package net.imagej.ui.viewer.image;
 
-import org.scijava.ui.viewer.DisplayViewer;
-
 import net.imagej.Dataset;
 import net.imagej.display.DataView;
 import net.imagej.display.ImageDisplay;
+
+import org.scijava.ui.viewer.DisplayViewer;
 
 /**
  * A display viewer for {@link DataView}s.

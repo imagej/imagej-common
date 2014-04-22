@@ -32,9 +32,9 @@
 package net.imagej.options;
 
 import net.imagej.display.OverlayService;
-import net.imagej.overlay.OverlaySettings;
 import net.imagej.overlay.Overlay.ArrowStyle;
 import net.imagej.overlay.Overlay.LineStyle;
+import net.imagej.overlay.OverlaySettings;
 
 import org.scijava.menu.MenuConstants;
 import org.scijava.options.OptionsPlugin;

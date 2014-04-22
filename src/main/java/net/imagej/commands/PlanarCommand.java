@@ -31,10 +31,10 @@
 
 package net.imagej.commands;
 
-import org.scijava.command.Command;
-
 import net.imagej.display.DatasetView;
 import net.imglib2.RandomAccessibleInterval;
+
+import org.scijava.command.Command;
 
 /**
  * Interface marking commands that can be toggled to run on the current plane,

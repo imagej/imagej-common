@@ -31,10 +31,10 @@
 
 package net.imagej.ui.viewer.table;
 
-import org.scijava.ui.viewer.DisplayViewer;
-
 import net.imagej.table.Table;
 import net.imagej.table.TableDisplay;
+
+import org.scijava.ui.viewer.DisplayViewer;
 
 /**
  * A display viewer for a display of {@link Table}s.

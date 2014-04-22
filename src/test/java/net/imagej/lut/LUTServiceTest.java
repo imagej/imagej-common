@@ -42,8 +42,6 @@ import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 
-import net.imagej.lut.LUTService;
-
 import org.junit.Test;
 import org.scijava.Context;
 

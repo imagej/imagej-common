@@ -33,9 +33,6 @@ package net.imagej.table;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
-import net.imagej.table.DefaultResultsTable;
-import net.imagej.table.DoubleColumn;
-import net.imagej.table.ResultsTable;
 
 import org.junit.Test;
 

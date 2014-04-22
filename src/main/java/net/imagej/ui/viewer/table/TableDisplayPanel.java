@@ -31,10 +31,10 @@
 
 package net.imagej.ui.viewer.table;
 
-import org.scijava.ui.viewer.DisplayPanel;
-
 import net.imagej.table.Table;
 import net.imagej.table.TableDisplay;
+
+import org.scijava.ui.viewer.DisplayPanel;
 
 /**
  * This is a panel that can go inside a display window. It displays

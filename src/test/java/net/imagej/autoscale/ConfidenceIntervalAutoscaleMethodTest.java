@@ -32,10 +32,6 @@
 package net.imagej.autoscale;
 
 import static org.junit.Assert.assertEquals;
-import net.imagej.autoscale.AutoscaleMethod;
-import net.imagej.autoscale.AutoscaleService;
-import net.imagej.autoscale.ConfidenceIntervalAutoscaleMethod;
-import net.imagej.autoscale.DataRange;
 import net.imglib2.img.Img;
 import net.imglib2.img.array.ArrayImgs;
 import net.imglib2.type.numeric.RealType;

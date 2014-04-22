@@ -31,11 +31,11 @@
 
 package net.imagej.overlay;
 
-import org.scijava.util.ColorRGB;
-
 import net.imagej.Data;
 import net.imagej.Dataset;
 import net.imglib2.roi.RegionOfInterest;
+
+import org.scijava.util.ColorRGB;
 
 /**
  * An overlay is a vector object, typically displayed with {@link Dataset}s.

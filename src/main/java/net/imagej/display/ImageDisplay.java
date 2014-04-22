@@ -31,15 +31,15 @@
 
 package net.imagej.display;
 
-import org.scijava.display.Display;
-import org.scijava.util.RealRect;
-
 import net.imagej.Data;
 import net.imagej.PositionableByAxis;
 import net.imglib2.Interval;
 import net.imglib2.meta.AxisType;
 import net.imglib2.meta.CalibratedAxis;
 import net.imglib2.meta.CalibratedRealInterval;
+
+import org.scijava.display.Display;
+import org.scijava.util.RealRect;
 
 /**
  * An image display is a {@link Display} for visualizing {@link Data} objects.

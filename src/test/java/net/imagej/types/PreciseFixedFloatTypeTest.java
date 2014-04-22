@@ -33,7 +33,6 @@ package net.imagej.types;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import net.imagej.types.PreciseFixedFloatType;
 
 import org.junit.Test;
 
