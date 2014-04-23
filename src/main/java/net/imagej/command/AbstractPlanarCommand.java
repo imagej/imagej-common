@@ -29,7 +29,7 @@
  * #L%
  */
 
-package net.imagej.commands;
+package net.imagej.command;
 
 import net.imagej.display.DatasetView;
 import net.imglib2.RandomAccessibleInterval;
