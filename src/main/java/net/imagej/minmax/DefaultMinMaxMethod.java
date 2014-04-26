@@ -51,7 +51,7 @@ import org.scijava.thread.ThreadService;
 
 /**
  * A {@link MinMaxMethod} implementation that forks
- * {@link net.imglib2.algorithm.stats.ComputeMinMax}.
+ * {@code net.imglib2.algorithm.stats.ComputeMinMax}.
  * 
  * @author Mark Hiner
  */

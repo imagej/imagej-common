@@ -36,7 +36,6 @@ import java.util.List;
 import net.imagej.ChannelCollection;
 import net.imagej.Dataset;
 import net.imglib2.RandomAccessibleInterval;
-import net.imglib2.algorithm.stats.ComputeMinMax;
 import net.imglib2.display.ColorTable;
 import net.imglib2.display.projector.composite.CompositeXYProjector;
 import net.imglib2.display.screenimage.awt.ARGBScreenImage;
@@ -95,7 +94,7 @@ public interface DatasetView extends DataView {
 	 * {@link Dataset#setChannelMaximum(int, double)}; the latter methods set the
 	 * minimum and maximum <em>data</em> values for that channel, independent of
 	 * any visualization. They are typically kept synced with the actual data via
-	 * code such as {@link ComputeMinMax}.
+	 * code such as {@code net.imglib2.algorithm.stats.ComputeMinMax}.
 	 * </p>
 	 */
 	void setChannelRange(int c, double min, double max);
@@ -109,7 +108,7 @@ public interface DatasetView extends DataView {
 	 * {@link Dataset#setChannelMaximum(int, double)}; the latter methods set the
 	 * minimum and maximum <em>data</em> values for that channel, independent of
 	 * any visualization. They are typically kept synced with the actual data via
-	 * code such as {@link ComputeMinMax}.
+	 * code such as {@code net.imglib2.algorithm.stats.ComputeMinMax}.
 	 * </p>
 	 */
 	void setChannelRanges(double min, double max);
