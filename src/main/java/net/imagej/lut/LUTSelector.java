@@ -95,7 +95,7 @@ public class LUTSelector extends DynamicCommand {
 		if (display != null) {
 			// CTR FIXME: Avoid circular dependency between ij-data and ij-commands.
 			cmdService.run("net.imagej.plugins.commands.misc.ApplyLookupTable", true,
-				new Object[] { "display", display, "tableURL", luts.get(choice) });
+				"display", display, "tableURL", luts.get(choice));
 		}
 	}
 
