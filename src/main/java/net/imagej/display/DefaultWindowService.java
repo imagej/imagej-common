@@ -193,14 +193,6 @@ public final class DefaultWindowService extends AbstractService implements
 		// set menu position
 		leaf.setWeight(order++); // TODO - do this properly
 
-		// use the same icon as File > Open
-//		final PluginService pluginService = ImageJ.get(PluginService.class);
-//		final CommandInfo<Command> fileOpen =
-//				pluginService.getCommand("imagej.io.plugins.OpenImage");
-//		final String iconPath = fileOpen.getIconPath();
-//		info.setIconPath(iconPath);
-//		leaf.setIconPath(iconPath);
-
 		// register the module with the module service
 		moduleService.addModule(info);
 
