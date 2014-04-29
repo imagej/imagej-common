@@ -271,7 +271,7 @@ public class DefaultLUTService extends AbstractService implements LUTService {
 		final HashMap<String, Object> presets = new HashMap<String, Object>();
 		presets.put("tableURL", url);
 		// and create the command info
-		// CTR FIXME: Avoid circular dependency between ij-data and ij-commands.
+		// CTR FIXME: Avoid circular dependency.
 		final CommandInfo info =
 			new CommandInfo("net.imagej.plugins.commands.misc.ApplyLookupTable");
 		info.setPresets(presets);
