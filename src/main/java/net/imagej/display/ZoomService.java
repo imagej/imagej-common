@@ -31,7 +31,7 @@
 
 package net.imagej.display;
 
-import net.imagej.service.ImageJService;
+import net.imagej.ImageJService;
 
 /**
  * Interface for services that perform zoom operations on {@link ImageDisplay}s.

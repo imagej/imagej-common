@@ -38,8 +38,8 @@ import java.net.URL;
 import java.util.Map;
 
 import net.imagej.Dataset;
+import net.imagej.ImageJService;
 import net.imagej.display.ImageDisplay;
-import net.imagej.service.ImageJService;
 import net.imglib2.display.ColorTable;
 
 /**

@@ -31,7 +31,6 @@
 
 package net.imagej;
 
-import net.imagej.service.ImageJService;
 import net.imglib2.meta.ImgPlus;
 import net.imglib2.type.Type;
 import net.imglib2.type.numeric.ComplexType;

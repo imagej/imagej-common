@@ -31,7 +31,7 @@
 
 package net.imagej.render;
 
-import net.imagej.service.ImageJService;
+import net.imagej.ImageJService;
 
 /**
  * Interface for service that performs text rendering.

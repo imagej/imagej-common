@@ -34,7 +34,7 @@ package net.imagej.operator;
 import java.util.List;
 import java.util.Map;
 
-import net.imagej.service.ImageJService;
+import net.imagej.ImageJService;
 import net.imglib2.img.Img;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.real.DoubleType;

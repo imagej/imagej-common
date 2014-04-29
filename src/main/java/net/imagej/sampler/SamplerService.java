@@ -31,8 +31,8 @@
 
 package net.imagej.sampler;
 
+import net.imagej.ImageJService;
 import net.imagej.display.ImageDisplay;
-import net.imagej.service.ImageJService;
 
 /**
  * Interface for sampler operations which manipulate {@link ImageDisplay} data.

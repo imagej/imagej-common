@@ -32,7 +32,7 @@
 package net.imagej.measure;
 
 import net.imagej.Dataset;
-import net.imagej.service.ImageJService;
+import net.imagej.ImageJService;
 import net.imglib2.ops.pointset.PointSet;
 
 // TODO - make MeasurementService smarter. Compute values without always

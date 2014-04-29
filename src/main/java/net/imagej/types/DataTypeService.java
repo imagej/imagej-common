@@ -33,7 +33,7 @@ package net.imagej.types;
 
 import java.util.List;
 
-import net.imagej.service.ImageJService;
+import net.imagej.ImageJService;
 import net.imglib2.type.numeric.NumericType;
 
 import org.scijava.plugin.SingletonService;

@@ -35,8 +35,8 @@ import java.util.List;
 
 import net.imagej.Data;
 import net.imagej.Dataset;
+import net.imagej.ImageJService;
 import net.imagej.Position;
-import net.imagej.service.ImageJService;
 
 import org.scijava.display.DisplayService;
 import org.scijava.event.EventService;

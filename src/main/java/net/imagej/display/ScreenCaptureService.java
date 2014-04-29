@@ -32,7 +32,7 @@
 package net.imagej.display;
 
 import net.imagej.Dataset;
-import net.imagej.service.ImageJService;
+import net.imagej.ImageJService;
 
 /**
  * An interface for supporting the capturing of screen data to a Dataset.

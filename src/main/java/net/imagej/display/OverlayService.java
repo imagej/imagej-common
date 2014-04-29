@@ -35,11 +35,11 @@ import java.util.List;
 
 import net.imagej.ChannelCollection;
 import net.imagej.Dataset;
+import net.imagej.ImageJService;
 import net.imagej.Position;
 import net.imagej.overlay.CompositeOverlay;
 import net.imagej.overlay.Overlay;
 import net.imagej.overlay.OverlaySettings;
-import net.imagej.service.ImageJService;
 
 import org.scijava.object.ObjectService;
 import org.scijava.util.RealRect;

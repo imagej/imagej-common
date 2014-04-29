@@ -34,7 +34,7 @@ package net.imagej.measure;
 import java.util.List;
 
 import net.imagej.Dataset;
-import net.imagej.service.ImageJService;
+import net.imagej.ImageJService;
 import net.imglib2.img.Img;
 import net.imglib2.ops.function.Function;
 import net.imglib2.ops.function.real.RealImageFunction;

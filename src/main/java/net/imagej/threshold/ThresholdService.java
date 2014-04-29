@@ -34,9 +34,9 @@ package net.imagej.threshold;
 import java.util.List;
 import java.util.Map;
 
+import net.imagej.ImageJService;
 import net.imagej.display.ImageDisplay;
 import net.imagej.overlay.ThresholdOverlay;
-import net.imagej.service.ImageJService;
 
 import org.scijava.plugin.SingletonService;
 

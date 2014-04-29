@@ -34,7 +34,7 @@ package net.imagej.autoscale;
 import java.util.List;
 import java.util.Map;
 
-import net.imagej.service.ImageJService;
+import net.imagej.ImageJService;
 import net.imglib2.IterableInterval;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.type.numeric.RealType;

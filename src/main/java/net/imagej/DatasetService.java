@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.util.List;
 
 import net.imagej.display.ImageDisplay;
-import net.imagej.service.ImageJService;
 import net.imglib2.img.ImgFactory;
 import net.imglib2.meta.AxisType;
 import net.imglib2.meta.ImgPlus;

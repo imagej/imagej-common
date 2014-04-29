@@ -29,7 +29,7 @@
  * #L%
  */
 
-package net.imagej.service;
+package net.imagej;
 
 import org.scijava.service.Service;
 

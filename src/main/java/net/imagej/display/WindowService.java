@@ -33,7 +33,7 @@ package net.imagej.display;
 
 import java.util.List;
 
-import net.imagej.service.ImageJService;
+import net.imagej.ImageJService;
 
 import org.scijava.event.EventService;
 import org.scijava.menu.MenuService;
