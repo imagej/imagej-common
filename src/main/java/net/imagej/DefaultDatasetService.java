@@ -81,6 +81,7 @@ import org.scijava.service.Service;
  * 
  * @author Curtis Rueden
  * @author Barry DeZonia
+ * @author Mark Hiner
  */
 @Plugin(type = Service.class)
 public final class DefaultDatasetService extends AbstractService implements
@@ -233,12 +234,16 @@ public final class DefaultDatasetService extends AbstractService implements
 
 	@Override
 	public Dataset open(final String source) throws IOException {
-		final ImgOpener imageOpener = new ImgOpener(getContext());
-
 		final SCIFIOConfig config = new SCIFIOConfig();
 
-		// TODO: Open more than just the first image.
 		config.imgOpenerSetIndex(0);
+
+		return open(source, config);
+	}
+
+	@Override
+	public Dataset open(final String source, final SCIFIOConfig config) throws IOException {
+		final ImgOpener imageOpener = new ImgOpener(getContext());
 
 		// skip min/max computation
 		config.imgOpenerSetComputeMinMax(false);
@@ -247,7 +252,8 @@ public final class DefaultDatasetService extends AbstractService implements
 		config.imgOpenerSetImgModes(ImgMode.PLANAR);
 
 		try {
-			final SCIFIOImgPlus<?> imgPlus = imageOpener.openImg(source, config);
+			final SCIFIOImgPlus<?> imgPlus =
+				imageOpener.openImgs(source, config).get(0);
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			final Dataset dataset = create((ImgPlus) imgPlus);
 			return dataset;
@@ -272,12 +278,18 @@ public final class DefaultDatasetService extends AbstractService implements
 	public void save(final Dataset dataset, final String destination)
 		throws IOException
 	{
+	}
+
+	@Override
+	public void save(final Dataset dataset, final String destination,
+		final SCIFIOConfig config) throws IOException
+	{
 		@SuppressWarnings("rawtypes")
 		final ImgPlus img = dataset.getImgPlus();
 
 		final ImgSaver imageSaver = new ImgSaver(getContext());
 		try {
-			save(imageSaver, destination, img);
+			imageSaver.saveImg(destination, img, config);
 		}
 		catch (final ImgIOException exc) {
 			throw new IOException(exc);
@@ -289,6 +301,7 @@ public final class DefaultDatasetService extends AbstractService implements
 		final String name = new File(destination).getName();
 		dataset.setName(name);
 		dataset.setDirty(false);
+
 	}
 
 	// -- Helper methods --
@@ -299,12 +312,4 @@ public final class DefaultDatasetService extends AbstractService implements
 		throw new IllegalArgumentException("Invalid parameters: bitsPerPixel=" +
 			bitsPerPixel + ", signed=" + signed + ", floating=" + floating);
 	}
-
-	@SuppressWarnings("rawtypes")
-	private void save(final ImgSaver imageSaver, final String destination,
-		final ImgPlus img) throws ImgIOException, IncompatibleTypeException
-	{
-		imageSaver.saveImg(destination, img);
-	}
-
 }
