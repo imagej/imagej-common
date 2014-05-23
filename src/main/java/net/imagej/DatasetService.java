@@ -31,6 +31,8 @@
 
 package net.imagej;
 
+import io.scif.config.SCIFIOConfig;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -47,6 +49,7 @@ import org.scijava.object.ObjectService;
  * Interface for service that works with {@link Dataset}s.
  * 
  * @author Curtis Rueden
+ * @author Mark Hiner
  */
 public interface DatasetService extends ImageJService {
 
@@ -162,9 +165,17 @@ public interface DatasetService extends ImageJService {
 	/** Loads a dataset from a source (such as a file on disk). */
 	Dataset open(String source) throws IOException;
 
+	/** As {@link #open(String)} with the given {@link SCIFIOConfig} */
+	Dataset open(String source, SCIFIOConfig config) throws IOException;
+
 	/** Reverts the given dataset to its original source. */
 	void revert(Dataset dataset) throws IOException;
 
 	/** Saves a dataset to a destination (such as a file on disk). */
 	void save(Dataset dataset, String destination) throws IOException;
+
+	/** As {@link #save(Dataset, String)} using the provided {@link SCIFIOConfig} */
+	void save(Dataset dataset, String destination, SCIFIOConfig config)
+		throws IOException;
+
 }
