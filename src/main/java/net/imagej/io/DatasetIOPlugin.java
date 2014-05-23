@@ -39,11 +39,13 @@ import net.imagej.DatasetService;
 import net.imagej.OpenDataset;
 import net.imagej.SaveDataset;
 
+import org.scijava.Cancelable;
 import org.scijava.Priority;
 import org.scijava.command.CommandModule;
 import org.scijava.command.CommandService;
 import org.scijava.io.AbstractIOPlugin;
 import org.scijava.io.IOPlugin;
+import org.scijava.module.Module;
 import org.scijava.module.ModuleService;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
@@ -90,10 +92,15 @@ public class DatasetIOPlugin extends AbstractIOPlugin<Dataset> {
 		// check if required services for opening datasets are present
 		if (commandService == null || moduleService == null) return null;
 		final Future<CommandModule> result =
-			commandService.run(OpenDataset.class, true, OpenDataset.SOURCE_LABEL,
+			commandService.run(OpenDataset.class, true, "source",
 				source);
-		return (Dataset) moduleService.waitFor(result).getOutputs().get(
-			OpenDataset.OUTPUT_LABEL);
+		final Module openDatasetModule = moduleService.waitFor(result);
+		if (((Cancelable) openDatasetModule).isCanceled()) {
+			return null;
+		}
+		final IOException exc = (IOException) openDatasetModule.getOutputs().get("error");
+		if (exc != null) throw exc;
+		return (Dataset) openDatasetModule.getOutputs().get("dataset");
 	}
 
 	@Override

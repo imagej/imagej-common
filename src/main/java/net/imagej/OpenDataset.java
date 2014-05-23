@@ -61,10 +61,6 @@ public class OpenDataset extends ContextCommand {
 
 	private static final int MAX_HEADER = 55;
 
-	public static String SOURCE_LABEL = "source";
-
-	public static String OUTPUT_LABEL = "dataset";
-
 	@Parameter
 	private DatasetService datasetService;
 
@@ -96,11 +92,14 @@ public class OpenDataset extends ContextCommand {
 	@Parameter(required = false, label = "Group similar files")
 	private Boolean groupFiles;
 
-	@Parameter(type = ItemIO.INPUT, label = "source")
+	@Parameter(type = ItemIO.INPUT)
 	private String source;
 
-	@Parameter(type = ItemIO.OUTPUT, label = "dataset")
+	@Parameter(type = ItemIO.OUTPUT)
 	private Dataset dataset;
+
+	@Parameter(type = ItemIO.OUTPUT)
+	private IOException error;
 
 	@Override
 	public void run() {
@@ -139,6 +138,7 @@ public class OpenDataset extends ContextCommand {
 			dataset = datasetService.open(source, config);
 		}
 		catch (IOException e) {
+			error = e;
 			logService.error(e);
 		}
 	}
