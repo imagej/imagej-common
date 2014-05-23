@@ -42,6 +42,7 @@ import net.imglib2.meta.Axes;
 import net.imglib2.meta.AxisType;
 
 import org.scijava.ItemIO;
+import org.scijava.ItemVisibility;
 import org.scijava.command.Command;
 import org.scijava.command.ContextCommand;
 import org.scijava.log.LogService;
@@ -54,8 +55,11 @@ import org.scijava.plugin.Plugin;
  * 
  * @author Mark Hiner
  */
-@Plugin(type = Command.class, menuPath = "File > Import > Image")
+@Plugin(type = Command.class, menuPath = "File > Import > Image",
+	label = "Select import options...")
 public class OpenDataset extends ContextCommand {
+
+	private static final int MAX_HEADER = 55;
 
 	public static String SOURCE_LABEL = "source";
 
@@ -66,6 +70,9 @@ public class OpenDataset extends ContextCommand {
 
 	@Parameter
 	private LogService logService;
+
+	@Parameter(visibility = ItemVisibility.MESSAGE, initializer = "setHeader")
+	private String header;
 
 	@Parameter(required = false)
 	private Boolean crop;
@@ -83,10 +90,10 @@ public class OpenDataset extends ContextCommand {
 	@Parameter(required = false)
 	private Integer h;
 
-	@Parameter(required = false)
+	@Parameter(required = false, label = "Image indices")
 	private String range;
 
-	@Parameter(required = false)
+	@Parameter(required = false, label = "Group similar files")
 	private Boolean groupFiles;
 
 	@Parameter(type = ItemIO.INPUT, label = "source")
@@ -144,5 +151,17 @@ public class OpenDataset extends ContextCommand {
 	{
 		return (x != null && y != null && w != null && h != null) &&
 			(x >= 0 && y >= 0 && w >= 0 && h >= 0);
+	}
+
+	private void setHeader() {
+		if (source != null) {
+			// Truncate long headers if needed
+			if (source.length() > MAX_HEADER) {
+				header = "..." + source.substring(source.length() - (MAX_HEADER - 3));
+			}
+			else {
+				header = source;
+			}
+		}
 	}
 }
