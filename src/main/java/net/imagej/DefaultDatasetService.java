@@ -32,6 +32,7 @@
 package net.imagej;
 
 import io.scif.FormatException;
+import io.scif.Metadata;
 import io.scif.config.SCIFIOConfig;
 import io.scif.config.SCIFIOConfig.ImgMode;
 import io.scif.img.ImgIOException;
@@ -275,22 +276,23 @@ public final class DefaultDatasetService extends AbstractService implements
 	}
 
 	@Override
-	public void save(final Dataset dataset, final String destination)
+	public Metadata save(final Dataset dataset, final String destination)
 		throws IOException
 	{
-		save(dataset, destination, null);
+		return save(dataset, destination, null);
 	}
 
 	@Override
-	public void save(final Dataset dataset, final String destination,
+	public Metadata save(final Dataset dataset, final String destination,
 		final SCIFIOConfig config) throws IOException
 	{
 		@SuppressWarnings("rawtypes")
 		final ImgPlus img = dataset.getImgPlus();
 
+		final Metadata metadata;
 		final ImgSaver imageSaver = new ImgSaver(getContext());
 		try {
-			imageSaver.saveImg(destination, img, config);
+			metadata = imageSaver.saveImg(destination, img, config);
 		}
 		catch (final ImgIOException exc) {
 			throw new IOException(exc);
@@ -303,6 +305,7 @@ public final class DefaultDatasetService extends AbstractService implements
 		dataset.setName(name);
 		dataset.setDirty(false);
 
+		return metadata;
 	}
 
 	// -- Helper methods --
