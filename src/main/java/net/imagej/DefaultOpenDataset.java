@@ -66,7 +66,8 @@ public class DefaultOpenDataset extends ContextCommand implements OpenDataset {
 	@Parameter
 	private LogService logService;
 
-	@Parameter(visibility = ItemVisibility.MESSAGE, initializer = "setHeader")
+	@Parameter(visibility = ItemVisibility.MESSAGE, persist = false,
+		initializer = "setHeader")
 	private String header;
 
 	@Parameter(required = false)
