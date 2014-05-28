@@ -31,6 +31,7 @@
 
 package net.imagej;
 
+import io.scif.Metadata;
 import io.scif.config.SCIFIOConfig;
 
 import java.io.IOException;
@@ -171,11 +172,25 @@ public interface DatasetService extends ImageJService {
 	/** Reverts the given dataset to its original source. */
 	void revert(Dataset dataset) throws IOException;
 
-	/** Saves a dataset to a destination (such as a file on disk). */
-	void save(Dataset dataset, String destination) throws IOException;
+	/**
+	 * Saves a dataset to a destination (such as a file on disk).
+	 * 
+	 * @param dataset The dataset to save.
+	 * @param destination Where the dataset should be saved (e.g., a file path on
+	 *          disk).
+	 */
+	Metadata save(Dataset dataset, String destination) throws IOException;
 
-	/** As {@link #save(Dataset, String)} using the provided {@link SCIFIOConfig} */
-	void save(Dataset dataset, String destination, SCIFIOConfig config)
+	/**
+	 * Saves a dataset to a destination (such as a file on disk).
+	 * 
+	 * @param dataset The dataset to save.
+	 * @param destination Where the dataset should be saved (e.g., a file path on
+	 *          disk).
+	 * @param config The SCIFIO configuration describing how the data should be
+	 *          saved.
+	 */
+	Metadata save(Dataset dataset, String destination, SCIFIOConfig config)
 		throws IOException;
 
 }
