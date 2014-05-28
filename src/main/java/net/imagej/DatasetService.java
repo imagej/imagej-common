@@ -171,10 +171,24 @@ public interface DatasetService extends ImageJService {
 	/** Reverts the given dataset to its original source. */
 	void revert(Dataset dataset) throws IOException;
 
-	/** Saves a dataset to a destination (such as a file on disk). */
+	/**
+	 * Saves a dataset to a destination (such as a file on disk).
+	 * 
+	 * @param dataset The dataset to save.
+	 * @param destination Where the dataset should be saved (e.g., a file path on
+	 *          disk).
+	 */
 	void save(Dataset dataset, String destination) throws IOException;
 
-	/** As {@link #save(Dataset, String)} using the provided {@link SCIFIOConfig} */
+	/**
+	 * Saves a dataset to a destination (such as a file on disk).
+	 * 
+	 * @param dataset The dataset to save.
+	 * @param destination Where the dataset should be saved (e.g., a file path on
+	 *          disk).
+	 * @param config The SCIFIO configuration describing how the data should be
+	 *          saved.
+	 */
 	void save(Dataset dataset, String destination, SCIFIOConfig config)
 		throws IOException;
 
