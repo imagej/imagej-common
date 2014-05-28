@@ -74,16 +74,16 @@ public class DefaultOpenDataset extends ContextCommand implements OpenDataset {
 	private Boolean crop;
 
 	//TODO callback to enable/disable these fields based on crop value
-	@Parameter(required = false, autoFill = false)
+	@Parameter(required = false, autoFill = false, min = "0")
 	private Integer x;
 
-	@Parameter(required = false)
+	@Parameter(required = false, min = "0")
 	private Integer y;
 
-	@Parameter(required = false)
+	@Parameter(required = false, min = "0")
 	private Integer w;
 
-	@Parameter(required = false)
+	@Parameter(required = false, min = "0")
 	private Integer h;
 
 	@Parameter(required = false, label = "Image indices")
