@@ -42,6 +42,9 @@
 			<url>http://maven.imagej.net/content/groups/public</url>
 		</repository>
 	</repositories>
+	<properties>
+		<scifio.version>0.12.2-SNAPSHOT</scifio.version>
+	</properties>
 
 	<dependencies>
 		<!-- SCIFIO dependencies -->
