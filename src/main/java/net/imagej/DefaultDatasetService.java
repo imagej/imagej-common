@@ -278,6 +278,7 @@ public final class DefaultDatasetService extends AbstractService implements
 	public void save(final Dataset dataset, final String destination)
 		throws IOException
 	{
+		save(dataset, destination, null);
 	}
 
 	@Override
