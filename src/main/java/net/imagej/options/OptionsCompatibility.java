@@ -33,6 +33,7 @@ package net.imagej.options;
 
 import java.net.URL;
 
+import org.scijava.log.LogService;
 import org.scijava.menu.MenuConstants;
 import org.scijava.options.OptionsPlugin;
 import org.scijava.platform.PlatformService;
@@ -56,9 +57,12 @@ public class OptionsCompatibility extends OptionsPlugin {
 	private static final String MODE_LEGACY = "Legacy";
 	private static final String MODE_MODERN = "Modern";
 
-	@Parameter
+	@Parameter(required = false)
 	private PlatformService platformService;
-	
+
+	@Parameter
+	private LogService log;
+
 	@Parameter(label = "Notes",
 			description="View a web page detailing the commands on this dialog",
 			callback="openWebPage", persist = false)
@@ -94,8 +98,14 @@ public class OptionsCompatibility extends OptionsPlugin {
 			String urlString =
 					"http://wiki.imagej.net/ImageJ2/Documentation/Edit/Options/Compatibility";
 			URL url = new URL(urlString);
-			platformService.open(url);
-		} catch (Exception e) {
+			if (platformService == null) {
+				log.error("Could not open URL " + urlString);
+			}
+			else {
+				platformService.open(url);
+			}
+		}
+		catch (Exception e) {
 			// do nothing
 		}
 	}
