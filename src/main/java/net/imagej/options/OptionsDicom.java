@@ -33,6 +33,7 @@ package net.imagej.options;
 
 import org.scijava.menu.MenuConstants;
 import org.scijava.options.OptionsPlugin;
+import org.scijava.plugin.Attr;
 import org.scijava.plugin.Menu;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
@@ -46,7 +47,7 @@ import org.scijava.plugin.Plugin;
 	@Menu(label = MenuConstants.EDIT_LABEL, weight = MenuConstants.EDIT_WEIGHT,
 		mnemonic = MenuConstants.EDIT_MNEMONIC),
 	@Menu(label = "Options", mnemonic = 'o'),
-	@Menu(label = "DICOM...", weight = 15) })
+	@Menu(label = "DICOM...", weight = 15) }, attrs = { @Attr(name = "no-legacy") })
 public class OptionsDicom extends OptionsPlugin {
 
 	@Parameter(label = "Open as 32-bit float")

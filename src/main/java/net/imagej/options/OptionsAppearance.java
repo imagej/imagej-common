@@ -33,6 +33,7 @@ package net.imagej.options;
 
 import org.scijava.menu.MenuConstants;
 import org.scijava.options.OptionsPlugin;
+import org.scijava.plugin.Attr;
 import org.scijava.plugin.Menu;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
@@ -48,7 +49,7 @@ import org.scijava.util.Colors;
 	@Menu(label = MenuConstants.EDIT_LABEL, weight = MenuConstants.EDIT_WEIGHT,
 		mnemonic = MenuConstants.EDIT_MNEMONIC),
 	@Menu(label = "Options", mnemonic = 'o'),
-	@Menu(label = "Appearance...", weight = 10) })
+	@Menu(label = "Appearance...", weight = 10) }, attrs = { @Attr(name = "no-legacy") })
 public class OptionsAppearance extends OptionsPlugin {
 
 	@Parameter(label = "Selection color")
