@@ -30,13 +30,145 @@
  */
 package net.imagej;
 
+import io.scif.config.SCIFIOConfig;
+import io.scif.img.ImageRegion;
+import io.scif.img.Range;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.imglib2.meta.Axes;
+import net.imglib2.meta.AxisType;
+
+import org.scijava.ItemIO;
+import org.scijava.ItemVisibility;
 import org.scijava.command.Command;
+import org.scijava.command.ContextCommand;
+import org.scijava.log.LogService;
+import org.scijava.menu.MenuConstants;
+import org.scijava.plugin.Menu;
+import org.scijava.plugin.Parameter;
+import org.scijava.plugin.Plugin;
 
 /**
- * Marker interface for {@link Command}s that open a {@link Dataset}. 
+ * {@link Command} for opening a given {@code File} as a {@link Dataset}.
  * 
  * @author Mark Hiner
  */
-public interface OpenDataset extends Command {
-// Marker interface, nothing to do
+@Plugin(type = Command.class, menu = {
+	@Menu(label = MenuConstants.FILE_LABEL, weight = MenuConstants.FILE_WEIGHT),
+	@Menu(label = "Import"), @Menu(label = "Image...") })
+public class OpenDataset extends ContextCommand {
+
+	private static final int MAX_HEADER = 55;
+
+	@Parameter
+	private DatasetService datasetService;
+
+	@Parameter
+	private LogService logService;
+
+	@Parameter(visibility = ItemVisibility.MESSAGE, persist = false,
+		required = false, initializer = "setHeader")
+	private String header;
+
+	@Parameter(label = "File to open")
+	private File source;
+
+	@Parameter(required = false)
+	private Boolean crop;
+
+	//TODO callback to enable/disable these fields based on crop value
+	@Parameter(required = false, min = "0")
+	private Integer x = 0;
+
+	@Parameter(required = false, min = "0")
+	private Integer y = 0;
+
+	@Parameter(required = false, min = "0")
+	private Integer w = 0;
+
+	@Parameter(required = false, min = "0")
+	private Integer h = 0;
+
+	@Parameter(required = false, label = "Image indices")
+	private String range;
+
+	@Parameter(required = false, label = "Group similar files")
+	private Boolean groupFiles;
+
+	@Parameter(type = ItemIO.OUTPUT)
+	private Dataset dataset;
+
+	@Parameter(type = ItemIO.OUTPUT)
+	private IOException error;
+
+	@Override
+	public void run() {
+		final SCIFIOConfig config = new SCIFIOConfig();
+
+		// Set the image index range if desired
+		if (range != null && !range.isEmpty()) {
+			try {
+				config.imgOpenerSetRange(range);
+			} catch (IllegalArgumentException e) {
+				logService.warn("Ignoring bad range: " + range);
+			}
+		}
+
+		// Crop if desired
+		if (crop != null && crop) {
+			if (validRange(x, y, w, h)) {
+				Map<AxisType, Range> region = new HashMap<AxisType, Range>();
+				region.put(Axes.X, new Range(new Long(x), new Long(w)));
+				region.put(Axes.Y, new Range(new Long(y), new Long(h)));
+				config.imgOpenerSetRegion(new ImageRegion(region));
+			}
+			else {
+				logService.warn("ignoring bad crop region: " + x + ", " + y + ", " + w +
+					", " + h);
+			}
+		}
+
+		// Set the groupFiles flag if desired
+		if (groupFiles != null) {
+			config.groupableSetGroupFiles(groupFiles);
+		}
+
+		// Open the dataset
+		try {
+			dataset = datasetService.open(source.getAbsolutePath(), config);
+		}
+		catch (IOException e) {
+			error = e;
+			logService.error(e);
+		}
+	}
+
+	/**
+	 * @return true if all params are non-null and positive.
+	 */
+	private boolean validRange(final Integer x, final Integer y, final Integer w,
+		final Integer h)
+	{
+		return (x != null && y != null && w != null && h != null) &&
+			(x >= 0 && y >= 0 && w >= 0 && h >= 0);
+	}
+
+	// Callback method
+	@SuppressWarnings("unused")
+	private void setHeader() {
+		if (source != null) {
+			final String id = source.getAbsolutePath();
+			// Truncate long headers if needed
+			if (source.length() > MAX_HEADER) {
+				header = "..." + id.substring(id.length() - (MAX_HEADER - 3));
+			}
+			else {
+				header = id;
+			}
+		}
+	}
 }

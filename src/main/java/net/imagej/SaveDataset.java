@@ -35,6 +35,8 @@ import java.io.IOException;
 import org.scijava.command.Command;
 import org.scijava.command.ContextCommand;
 import org.scijava.log.LogService;
+import org.scijava.menu.MenuConstants;
+import org.scijava.plugin.Menu;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
@@ -43,7 +45,9 @@ import org.scijava.plugin.Plugin;
  * 
  * @author Mark Hiner
  */
-@Plugin(type = Command.class, menuPath = "File > Export > Image")
+@Plugin(type = Command.class, menu = {
+	@Menu(label = MenuConstants.FILE_LABEL, weight = MenuConstants.FILE_WEIGHT),
+	@Menu(label = "Export"), @Menu(label = "Image... ") })
 public class SaveDataset extends ContextCommand {
 
 	public static String DESTINATION_LABEL = "destination";

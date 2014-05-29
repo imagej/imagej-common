@@ -32,22 +32,13 @@
 package net.imagej.io;
 
 import java.io.IOException;
-import java.util.concurrent.Future;
 
 import net.imagej.Dataset;
 import net.imagej.DatasetService;
-import net.imagej.OpenDataset;
-import net.imagej.SaveDataset;
 
-import org.scijava.Cancelable;
 import org.scijava.Priority;
-import org.scijava.command.CommandInfo;
-import org.scijava.command.CommandModule;
-import org.scijava.command.CommandService;
 import org.scijava.io.AbstractIOPlugin;
 import org.scijava.io.IOPlugin;
-import org.scijava.module.Module;
-import org.scijava.module.ModuleService;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
@@ -55,16 +46,9 @@ import org.scijava.plugin.Plugin;
  * I/O plugin for {@link Dataset}s.
  * 
  * @author Curtis Rueden
- * @author Mark Hiner
  */
 @Plugin(type = IOPlugin.class, priority = Priority.LOW_PRIORITY)
 public class DatasetIOPlugin extends AbstractIOPlugin<Dataset> {
-
-	@Parameter(required = false)
-	private CommandService commandService;
-
-	@Parameter(required = false)
-	private ModuleService moduleService;
 
 	@Parameter(required = false)
 	private DatasetService datasetService;
@@ -90,34 +74,16 @@ public class DatasetIOPlugin extends AbstractIOPlugin<Dataset> {
 
 	@Override
 	public Dataset open(final String source) throws IOException {
-		// check if required services for opening datasets are present
-		if (commandService == null || moduleService == null) return null;
-		final CommandInfo command =
-			commandService.getCommandsOfType(OpenDataset.class).get(0);
-		final Future<CommandModule> result =
-			commandService.run(command, true, "source",
-				source);
-		final Module openDatasetModule = moduleService.waitFor(result);
-		if (((Cancelable) openDatasetModule).isCanceled()) {
-			return null;
-		}
-		final IOException exc = (IOException) openDatasetModule.getOutputs().get("error");
-		if (exc != null) throw exc;
-		return (Dataset) openDatasetModule.getOutputs().get("dataset");
+		if (datasetService == null) return null; // no service for opening datasets
+		return datasetService.open(source);
 	}
 
 	@Override
 	public void save(final Dataset dataset, final String destination)
 		throws IOException
 	{
-		// check if required services for saving datasets are present
-		if (commandService == null || moduleService == null) return;
-
-		final Future<CommandModule> result =
-			commandService.run(SaveDataset.class, true,
-				SaveDataset.DESTINATION_LABEL, destination, SaveDataset.SOURCE_LABEL,
-				dataset);
-		moduleService.waitFor(result);
+		if (datasetService == null) return; // no service for saving datasets
+		datasetService.save(dataset, destination);
 	}
 
 }
