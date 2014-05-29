@@ -33,6 +33,7 @@ package net.imagej.options;
 
 import org.scijava.menu.MenuConstants;
 import org.scijava.options.OptionsPlugin;
+import org.scijava.plugin.Attr;
 import org.scijava.plugin.Menu;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
@@ -46,7 +47,7 @@ import org.scijava.plugin.Plugin;
 	@Menu(label = MenuConstants.EDIT_LABEL, weight = MenuConstants.EDIT_WEIGHT,
 		mnemonic = MenuConstants.EDIT_MNEMONIC),
 	@Menu(label = "Options", mnemonic = 'o'),
-	@Menu(label = "Conversions...", weight = 11) })
+	@Menu(label = "Conversions...", weight = 11) }, attrs = { @Attr(name = "no-legacy") })
 public class OptionsConversions extends OptionsPlugin {
 
 	@Parameter(label = "Scale When Converting")

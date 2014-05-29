@@ -38,6 +38,7 @@ import net.imagej.overlay.OverlaySettings;
 
 import org.scijava.menu.MenuConstants;
 import org.scijava.options.OptionsPlugin;
+import org.scijava.plugin.Attr;
 import org.scijava.plugin.Menu;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
@@ -56,7 +57,7 @@ import org.scijava.widget.NumberWidget;
 			weight = MenuConstants.IMAGE_WEIGHT,
 			mnemonic = MenuConstants.IMAGE_MNEMONIC),
 		@Menu(label = "Overlay", mnemonic = 'o'),
-		@Menu(label = "Overlay Options...") }, label = "Default Overlay Settings")
+		@Menu(label = "Overlay Options...") }, label = "Default Overlay Settings", attrs = { @Attr(name = "no-legacy") })
 public class OptionsOverlay extends OptionsPlugin {
 
 	// -- Constants --
