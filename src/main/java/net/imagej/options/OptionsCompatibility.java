@@ -64,21 +64,19 @@ public class OptionsCompatibility extends OptionsPlugin {
 	private LogService log;
 
 	@Parameter(label = "Notes",
-			description="View a web page detailing the commands on this dialog",
-			callback="openWebPage", persist = false)
+		description = "View a web page detailing the commands on this dialog",
+		callback = "openWebPage", persist = false)
 	private Button openWebPage;
 
-	@Parameter(label = "Invert command",
-		choices = {MODE_LEGACY, MODE_MODERN})
+	@Parameter(label = "Invert command", choices = { MODE_LEGACY, MODE_MODERN })
 	private String invertMode = MODE_LEGACY;
 
 	// -- OptionsMisc methods --
 
-
 	public boolean isInvertModeLegacy() {
 		return invertMode.equals(MODE_LEGACY);
 	}
-	
+
 	public boolean isInvertModeModern() {
 		return invertMode.equals(MODE_MODERN);
 	}
@@ -90,14 +88,14 @@ public class OptionsCompatibility extends OptionsPlugin {
 	public void setInvertModeModern() {
 		invertMode = MODE_MODERN;
 	}
-	
+
 	// -- helpers --
-	
+
 	protected void openWebPage() {
 		try {
-			String urlString =
-					"http://wiki.imagej.net/ImageJ2/Documentation/Edit/Options/Compatibility";
-			URL url = new URL(urlString);
+			final String urlString =
+				"http://wiki.imagej.net/ImageJ2/Documentation/Edit/Options/Compatibility";
+			final URL url = new URL(urlString);
 			if (platformService == null) {
 				log.error("Could not open URL " + urlString);
 			}
@@ -105,7 +103,7 @@ public class OptionsCompatibility extends OptionsPlugin {
 				platformService.open(url);
 			}
 		}
-		catch (Exception e) {
+		catch (final Exception e) {
 			// do nothing
 		}
 	}
