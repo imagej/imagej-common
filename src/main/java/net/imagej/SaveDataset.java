@@ -47,7 +47,7 @@ import org.scijava.plugin.Plugin;
  */
 @Plugin(type = Command.class, menu = {
 	@Menu(label = MenuConstants.FILE_LABEL, weight = MenuConstants.FILE_WEIGHT),
-	@Menu(label = "Export"), @Menu(label = "Image... ") })
+	@Menu(label = "Export"), @Menu(label = "Image...  ") })
 public class SaveDataset extends ContextCommand {
 
 	public static String DESTINATION_LABEL = "destination";

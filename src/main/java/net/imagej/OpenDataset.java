@@ -59,7 +59,7 @@ import org.scijava.plugin.Plugin;
  */
 @Plugin(type = Command.class, menu = {
 	@Menu(label = MenuConstants.FILE_LABEL, weight = MenuConstants.FILE_WEIGHT),
-	@Menu(label = "Import"), @Menu(label = "Image...") })
+	@Menu(label = "Import"), @Menu(label = "Image... ") })
 public class OpenDataset extends ContextCommand {
 
 	private static final int MAX_HEADER = 55;
