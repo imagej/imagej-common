@@ -140,7 +140,7 @@ public final class DefaultDatasetService extends AbstractService implements
 	@Override
 	public Dataset create(final long[] dims, final String name,
 		final AxisType[] axes, final int bitsPerPixel, final boolean signed,
-		final boolean floating, boolean virtual)
+		final boolean floating, final boolean virtual)
 	{
 		if (bitsPerPixel == 1) {
 			if (signed || floating) invalidParams(bitsPerPixel, signed, floating);
@@ -178,8 +178,8 @@ public final class DefaultDatasetService extends AbstractService implements
 	}
 
 	@Override
-	public <T extends RealType<T> & NativeType<T>> Dataset create(
-		final T type, final long[] dims, final String name, final AxisType[] axes)
+	public <T extends RealType<T> & NativeType<T>> Dataset create(final T type,
+		final long[] dims, final String name, final AxisType[] axes)
 	{
 		return create(type, dims, name, axes, false);
 	}
@@ -196,9 +196,8 @@ public final class DefaultDatasetService extends AbstractService implements
 	}
 
 	@Override
-	public <T extends RealType<T>> Dataset create(
-		final ImgFactory<T> factory, final T type, final long[] dims,
-		final String name, final AxisType[] axes)
+	public <T extends RealType<T>> Dataset create(final ImgFactory<T> factory,
+		final T type, final long[] dims, final String name, final AxisType[] axes)
 	{
 		final Img<T> img = factory.create(dims, type);
 		final ImgPlus<T> imgPlus = new ImgPlus<T>(img, name, axes, null);
@@ -243,7 +242,9 @@ public final class DefaultDatasetService extends AbstractService implements
 	}
 
 	@Override
-	public Dataset open(final String source, final SCIFIOConfig config) throws IOException {
+	public Dataset open(final String source, final SCIFIOConfig config)
+		throws IOException
+	{
 		final ImgOpener imageOpener = new ImgOpener(getContext());
 
 		// skip min/max computation
@@ -310,8 +311,8 @@ public final class DefaultDatasetService extends AbstractService implements
 
 	// -- Helper methods --
 
-	private void invalidParams(final int bitsPerPixel,
-		final boolean signed, final boolean floating)
+	private void invalidParams(final int bitsPerPixel, final boolean signed,
+		final boolean floating)
 	{
 		throw new IllegalArgumentException("Invalid parameters: bitsPerPixel=" +
 			bitsPerPixel + ", signed=" + signed + ", floating=" + floating);
