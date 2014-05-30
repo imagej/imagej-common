@@ -100,7 +100,7 @@ public class DefaultDataset extends AbstractData implements Dataset {
 	{
 		super(context, imgPlus);
 		this.imgPlus = imgPlus;
-		rgbMerged = false;
+		rgbMerged = mergedColorCompatible();
 		isDirty = false;
 	}
 
