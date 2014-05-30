@@ -73,7 +73,7 @@ public interface OverlayService extends ImageJService {
 	List<Overlay> getOverlays(ImageDisplay display);
 
 	/** Adds the list of {@link Overlay}s to the given {@link ImageDisplay}. */
-	void addOverlays(ImageDisplay display, List<Overlay> overlays);
+	void addOverlays(ImageDisplay display, List<? extends Overlay> overlays);
 
 	/**
 	 * Removes an {@link Overlay} from the given {@link ImageDisplay}.
