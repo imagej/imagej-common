@@ -45,6 +45,7 @@ import org.scijava.command.CommandService;
 import org.scijava.command.DynamicCommand;
 import org.scijava.menu.MenuConstants;
 import org.scijava.module.MutableModuleItem;
+import org.scijava.plugin.Attr;
 import org.scijava.plugin.Menu;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
@@ -63,7 +64,8 @@ import org.scijava.plugin.Plugin;
 			weight = MenuConstants.IMAGE_WEIGHT,
 			mnemonic = MenuConstants.IMAGE_MNEMONIC),
 		@Menu(label = "Lookup Tables", mnemonic = 'l'),
-		@Menu(label = "Select...", weight = 0, mnemonic = 's') })
+		@Menu(label = "Select...", weight = 0, mnemonic = 's') }, attrs = { @Attr(
+		name = "no-legacy") })
 public class LUTSelector extends DynamicCommand {
 
 	// -- Parameters --
