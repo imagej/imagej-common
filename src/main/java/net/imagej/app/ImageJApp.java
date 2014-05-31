@@ -42,11 +42,11 @@ import org.scijava.plugin.Plugin;
  * @author Curtis Rueden
  * @see org.scijava.app.AppService
  */
-@Plugin(type = App.class, name = ImageJApp.NAME,
-	priority = Priority.HIGH_PRIORITY)
+@Plugin(type = App.class, name = ImageJApp.NAME, priority = ImageJApp.PRIORITY)
 public class ImageJApp extends AbstractApp {
 
 	public static final String NAME = "ImageJ";
+	public static final double PRIORITY = Priority.HIGH_PRIORITY;
 
 	@Override
 	public String getGroupId() {
