@@ -73,7 +73,7 @@ public class DefaultMinMaxMethod<T extends Type<T> & Comparable<T>> extends
 	private StatusService statusService;
 
 	// Number of positions processed
-	private long progress = -1l;
+	private long[] progress = null;
 	// Limit how many times to send status updates
 
 	// Last reported percentage
@@ -87,6 +87,7 @@ public class DefaultMinMaxMethod<T extends Type<T> & Comparable<T>> extends
 	private String errorMessage = "";
 	private int numThreads;
 	private long processingTime;
+	private Object lock = new Object();
 
 	// -- ComputeMinMaxMethod API --
 
@@ -148,7 +149,9 @@ public class DefaultMinMaxMethod<T extends Type<T> & Comparable<T>> extends
 
 		imageSize = image.size();
 
-		report();
+		progress = new long[numThreads];
+		progress[0] = -1;
+		report(0);
 
 		final AtomicInteger ai = new AtomicInteger(0);
 		final Thread[] threads = SimpleMultiThreading.newThreads(getNumThreads());
@@ -173,7 +176,7 @@ public class DefaultMinMaxMethod<T extends Type<T> & Comparable<T>> extends
 					final Chunk myChunk = threadChunks.get(myNumber);
 
 					// compute min and max
-					compute(myChunk.getStartPosition(), myChunk.getLoopSize(), minValues
+					compute(myNumber, myChunk.getStartPosition(), myChunk.getLoopSize(), minValues
 						.get(myNumber), maxValues.get(myNumber));
 
 				}
@@ -201,7 +204,7 @@ public class DefaultMinMaxMethod<T extends Type<T> & Comparable<T>> extends
 		return true;
 	}
 
-	protected void compute(final long startPos, final long loopSize, final T min,
+	protected void compute(final int threadNumber, final long startPos, final long loopSize, final T min,
 		final T max)
 	{
 		final Cursor<T> cursor = image.cursor();
@@ -227,7 +230,7 @@ public class DefaultMinMaxMethod<T extends Type<T> & Comparable<T>> extends
 
 			if (Util.max(max, value) == value) max.set(value);
 
-			report();
+			report(threadNumber);
 		}
 	}
 
@@ -274,22 +277,26 @@ public class DefaultMinMaxMethod<T extends Type<T> & Comparable<T>> extends
 		setNumThreads();
 		initialized = true;
 	}
-
 	// Reports the current progress
-	private void report() {
+	private void report(int threadNumber) {
 		if (statusService == null) return; // nothing to report to, please move along
-		progress++;
-		final double percentWork = ((double) progress / imageSize) * MAX_UPDATES;
+		progress[threadNumber]++;
+
+		long netProgress = 0;
+		for (int i=0; i<progress.length; i++) {
+			netProgress += progress[i];
+		}
+		final int percentWork = (int) (((double) netProgress / imageSize) * MAX_UPDATES);
 
 		if (percentWork > reported) {
-			synchronized (this) {
+			synchronized (lock) {
 				// NB: check twice in case another thread has already reported the
 				// status.
 				// We do this to avoid executing a synchronized block for each pixel
 				// analyzed.
 				if (percentWork > reported) {
 					reported++;
-					statusService.showStatus(reported, MAX_UPDATES,
+					statusService.showStatus(percentWork, MAX_UPDATES,
 						"Computing min/max...");
 				}
 			}
