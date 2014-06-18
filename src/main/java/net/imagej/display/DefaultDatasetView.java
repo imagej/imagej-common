@@ -206,7 +206,7 @@ public class DefaultDatasetView extends AbstractDataView implements DatasetView
 		final int channelCount = getChannelCount();
 		defaultLUTs.clear();
 		defaultLUTs.ensureCapacity(channelCount);
-		if (grayscale || channelCount == 1) {
+		if (grayscale) {
 			for (int i = 0; i < channelCount; i++) {
 				defaultLUTs.add(ColorTables.GRAYS);
 			}
@@ -230,7 +230,9 @@ public class DefaultDatasetView extends AbstractDataView implements DatasetView
 
 				// If we couldn't retrieve a ColorTable, then we use an appropriate
 				// default.
-				if (ct == null) ct = ColorTables.getDefaultColorTable(c);
+				if (ct == null) ct =
+					channelCount == 1 ? ColorTables.GRAYS : ColorTables
+						.getDefaultColorTable(c);
 
 				defaultLUTs.add(ct);
 			}
