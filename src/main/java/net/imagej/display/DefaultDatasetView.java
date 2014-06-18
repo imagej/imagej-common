@@ -212,8 +212,27 @@ public class DefaultDatasetView extends AbstractDataView implements DatasetView
 			}
 		}
 		else {
+			ImgPlus<? extends RealType<?>> imgPlus = getData().getImgPlus();
 			for (int c = 0; c < channelCount; c++) {
-				defaultLUTs.add(ColorTables.getDefaultColorTable(c));
+				ColorTable ct = null;
+
+				// Attempt to use the ColorTables attached to our ImgPlus
+				if (imgPlus != null) {
+					int planeIndex = 1;
+					for (int i=2; i<imgPlus.dimensionIndex(Axes.CHANNEL); i++) {
+						planeIndex *= imgPlus.dimension(i);
+					}
+					planeIndex = planeIndex + c - 1;
+
+					if (planeIndex < imgPlus.getColorTableCount()) ct =
+						imgPlus.getColorTable(planeIndex);
+				}
+
+				// If we couldn't retrieve a ColorTable, then we use an appropriate
+				// default.
+				if (ct == null) ct = ColorTables.getDefaultColorTable(c);
+
+				defaultLUTs.add(ct);
 			}
 		}
 		updateLUTs();
