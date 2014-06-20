@@ -219,11 +219,4 @@ public class MediaWikiClient {
 		final Node node = attrs.getNamedItem(attributeName);
 		return node == null ? null : node.getNodeValue();
 	}
-
-	public static void main(String... args) throws Exception {
-		final MediaWikiClient wiki = new MediaWikiClient("http://fiji.sc.localhost/");
-		System.err.println("login: " + wiki.login("BugsBunny", "12345"));
-		System.err.println("change upload password: " + wiki.changeUploadPassword("12345"));
-		wiki.logout();
-	}
 }
