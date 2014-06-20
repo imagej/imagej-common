@@ -54,14 +54,13 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * A minimal MediaWiki API client for interacting with the Fiji Wiki.
+ * A minimal MediaWiki API client for interacting with the ImageJ Wiki.
  * 
  * @author Johannes Schindelin
  */
 public class MediaWikiClient {
 
-	// TODO: Replace Fiji-specific refs with wiki.imagej.net.
-	private static final String FIJI_WIKI_URL = "http://fiji.sc/";
+	private static final String IMAGEJ_WIKI_URL = "http://wiki.imagej.net/";
 
 	private final String baseURL;
 	private final Set<String> postActions = new HashSet<String>(Arrays.asList("login", "changeuploadpassword"));
@@ -69,7 +68,7 @@ public class MediaWikiClient {
 	private Map<String, String> cookies = new LinkedHashMap<String, String>();
 
 	public MediaWikiClient() {
-		this(FIJI_WIKI_URL);
+		this(IMAGEJ_WIKI_URL);
 	}
 
 	public MediaWikiClient(final String baseURL) {
@@ -98,14 +97,14 @@ public class MediaWikiClient {
 		final String[] headers = {
 				"Requested-User", userName
 		};
-		final XML xml = request(headers, "createfijiwikiaccount",
+		final XML xml = request(headers, "createimagejwikiaccount",
 				"name", userName, "email", email, "realname", realName, "reason", reason);
 		final String error = getAttribute(xml.xpath("/api/error"), "info");
 		if (error != null) {
 			System.err.println("Error creating user " + userName + ": " + error);
 			return false;
 		}
-		if (userName.equals(getAttribute(xml.xpath("/api/createfijiwikiaccount"), "created"))) {
+		if (userName.equals(getAttribute(xml.xpath("/api/createimagejwikiaccount"), "created"))) {
 			return true;
 		}
 		return false;
