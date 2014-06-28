@@ -49,9 +49,11 @@ import java.util.List;
 import net.imagej.display.DataView;
 import net.imagej.display.ImageDisplay;
 import net.imagej.types.DataTypeService;
+import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.exception.IncompatibleTypeException;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
+import net.imglib2.img.ImgView;
 import net.imglib2.img.cell.CellImgFactory;
 import net.imglib2.img.planar.PlanarImgFactory;
 import net.imglib2.meta.AxisType;
@@ -210,6 +212,13 @@ public final class DefaultDatasetService extends AbstractService implements
 	}
 
 	@Override
+	public <T extends RealType<T>> Dataset create(
+		final RandomAccessibleInterval<T> rai)
+	{
+		return create(wrapToImgPlus(rai));
+	}
+
+	@Override
 	public boolean canOpen(final String source) {
 		try {
 			return formatService.getFormat(source, new SCIFIOConfig()
@@ -317,4 +326,19 @@ public final class DefaultDatasetService extends AbstractService implements
 		throw new IllegalArgumentException("Invalid parameters: bitsPerPixel=" +
 			bitsPerPixel + ", signed=" + signed + ", floating=" + floating);
 	}
+
+	private <T extends RealType<T>> ImgPlus<T> wrapToImgPlus(
+		final RandomAccessibleInterval<T> rai)
+	{
+		if (rai instanceof ImgPlus) return (ImgPlus<T>) rai;
+		return new ImgPlus<T>(wrapToImg(rai));
+	}
+
+	private <T extends RealType<T>> Img<T> wrapToImg(
+		final RandomAccessibleInterval<T> rai)
+	{
+		if (rai instanceof Img) return (Img<T>) rai;
+		return new ImgView<T>(rai, null);
+	}
+
 }
