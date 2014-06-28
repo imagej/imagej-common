@@ -31,7 +31,6 @@
 
 package net.imagej;
 
-import net.imglib2.Interval;
 import net.imglib2.img.Img;
 import net.imglib2.meta.CalibratedAxis;
 import net.imglib2.meta.ImgPlus;
@@ -47,7 +46,7 @@ import net.imglib2.type.numeric.RealType;
  * @author Curtis Rueden
  * @author Barry DeZonia
  */
-public interface Dataset extends Data, ImgPlusMetadata, Interval, Img<RealType<?>> {
+public interface Dataset extends Data, ImgPlusMetadata, Img<RealType<?>> {
 
 	/** TODO */
 	boolean isDirty();
