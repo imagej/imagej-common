@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.util.List;
 
 import net.imagej.display.ImageDisplay;
+import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.ImgFactory;
 import net.imglib2.meta.AxisType;
 import net.imglib2.meta.ImgPlus;
@@ -150,6 +151,15 @@ public interface DatasetService extends ImageJService {
 	 * @return The newly created dataset.
 	 */
 	<T extends RealType<T>> Dataset create(ImgPlus<T> imgPlus);
+
+	/**
+	 * Creates a new dataset using the provided {@link RandomAccessibleInterval}.
+	 * 
+	 * @param rai The {@link RandomAccessibleInterval}, which will be wrapped into
+	 *          an {@link ImgPlus} that will back the new dataset.
+	 * @return The newly created dataset.
+	 */
+	<T extends RealType<T>> Dataset create(RandomAccessibleInterval<T> rai);
 
 	/**
 	 * Determines whether the given source can be opened as a {@link Dataset}

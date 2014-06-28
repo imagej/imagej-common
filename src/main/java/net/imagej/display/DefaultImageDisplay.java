@@ -34,6 +34,8 @@ package net.imagej.display;
 import java.util.concurrent.ConcurrentHashMap;
 
 import net.imagej.Data;
+import net.imagej.Dataset;
+import net.imagej.DatasetService;
 import net.imagej.display.event.AxisActivatedEvent;
 import net.imagej.display.event.AxisPositionEvent;
 import net.imagej.event.DataRestructuredEvent;
@@ -41,6 +43,7 @@ import net.imagej.event.DataUpdatedEvent;
 import net.imagej.lut.LUTService;
 import net.imglib2.Localizable;
 import net.imglib2.Positionable;
+import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.RealPositionable;
 import net.imglib2.display.ColorTable;
 import net.imglib2.meta.Axes;
@@ -87,6 +90,9 @@ public class DefaultImageDisplay extends AbstractDisplay<DataView> implements
 
 	@Parameter(required = false)
 	private ImageDisplayService imageDisplayService;
+
+	@Parameter(required = false)
+	private DatasetService datasetService;
 
 	@Parameter(required = false)
 	private LUTService lutService;
@@ -220,7 +226,7 @@ public class DefaultImageDisplay extends AbstractDisplay<DataView> implements
 
 	@Override
 	public boolean canDisplay(final Class<?> c) {
-		return (imageDisplayService != null && Data.class.isAssignableFrom(c)) ||
+		return (imageDisplayService != null && isImageClass(c)) ||
 			(lutService != null && ColorTable.class.isAssignableFrom(c)) ||
 			super.canDisplay(c);
 	}
@@ -236,6 +242,11 @@ public class DefaultImageDisplay extends AbstractDisplay<DataView> implements
 		else if (o instanceof Data) {
 			// object is a data object, which we can wrap in a data view
 			data = (Data) o;
+		}
+		else if (o instanceof RandomAccessibleInterval) {
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			final Dataset d = datasetService.create((RandomAccessibleInterval) o);
+			data = d;
 		}
 		else if (o instanceof ColorTable) {
 			// object is a LUT, which we can wrap in a dataset
@@ -671,6 +682,11 @@ public class DefaultImageDisplay extends AbstractDisplay<DataView> implements
 			theName = proposedName + "-" + n;
 		}
 		return theName;
+	}
+
+	private boolean isImageClass(final Class<?> c) {
+		return Data.class.isAssignableFrom(c) ||
+			RandomAccessibleInterval.class.isAssignableFrom(c);
 	}
 
 	private void initActiveAxis() {
