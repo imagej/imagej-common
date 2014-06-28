@@ -220,7 +220,7 @@ public class DefaultImageDisplay extends AbstractDisplay<DataView> implements
 
 	@Override
 	public boolean canDisplay(final Class<?> c) {
-		return (imageDisplayService != null && Data.class.isAssignableFrom(c)) ||
+		return (imageDisplayService != null && isImageClass(c)) ||
 			(lutService != null && ColorTable.class.isAssignableFrom(c)) ||
 			super.canDisplay(c);
 	}
@@ -671,6 +671,10 @@ public class DefaultImageDisplay extends AbstractDisplay<DataView> implements
 			theName = proposedName + "-" + n;
 		}
 		return theName;
+	}
+
+	private boolean isImageClass(final Class<?> c) {
+		return Data.class.isAssignableFrom(c);
 	}
 
 	private void initActiveAxis() {
