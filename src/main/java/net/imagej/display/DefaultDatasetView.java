@@ -43,6 +43,7 @@ import net.imagej.autoscale.AutoscaleService;
 import net.imagej.autoscale.DataRange;
 import net.imagej.display.event.DataViewUpdatedEvent;
 import net.imagej.display.event.LUTsChangedEvent;
+import net.imagej.event.DatasetDeletedEvent;
 import net.imagej.event.DatasetRGBChangedEvent;
 import net.imagej.event.DatasetTypeChangedEvent;
 import net.imagej.event.DatasetUpdatedEvent;
@@ -484,6 +485,13 @@ public class DefaultDatasetView extends AbstractDataView implements DatasetView
 			if (event.isMetaDataOnly()) return;
 			projector.map();
 		}
+	}
+
+	@EventHandler
+	protected void onEvent(final DatasetDeletedEvent event) {
+		if (event.getObject() != getData()) return;
+		// our dataset went away; let's dispose ourselves
+		dispose();
 	}
 
 	// -- Helper methods --
