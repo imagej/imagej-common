@@ -50,4 +50,75 @@ public class DefaultTableDisplay extends AbstractDisplay<Table<?, ?>> implements
 		super((Class) Table.class);
 	}
 
+	// -- Display methods --
+
+	@Override
+	public boolean canDisplay(final Class<?> c) {
+		if (c == double[].class || c == double[][].class) return true;
+		return super.canDisplay(c);
+	}
+
+	@Override
+	public void display(final Object o) {
+		// wrap 1D array as results table
+		if (o instanceof double[]) {
+			display(wrapArrayAsTable(new double[][] { (double[]) o }));
+			return;
+		}
+		// wrap 2D array as results table
+		if (o instanceof double[][]) {
+			display(wrapArrayAsTable((double[][]) o));
+			return;
+		}
+
+		super.display(o);
+	}
+
+	@Override
+	public boolean isDisplaying(final Object o) {
+		if (super.isDisplaying(o)) return true;
+
+		// check for wrapped arrays
+		if (o instanceof double[]) {
+			arrayEqualsTable(new double[][] {(double[]) o});
+		}
+		if (o instanceof double[][]) {
+			arrayEqualsTable((double[][]) o);
+		}
+
+		return false;
+	}
+
+	// -- Helper methods --
+
+	private ResultsTable wrapArrayAsTable(final double[][] array) {
+		final ResultsTable table = new DefaultResultsTable();
+		int rowCount = 0;
+		for (int d = 0; d < array.length; d++) {
+			final DoubleColumn column = new DoubleColumn();
+			column.setArray(array[d]);
+			table.add(column);
+			if (rowCount < array[d].length) rowCount = array[d].length;
+		}
+		table.setRowCount(rowCount);
+		return table;
+	}
+
+	private boolean arrayEqualsTable(final double[][] array) {
+		for (final Table<?, ?> table : this) {
+			if (!(table instanceof ResultsTable)) continue;
+			final ResultsTable resultsTable = (ResultsTable) table;
+			if (array.length != resultsTable.getColumnCount()) continue;
+			boolean equal = true;
+			for (int c = 0; c < array.length; c++) {
+				if (array[c] != resultsTable.get(c).getArray()) {
+					equal = false;
+					break;
+				}
+			}
+			return equal;
+		}
+		return false;
+	}
+
 }
