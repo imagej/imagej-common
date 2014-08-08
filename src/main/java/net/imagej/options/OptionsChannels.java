@@ -39,6 +39,7 @@ import net.imagej.ChannelCollection;
 import org.scijava.menu.MenuConstants;
 import org.scijava.options.OptionsPlugin;
 import org.scijava.options.event.OptionsEvent;
+import org.scijava.plugin.Attr;
 import org.scijava.plugin.Menu;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
@@ -55,7 +56,8 @@ import org.scijava.util.Prefs;
 	@Menu(label = MenuConstants.EDIT_LABEL, weight = MenuConstants.EDIT_WEIGHT,
 		mnemonic = MenuConstants.EDIT_MNEMONIC),
 	@Menu(label = "Options", mnemonic = 'o'),
-	@Menu(label = "Channels...", weight = 9) })
+	@Menu(label = "Channels...", weight = 9) }, attrs = { @Attr(
+		name = "no-legacy") })
 public class OptionsChannels extends OptionsPlugin {
 
 	private static final String LAST_FG_RED =   "lastFgColor.red";

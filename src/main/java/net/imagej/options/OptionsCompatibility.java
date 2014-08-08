@@ -37,6 +37,7 @@ import org.scijava.log.LogService;
 import org.scijava.menu.MenuConstants;
 import org.scijava.options.OptionsPlugin;
 import org.scijava.platform.PlatformService;
+import org.scijava.plugin.Attr;
 import org.scijava.plugin.Menu;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
@@ -51,7 +52,8 @@ import org.scijava.widget.Button;
 	@Menu(label = MenuConstants.EDIT_LABEL, weight = MenuConstants.EDIT_WEIGHT,
 		mnemonic = MenuConstants.EDIT_MNEMONIC),
 	@Menu(label = "Options", mnemonic = 'o'),
-	@Menu(label = "Compatibility...", weight = 16) })
+	@Menu(label = "Compatibility...", weight = 16) }, attrs = { @Attr(
+	name = "no-legacy") })
 public class OptionsCompatibility extends OptionsPlugin {
 
 	private static final String MODE_LEGACY = "Legacy";
