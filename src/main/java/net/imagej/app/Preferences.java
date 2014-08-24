@@ -31,51 +31,39 @@
 
 package net.imagej.app;
 
-import org.scijava.Priority;
-import org.scijava.app.AbstractApp;
-import org.scijava.app.App;
-import org.scijava.command.CommandService;
+import org.scijava.command.Command;
+import org.scijava.menu.MenuConstants;
+import org.scijava.plugin.Attr;
+import org.scijava.plugin.Menu;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
+import org.scijava.util.Prefs;
 
 /**
- * Application metadata about ImageJ.
+ * Displays the ImageJ preferences.
  * 
  * @author Curtis Rueden
- * @see org.scijava.app.AppService
  */
-@Plugin(type = App.class, name = ImageJApp.NAME, priority = ImageJApp.PRIORITY)
-public class ImageJApp extends AbstractApp {
+@Plugin(type = Command.class, label = "Preferences", menu = {
+	@Menu(label = MenuConstants.FILE_LABEL, weight = MenuConstants.FILE_WEIGHT,
+		mnemonic = MenuConstants.FILE_MNEMONIC),
+	@Menu(label = "Preferences", weight = 30) }, headless = true, attrs = {
+	@Attr(name = "no-legacy"), @Attr(name = "app-command") })
+public class Preferences implements Command {
 
-	public static final String NAME = "ImageJ";
-	public static final double PRIORITY = Priority.HIGH_PRIORITY;
-
-	@Parameter
-	private CommandService commandService;
-
-	@Override
-	public String getGroupId() {
-		return "net.imagej";
-	}
+	@Parameter(label = "Clear all preferences")
+	private boolean clearAll = false;
 
 	@Override
-	public String getArtifactId() {
-		return "imagej-common";
+	public void run() {
+		if (clearAll) Prefs.clearAll();
 	}
 
-	@Override
-	public void about() {
-		commandService.run(AboutImageJ.class, true);
+	public void setClearAll(boolean val) {
+		clearAll = val;
 	}
 
-	@Override
-	public void prefs() {
-		commandService.run(Preferences.class, true);
+	public boolean isClearAll() {
+		return clearAll;
 	}
-
-	@Override
-	public void quit() {
-		commandService.run(QuitProgram.class, true);
-	}
-
 }
