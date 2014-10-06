@@ -77,12 +77,44 @@ public class MediaWikiClient {
 		else this.baseURL = baseURL + "/";
 	}
 
+	/**
+	 * Returns the up-cased first character (or <code>0</code> if it cannot be
+	 * up-cased, e.g. if it is already upper-case).
+	 * 
+	 * @param word the word whose first character needs to be up-cased.
+	 * @return the first character in upper-case, or <code>0</code> if it could
+	 *         not be up-cased.
+	 */
+	private static char firstToUpperCase(final String word) {
+		if (word.length() == 0) return 0;
+		char first = word.charAt(0);
+		if (Character.isLowerCase(first)) return Character.toUpperCase(first);
+		return 0;
+	}
+
+	public static boolean isCapitalized(final String word) {
+		return firstToUpperCase(word) == 0;
+	}
+
+	public static String capitalize(final String word) {
+		char first = firstToUpperCase(word);
+		if (first == 0) return word;
+		final StringBuilder builder = new StringBuilder();
+		builder.append(first);
+		builder.append(word.substring(1));
+		return builder.toString();
+	}
+
 	public String getPageSource(final String title) throws IOException {
 		final XML xml = query("titles", title, "export", "true", "exportnowrap", "true");
 		return xml.cdata("/mediawiki/page/revision/text");
 	}
 
 	public boolean userExists(final String name) throws IOException {
+		if (!isCapitalized(name)) {
+			throw new IOException(
+				"User name cannot start with a lower-case character: " + name);
+		}
 		final XML xml = query("list", "users", "ususers", name);
 		final NodeList list = xml.xpath("/api/query/users/user");
 		int count = list.getLength();
