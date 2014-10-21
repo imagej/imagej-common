@@ -39,6 +39,7 @@ package net.imglib2.meta;
  * 
  * @author Barry DeZonia
  */
+@Deprecated
 public class CombinedCalibratedRealInterval<A extends CalibratedAxis, S extends CalibratedRealInterval<A>>
 	extends CombinedRealInterval<A, S> implements CalibratedRealInterval<A>
 {

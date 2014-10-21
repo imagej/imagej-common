@@ -41,6 +41,7 @@ import net.imglib2.meta.AxisType;
  * 
  * @author Barry DeZonia
  */
+@Deprecated
 public class DefaultLinearAxis extends Variable2Axis implements LinearAxis {
 
 	// -- constructors --

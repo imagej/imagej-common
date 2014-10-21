@@ -46,6 +46,7 @@ package net.imglib2;
  * 
  * @author Curtis Rueden
  */
+@Deprecated
 public interface AnnotatedSpace< A extends Axis > extends EuclideanSpace
 {
 

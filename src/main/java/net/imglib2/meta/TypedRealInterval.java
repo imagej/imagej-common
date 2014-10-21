@@ -40,6 +40,7 @@ import net.imglib2.RealInterval;
  * 
  * @author Curtis Rueden
  */
+@Deprecated
 public interface TypedRealInterval<A extends TypedAxis> extends RealInterval,
 	TypedSpace<A>
 {

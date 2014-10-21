@@ -44,6 +44,7 @@ import net.imglib2.meta.CalibratedAxis;
  * 
  * @author Barry DeZonia
  */
+@Deprecated
 public class PolynomialAxis extends VariableAxis {
 
 	// -- constants --

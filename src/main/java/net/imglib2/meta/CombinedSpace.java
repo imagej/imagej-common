@@ -50,6 +50,7 @@ import net.imglib2.EuclideanSpace;
  * 
  * @author Curtis Rueden
  */
+@Deprecated
 public class CombinedSpace<A extends TypedAxis, S extends TypedSpace<A>>
 	extends ArrayList<S> implements TypedSpace<A>
 {

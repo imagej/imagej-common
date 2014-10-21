@@ -40,6 +40,7 @@ package net.imglib2.meta;
  * @author Stephan Saalfeld
  * @author Lee Kamentsky
  */
+@Deprecated
 public interface Named {
 
 	/** Gets the name of the object. */

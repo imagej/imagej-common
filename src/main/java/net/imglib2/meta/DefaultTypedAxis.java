@@ -38,6 +38,7 @@ package net.imglib2.meta;
  * 
  * @author Curtis Rueden
  */
+@Deprecated
 public class DefaultTypedAxis implements TypedAxis {
 
 	private AxisType type;

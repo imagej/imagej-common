@@ -44,6 +44,7 @@ import java.util.HashMap;
  * @author Curtis Rueden
  * @author Mark Hiner
  */
+@Deprecated
 public final class Axes {
 
 	// -- Constants --

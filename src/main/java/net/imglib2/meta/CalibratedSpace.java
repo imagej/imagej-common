@@ -41,6 +41,7 @@ import net.imglib2.RealInterval;
  * @author Curtis Rueden
  * @see CalibratedAxis
  */
+@Deprecated
 public interface CalibratedSpace<A extends CalibratedAxis> extends
 	TypedSpace<A>
 {

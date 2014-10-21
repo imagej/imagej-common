@@ -42,6 +42,7 @@ import net.imglib2.AbstractAnnotatedSpace;
  * 
  * @author Curtis Rueden
  */
+@Deprecated
 public abstract class AbstractTypedSpace<A extends TypedAxis> extends
 	AbstractAnnotatedSpace<A> implements TypedSpace<A>
 {

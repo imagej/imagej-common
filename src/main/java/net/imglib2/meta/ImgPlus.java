@@ -58,6 +58,7 @@ import net.imglib2.meta.axis.LinearAxis;
  * 
  * @author Curtis Rueden
  */
+@Deprecated
 public class ImgPlus<T> extends AbstractCalibratedRealInterval<CalibratedAxis>
 	implements Img<T>, WrappedImg<T>, ImgPlusMetadata
 {

@@ -42,6 +42,7 @@ import java.util.List;
  * 
  * @author Curtis Rueden
  */
+@Deprecated
 public abstract class AbstractAnnotatedSpace< A extends Axis > implements
 		AnnotatedSpace< A >
 {

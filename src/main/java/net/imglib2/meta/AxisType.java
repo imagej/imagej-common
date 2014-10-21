@@ -39,6 +39,7 @@ package net.imglib2.meta;
  * 
  * @author Curtis Rueden
  */
+@Deprecated
 public interface AxisType {
 
 	String getLabel();

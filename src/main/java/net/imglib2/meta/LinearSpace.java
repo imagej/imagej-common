@@ -40,6 +40,7 @@ import net.imglib2.meta.axis.LinearAxis;
  * 
  * @author Barry DeZonia
  */
+@Deprecated
 public interface LinearSpace<A extends LinearAxis> extends CalibratedSpace<A> {
 	// no additional functionality
 }

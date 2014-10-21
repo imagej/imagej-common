@@ -40,6 +40,7 @@ package net.imglib2.meta;
  * @author Barry DeZonia
  * @see TypedAxis
  */
+@Deprecated
 public interface CalibratedAxis extends TypedAxis {
 
 	/** Gets the dimension's unit. */

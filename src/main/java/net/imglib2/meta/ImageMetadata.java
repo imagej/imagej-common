@@ -45,6 +45,7 @@ import net.imglib2.img.Img;
  * @author Stephan Saalfeld
  * @author Lee Kamentsky
  */
+@Deprecated
 public interface ImageMetadata {
 
 	/** Gets the number of valid bits (if applicable to this {@link Img}). */

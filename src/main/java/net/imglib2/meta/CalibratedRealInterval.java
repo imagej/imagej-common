@@ -39,6 +39,7 @@ package net.imglib2.meta;
  * 
  * @author Barry DeZonia
  */
+@Deprecated
 public interface CalibratedRealInterval<A extends CalibratedAxis> extends
 	TypedRealInterval<A>, CalibratedSpace<A>
 {

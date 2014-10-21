@@ -41,6 +41,7 @@ package net.imglib2.meta;
  * @author Stephan Saalfeld
  * @author Barry DeZonia
  */
+@Deprecated
 public interface Sourced {
 
 	/** Sets the source String */

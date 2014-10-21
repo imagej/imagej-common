@@ -41,6 +41,7 @@ import net.imglib2.AnnotatedSpace;
  * @author Curtis Rueden
  * @see TypedAxis
  */
+@Deprecated
 public interface TypedSpace<A extends TypedAxis> extends AnnotatedSpace<A> {
 
 	/**

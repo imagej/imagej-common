@@ -40,6 +40,7 @@ package net.imglib2.meta.units;
  * 
  * @author Barry DeZonia
  */
+@Deprecated
 public interface Calibrator {
 
 	/**

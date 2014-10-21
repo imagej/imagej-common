@@ -43,6 +43,7 @@ import net.imglib2.meta.CalibratedAxis;
  * @author Barry DeZonia
  * @author Curtis Rueden
  */
+@Deprecated
 public interface LinearAxis extends CalibratedAxis {
 
 	void setScale(double scale);
