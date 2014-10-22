@@ -48,13 +48,13 @@ import net.imglib2.RandomAccess;
 import net.imglib2.RandomAccessible;
 import net.imglib2.img.Img;
 import net.imglib2.img.array.ArrayImg;
-import net.imglib2.img.array.ArrayImgFactory;
-import net.imglib2.img.basictypeaccess.array.BitArray;
+import net.imglib2.img.array.ArrayImgs;
+import net.imglib2.img.basictypeaccess.array.LongArray;
 import net.imglib2.meta.Axes;
 import net.imglib2.meta.axis.DefaultLinearAxis;
 import net.imglib2.roi.BinaryMaskRegionOfInterest;
-import net.imglib2.sampler.special.ConstantRandomAccessible;
 import net.imglib2.type.logic.BitType;
+import net.imglib2.view.Views;
 
 import org.scijava.Context;
 
@@ -102,10 +102,7 @@ public class BinaryMaskOverlay<U extends BitType, V extends Img<U>> extends Abst
 	public void writeExternal(final ObjectOutput out) throws IOException {
 		super.writeExternal(out);
 		final BinaryMaskRegionOfInterest<U,V> theRoi = getRegionOfInterest();
-		final BitType b = new BitType();
-		b.set(true);
-		final RandomAccessible<BitType> ra =
-			new ConstantRandomAccessible<BitType>(b, theRoi.numDimensions());
+		final RandomAccessible<BitType> ra = constantImg(theRoi.numDimensions());
 		final IterableInterval<BitType> ii = theRoi.getIterableIntervalOverROI(ra);
 		final Cursor<BitType> c = ii.localizingCursor();
 
@@ -176,10 +173,8 @@ public class BinaryMaskOverlay<U extends BitType, V extends Img<U>> extends Abst
 		for (int i = 0; i < nDimensions; i++) {
 			maskOrigin[i] = in.readDouble();
 		}
-		final ArrayImg<BitType, BitArray> img =
-			new ArrayImgFactory<BitType>().createBitInstance(dimensions, 1);
-		final BitType t = new BitType(img);
-		img.setLinkedType(t);
+		final ArrayImg<BitType, LongArray> img = ArrayImgs.bits(dimensions);
+		img.setLinkedType(new BitType(img));
 		final RandomAccess<BitType> ra = img.randomAccess();
 		final byte[] buffer = new byte[in.readInt()];
 		in.read(buffer);
@@ -225,6 +220,17 @@ public class BinaryMaskOverlay<U extends BitType, V extends Img<U>> extends Abst
 	@Override
 	public void move(double[] deltas) {
 		getRegionOfInterest().move(deltas);
+	}
+
+	// -- Helper methods --
+
+	private RandomAccessible<BitType> constantImg(final int numDims) {
+		final long[] dims = new long[numDims];
+		Arrays.fill(dims, 1);
+		final ArrayImg<BitType, LongArray> bitImg = ArrayImgs.bits(dims);
+		bitImg.setLinkedType(new BitType(bitImg));
+		bitImg.cursor().next().set(true);
+		return Views.extendBorder(bitImg);
 	}
 
 }

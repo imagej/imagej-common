@@ -46,13 +46,13 @@ import net.imagej.overlay.OverlaySettings;
 import net.imagej.render.RenderingService;
 import net.imglib2.Cursor;
 import net.imglib2.IterableInterval;
-import net.imglib2.RandomAccessibleOnRealRandomAccessible;
 import net.imglib2.RealInterval;
 import net.imglib2.RealRandomAccess;
 import net.imglib2.RealRandomAccessibleRealInterval;
 import net.imglib2.roi.RegionOfInterest;
 import net.imglib2.type.logic.BitType;
 import net.imglib2.view.IntervalView;
+import net.imglib2.view.RandomAccessibleOnRealRandomAccessible;
 import net.imglib2.view.Views;
 
 import org.scijava.display.Display;

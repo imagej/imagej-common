@@ -762,11 +762,6 @@ public class DefaultDataset extends AbstractData implements Dataset {
 	}
 
 	@Override
-	public boolean equalIterationOrder(IterableRealInterval<?> interval) {
-		return getImgPlus().equalIterationOrder(interval);
-	}
-
-	@Override
 	public RealType<?> firstElement() {
 		return getImgPlus().firstElement();
 	}

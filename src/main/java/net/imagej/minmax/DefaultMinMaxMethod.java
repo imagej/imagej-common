@@ -38,8 +38,6 @@ import net.imglib2.Cursor;
 import net.imglib2.IterableInterval;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;
-import net.imglib2.multithreading.Chunk;
-import net.imglib2.multithreading.SimpleMultiThreading;
 import net.imglib2.type.Type;
 import net.imglib2.util.Util;
 import net.imglib2.view.Views;
@@ -154,6 +152,9 @@ public class DefaultMinMaxMethod<T extends Type<T> & Comparable<T>> extends
 		report(0);
 
 		final AtomicInteger ai = new AtomicInteger(0);
+
+		// TODO: Unify multithreading approach with org.scijava.thread package.
+
 		final Thread[] threads = SimpleMultiThreading.newThreads(getNumThreads());
 
 		final Vector<Chunk> threadChunks =
@@ -271,13 +272,14 @@ public class DefaultMinMaxMethod<T extends Type<T> & Comparable<T>> extends
 		return errorMessage;
 	}
 
-	// -- Helper Methods --
+	// -- Helper methods --
 
 	private void init() {
 		setNumThreads();
 		initialized = true;
 	}
-	// Reports the current progress
+
+	/** Reports the current progress. */
 	private void report(int threadNumber) {
 		if (statusService == null) return; // nothing to report to, please move along
 		progress[threadNumber]++;
@@ -301,5 +303,86 @@ public class DefaultMinMaxMethod<T extends Type<T> & Comparable<T>> extends
 				}
 			}
 		}
+	}
+
+	// -- Helper classes --
+
+	/**
+	 * @author Stephan Preibisch
+	 */
+	private static class SimpleMultiThreading {
+
+		public static Vector<Chunk> divideIntoChunks(final long imageSize,
+			final int numThreads)
+		{
+			final long threadChunkSize = imageSize / numThreads;
+			final long threadChunkMod = imageSize % numThreads;
+
+			final Vector<Chunk> chunks = new Vector<Chunk>();
+
+			for (int threadID = 0; threadID < numThreads; ++threadID) {
+				// move to the starting position of the current thread
+				final long startPosition = threadID * threadChunkSize;
+
+				// the last thread may has to run longer if the number of pixels
+				// cannot be divided by the number of threads
+				final long loopSize;
+				if (threadID == numThreads - 1) loopSize =
+					threadChunkSize + threadChunkMod;
+				else loopSize = threadChunkSize;
+
+				chunks.add(new Chunk(startPosition, loopSize));
+			}
+
+			return chunks;
+		}
+
+		public static Thread[] newThreads(final int numThreads) {
+			return new Thread[numThreads];
+		}
+
+		public static void startAndJoin(final Thread[] threads) {
+			if (1 == threads.length) {
+				threads[0].run();
+				return;
+			}
+
+			for (int ithread = 0; ithread < threads.length; ++ithread) {
+				threads[ithread].setPriority(Thread.NORM_PRIORITY);
+				threads[ithread].start();
+			}
+
+			try {
+				for (int ithread = 0; ithread < threads.length; ++ithread)
+					threads[ithread].join();
+			}
+			catch (final InterruptedException ie) {
+				throw new RuntimeException(ie);
+			}
+		}
+	}
+
+	/**
+	 * @author Stephan Preibisch
+	 */
+	@Deprecated
+	private static class Chunk {
+
+		public Chunk(final long startPosition, final long loopSize) {
+			this.startPosition = startPosition;
+			this.loopSize = loopSize;
+		}
+
+		public long getStartPosition() {
+			return startPosition;
+		}
+
+		public long getLoopSize() {
+			return loopSize;
+		}
+
+		protected long startPosition;
+
+		protected long loopSize;
 	}
 }

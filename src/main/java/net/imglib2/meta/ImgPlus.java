@@ -263,11 +263,6 @@ public class ImgPlus<T> extends AbstractCalibratedRealInterval<CalibratedAxis>
 		return img.iterationOrder();
 	}
 
-	@Override
-	public boolean equalIterationOrder(final IterableRealInterval<?> f) {
-		return iterationOrder().equals(f.iterationOrder());
-	}
-
 	// -- Iterable methods --
 
 	@Override
