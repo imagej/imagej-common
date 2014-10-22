@@ -39,8 +39,6 @@ import java.util.regex.Pattern;
 
 import net.imagej.display.ImageDisplay;
 import net.imglib2.meta.AxisType;
-import net.imglib2.ops.util.Tuple2;
-import net.imglib2.ops.util.Tuple3;
 
 /**
  * An AxisSubrange defines a set of position indices using various constructors.
@@ -195,9 +193,8 @@ public class AxisSubrange {
 		}
 		for (final String term : terms) {
 			final Long num = number(term);
-			final Tuple2<Long, Long> numDashNum = numberDashNumber(term);
-			final Tuple3<Long, Long, Long> numDashNumDashNum =
-				numberDashNumberDashNumber(term);
+			final Range numDashNum = numberDashNumber(term);
+			final Range numDashNumDashNum = numberDashNumberDashNumber(term);
 			AxisSubrange subrange = null;
 			if (num != null) {
 				if ((num < min) || (num > max)) {
@@ -210,8 +207,8 @@ public class AxisSubrange {
 				}
 			}
 			else if (numDashNum != null) {
-				long start = numDashNum.get1();
-				long end = numDashNum.get2();
+				long start = numDashNum.start;
+				long end = numDashNum.end;
 				if (end < start) {  // allow them to be order reversed
 					long tmp = end;
 					end = start;
@@ -232,9 +229,9 @@ public class AxisSubrange {
 				}
 			}
 			else if (numDashNumDashNum != null) {
-				final long start = numDashNumDashNum.get1();
-				final long end = numDashNumDashNum.get2();
-				final long by = numDashNumDashNum.get3();
+				final long start = numDashNumDashNum.start;
+				final long end = numDashNumDashNum.end;
+				final long by = numDashNumDashNum.by;
 				if ((start < min) || (start > max)) {
 					err =
 							"AxisSubrange: dimension out of bounds (" + min + "," + max +
@@ -281,29 +278,38 @@ public class AxisSubrange {
 	 * Tries to match number-number from the input term. Returns a Tuple of Longs
 	 * that contain the two values if successful otherwise returns null.
 	 */
-	private Tuple2<Long, Long> numberDashNumber(final String term) {
+	private Range numberDashNumber(final String term) {
 		final Matcher matcher = Pattern.compile("\\d+-\\d+").matcher(term);
 		if (!matcher.matches()) return null;
 		final String[] values = term.split("-");
-		final Long start = Long.parseLong(values[0]);
-		final Long end = Long.parseLong(values[1]);
-		return new Tuple2<Long, Long>(start, end);
+		final long start = Long.parseLong(values[0]);
+		final long end = Long.parseLong(values[1]);
+		return new Range(start, end, 1);
 	}
 
 	/**
 	 * Tries to match number-number-number from the input term. Returns a Tuple of
 	 * Longs that contain the three values if successful otherwise returns null.
 	 */
-	private Tuple3<Long, Long, Long>
-		numberDashNumberDashNumber(final String term)
-	{
+	private Range numberDashNumberDashNumber(final String term) {
 		final Matcher matcher = Pattern.compile("\\d+-\\d+-\\d+").matcher(term);
 		if (!matcher.matches()) return null;
 		final String[] values = term.split("-");
-		final Long start = Long.parseLong(values[0]);
-		final Long end = Long.parseLong(values[1]);
-		final Long by = Long.parseLong(values[2]);
-		return new Tuple3<Long, Long, Long>(start, end, by);
+		final long start = Long.parseLong(values[0]);
+		final long end = Long.parseLong(values[1]);
+		final long by = Long.parseLong(values[2]);
+		return new Range(start, end, by);
+	}
+
+	private class Range {
+		private final long start;
+		private final long end;
+		private final long by;
+		private Range(final long start, final long end, final long by) {
+			this.start = start;
+			this.end = end;
+			this.by = by;
+		}
 	}
 
 }
