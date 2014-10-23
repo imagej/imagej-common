@@ -60,6 +60,13 @@
 			<artifactId>scijava-common</artifactId>
 		</dependency>
 
+		<!-- Third party dependencies -->
+		<dependency>
+			<groupId>edu.ucar</groupId>
+			<artifactId>udunits</artifactId>
+			<version>4.3.18</version>
+		</dependency>
+
 		<!-- Test scope dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
