@@ -67,7 +67,7 @@ public class MinMaxMethodTest {
 		TestMinMaxMethod mmMethod = new TestMinMaxMethod();
 		ctx.inject(mmMethod);
 
-		mmMethod.initialize((IterableInterval) imgPlus);
+		mmMethod.initialize(img);
 
 		mmMethod.process();
 

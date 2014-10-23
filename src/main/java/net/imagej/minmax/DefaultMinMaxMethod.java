@@ -116,7 +116,7 @@ public class DefaultMinMaxMethod<T extends Type<T> & Comparable<T>> extends
 
 	@Override
 	public void initialize(final Img<T> img) {
-		initialize(img);
+		initialize((IterableInterval<T>) img);
 	}
 
 	@Override
