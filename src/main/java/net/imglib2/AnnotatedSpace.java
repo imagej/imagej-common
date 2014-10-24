@@ -1,10 +1,12 @@
 /*
  * #%L
- * ImageJ software for multidimensional image processing and analysis.
+ * ImgLib2: a general-purpose, multidimensional image processing library.
  * %%
- * Copyright (C) 2009 - 2014 Board of Regents of the University of
- * Wisconsin-Madison, Broad Institute of MIT and Harvard, and Max Planck
- * Institute of Molecular Cell Biology and Genetics.
+ * Copyright (C) 2009 - 2014 Stephan Preibisch, Tobias Pietzsch, Barry DeZonia,
+ * Stephan Saalfeld, Albert Cardona, Curtis Rueden, Christian Dietz, Jean-Yves
+ * Tinevez, Johannes Schindelin, Lee Kamentsky, Larry Lindsey, Grant Harris,
+ * Mark Hiner, Aivar Grislis, Martin Horn, Nick Perry, Michael Zinsmaier,
+ * Steffen Jaensch, Jan Funke, Mark Longair, and Dimiter Prodanov.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -29,33 +31,31 @@
  * #L%
  */
 
-package net.imagej.operator;
-
-import net.imagej.ImageJPlugin;
-import net.imglib2.ops.operation.real.binary.RealBinaryOperation;
-import net.imglib2.type.numeric.RealType;
-import net.imglib2.type.numeric.real.DoubleType;
-
-import org.scijava.plugin.Plugin;
-import org.scijava.plugin.RichPlugin;
-import org.scijava.plugin.SingletonPlugin;
+package net.imglib2;
 
 /**
- * {@code CalculatorOp} is a plugin that extends the Image Calculator command.
+ * A Euclidean space with associated metadata about each dimension of the space.
+ * The nature of the metadata is left intentionally open-ended; at the topmost
+ * level, the {@link Axis} interface provides no additional information about a
+ * dimensional axis, but it can be extended to do so.
  * <p>
- * Image Calculator operations discoverable at runtime must implement this
- * interface and be annotated with @{@link Plugin} with attribute
- * {@link Plugin#type()} = {@link CalculatorOp}.class. While it possible to
- * create an operation merely by implementing this interface, it is encouraged
- * to instead extend {@link AbstractCalculatorOp}, for convenience.
+ * One potential use of the {@link Axis} objects is to store calibration and
+ * unit information (see the {@code imglib2-meta} project), but any desired
+ * information about the space's dimensions could conceivably be attached.
  * </p>
  * 
  * @author Curtis Rueden
- * @see Plugin
  */
-public interface CalculatorOp<I1 extends RealType<I1>, I2 extends RealType<I2>>
-	extends RealBinaryOperation<I1, I2, DoubleType>, ImageJPlugin, RichPlugin,
-	SingletonPlugin
+@Deprecated
+public interface AnnotatedSpace< A extends Axis > extends EuclideanSpace
 {
-	// NB: No implementation needed.
+
+	/** Gets the axis associated with the given dimension of the space. */
+	A axis( int d );
+
+	/** Copies the space's axes into the given array. */
+	void axes( A[] axes );
+
+	/** Sets the dimensional axis associated with the given dimension. */
+	void setAxis( A axis, int d );
 }

@@ -59,6 +59,7 @@ import net.imglib2.RealPositionable;
  * 
  * @author Curtis Rueden
  */
+@Deprecated
 public class CombinedRealInterval<A extends TypedAxis, S extends TypedRealInterval<A>>
 	extends CombinedSpace<A, S> implements TypedRealInterval<A>
 {

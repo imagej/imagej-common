@@ -42,6 +42,7 @@ import net.imglib2.RealInterval;
  * 
  * @author Barry DeZonia
  */
+@Deprecated
 public final class IntervalUtils {
 
 	private IntervalUtils() {

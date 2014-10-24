@@ -43,6 +43,7 @@ import net.imglib2.RealPositionable;
  * 
  * @author Barry DeZonia
  */
+@Deprecated
 public abstract class AbstractCalibratedRealInterval<A extends CalibratedAxis>
 	extends AbstractCalibratedSpace<A> implements CalibratedRealInterval<A>
 {

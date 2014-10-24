@@ -32,10 +32,10 @@
 package net.imagej.minmax;
 
 import static org.junit.Assert.assertEquals;
-import io.scif.img.ImgIOException;
-import io.scif.img.ImgOpener;
 import net.imglib2.Cursor;
 import net.imglib2.IterableInterval;
+import net.imglib2.img.Img;
+import net.imglib2.img.array.ArrayImgs;
 import net.imglib2.meta.ImgPlus;
 import net.imglib2.type.Type;
 import net.imglib2.util.Util;
@@ -59,15 +59,15 @@ public class MinMaxMethodTest {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
-	public void verifyMinMaxStatusReport() throws ImgIOException {
-		final String calId = "testImg&lengths=50000,20&axes=X,Y.fake";
-
-		final ImgPlus imgPlus = new ImgOpener(ctx).openImgs(calId).get(0);
+	public void verifyMinMaxStatusReport() {
+		final byte[] data = new byte[50000 * 20];
+		data[231014] = 100;
+		final Img img = ArrayImgs.bytes(data, 50000, 20);
 
 		TestMinMaxMethod mmMethod = new TestMinMaxMethod();
 		ctx.inject(mmMethod);
 
-		mmMethod.initialize((IterableInterval) imgPlus);
+		mmMethod.initialize(img);
 
 		mmMethod.process();
 

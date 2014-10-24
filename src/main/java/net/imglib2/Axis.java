@@ -1,10 +1,12 @@
 /*
  * #%L
- * ImageJ software for multidimensional image processing and analysis.
+ * ImgLib2: a general-purpose, multidimensional image processing library.
  * %%
- * Copyright (C) 2009 - 2014 Board of Regents of the University of
- * Wisconsin-Madison, Broad Institute of MIT and Harvard, and Max Planck
- * Institute of Molecular Cell Biology and Genetics.
+ * Copyright (C) 2009 - 2014 Stephan Preibisch, Tobias Pietzsch, Barry DeZonia,
+ * Stephan Saalfeld, Albert Cardona, Curtis Rueden, Christian Dietz, Jean-Yves
+ * Tinevez, Johannes Schindelin, Lee Kamentsky, Larry Lindsey, Grant Harris,
+ * Mark Hiner, Aivar Grislis, Martin Horn, Nick Perry, Michael Zinsmaier,
+ * Steffen Jaensch, Jan Funke, Mark Longair, and Dimiter Prodanov.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -29,17 +31,24 @@
  * #L%
  */
 
-package net.imagej.threshold;
-
-import org.scijava.plugin.AbstractRichPlugin;
+package net.imglib2;
 
 /**
- * Abstract base class for {@link ThresholdMethod} plugins.
+ * A dimensional axis of an {@link AnnotatedSpace}.
+ * <p>
+ * This interface does not define any explicit API, but serves as an extension
+ * point for annotated {@link EuclideanSpace}s: subtypes of {@code Axis} can be
+ * defined to include concepts such as axis names, labels and calibrations, and
+ * then assigned to the axes of a {@link AnnotatedSpace}.
+ * </p>
+ * <p>
+ * See the {@code imglib2-meta} project for an example.
+ * </p>
  * 
  * @author Curtis Rueden
  */
-public abstract class AbstractThresholdMethod extends AbstractRichPlugin
-	implements ThresholdMethod
+@Deprecated
+public interface Axis
 {
-	// NB: No implementation needed.
+	// NB: Marker interface.
 }

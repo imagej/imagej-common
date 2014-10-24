@@ -40,6 +40,7 @@ import net.imglib2.meta.AxisType;
  * 
  * @author Barry DeZonia
  */
+@Deprecated
 public abstract class Variable2Axis extends Variable1Axis {
 
 	public Variable2Axis(final AxisType type) {

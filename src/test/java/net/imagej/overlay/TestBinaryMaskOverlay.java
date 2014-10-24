@@ -37,9 +37,9 @@ import java.io.ObjectOutputStream;
 
 import net.imglib2.RandomAccess;
 import net.imglib2.img.Img;
-import net.imglib2.img.NativeImg;
-import net.imglib2.img.array.ArrayImgFactory;
-import net.imglib2.img.basictypeaccess.BitAccess;
+import net.imglib2.img.array.ArrayImg;
+import net.imglib2.img.array.ArrayImgs;
+import net.imglib2.img.basictypeaccess.array.LongArray;
 import net.imglib2.roi.BinaryMaskRegionOfInterest;
 import net.imglib2.type.logic.BitType;
 
@@ -54,11 +54,9 @@ import org.scijava.Context;
 public class TestBinaryMaskOverlay {
 
 	private Img<BitType> makeImg(final boolean[][] imgArray) {
-		final NativeImg<BitType, ? extends BitAccess> img =
-			new ArrayImgFactory<BitType>().createBitInstance(new long[] {
-				imgArray.length, imgArray[0].length }, 1);
-		final BitType t = new BitType(img);
-		img.setLinkedType(t);
+		final ArrayImg<BitType, LongArray> img =
+			ArrayImgs.bits(new long[] { imgArray.length, imgArray[0].length });
+		img.setLinkedType(new BitType(img));
 		final RandomAccess<BitType> ra = img.randomAccess();
 		for (int i = 0; i < imgArray.length; i++) {
 			ra.setPosition(i, 0);

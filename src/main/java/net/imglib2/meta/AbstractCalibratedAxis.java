@@ -38,6 +38,7 @@ package net.imglib2.meta;
  * 
  * @author Barry DeZonia
  */
+@Deprecated
 public abstract class AbstractCalibratedAxis extends DefaultTypedAxis implements
 	CalibratedAxis
 {

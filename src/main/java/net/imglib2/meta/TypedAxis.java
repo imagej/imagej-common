@@ -41,6 +41,7 @@ import net.imglib2.Axis;
  * @author Curtis Rueden
  * @see TypedSpace
  */
+@Deprecated
 public interface TypedAxis extends Axis {
 
 	/** Gets the type of the axis. */

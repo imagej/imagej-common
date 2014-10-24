@@ -46,7 +46,6 @@ import net.imagej.display.event.LUTsChangedEvent;
 import net.imagej.event.DatasetRGBChangedEvent;
 import net.imagej.event.DatasetTypeChangedEvent;
 import net.imagej.event.DatasetUpdatedEvent;
-import net.imglib2.Binning;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.converter.RealLUTConverter;
 import net.imglib2.display.ColorTable;
@@ -58,6 +57,7 @@ import net.imglib2.meta.AxisType;
 import net.imglib2.meta.ImgPlus;
 import net.imglib2.meta.IntervalUtils;
 import net.imglib2.type.numeric.RealType;
+import net.imglib2.util.Binning;
 import net.imglib2.view.Views;
 
 import org.scijava.Context;

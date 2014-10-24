@@ -39,6 +39,7 @@ package net.imglib2.meta;
  * @author Curtis Rueden
  * @see ImgPlus
  */
+@Deprecated
 public interface ImgPlusMetadata extends Named, Sourced,
 	CalibratedSpace<CalibratedAxis>, ImageMetadata
 {

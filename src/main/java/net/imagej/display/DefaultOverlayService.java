@@ -44,12 +44,16 @@ import net.imagej.overlay.CompositeOverlay;
 import net.imagej.overlay.Overlay;
 import net.imagej.overlay.OverlaySettings;
 import net.imagej.render.RenderingService;
+import net.imglib2.Cursor;
+import net.imglib2.IterableInterval;
+import net.imglib2.RealInterval;
 import net.imglib2.RealRandomAccess;
-import net.imglib2.ops.pointset.PointSet;
-import net.imglib2.ops.pointset.PointSetIterator;
-import net.imglib2.ops.pointset.RoiPointSet;
+import net.imglib2.RealRandomAccessibleRealInterval;
 import net.imglib2.roi.RegionOfInterest;
 import net.imglib2.type.logic.BitType;
+import net.imglib2.view.IntervalView;
+import net.imglib2.view.RandomAccessibleOnRealRandomAccessible;
+import net.imglib2.view.Views;
 
 import org.scijava.display.Display;
 import org.scijava.display.DisplayService;
@@ -353,15 +357,18 @@ public final class DefaultOverlayService extends AbstractService implements
 		@Override
 		public void draw(final Overlay o, final DrawingTool tool) {
 			final RegionOfInterest region = o.getRegionOfInterest();
-			final PointSet pointSet = new RoiPointSet(region);
-			// TODO - rather than a pointSet use an IterableInterval? Investigate.
+			final IterableInterval<BitType> ii = iterableInterval(region);
+
+			final long[] max = new long[region.numDimensions()];
+			ii.max(max);
+
+			final Cursor<BitType> cursor = ii.localizingCursor();
 			final RealRandomAccess<BitType> accessor = region.realRandomAccess();
-			final PointSetIterator iter = pointSet.iterator();
-			final long[] max = new long[pointSet.numDimensions()];
-			pointSet.max(max);
-			long[] pos;
-			while (iter.hasNext()) {
-				pos = iter.next();
+
+			long[] pos = new long[region.numDimensions()];
+			while (cursor.hasNext()) {
+				cursor.fwd();
+				cursor.localize(pos);
 				accessor.setPosition(pos);
 				if (accessor.get().get() &&
 					isBorderPixel(accessor, pos, max[0], max[1]))
@@ -397,17 +404,46 @@ public final class DefaultOverlayService extends AbstractService implements
 		@Override
 		public void draw(final Overlay o, final DrawingTool tool) {
 			final RegionOfInterest region = o.getRegionOfInterest();
-			final RoiPointSet pointSet = new RoiPointSet(region);
-			final RealRandomAccess<BitType> accessor = region.realRandomAccess();
-			final PointSetIterator iter = pointSet.iterator();
-			long[] pos;
-			while (iter.hasNext()) {
-				pos = iter.next();
-				accessor.setPosition(pos);
-				if (accessor.get().get()) tool.drawPixel(pos[0], pos[1]);
-			}
 
+			final Cursor<BitType> cursor =
+				iterableInterval(region).localizingCursor();
+
+			long[] pos = new long[region.numDimensions()];
+			while (cursor.hasNext()) {
+				cursor.fwd();
+				cursor.localize(pos);
+				if (cursor.get().get()) tool.drawPixel(pos[0], pos[1]);
+			}
 		}
+	}
+
+	// TODO: Consider contributing this method to net.imglib2.view.Views.
+	// See also: net.imglib2.roi.IterableRegionOfInterest
+
+	private static <T> IterableInterval<T> iterableInterval(
+		final RealRandomAccessibleRealInterval<T> realInterval)
+	{
+		final RandomAccessibleOnRealRandomAccessible<T> raster =
+			Views.raster(realInterval);
+		final IntervalView<T> interval =
+			Views.interval(raster, findMin(realInterval), findMax(realInterval));
+		return Views.iterable(interval);
+	}
+
+	private static long[] findMin(final RealInterval realInterval) {
+		final long[] boundMin = new long[realInterval.numDimensions()];
+		for (int i = 0; i < boundMin.length; i++) {
+			boundMin[i] = (long) Math.floor(realInterval.realMin(i));
+		}
+		return boundMin;
+	}
+
+	private static long[] findMax(final RealInterval realInterval) {
+		final long[] boundMax = new long[realInterval.numDimensions()];
+		for (int i = 0; i < boundMax.length; i++) {
+			boundMax[i] = (long) Math.ceil(realInterval.realMax(i));
+		}
+		return boundMax;
 	}
 
 }

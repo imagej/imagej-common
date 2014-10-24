@@ -41,6 +41,7 @@ import java.io.Serializable;
  * @see Axes
  * @author Mark Hiner
  */
+@Deprecated
 public class DefaultAxisType implements AxisType, Serializable,
 	Comparable<AxisType>
 {

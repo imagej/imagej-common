@@ -38,6 +38,7 @@ package net.imglib2.meta;
  * 
  * @author Martin Horn (University of Konstanz)
  */
+@Deprecated
 public class DefaultNamed implements Named {
 
 	private String m_name = "";

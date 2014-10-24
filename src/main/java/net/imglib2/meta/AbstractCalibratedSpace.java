@@ -40,6 +40,7 @@ import java.util.List;
  * 
  * @author Curtis Rueden
  */
+@Deprecated
 public abstract class AbstractCalibratedSpace<A extends CalibratedAxis> extends
 	AbstractTypedSpace<A> implements CalibratedSpace<A>
 {

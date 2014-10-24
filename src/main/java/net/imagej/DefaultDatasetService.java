@@ -31,16 +31,6 @@
 
 package net.imagej;
 
-import io.scif.FormatException;
-import io.scif.Metadata;
-import io.scif.config.SCIFIOConfig;
-import io.scif.config.SCIFIOConfig.ImgMode;
-import io.scif.img.ImgIOException;
-import io.scif.img.ImgOpener;
-import io.scif.img.ImgSaver;
-import io.scif.img.SCIFIOImgPlus;
-import io.scif.services.FormatService;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,7 +40,6 @@ import net.imagej.display.DataView;
 import net.imagej.display.ImageDisplay;
 import net.imagej.types.DataTypeService;
 import net.imglib2.RandomAccessibleInterval;
-import net.imglib2.exception.IncompatibleTypeException;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
 import net.imglib2.img.ImgView;
@@ -78,6 +67,8 @@ import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import org.scijava.service.AbstractService;
 import org.scijava.service.Service;
+import org.scijava.util.ReflectException;
+import org.scijava.util.ReflectedUniverse;
 
 /**
  * Default service for working with {@link Dataset}s.
@@ -96,9 +87,6 @@ public final class DefaultDatasetService extends AbstractService implements
 
 	@Parameter
 	private ObjectService objectService;
-
-	@Parameter
-	private FormatService formatService;
 
 	// NB: The create(ImgPlus) method instantiates a
 	// DefaultDataset, which requires a DataTypeService.
@@ -221,10 +209,18 @@ public final class DefaultDatasetService extends AbstractService implements
 	@Override
 	public boolean canOpen(final String source) {
 		try {
-			return formatService.getFormat(source, new SCIFIOConfig()
-				.checkerSetOpen(true)) != null;
+			final ReflectedUniverse ru = new ReflectedUniverse();
+			ru.setVar("source", source);
+			final Service formatService =
+				getContext().service("io.scif.services.FormatService");
+			ru.setVar("formatService", formatService);
+
+			ru.exec("import io.scif.config.SCIFIOConfig;");
+			ru.exec("config = new SCIFIOConfig();");
+			ru.exec("config.checkerSetOpen(true);");
+			return ru.exec("formatService.getFormat(source, config);") != null;
 		}
-		catch (final FormatException exc) {
+		catch (final ReflectException exc) {
 			log.error(exc);
 		}
 		return false;
@@ -233,9 +229,15 @@ public final class DefaultDatasetService extends AbstractService implements
 	@Override
 	public boolean canSave(final String destination) {
 		try {
-			return formatService.getWriterByExtension(destination) != null;
+			final ReflectedUniverse ru = new ReflectedUniverse();
+			ru.setVar("destination", destination);
+			final Service formatService =
+				getContext().service("io.scif.services.FormatService");
+			ru.setVar("formatService", formatService);
+
+			return ru.exec("formatService.getWriterByExtension(destination);") != null;
 		}
-		catch (final FormatException exc) {
+		catch (final ReflectException exc) {
 			log.error(exc);
 		}
 		return false;
@@ -243,33 +245,42 @@ public final class DefaultDatasetService extends AbstractService implements
 
 	@Override
 	public Dataset open(final String source) throws IOException {
-		final SCIFIOConfig config = new SCIFIOConfig();
-
-		config.imgOpenerSetIndex(0);
-
-		return open(source, config);
+		try {
+			final ReflectedUniverse ru = new ReflectedUniverse();
+			ru.exec("import io.scif.config.SCIFIOConfig;");
+			ru.exec("config = new SCIFIOConfig();");
+			ru.exec("config.imgOpenerSetIndex(0);");
+			return open(source, ru.getVar("config"));
+		}
+		catch (final ReflectException exc) {
+			throw new IOException(exc);
+		}
 	}
 
 	@Override
-	public Dataset open(final String source, final SCIFIOConfig config)
+	public Dataset open(final String source, final Object config)
 		throws IOException
 	{
-		final ImgOpener imageOpener = new ImgOpener(getContext());
-
-		// skip min/max computation
-		config.imgOpenerSetComputeMinMax(false);
-
-		// prefer planar array structure, for ImageJ1 and ImgSaver compatibility
-		config.imgOpenerSetImgModes(ImgMode.PLANAR);
-
 		try {
-			final SCIFIOImgPlus<?> imgPlus =
-				imageOpener.openImgs(source, config).get(0);
-			@SuppressWarnings({ "rawtypes", "unchecked" })
-			final Dataset dataset = create((ImgPlus) imgPlus);
-			return dataset;
+			final ReflectedUniverse ru = new ReflectedUniverse();
+			ru.setVar("source", source);
+			ru.setVar("config", config);
+			ru.setVar("context", getContext());
+
+			ru.exec("import io.scif.img.ImgOpener;");
+			ru.exec("imageOpener = new ImgOpener(context);");
+
+			// skip min/max computation
+			ru.exec("config.imgOpenerSetComputeMinMax(false);");
+
+			// prefer planar array structure, for ImageJ1 and ImgSaver compatibility
+			ru.exec("import io.scif.config.SCIFIOConfig.ImgMode;");
+			ru.exec("config.imgOpenerSetImgModes(ImgMode.PLANAR);");
+
+			ru.exec("imgPluses = imageOpener.openImgs(source, config);");
+			return create((ImgPlus) ru.exec("imgPluses.get(0);"));
 		}
-		catch (final ImgIOException exc) {
+		catch (final ReflectException exc) {
 			throw new IOException(exc);
 		}
 	}
@@ -286,28 +297,29 @@ public final class DefaultDatasetService extends AbstractService implements
 	}
 
 	@Override
-	public Metadata save(final Dataset dataset, final String destination)
+	public Object save(final Dataset dataset, final String destination)
 		throws IOException
 	{
 		return save(dataset, destination, null);
 	}
 
 	@Override
-	public Metadata save(final Dataset dataset, final String destination,
-		final SCIFIOConfig config) throws IOException
+	public Object save(final Dataset dataset, final String destination,
+		final Object config) throws IOException
 	{
-		@SuppressWarnings("rawtypes")
-		final ImgPlus img = dataset.getImgPlus();
-
-		final Metadata metadata;
-		final ImgSaver imageSaver = new ImgSaver(getContext());
+		final Object metadata;
 		try {
-			metadata = imageSaver.saveImg(destination, img, config);
+			final ReflectedUniverse ru = new ReflectedUniverse();
+			ru.setVar("destination", destination);
+			ru.setVar("img", dataset.getImgPlus());
+			ru.setVar("config", config);
+			ru.setVar("context", getContext());
+
+			ru.exec("import io.scif.img.ImgSaver;");
+			ru.exec("imageSaver = new ImgSaver(context);");
+			metadata = ru.exec("imageSaver.saveImg(destination, img, config);");
 		}
-		catch (final ImgIOException exc) {
-			throw new IOException(exc);
-		}
-		catch (final IncompatibleTypeException exc) {
+		catch (final ReflectException exc) {
 			throw new IOException(exc);
 		}
 

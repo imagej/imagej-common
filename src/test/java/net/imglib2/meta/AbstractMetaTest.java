@@ -34,7 +34,6 @@
 package net.imglib2.meta;
 
 import static org.junit.Assert.assertEquals;
-import net.imglib2.meta.TypedAxis;
 
 /**
  * Abstract base class for {@link net.imglib2.meta} unit tests.

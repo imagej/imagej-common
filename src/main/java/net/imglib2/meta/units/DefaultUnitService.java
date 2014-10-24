@@ -59,6 +59,7 @@ import ucar.units.UnknownUnit;
  * 
  * @author Barry DeZonia
  */
+@Deprecated
 @Plugin(type = Service.class)
 public class DefaultUnitService extends AbstractService implements UnitService {
 

@@ -39,6 +39,7 @@ package net.imglib2.meta.units;
  * 
  * @author Barry DeZonia
  */
+@Deprecated
 public class LinearCalibrator implements Calibrator {
 
 	// -- fields --

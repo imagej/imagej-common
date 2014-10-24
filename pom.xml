@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>net.imagej</groupId>
 		<artifactId>pom-imagej</artifactId>
-		<version>2.49</version>
+		<version>3.1</version>
 		<relativePath />
 	</parent>
 
 	<artifactId>imagej-common</artifactId>
-	<version>0.9.1-SNAPSHOT</version>
+	<version>0.10.0-SNAPSHOT</version>
 
 	<name>ImageJ Common library</name>
 	<description>The ImageJ common library contains ImageJ's core image data model, based on ImgLib2. This is the primary mechanism by which image data is managed internally by ImageJ2. This component also provides the corresponding core image display logic for user interfaces.</description>
@@ -21,12 +21,10 @@
 		<tag>HEAD</tag>
 		<url>https://github.com/imagej/imagej-common</url>
 	</scm>
-
 	<issueManagement>
 		<system>GitHub Issues</system>
 		<url>https://github.com/imagej/imagej-common/issues</url>
 	</issueManagement>
-
 	<ciManagement>
 		<system>Jenkins</system>
 		<url>http://jenkins.imagej.net/job/ImageJ-common/</url>
@@ -40,12 +38,6 @@
 	</repositories>
 
 	<dependencies>
-		<!-- SCIFIO dependencies -->
-		<dependency>
-			<groupId>io.scif</groupId>
-			<artifactId>scifio</artifactId>
-		</dependency>
-
 		<!-- ImgLib2 dependencies -->
 		<dependency>
 			<groupId>net.imglib2</groupId>
@@ -53,13 +45,20 @@
 		</dependency>
 		<dependency>
 			<groupId>net.imglib2</groupId>
-			<artifactId>imglib2-ops</artifactId>
+			<artifactId>imglib2-roi</artifactId>
 		</dependency>
 
 		<!-- SciJava dependencies -->
 		<dependency>
 			<groupId>org.scijava</groupId>
 			<artifactId>scijava-common</artifactId>
+		</dependency>
+
+		<!-- Third party dependencies -->
+		<dependency>
+			<groupId>edu.ucar</groupId>
+			<artifactId>udunits</artifactId>
+			<version>4.3.18</version>
 		</dependency>
 
 		<!-- Test scope dependencies -->

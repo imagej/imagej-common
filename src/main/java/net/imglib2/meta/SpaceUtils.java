@@ -41,6 +41,7 @@ import net.imglib2.EuclideanSpace;
  * 
  * @author Barry DeZonia
  */
+@Deprecated
 public final class SpaceUtils {
 
 	private SpaceUtils() {

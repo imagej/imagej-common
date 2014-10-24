@@ -58,6 +58,7 @@ import net.imglib2.meta.axis.LinearAxis;
  * 
  * @author Curtis Rueden
  */
+@Deprecated
 public class ImgPlus<T> extends AbstractCalibratedRealInterval<CalibratedAxis>
 	implements Img<T>, WrappedImg<T>, ImgPlusMetadata
 {
@@ -260,11 +261,6 @@ public class ImgPlus<T> extends AbstractCalibratedRealInterval<CalibratedAxis>
 	@Override
 	public Object iterationOrder() {
 		return img.iterationOrder();
-	}
-
-	@Override
-	public boolean equalIterationOrder(final IterableRealInterval<?> f) {
-		return iterationOrder().equals(f.iterationOrder());
 	}
 
 	// -- Iterable methods --

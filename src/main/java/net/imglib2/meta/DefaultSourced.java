@@ -38,6 +38,7 @@ package net.imglib2.meta;
  * 
  * @author Christian Dietz (University of Konstanz)
  */
+@Deprecated
 public class DefaultSourced implements Sourced {
 
 	private String m_source = "";

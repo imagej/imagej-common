@@ -193,13 +193,6 @@ public class ResultsImg implements Img<DoubleType> {
 		throw new UnsupportedOperationException("Unimplemented");
 	}
 
-	@Override
-	@Deprecated
-	public boolean equalIterationOrder(final IterableRealInterval<?> f) {
-		// TODO
-		throw new UnsupportedOperationException("Unimplemented");
-	}
-
 	// -- Iterable methods --
 
 	@Override

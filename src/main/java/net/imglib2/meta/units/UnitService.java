@@ -40,6 +40,7 @@ import org.scijava.service.Service;
  * 
  * @author Barry DeZonia
  */
+@Deprecated
 public interface UnitService extends Service {
 
 	/**

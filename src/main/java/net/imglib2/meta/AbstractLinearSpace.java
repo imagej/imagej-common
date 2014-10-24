@@ -42,6 +42,7 @@ import net.imglib2.meta.axis.LinearAxis;
  * 
  * @author Barry DeZonia
  */
+@Deprecated
 public abstract class AbstractLinearSpace<A extends LinearAxis> extends
 	AbstractCalibratedSpace<A> implements LinearSpace<A>
 {
