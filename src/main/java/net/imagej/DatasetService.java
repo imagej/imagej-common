@@ -31,9 +31,6 @@
 
 package net.imagej;
 
-import io.scif.Metadata;
-import io.scif.config.SCIFIOConfig;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -194,14 +191,15 @@ public interface DatasetService extends ImageJService {
 	Dataset open(String source) throws IOException;
 
 	/**
-	 * As {@link #open(String)}, with the given {@link SCIFIOConfig}.
+	 * As {@link #open(String)}, with the given
+	 * {@code io.scif.config.SCIFIOConfig}.
 	 * 
 	 * @deprecated Replacement coming soon; see also <a
 	 *             href="https://github.com/scijava/scijava-common/compare/robust-io"
 	 *             >scijava-common robust-io branch</a>.
 	 */
 	@Deprecated
-	Dataset open(String source, SCIFIOConfig config) throws IOException;
+	Dataset open(String source, Object config) throws IOException;
 
 	/**
 	 * Reverts the given dataset to its original source.
@@ -224,7 +222,7 @@ public interface DatasetService extends ImageJService {
 	 *             >scijava-common robust-io branch</a>.
 	 */
 	@Deprecated
-	Metadata save(Dataset dataset, String destination) throws IOException;
+	Object save(Dataset dataset, String destination) throws IOException;
 
 	/**
 	 * Saves a dataset to a destination (such as a file on disk).
@@ -232,14 +230,14 @@ public interface DatasetService extends ImageJService {
 	 * @param dataset The dataset to save.
 	 * @param destination Where the dataset should be saved (e.g., a file path on
 	 *          disk).
-	 * @param config The SCIFIO configuration describing how the data should be
-	 *          saved.
+	 * @param config The {@code io.scif.config.SCIFIOConfig} describing how the
+	 *          data should be saved.
 	 * @deprecated Replacement coming soon; see also <a
 	 *             href="https://github.com/scijava/scijava-common/compare/robust-io"
 	 *             >scijava-common robust-io branch</a>.
 	 */
 	@Deprecated
-	Metadata save(Dataset dataset, String destination, SCIFIOConfig config)
+	Object save(Dataset dataset, String destination, Object config)
 		throws IOException;
 
 }
