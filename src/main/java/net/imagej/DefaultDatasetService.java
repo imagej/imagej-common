@@ -274,11 +274,19 @@ public final class DefaultDatasetService extends AbstractService implements
 			ru.exec("config.imgOpenerSetComputeMinMax(false)");
 
 			// prefer planar array structure, for ImageJ1 and ImgSaver compatibility
-			ru.exec("import io.scif.config.SCIFIOConfig.ImgMode;");
-			ru.exec("config.imgOpenerSetImgModes(ImgMode.PLANAR);");
+			ru.exec("import io.scif.config.SCIFIOConfig$ImgMode");
+			//TODO
+			// we cannot construct new arrays manually since the ReflectedUniverse
+			// only looks for parenthesees. We should probably move this to a utility
+			// method of the RU if we're going to keep it around.
+			ru.exec("import java.lang.reflect.Array");
+			ru.exec("mode = SCIFIOConfig$ImgMode.PLANAR");
+			ru.exec("modeArray = Array.newInstance(SCIFIOConfig$ImgMode, 1)");
+			ru.exec("Array.set(modeArray, 0, mode)");
+			ru.exec("config.imgOpenerSetImgModes(modeArray)");
 
-			ru.exec("imgPluses = imageOpener.openImgs(source, config);");
-			return create((ImgPlus) ru.exec("imgPluses.get(0);"));
+			ru.exec("imgPluses = imageOpener.openImgs(source, config)");
+			return create((ImgPlus) ru.exec("imgPluses.get(0)"));
 		}
 		catch (final ReflectException exc) {
 			throw new IOException(exc);
