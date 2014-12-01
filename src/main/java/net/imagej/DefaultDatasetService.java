@@ -215,10 +215,10 @@ public final class DefaultDatasetService extends AbstractService implements
 				getContext().service("io.scif.services.FormatService");
 			ru.setVar("formatService", formatService);
 
-			ru.exec("import io.scif.config.SCIFIOConfig;");
-			ru.exec("config = new SCIFIOConfig();");
-			ru.exec("config.checkerSetOpen(true);");
-			return ru.exec("formatService.getFormat(source, config);") != null;
+			ru.exec("import io.scif.config.SCIFIOConfig");
+			ru.exec("config = new SCIFIOConfig()");
+			ru.exec("config.checkerSetOpen(true)");
+			return ru.exec("formatService.getFormat(source, config)") != null;
 		}
 		catch (final ReflectException exc) {
 			log.error(exc);
@@ -235,7 +235,7 @@ public final class DefaultDatasetService extends AbstractService implements
 				getContext().service("io.scif.services.FormatService");
 			ru.setVar("formatService", formatService);
 
-			return ru.exec("formatService.getWriterByExtension(destination);") != null;
+			return ru.exec("formatService.getWriterByExtension(destination)") != null;
 		}
 		catch (final ReflectException exc) {
 			log.error(exc);
@@ -247,9 +247,9 @@ public final class DefaultDatasetService extends AbstractService implements
 	public Dataset open(final String source) throws IOException {
 		try {
 			final ReflectedUniverse ru = new ReflectedUniverse();
-			ru.exec("import io.scif.config.SCIFIOConfig;");
-			ru.exec("config = new SCIFIOConfig();");
-			ru.exec("config.imgOpenerSetIndex(0);");
+			ru.exec("import io.scif.config.SCIFIOConfig");
+			ru.exec("config = new SCIFIOConfig()");
+			ru.exec("config.imgOpenerSetIndex(0)");
 			return open(source, ru.getVar("config"));
 		}
 		catch (final ReflectException exc) {
@@ -267,11 +267,11 @@ public final class DefaultDatasetService extends AbstractService implements
 			ru.setVar("config", config);
 			ru.setVar("context", getContext());
 
-			ru.exec("import io.scif.img.ImgOpener;");
-			ru.exec("imageOpener = new ImgOpener(context);");
+			ru.exec("import io.scif.img.ImgOpener");
+			ru.exec("imageOpener = new ImgOpener(context)");
 
 			// skip min/max computation
-			ru.exec("config.imgOpenerSetComputeMinMax(false);");
+			ru.exec("config.imgOpenerSetComputeMinMax(false)");
 
 			// prefer planar array structure, for ImageJ1 and ImgSaver compatibility
 			ru.exec("import io.scif.config.SCIFIOConfig.ImgMode;");
@@ -315,9 +315,9 @@ public final class DefaultDatasetService extends AbstractService implements
 			ru.setVar("config", config);
 			ru.setVar("context", getContext());
 
-			ru.exec("import io.scif.img.ImgSaver;");
-			ru.exec("imageSaver = new ImgSaver(context);");
-			metadata = ru.exec("imageSaver.saveImg(destination, img, config);");
+			ru.exec("import io.scif.img.ImgSaver");
+			ru.exec("imageSaver = new ImgSaver(context)");
+			metadata = ru.exec("imageSaver.saveImg(destination, img, config)");
 		}
 		catch (final ReflectException exc) {
 			throw new IOException(exc);
