@@ -31,27 +31,51 @@
  * #L%
  */
 
-package net.imglib2.meta;
+package net.imagej.space;
 
 import static org.junit.Assert.assertEquals;
+import net.imagej.axis.AbstractAxisTest;
+import net.imagej.axis.Axes;
+import net.imagej.axis.DefaultTypedAxis;
+import net.imagej.axis.TypedAxis;
+import net.imagej.space.DefaultTypedSpace;
 
 import org.junit.Test;
 
 /**
- * Tests {@link SpaceUtils}.
+ * Tests {@link DefaultTypedSpace}.
  * 
  * @author Barry DeZonia
  */
-public class SpaceUtilsTest extends AbstractMetaTest {
+public class DefaultTypedSpaceTest extends AbstractAxisTest {
+
+	private DefaultTypedSpace space;
 
 	@Test
-	public void test() {
-		final DefaultTypedAxis axis0 = new DefaultTypedAxis(Axes.X);
-		final DefaultTypedAxis axis1 = new DefaultTypedAxis(Axes.Y);
-		final DefaultTypedSpace space = new DefaultTypedSpace(axis0, axis1);
-		final AxisType[] types = SpaceUtils.getAxisTypes(space);
-		assertEquals(Axes.X, types[0]);
-		assertEquals(Axes.Y, types[1]);
+	public void test1() {
+		space = new DefaultTypedSpace(3);
+		assertUnknown(space.axis(0));
+		assertUnknown(space.axis(1));
+		assertUnknown(space.axis(2));
+		space.axis(0).setType(Axes.CHANNEL);
+		space.axis(1).setType(Axes.Z);
+		space.axis(2).setType(Axes.TIME);
+		assertEquals(Axes.CHANNEL, space.axis(0).type());
+		assertEquals(Axes.Z, space.axis(1).type());
+		assertEquals(Axes.TIME, space.axis(2).type());
+	}
+
+	@Test
+	public void test2() {
+		final TypedAxis axis0 = new DefaultTypedAxis(Axes.CHANNEL);
+		final TypedAxis axis1 = new DefaultTypedAxis(Axes.Y);
+		space = new DefaultTypedSpace(axis0, axis1);
+		assertEquals(Axes.CHANNEL, space.axis(0).type());
+		assertEquals(Axes.Y, space.axis(1).type());
+		space.axis(0).setType(Axes.CHANNEL);
+		space.axis(1).setType(Axes.Z);
+		assertEquals(Axes.CHANNEL, space.axis(0).type());
+		assertEquals(Axes.Z, space.axis(1).type());
 	}
 
 }

@@ -31,15 +31,19 @@
  * #L%
  */
 
-package net.imglib2.meta;
+package net.imagej.space;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
 
-import net.imglib2.meta.axis.DefaultLinearAxis;
-import net.imglib2.meta.axis.LinearAxis;
+import net.imagej.axis.AbstractAxisTest;
+import net.imagej.axis.Axes;
+import net.imagej.axis.CalibratedAxis;
+import net.imagej.axis.DefaultLinearAxis;
+import net.imagej.axis.LinearAxis;
+import net.imagej.space.DefaultCalibratedSpace;
 
 import org.junit.Test;
 
@@ -48,7 +52,7 @@ import org.junit.Test;
  * 
  * @author Barry DeZonia
  */
-public class DefaultCalibratedSpaceTest extends AbstractMetaTest {
+public class DefaultCalibratedSpaceTest extends AbstractAxisTest {
 
 	private DefaultCalibratedSpace space;
 
