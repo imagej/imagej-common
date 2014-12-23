@@ -31,7 +31,7 @@
  * #L%
  */
 
-package net.imglib2.meta.units;
+package net.imagej.units;
 
 import static org.junit.Assert.assertEquals;
 
