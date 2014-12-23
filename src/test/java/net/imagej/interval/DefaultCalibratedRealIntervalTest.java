@@ -31,14 +31,18 @@
  * #L%
  */
 
-package net.imglib2.meta;
+package net.imagej.interval;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import net.imglib2.meta.axis.DefaultLinearAxis;
-import net.imglib2.meta.axis.LinearAxis;
+import net.imagej.axis.AbstractAxisTest;
+import net.imagej.axis.Axes;
+import net.imagej.axis.CalibratedAxis;
+import net.imagej.axis.DefaultLinearAxis;
+import net.imagej.axis.LinearAxis;
+import net.imagej.interval.DefaultCalibratedRealInterval;
 
 import org.junit.Test;
 
@@ -47,7 +51,7 @@ import org.junit.Test;
  * 
  * @author Barry DeZonia
  */
-public class DefaultCalibratedRealIntervalTest extends AbstractMetaTest {
+public class DefaultCalibratedRealIntervalTest extends AbstractAxisTest {
 
 	private DefaultCalibratedRealInterval interval;
 
