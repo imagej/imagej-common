@@ -31,47 +31,20 @@
  * #L%
  */
 
-package net.imglib2.meta;
+package net.imagej.axis;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-
-import java.util.Arrays;
-import java.util.Comparator;
-
-import org.junit.Test;
+import net.imagej.axis.TypedAxis;
 
 /**
- * Tests {@link Axes}.
+ * Abstract base class for {@link net.imagej.axis} unit tests.
  * 
  * @author Curtis Rueden
  */
-public class AxesTest extends AbstractMetaTest {
+public abstract class AbstractAxisTest {
 
-	/** Tests {@link Axes#knownTypes()}. */
-	@Test
-	public void testKnownTypes() {
-		final AxisType[] knownTypes = Axes.knownTypes();
-		assertNotNull(knownTypes);
-		assertEquals(5, knownTypes.length);
-		sort(knownTypes);
-		assertSame(Axes.CHANNEL, knownTypes[0]);
-		assertSame(Axes.TIME, knownTypes[1]);
-		assertSame(Axes.X, knownTypes[2]);
-		assertSame(Axes.Y, knownTypes[3]);
-		assertSame(Axes.Z, knownTypes[4]);
-	}
-
-	private void sort(final AxisType[] axisTypes) {
-		Arrays.sort(axisTypes, 0, axisTypes.length, new Comparator<AxisType>() {
-
-			@Override
-			public int compare(final AxisType o1, final AxisType o2) {
-				return o1.getLabel().compareTo(o2.getLabel());
-			}
-
-		});
+	public void assertUnknown(final TypedAxis axis) {
+		assertEquals("Unknown", axis.type().getLabel());
 	}
 
 }

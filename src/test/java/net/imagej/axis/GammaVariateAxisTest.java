@@ -31,26 +31,24 @@
  * #L%
  */
 
-package net.imglib2.meta.axis;
+package net.imagej.axis;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
-import net.imglib2.meta.AbstractMetaTest;
-import net.imglib2.meta.Axes;
 
 import org.junit.Test;
 
 /**
- * Tests {@link InverseRodbardAxis}.
+ * Tests {@link GammaVariateAxis}.
  * 
  * @author Barry DeZonia
  */
-public class InverseRodbardAxisTest extends AbstractMetaTest {
+public class GammaVariateAxisTest extends AbstractAxisTest {
 
 	@Test
 	public void testCtor() {
-		final InverseRodbardAxis axis =
-			new InverseRodbardAxis(Axes.Z, "lp", 1, 2, 3, 4);
+		final GammaVariateAxis axis =
+			new GammaVariateAxis(Axes.Z, "lp", 1, 2, 3, 4);
 
 		assertEquals(Axes.Z, axis.type());
 		assertEquals("lp", axis.unit());
@@ -63,35 +61,35 @@ public class InverseRodbardAxisTest extends AbstractMetaTest {
 
 	@Test
 	public void testOtherStuff() {
-		final InverseRodbardAxis axis =
-			new InverseRodbardAxis(Axes.Z, "lp", 1, 2, 3, 4);
+		final GammaVariateAxis axis =
+			new GammaVariateAxis(Axes.Z, "lp", 1, 2, 3, 4);
 
-		axis.setA(2.2);
-		axis.setB(105.5); // NB - B and C carefully chosen for range 0 to 100
-		axis.setC(-3.3);
-		axis.setD(7.7);
-		assertEquals(2.2, axis.a(), 0);
-		assertEquals(105.5, axis.b(), 0);
-		assertEquals(-3.3, axis.c(), 0);
-		assertEquals(7.7, axis.d(), 0);
+		axis.setA(2);
+		axis.setB(3);
+		axis.setC(5);
+		axis.setD(7);
+		assertEquals(2, axis.a(), 0);
+		assertEquals(3, axis.b(), 0);
+		assertEquals(5, axis.c(), 0);
+		assertEquals(7, axis.d(), 0);
 
 		for (int i = 0; i < 100; i++) {
-			assertEquals(axis.rawValue(axis.calibratedValue(i)), i, 0.0001);
+			assertEquals(Double.NaN, axis.rawValue(axis.calibratedValue(i)), 0);
 		}
 	}
 
 	@Test
 	public void testCopy() {
-		final InverseRodbardAxis axis =
-			new InverseRodbardAxis(Axes.Z, "lp", 1, 2, 3, 4);
-		final InverseRodbardAxis copy = axis.copy();
+		final GammaVariateAxis axis =
+			new GammaVariateAxis(Axes.Z, "lp", 1, 2, 3, 4);
+		final GammaVariateAxis copy = axis.copy();
 		assertNotSame(axis, copy);
 		assertEquals(axis, copy);
 		assertEquals(axis.hashCode(), copy.hashCode());
 	}
 
-	private double calValue(final double raw, final InverseRodbardAxis axis) {
-		return axis.a() *
-			Math.pow(((raw - axis.b()) / (axis.c() - raw)), (1 / axis.d()));
+	private double calValue(final double raw, final GammaVariateAxis axis) {
+		return axis.a() * Math.pow((raw - axis.b()), axis.c()) *
+			Math.exp(-(raw - axis.b()) / axis.d());
 	}
 }

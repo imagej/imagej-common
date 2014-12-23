@@ -31,52 +31,36 @@
  * #L%
  */
 
-package net.imglib2.meta.axis;
+package net.imagej.axis;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import net.imglib2.meta.AbstractMetaTest;
-import net.imglib2.meta.Axes;
 
 import org.junit.Test;
 
 /**
- * Tests {@link ExponentialAxis}.
+ * Tests {@link GaussianAxis}.
  * 
  * @author Barry DeZonia
  */
-public class ExponentialAxisTest extends AbstractMetaTest {
+public class GaussianAxisTest extends AbstractAxisTest {
 
 	@Test
-	public void testDefaultCtor() {
-		final ExponentialAxis axis = new ExponentialAxis();
+	public void testOtherCtor() {
+		final GaussianAxis axis = new GaussianAxis(Axes.Z, "lp", 4, 3, 2, 1);
 
-		assertUnknown(axis);
-		assertNull(axis.unit());
-		assertEquals(0, axis.a(), 0);
-		assertEquals(1, axis.b(), 0);
-		assertEquals(0, axis.c(), 0);
+		assertEquals(Axes.Z, axis.type());
+		assertEquals("lp", axis.unit());
+		assertEquals(4, axis.a(), 0);
+		assertEquals(3, axis.b(), 0);
+		assertEquals(2, axis.c(), 0);
 		assertEquals(1, axis.d(), 0);
 		assertEquals(calValue(4, axis), axis.calibratedValue(4), 0);
 	}
 
 	@Test
-	public void testOtherCtor() {
-		final ExponentialAxis axis = new ExponentialAxis(Axes.Z, "lp", 1, 2, 3, 4);
-
-		assertEquals(Axes.Z, axis.type());
-		assertEquals("lp", axis.unit());
-		assertEquals(1, axis.a(), 0);
-		assertEquals(2, axis.b(), 0);
-		assertEquals(3, axis.c(), 0);
-		assertEquals(4, axis.d(), 0);
-		assertEquals(calValue(4, axis), axis.calibratedValue(4), 0);
-	}
-
-	@Test
 	public void testOtherStuff() {
-		final ExponentialAxis axis = new ExponentialAxis();
+		final GaussianAxis axis = new GaussianAxis(Axes.Z, "lp", 1, 2, 3, 4);
 
 		axis.setA(2);
 		axis.setB(3);
@@ -88,20 +72,23 @@ public class ExponentialAxisTest extends AbstractMetaTest {
 		assertEquals(7, axis.d(), 0);
 
 		for (int i = 0; i < 100; i++) {
-			assertEquals(axis.rawValue(axis.calibratedValue(i)), i, 0.000001);
+			assertEquals(Double.NaN, axis.rawValue(axis.calibratedValue(i)), 0);
 		}
 	}
 
 	@Test
 	public void testCopy() {
-		final ExponentialAxis axis = new ExponentialAxis(Axes.Z, "lp", 1, 2, 3, 4);
-		final ExponentialAxis copy = axis.copy();
+		final GaussianAxis axis = new GaussianAxis(Axes.Z, "lp", 1, 2, 3, 4);
+		final GaussianAxis copy = axis.copy();
 		assertNotSame(axis, copy);
 		assertEquals(axis, copy);
 		assertEquals(axis.hashCode(), copy.hashCode());
 	}
 
-	private double calValue(final double raw, final ExponentialAxis axis) {
-		return axis.a() + axis.b() * (Math.exp(axis.c() + (axis.d() * raw)));
+	private double calValue(final double raw, final GaussianAxis axis) {
+		return axis.a() +
+			(axis.b() - axis.a()) *
+			Math
+				.exp(-(raw - axis.c()) * (raw - axis.c()) / (2 * axis.d() * axis.d()));
 	}
 }

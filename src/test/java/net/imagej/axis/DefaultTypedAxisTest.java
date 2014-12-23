@@ -31,66 +31,31 @@
  * #L%
  */
 
-package net.imglib2.meta.axis;
+package net.imagej.axis;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
-import net.imglib2.meta.AbstractMetaTest;
-import net.imglib2.meta.Axes;
 
 import org.junit.Test;
 
 /**
- * Tests {@link ExponentialRecoveryAxis}.
+ * Tests {@link DefaultTypedAxis}.
  * 
  * @author Barry DeZonia
  */
-public class ExponentialRecoveryAxisTest extends AbstractMetaTest {
+public class DefaultTypedAxisTest extends AbstractAxisTest {
+
+	private DefaultTypedAxis axis;
 
 	@Test
-	public void testCtor() {
-		final ExponentialRecoveryAxis axis =
-			new ExponentialRecoveryAxis(Axes.X, "km", 4, 3, 2, 1);
-
-		assertEquals(Axes.X, axis.type());
-		assertEquals("km", axis.unit());
-		assertEquals(4, axis.a(), 0);
-		assertEquals(3, axis.b(), 0);
-		assertEquals(2, axis.c(), 0);
-		assertEquals(1, axis.d(), 0);
-		assertEquals(calValue(4, axis), axis.calibratedValue(4), 0);
+	public void test1() {
+		axis = new DefaultTypedAxis();
+		assertUnknown(axis);
 	}
 
 	@Test
-	public void testOtherStuff() {
-		final LogLinearAxis axis = new LogLinearAxis();
-
-		axis.setA(2);
-		axis.setB(3);
-		axis.setC(5);
-		axis.setD(7);
-		assertEquals(2, axis.a(), 0);
-		assertEquals(3, axis.b(), 0);
-		assertEquals(5, axis.c(), 0);
-		assertEquals(7, axis.d(), 0);
-
-		for (int i = 0; i < 100; i++) {
-			assertEquals(axis.rawValue(axis.calibratedValue(i)), i, 0.000001);
-		}
+	public void test2() {
+		axis = new DefaultTypedAxis(Axes.CHANNEL);
+		assertEquals(Axes.CHANNEL, axis.type());
 	}
 
-	@Test
-	public void testCopy() {
-		final ExponentialRecoveryAxis axis =
-			new ExponentialRecoveryAxis(Axes.X, "km", 4, 3, 2, 1);
-		final ExponentialRecoveryAxis copy = axis.copy();
-		assertNotSame(axis, copy);
-		assertEquals(axis, copy);
-		assertEquals(axis.hashCode(), copy.hashCode());
-	}
-
-	private double calValue(final double raw, final ExponentialRecoveryAxis axis)
-	{
-		return axis.a() + axis.b() * (1 - Math.exp(axis.c() + (axis.d() * raw)));
-	}
 }

@@ -31,66 +31,43 @@
  * #L%
  */
 
-package net.imglib2.meta.axis;
+package net.imagej.axis;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
-import net.imglib2.meta.AbstractMetaTest;
-import net.imglib2.meta.Axes;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
 /**
- * Tests {@link GaussianAxis}.
+ * Tests {@link IdentityAxis}.
  * 
  * @author Barry DeZonia
  */
-public class GaussianAxisTest extends AbstractMetaTest {
+public class IdentityAxisTest extends AbstractAxisTest {
 
 	@Test
-	public void testOtherCtor() {
-		final GaussianAxis axis = new GaussianAxis(Axes.Z, "lp", 4, 3, 2, 1);
-
-		assertEquals(Axes.Z, axis.type());
-		assertEquals("lp", axis.unit());
-		assertEquals(4, axis.a(), 0);
-		assertEquals(3, axis.b(), 0);
-		assertEquals(2, axis.c(), 0);
-		assertEquals(1, axis.d(), 0);
-		assertEquals(calValue(4, axis), axis.calibratedValue(4), 0);
-	}
-
-	@Test
-	public void testOtherStuff() {
-		final GaussianAxis axis = new GaussianAxis(Axes.Z, "lp", 1, 2, 3, 4);
-
-		axis.setA(2);
-		axis.setB(3);
-		axis.setC(5);
-		axis.setD(7);
-		assertEquals(2, axis.a(), 0);
-		assertEquals(3, axis.b(), 0);
-		assertEquals(5, axis.c(), 0);
-		assertEquals(7, axis.d(), 0);
-
-		for (int i = 0; i < 100; i++) {
-			assertEquals(Double.NaN, axis.rawValue(axis.calibratedValue(i)), 0);
-		}
+	public void testVarious() {
+		IdentityAxis axis = new IdentityAxis();
+		assertUnknown(axis);
+		axis = new IdentityAxis(Axes.Y);
+		assertEquals(Axes.Y, axis.type());
+		assertNull(axis.unit());
+		axis.setUnit("BAMBALOOIE");
+		assertEquals("BAMBALOOIE", axis.unit());
+		axis.setType(Axes.CHANNEL);
+		assertEquals(Axes.CHANNEL, axis.type());
+		assertEquals(5, axis.calibratedValue(5), 0);
+		assertEquals(5, axis.rawValue(5), 0);
 	}
 
 	@Test
 	public void testCopy() {
-		final GaussianAxis axis = new GaussianAxis(Axes.Z, "lp", 1, 2, 3, 4);
-		final GaussianAxis copy = axis.copy();
+		final IdentityAxis axis = new IdentityAxis(Axes.Z);
+		final IdentityAxis copy = axis.copy();
 		assertNotSame(axis, copy);
 		assertEquals(axis, copy);
 		assertEquals(axis.hashCode(), copy.hashCode());
 	}
 
-	private double calValue(final double raw, final GaussianAxis axis) {
-		return axis.a() +
-			(axis.b() - axis.a()) *
-			Math
-				.exp(-(raw - axis.c()) * (raw - axis.c()) / (2 * axis.d() * axis.d()));
-	}
 }
