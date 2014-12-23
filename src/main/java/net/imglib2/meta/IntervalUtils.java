@@ -41,6 +41,7 @@ import net.imglib2.RealInterval;
  * Utility methods for working with {@link Interval} and {@link RealInterval}.
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imglib2.util.Intervals} instead.
  */
 @Deprecated
 public final class IntervalUtils {
@@ -51,7 +52,11 @@ public final class IntervalUtils {
 
 	/**
 	 * Gets the dimensions of a {@link Dimensions}.
+	 * 
+	 * @deprecated Use {@link net.imglib2.util.Intervals#dimensionsAsLongArray}
+	 *             instead.
 	 */
+	@Deprecated
 	public static long[] getDims(final Dimensions dimensions) {
 		final long[] dims = new long[dimensions.numDimensions()];
 		dimensions.dimensions(dims);
