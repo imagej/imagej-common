@@ -65,12 +65,12 @@ import net.imglib2.meta.Axes;
 import net.imglib2.meta.AxisType;
 import net.imglib2.meta.CalibratedAxis;
 import net.imglib2.meta.ImgPlus;
-import net.imglib2.meta.IntervalUtils;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.Type;
 import net.imglib2.type.numeric.IntegerType;
 import net.imglib2.type.numeric.NumericType;
 import net.imglib2.type.numeric.RealType;
+import net.imglib2.util.Intervals;
 
 import org.scijava.Context;
 import org.scijava.log.LogService;
@@ -319,7 +319,7 @@ public class DefaultDataset extends AbstractData implements Dataset {
 		final ImgFactory factory = getImgPlus().factory();
 		@SuppressWarnings("unchecked")
 		final Img<? extends RealType<?>> newImg =
-			factory.create(IntervalUtils.getDims(other), other.getType());
+			factory.create(Intervals.dimensionsAsLongArray(other), other.getType());
 
 		// copy the data into the new img
 		copyDataValues(other.getImgPlus(), newImg);

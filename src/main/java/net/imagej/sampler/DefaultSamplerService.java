@@ -47,8 +47,8 @@ import net.imglib2.meta.Axes;
 import net.imglib2.meta.AxisType;
 import net.imglib2.meta.CalibratedAxis;
 import net.imglib2.meta.ImgPlus;
-import net.imglib2.meta.IntervalUtils;
 import net.imglib2.type.numeric.RealType;
+import net.imglib2.util.Intervals;
 
 import org.scijava.display.DisplayService;
 import org.scijava.plugin.Parameter;
@@ -219,8 +219,8 @@ public class DefaultSamplerService extends AbstractService implements
 		// TODO - remove evil casts
 		final Dataset input = (Dataset) def.getDisplay().getActiveView().getData();
 		final Dataset output = (Dataset) outputImage.getActiveView().getData();
-		final long[] inputDims = IntervalUtils.getDims(input);
-		final long[] outputDims = IntervalUtils.getDims(output);
+		final long[] inputDims = Intervals.dimensionsAsLongArray(input);
+		final long[] outputDims = Intervals.dimensionsAsLongArray(output);
 		final RandomAccess<? extends RealType<?>> inputAccessor =
 			input.getImgPlus().randomAccess();
 		final RandomAccess<? extends RealType<?>> outputAccessor =
