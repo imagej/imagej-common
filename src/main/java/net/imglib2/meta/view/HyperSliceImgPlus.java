@@ -57,6 +57,7 @@ import net.imglib2.view.Views;
  * 
  * @author Jean-Yves Tinevez <jeanyves.tinevez@gmail.com>
  * @author Christian Dietz <christian.dietz@uni-konstanz.de>
+ * @deprecated No replacement (yet!).
  */
 @Deprecated
 public class HyperSliceImgPlus<T extends Type<T>> extends ImgPlus<T> {

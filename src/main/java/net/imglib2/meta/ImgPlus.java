@@ -56,6 +56,7 @@ import net.imglib2.meta.axis.LinearAxis;
  * Metadata includes name, dimensional axes and calibration information.
  * 
  * @author Curtis Rueden
+ * @deprecated No replacement (yet!).
  */
 @Deprecated
 public class ImgPlus<T> extends AbstractCalibratedRealInterval<CalibratedAxis>

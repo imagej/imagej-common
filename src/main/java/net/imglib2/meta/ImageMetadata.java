@@ -44,6 +44,7 @@ import net.imglib2.img.Img;
  * @author Stephan Preibisch
  * @author Stephan Saalfeld
  * @author Lee Kamentsky
+ * @deprecated No replacement (yet!).
  */
 @Deprecated
 public interface ImageMetadata {

@@ -38,6 +38,7 @@ package net.imglib2.meta;
  * 
  * @author Curtis Rueden
  * @see ImgPlus
+ * @deprecated No replacement (yet!).
  */
 @Deprecated
 public interface ImgPlusMetadata extends Named, Sourced,

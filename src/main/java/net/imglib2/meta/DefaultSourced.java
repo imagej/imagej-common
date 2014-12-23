@@ -37,6 +37,7 @@ package net.imglib2.meta;
  * A simple, default implementation of {@link Sourced}.
  * 
  * @author Christian Dietz (University of Konstanz)
+ * @deprecated No replacement.
  */
 @Deprecated
 public class DefaultSourced implements Sourced {

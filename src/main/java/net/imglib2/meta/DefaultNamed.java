@@ -37,6 +37,7 @@ package net.imglib2.meta;
  * A simple, default implementation of {@link Named}.
  * 
  * @author Martin Horn (University of Konstanz)
+ * @deprecated No replacement.
  */
 @Deprecated
 public class DefaultNamed implements Named {
