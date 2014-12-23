@@ -39,6 +39,7 @@ package net.imglib2.meta;
  * @author Stephan Preibisch
  * @author Stephan Saalfeld
  * @author Lee Kamentsky
+ * @deprecated Use {@link org.scijava.Named} instead.
  */
 @Deprecated
 public interface Named {
