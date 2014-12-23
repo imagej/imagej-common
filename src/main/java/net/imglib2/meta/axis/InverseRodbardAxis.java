@@ -41,6 +41,7 @@ import net.imglib2.meta.CalibratedAxis;
  * equation {@code y = a*((x-b)/(c-x))^(1/d)}.
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imagej.axis.InverseRodbardAxis} instead.
  */
 @Deprecated
 public class InverseRodbardAxis extends Variable4Axis {

@@ -39,6 +39,7 @@ package net.imglib2.meta;
  * @author Curtis Rueden
  * @author Barry DeZonia
  * @see TypedAxis
+ * @deprecated Use {@link net.imagej.axis.CalibratedAxis} instead.
  */
 @Deprecated
 public interface CalibratedAxis extends TypedAxis {

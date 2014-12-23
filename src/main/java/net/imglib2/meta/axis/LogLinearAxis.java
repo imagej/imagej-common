@@ -42,6 +42,7 @@ import net.imglib2.meta.CalibratedAxis;
  * equation {@code y = a + b * ln(c + d*x)}.
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imagej.axis.LogLinearAxis} instead.
  */
 @Deprecated
 public class LogLinearAxis extends Variable4Axis {

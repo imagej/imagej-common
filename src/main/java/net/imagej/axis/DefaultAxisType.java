@@ -31,54 +31,72 @@
  * #L%
  */
 
-package net.imglib2.meta.axis;
+package net.imagej.axis;
 
-import net.imglib2.meta.Axes;
-import net.imglib2.meta.AxisType;
-import net.imglib2.meta.CalibratedAxis;
+import java.io.Serializable;
 
 /**
- * ExponentialAxis is a {@link CalibratedAxis } that scales raw values by the
- * equation {@code y = a + b * exp(c + d*x)}.
+ * Default {@link AxisType} implementation.
  * 
- * @author Barry DeZonia
- * @deprecated Use {@link net.imagej.axis.ExponentialAxis} instead.
+ * @see Axes
+ * @author Mark Hiner
  */
-@Deprecated
-public class ExponentialAxis extends Variable4Axis {
+public class DefaultAxisType implements AxisType, Serializable,
+	Comparable<AxisType>
+{
 
-	// -- constructors --
+	// -- Fields --
 
-	public ExponentialAxis() {
-		this(Axes.unknown(), null, 0, 1, 0, 1);
+	private final String label;
+	private final boolean spatial;
+
+	// -- Constructors --
+
+	/**
+	 * Creates a non-spatial AxisType with the given label
+	 */
+	public DefaultAxisType(final String label) {
+		this(label, false);
 	}
 
-	public ExponentialAxis(final AxisType type, final String unit,
-		final double a, final double b, final double c, final double d)
-	{
-		super(type, unit, a, b, c, d);
+	/**
+	 * Creates a new AxisType with the given label and spatial status.
+	 */
+	public DefaultAxisType(final String label, final boolean spatial) {
+		this.label = label;
+		this.spatial = spatial;
 	}
 
-	// -- CalibratedAxis methods --
+	// -- AxisType methods --
 
 	@Override
-	public double calibratedValue(final double rawValue) {
-		return a() + b() * Math.exp(c() + d() * rawValue);
+	public String getLabel() {
+		return label;
+	}
+
+	// -- Deprecated AxisType methods --
+
+	@Override
+	public boolean isXY() {
+		return (this == Axes.X || this == Axes.Y);
 	}
 
 	@Override
-	public double rawValue(final double calibratedValue) {
-		return (Math.log((calibratedValue - a()) / b()) - c()) / d();
+	public boolean isSpatial() {
+		return spatial;
 	}
+
+	// -- Comparable methods --
 
 	@Override
-	public String generalEquation() {
-		return "y = a + b * exp(c + d*x)";
+	public int compareTo(AxisType other) {
+		return getLabel().compareTo(other.getLabel());
 	}
+
+	// -- Object methods --
 
 	@Override
-	public ExponentialAxis copy() {
-		return new ExponentialAxis(type(), unit(), a(), b(), c(), d());
+	public String toString() {
+		return label;
 	}
-
 }

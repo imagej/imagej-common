@@ -37,6 +37,7 @@ package net.imglib2.meta;
  * Abstract base class for {@link CalibratedAxis}.
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imagej.axis.AbstractCalibratedAxis} instead.
  */
 @Deprecated
 public abstract class AbstractCalibratedAxis extends DefaultTypedAxis implements

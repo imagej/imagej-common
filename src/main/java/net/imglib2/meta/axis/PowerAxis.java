@@ -42,6 +42,7 @@ import net.imglib2.meta.CalibratedAxis;
  * y = a + b*x^c.
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imagej.axis.PowerAxis} instead.
  */
 @Deprecated
 public class PowerAxis extends Variable3Axis {

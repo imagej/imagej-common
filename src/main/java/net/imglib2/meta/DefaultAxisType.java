@@ -40,6 +40,7 @@ import java.io.Serializable;
  * 
  * @see Axes
  * @author Mark Hiner
+ * @deprecated Use {@link net.imagej.axis.DefaultAxisType} instead.
  */
 @Deprecated
 public class DefaultAxisType implements AxisType, Serializable,

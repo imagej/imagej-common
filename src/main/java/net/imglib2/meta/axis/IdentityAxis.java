@@ -42,6 +42,7 @@ import net.imglib2.meta.CalibratedAxis;
  * the same.
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imagej.axis.IdentityAxis} instead.
  */
 @Deprecated
 public class IdentityAxis extends VariableAxis {

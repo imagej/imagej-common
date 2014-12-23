@@ -41,6 +41,7 @@ import net.imglib2.meta.CalibratedAxis;
  * the equation {@code y = a + b * (1 - exp(c + d*x))}.
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imagej.axis.ExponentialRecoveryAxis} instead.
  */
 @Deprecated
 public class ExponentialRecoveryAxis extends Variable4Axis {

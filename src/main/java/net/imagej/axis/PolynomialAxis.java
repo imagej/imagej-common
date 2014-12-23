@@ -1,12 +1,10 @@
 /*
  * #%L
- * ImgLib2: a general-purpose, multidimensional image processing library.
+ * ImageJ software for multidimensional image processing and analysis.
  * %%
- * Copyright (C) 2009 - 2014 Stephan Preibisch, Tobias Pietzsch, Barry DeZonia,
- * Stephan Saalfeld, Albert Cardona, Curtis Rueden, Christian Dietz, Jean-Yves
- * Tinevez, Johannes Schindelin, Lee Kamentsky, Larry Lindsey, Grant Harris,
- * Mark Hiner, Aivar Grislis, Martin Horn, Nick Perry, Michael Zinsmaier,
- * Steffen Jaensch, Jan Funke, Mark Longair, and Dimiter Prodanov.
+ * Copyright (C) 2009 - 2014 Board of Regents of the University of
+ * Wisconsin-Madison, Broad Institute of MIT and Harvard, and Max Planck
+ * Institute of Molecular Cell Biology and Genetics.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,11 +29,8 @@
  * #L%
  */
 
-package net.imglib2.meta.axis;
+package net.imagej.axis;
 
-import net.imglib2.meta.Axes;
-import net.imglib2.meta.AxisType;
-import net.imglib2.meta.CalibratedAxis;
 
 /**
  * PolynomialAxis is a {@link CalibratedAxis} that scale nonlinearly as a
@@ -43,9 +38,7 @@ import net.imglib2.meta.CalibratedAxis;
  * equation {@code y = a + b*x + c*x^2 + ...}.
  * 
  * @author Barry DeZonia
- * @deprecated Use {@link net.imagej.axis.PolynomialAxis} instead.
  */
-@Deprecated
 public class PolynomialAxis extends VariableAxis {
 
 	// -- constants --

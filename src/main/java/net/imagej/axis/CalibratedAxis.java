@@ -31,54 +31,57 @@
  * #L%
  */
 
-package net.imglib2.meta.axis;
-
-import net.imglib2.meta.Axes;
-import net.imglib2.meta.AxisType;
-import net.imglib2.meta.CalibratedAxis;
+package net.imagej.axis;
 
 /**
- * ExponentialAxis is a {@link CalibratedAxis } that scales raw values by the
- * equation {@code y = a + b * exp(c + d*x)}.
+ * An axis with an associated {@link AxisType}, unit and calibration.
  * 
+ * @author Curtis Rueden
  * @author Barry DeZonia
- * @deprecated Use {@link net.imagej.axis.ExponentialAxis} instead.
+ * @see TypedAxis
  */
-@Deprecated
-public class ExponentialAxis extends Variable4Axis {
+public interface CalibratedAxis extends TypedAxis {
 
-	// -- constructors --
+	/** Gets the dimension's unit. */
+	String unit();
 
-	public ExponentialAxis() {
-		this(Axes.unknown(), null, 0, 1, 0, 1);
-	}
+	/** Sets the dimension's unit. */
+	void setUnit(String unit);
 
-	public ExponentialAxis(final AxisType type, final String unit,
-		final double a, final double b, final double c, final double d)
-	{
-		super(type, unit, a, b, c, d);
-	}
+	/** Returns a calibrated value given a raw position along the axis. */
+	double calibratedValue(double rawValue);
 
-	// -- CalibratedAxis methods --
+	/**
+	 * Returns a raw value given a calibrated position along the axis. Returns
+	 * Double.NaN if the calibrated value maps to more than one point along axis.
+	 */
+	double rawValue(double calibratedValue);
 
-	@Override
-	public double calibratedValue(final double rawValue) {
-		return a() + b() * Math.exp(c() + d() * rawValue);
-	}
+	/**
+	 * Gets the general equation representing values along this axis; for
+	 * instance: {@code y = m*x + b}.
+	 */
+	String generalEquation();
 
-	@Override
-	public double rawValue(final double calibratedValue) {
-		return (Math.log((calibratedValue - a()) / b()) - c()) / d();
-	}
+	/**
+	 * Gets the particular equation representing values along this axis; for
+	 * instance: {@code y = (14)*x + (4)}.
+	 */
+	String particularEquation();
 
-	@Override
-	public String generalEquation() {
-		return "y = a + b * exp(c + d*x)";
-	}
+	/**
+	 * Returns the average scale between two raw value coordinates along an axis.
+	 * <p>
+	 * In the limit this is actually the derivative at a point. For linear axes
+	 * this value never varies, and there is no error. For nonlinear axes this
+	 * returns the linear scale between the points and thus may be inaccurate.
+	 * Calls to this method may point out areas of code that should be generalized
+	 * to work with nonlinear axes.
+	 * </p>
+	 */
+	double averageScale(double rawValue1, double rawValue2);
 
-	@Override
-	public ExponentialAxis copy() {
-		return new ExponentialAxis(type(), unit(), a(), b(), c(), d());
-	}
+	/** Creates an exact duplicate of this axis. */
+	CalibratedAxis copy();
 
 }

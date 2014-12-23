@@ -41,6 +41,7 @@ import net.imglib2.meta.CalibratedAxis;
  * equation {@code y = a + (b-a)*exp(-(x-c)*(x-c)/(2*d*d))}.
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imagej.axis.GaussianAxis} instead.
  */
 @Deprecated
 public class GaussianAxis extends Variable4Axis {

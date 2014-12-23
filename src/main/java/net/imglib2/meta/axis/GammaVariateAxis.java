@@ -41,6 +41,7 @@ import net.imglib2.meta.CalibratedAxis;
  * equation {@code y = a * (x-b)^c*exp(-(x-b)/d)}.
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imagej.axis.GammaVariateAxis} instead.
  */
 @Deprecated
 public class GammaVariateAxis extends Variable4Axis {

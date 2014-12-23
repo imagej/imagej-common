@@ -31,54 +31,23 @@
  * #L%
  */
 
-package net.imglib2.meta.axis;
+package net.imagej.axis;
 
-import net.imglib2.meta.Axes;
-import net.imglib2.meta.AxisType;
-import net.imglib2.meta.CalibratedAxis;
+import net.imagej.space.AnnotatedSpace;
+import net.imglib2.EuclideanSpace;
 
 /**
- * ExponentialAxis is a {@link CalibratedAxis } that scales raw values by the
- * equation {@code y = a + b * exp(c + d*x)}.
+ * A dimensional axis of an {@link AnnotatedSpace}.
+ * <p>
+ * This interface does not define any explicit API, but serves as an extension
+ * point for annotated {@link EuclideanSpace}s: subtypes of {@code Axis} can be
+ * defined to include concepts such as axis names, labels and calibrations, and
+ * then assigned to the axes of an {@link AnnotatedSpace}.
+ * </p>
  * 
- * @author Barry DeZonia
- * @deprecated Use {@link net.imagej.axis.ExponentialAxis} instead.
+ * @author Curtis Rueden
  */
-@Deprecated
-public class ExponentialAxis extends Variable4Axis {
-
-	// -- constructors --
-
-	public ExponentialAxis() {
-		this(Axes.unknown(), null, 0, 1, 0, 1);
-	}
-
-	public ExponentialAxis(final AxisType type, final String unit,
-		final double a, final double b, final double c, final double d)
-	{
-		super(type, unit, a, b, c, d);
-	}
-
-	// -- CalibratedAxis methods --
-
-	@Override
-	public double calibratedValue(final double rawValue) {
-		return a() + b() * Math.exp(c() + d() * rawValue);
-	}
-
-	@Override
-	public double rawValue(final double calibratedValue) {
-		return (Math.log((calibratedValue - a()) / b()) - c()) / d();
-	}
-
-	@Override
-	public String generalEquation() {
-		return "y = a + b * exp(c + d*x)";
-	}
-
-	@Override
-	public ExponentialAxis copy() {
-		return new ExponentialAxis(type(), unit(), a(), b(), c(), d());
-	}
-
+public interface Axis
+{
+	// NB: Marker interface.
 }

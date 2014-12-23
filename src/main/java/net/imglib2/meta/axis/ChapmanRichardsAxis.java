@@ -40,6 +40,7 @@ import net.imglib2.meta.AxisType;
  * based on ImageJ 1.x's CurveFitter algorithm.
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imagej.axis.ChapmanRichardsAxis} instead.
  */
 @Deprecated
 public class ChapmanRichardsAxis extends Variable3Axis {

@@ -39,6 +39,7 @@ import net.imglib2.meta.AxisType;
  * Abstract superclass for axes with four variables.
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imagej.axis.Variable4Axis} instead.
  */
 @Deprecated
 public abstract class Variable4Axis extends Variable3Axis {

@@ -1,12 +1,10 @@
 /*
  * #%L
- * ImgLib2: a general-purpose, multidimensional image processing library.
+ * ImageJ software for multidimensional image processing and analysis.
  * %%
- * Copyright (C) 2009 - 2014 Stephan Preibisch, Tobias Pietzsch, Barry DeZonia,
- * Stephan Saalfeld, Albert Cardona, Curtis Rueden, Christian Dietz, Jean-Yves
- * Tinevez, Johannes Schindelin, Lee Kamentsky, Larry Lindsey, Grant Harris,
- * Mark Hiner, Aivar Grislis, Martin Horn, Nick Perry, Michael Zinsmaier,
- * Steffen Jaensch, Jan Funke, Mark Longair, and Dimiter Prodanov.
+ * Copyright (C) 2009 - 2014 Board of Regents of the University of
+ * Wisconsin-Madison, Broad Institute of MIT and Harvard, and Max Planck
+ * Institute of Molecular Cell Biology and Genetics.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,40 +29,35 @@
  * #L%
  */
 
-package net.imglib2.meta.axis;
+package net.imagej.axis;
 
-import net.imglib2.meta.AxisType;
 
 /**
- * Abstract superclass for axes with two variables.
+ * Abstract superclass for axes with one variable.
  * 
  * @author Barry DeZonia
- * @deprecated Use {@link net.imagej.axis.Variable2Axis} instead.
  */
-@Deprecated
-public abstract class Variable2Axis extends Variable1Axis {
+public abstract class Variable1Axis extends VariableAxis {
 
-	public Variable2Axis(final AxisType type) {
+	public Variable1Axis(final AxisType type) {
 		super(type);
 	}
 
-	public Variable2Axis(final AxisType type, final String unit, final double a,
-		final double b)
-	{
-		super(type, unit, a);
-		setB(b);
+	public Variable1Axis(final AxisType type, final String unit, final double a) {
+		super(type, unit);
+		setA(a);
 	}
 
 	// -- getters --
 
-	public double b() {
-		return get("b");
+	public double a() {
+		return get("a");
 	}
 
 	// -- setters --
 
-	public void setB(final double b) {
-		set("b", b);
+	public void setA(final double a) {
+		set("a", a);
 	}
 
 }

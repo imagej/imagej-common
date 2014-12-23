@@ -31,54 +31,65 @@
  * #L%
  */
 
-package net.imglib2.meta.axis;
-
-import net.imglib2.meta.Axes;
-import net.imglib2.meta.AxisType;
-import net.imglib2.meta.CalibratedAxis;
+package net.imagej.axis;
 
 /**
- * ExponentialAxis is a {@link CalibratedAxis } that scales raw values by the
- * equation {@code y = a + b * exp(c + d*x)}.
+ * Abstract base class for {@link CalibratedAxis}.
  * 
  * @author Barry DeZonia
- * @deprecated Use {@link net.imagej.axis.ExponentialAxis} instead.
  */
-@Deprecated
-public class ExponentialAxis extends Variable4Axis {
+public abstract class AbstractCalibratedAxis extends DefaultTypedAxis implements
+	CalibratedAxis
+{
 
-	// -- constructors --
+	private String unit;
 
-	public ExponentialAxis() {
-		this(Axes.unknown(), null, 0, 1, 0, 1);
+	public AbstractCalibratedAxis(final AxisType type) {
+		super(type);
 	}
 
-	public ExponentialAxis(final AxisType type, final String unit,
-		final double a, final double b, final double c, final double d)
-	{
-		super(type, unit, a, b, c, d);
+	public AbstractCalibratedAxis(final AxisType type, final String unit) {
+		super(type);
+		setUnit(unit);
 	}
 
 	// -- CalibratedAxis methods --
 
 	@Override
-	public double calibratedValue(final double rawValue) {
-		return a() + b() * Math.exp(c() + d() * rawValue);
+	public String unit() {
+		return unit;
 	}
 
 	@Override
-	public double rawValue(final double calibratedValue) {
-		return (Math.log((calibratedValue - a()) / b()) - c()) / d();
+	public void setUnit(final String unit) {
+		this.unit = unit;
 	}
 
 	@Override
-	public String generalEquation() {
-		return "y = a + b * exp(c + d*x)";
+	public double averageScale(final double rawValue1, final double rawValue2) {
+		return (calibratedValue(rawValue2) - calibratedValue(rawValue1)) /
+			(rawValue2 - rawValue1);
+	}
+
+	// -- Object methods --
+
+	@Override
+	public int hashCode() {
+		return hashString(this).hashCode();
 	}
 
 	@Override
-	public ExponentialAxis copy() {
-		return new ExponentialAxis(type(), unit(), a(), b(), c(), d());
+	public boolean equals(final Object o) {
+		if (!(o instanceof CalibratedAxis)) return false;
+		final CalibratedAxis other = (CalibratedAxis) o;
+		return hashString(this).equals(hashString(other));
+	}
+
+	// -- Helper methods --
+
+	/** Computes a likely-to-be-unique string for this axis. */
+	private String hashString(final CalibratedAxis axis) {
+		return axis.type() + "\n" + axis.unit() + "\n" + axis.particularEquation();
 	}
 
 }

@@ -39,6 +39,7 @@ import net.imglib2.meta.AxisType;
  * Abstract superclass for axes with one variable.
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imagej.axis.Variable1Axis} instead.
  */
 @Deprecated
 public abstract class Variable1Axis extends VariableAxis {

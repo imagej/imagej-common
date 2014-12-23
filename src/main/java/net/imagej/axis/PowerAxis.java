@@ -1,12 +1,10 @@
 /*
  * #%L
- * ImgLib2: a general-purpose, multidimensional image processing library.
+ * ImageJ software for multidimensional image processing and analysis.
  * %%
- * Copyright (C) 2009 - 2014 Stephan Preibisch, Tobias Pietzsch, Barry DeZonia,
- * Stephan Saalfeld, Albert Cardona, Curtis Rueden, Christian Dietz, Jean-Yves
- * Tinevez, Johannes Schindelin, Lee Kamentsky, Larry Lindsey, Grant Harris,
- * Mark Hiner, Aivar Grislis, Martin Horn, Nick Perry, Michael Zinsmaier,
- * Steffen Jaensch, Jan Funke, Mark Longair, and Dimiter Prodanov.
+ * Copyright (C) 2009 - 2014 Board of Regents of the University of
+ * Wisconsin-Madison, Broad Institute of MIT and Harvard, and Max Planck
+ * Institute of Molecular Cell Biology and Genetics.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,54 +29,53 @@
  * #L%
  */
 
-package net.imglib2.meta.axis;
+package net.imagej.axis;
 
-import net.imglib2.meta.Axes;
-import net.imglib2.meta.AxisType;
-import net.imglib2.meta.CalibratedAxis;
 
 /**
- * ExponentialAxis is a {@link CalibratedAxis } that scales raw values by the
- * equation {@code y = a + b * exp(c + d*x)}.
+ * PowerAxis is a {@link CalibratedAxis } that scales raw values by the equation
+ * y = a + b*x^c.
  * 
  * @author Barry DeZonia
- * @deprecated Use {@link net.imagej.axis.ExponentialAxis} instead.
  */
-@Deprecated
-public class ExponentialAxis extends Variable4Axis {
+public class PowerAxis extends Variable3Axis {
 
 	// -- constructors --
 
-	public ExponentialAxis() {
-		this(Axes.unknown(), null, 0, 1, 0, 1);
+	public PowerAxis(final double power) {
+		this(Axes.unknown(), power);
 	}
 
-	public ExponentialAxis(final AxisType type, final String unit,
-		final double a, final double b, final double c, final double d)
+	public PowerAxis(final AxisType type, final double power) {
+		this(type, null, 0, 1, power);
+	}
+
+	public PowerAxis(final AxisType type, final String unit, final double a,
+		final double b, final double c)
 	{
-		super(type, unit, a, b, c, d);
+		super(type, unit, a, b, c);
 	}
 
 	// -- CalibratedAxis methods --
 
 	@Override
 	public double calibratedValue(final double rawValue) {
-		return a() + b() * Math.exp(c() + d() * rawValue);
+		return a() + b() * Math.pow(rawValue, c());
 	}
 
 	@Override
 	public double rawValue(final double calibratedValue) {
-		return (Math.log((calibratedValue - a()) / b()) - c()) / d();
+		return Math.pow(((calibratedValue - a()) / b()), (1.0 / c()));
 	}
 
 	@Override
 	public String generalEquation() {
-		return "y = a + b * exp(c + d*x)";
+		return "y = a + b*x^c";
 	}
 
 	@Override
-	public ExponentialAxis copy() {
-		return new ExponentialAxis(type(), unit(), a(), b(), c(), d());
+	public PowerAxis copy() {
+		return new PowerAxis(type(), unit(), a(), b(), c());
 	}
 
 }

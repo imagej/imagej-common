@@ -40,6 +40,7 @@ import net.imglib2.Axis;
  * 
  * @author Curtis Rueden
  * @see TypedSpace
+ * @deprecated Use {@link net.imagej.axis.TypedAxis} instead.
  */
 @Deprecated
 public interface TypedAxis extends Axis {

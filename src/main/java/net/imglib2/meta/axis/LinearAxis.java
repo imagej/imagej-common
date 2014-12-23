@@ -42,6 +42,7 @@ import net.imglib2.meta.CalibratedAxis;
  * 
  * @author Barry DeZonia
  * @author Curtis Rueden
+ * @deprecated Use {@link net.imagej.axis.LinearAxis} instead.
  */
 @Deprecated
 public interface LinearAxis extends CalibratedAxis {

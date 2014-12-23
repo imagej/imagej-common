@@ -38,6 +38,7 @@ package net.imglib2.meta;
  * {@link TypedSpace}.
  * 
  * @author Curtis Rueden
+ * @deprecated Use {@link net.imagej.axis.AxisType} instead.
  */
 @Deprecated
 public interface AxisType {

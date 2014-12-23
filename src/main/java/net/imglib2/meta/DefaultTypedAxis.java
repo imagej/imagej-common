@@ -37,6 +37,7 @@ package net.imglib2.meta;
  * Simple, default {@link TypedAxis} implementation.
  * 
  * @author Curtis Rueden
+ * @deprecated Use {@link net.imagej.axis.DefaultTypedAxis} instead.
  */
 @Deprecated
 public class DefaultTypedAxis implements TypedAxis {

@@ -31,21 +31,19 @@
  * #L%
  */
 
-package net.imglib2.meta;
+package net.imagej.axis;
 
 import java.util.HashMap;
 
 /**
  * An extensible enumeration of dimensional {@link AxisType}s. Provides a core
  * set ({@link #X}, {@link #Y}, {@link #Z}, {@link #TIME} and {@link #CHANNEL})
- * of AxisTypes. The {@link #get} methods can be used to create new, custom
- * AxisTypes which will be cached for future use.
+ * of axis types. The {@link #get} methods can be used to create new, custom
+ * axis types which will be cached for future use.
  * 
  * @author Curtis Rueden
  * @author Mark Hiner
- * @deprecated Use {@link net.imagej.axis.Axes} instead.
  */
-@Deprecated
 public final class Axes {
 
 	// -- Constants --

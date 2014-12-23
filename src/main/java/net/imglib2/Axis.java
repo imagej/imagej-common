@@ -46,6 +46,7 @@ package net.imglib2;
  * </p>
  * 
  * @author Curtis Rueden
+ * @deprecated Use {@link net.imagej.axis.Axis} instead.
  */
 @Deprecated
 public interface Axis

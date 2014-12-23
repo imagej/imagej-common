@@ -41,6 +41,7 @@ import net.imglib2.meta.CalibratedAxis;
  * equation {@code y = a + (b-a) / (1 + (x/c)^d)}.
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imagej.axis.RodbardAxis} instead.
  */
 @Deprecated
 public class RodbardAxis extends Variable4Axis {

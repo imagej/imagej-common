@@ -1,12 +1,10 @@
 /*
  * #%L
- * ImgLib2: a general-purpose, multidimensional image processing library.
+ * ImageJ software for multidimensional image processing and analysis.
  * %%
- * Copyright (C) 2009 - 2014 Stephan Preibisch, Tobias Pietzsch, Barry DeZonia,
- * Stephan Saalfeld, Albert Cardona, Curtis Rueden, Christian Dietz, Jean-Yves
- * Tinevez, Johannes Schindelin, Lee Kamentsky, Larry Lindsey, Grant Harris,
- * Mark Hiner, Aivar Grislis, Martin Horn, Nick Perry, Michael Zinsmaier,
- * Steffen Jaensch, Jan Funke, Mark Longair, and Dimiter Prodanov.
+ * Copyright (C) 2009 - 2014 Board of Regents of the University of
+ * Wisconsin-Madison, Broad Institute of MIT and Harvard, and Max Planck
+ * Institute of Molecular Cell Biology and Genetics.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,40 +29,27 @@
  * #L%
  */
 
-package net.imglib2.meta.axis;
-
-import net.imglib2.meta.AxisType;
+package net.imagej.axis;
 
 /**
- * Abstract superclass for axes with two variables.
+ * A {@link CalibratedAxis} that scales coordinates along the axis in a linear
+ * fashion. Slope and intercept are configurable. Calibrated values calculated
+ * from equation {@code y = a + b *x}.
  * 
  * @author Barry DeZonia
- * @deprecated Use {@link net.imagej.axis.Variable2Axis} instead.
+ * @author Curtis Rueden
  */
-@Deprecated
-public abstract class Variable2Axis extends Variable1Axis {
+public interface LinearAxis extends CalibratedAxis {
 
-	public Variable2Axis(final AxisType type) {
-		super(type);
-	}
+	void setScale(double scale);
 
-	public Variable2Axis(final AxisType type, final String unit, final double a,
-		final double b)
-	{
-		super(type, unit, a);
-		setB(b);
-	}
+	double scale();
 
-	// -- getters --
+	void setOrigin(double origin);
 
-	public double b() {
-		return get("b");
-	}
+	double origin();
 
-	// -- setters --
-
-	public void setB(final double b) {
-		set("b", b);
-	}
+	@Override
+	LinearAxis copy();
 
 }
