@@ -31,12 +31,12 @@
 
 package net.imagej;
 
+import net.imagej.axis.CalibratedAxis;
+import net.imagej.interval.CalibratedRealInterval;
 import net.imagej.overlay.Overlay;
-import net.imglib2.meta.CalibratedAxis;
-import net.imglib2.meta.CalibratedRealInterval;
-import net.imglib2.meta.Named;
 
 import org.scijava.Contextual;
+import org.scijava.Named;
 
 /**
  * A data object is the superinterface for all types of N-dimensional data

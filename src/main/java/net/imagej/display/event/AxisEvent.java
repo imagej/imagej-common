@@ -31,8 +31,8 @@
 
 package net.imagej.display.event;
 
+import net.imagej.axis.AxisType;
 import net.imagej.display.ImageDisplay;
-import net.imglib2.meta.AxisType;
 
 /**
  * An event indicating that one of an {@link ImageDisplay}'s dimensional axes

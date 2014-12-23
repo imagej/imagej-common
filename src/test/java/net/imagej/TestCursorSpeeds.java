@@ -32,11 +32,11 @@
 package net.imagej;
 
 import static org.junit.Assert.assertTrue;
+import net.imagej.axis.Axes;
+import net.imagej.axis.AxisType;
 import net.imglib2.Cursor;
 import net.imglib2.RandomAccess;
 import net.imglib2.img.Img;
-import net.imglib2.meta.Axes;
-import net.imglib2.meta.AxisType;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.integer.UnsignedByteType;
 

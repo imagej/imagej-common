@@ -35,10 +35,10 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import net.imagej.axis.Axes;
+import net.imagej.axis.DefaultLinearAxis;
 import net.imglib2.RealLocalizable;
 import net.imglib2.RealPoint;
-import net.imglib2.meta.Axes;
-import net.imglib2.meta.axis.DefaultLinearAxis;
 import net.imglib2.roi.PolygonRegionOfInterest;
 
 import org.scijava.Context;

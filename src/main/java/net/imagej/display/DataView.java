@@ -36,8 +36,8 @@ import net.imagej.Dataset;
 import net.imagej.ImageJPlugin;
 import net.imagej.Position;
 import net.imagej.PositionableByAxis;
+import net.imagej.axis.AxisType;
 import net.imagej.overlay.Overlay;
-import net.imglib2.meta.AxisType;
 
 import org.scijava.Contextual;
 import org.scijava.plugin.Plugin;

@@ -36,7 +36,6 @@ import net.imglib2.Cursor;
 import net.imglib2.IterableInterval;
 import net.imglib2.img.Img;
 import net.imglib2.img.array.ArrayImgs;
-import net.imglib2.meta.ImgPlus;
 import net.imglib2.type.Type;
 import net.imglib2.util.Util;
 

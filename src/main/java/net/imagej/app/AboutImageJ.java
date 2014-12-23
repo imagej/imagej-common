@@ -49,8 +49,8 @@ import net.imagej.DatasetService;
 import net.imagej.DrawingTool;
 import net.imagej.render.RenderingService;
 import net.imagej.render.TextRenderer.TextJustification;
-import net.imglib2.meta.Axes;
-import net.imglib2.meta.AxisType;
+import net.imagej.axis.Axes;
+import net.imagej.axis.AxisType;
 
 import org.scijava.ItemIO;
 import org.scijava.app.App;

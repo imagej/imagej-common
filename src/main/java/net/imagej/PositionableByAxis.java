@@ -31,9 +31,9 @@
 
 package net.imagej;
 
+import net.imagej.axis.AxisType;
 import net.imglib2.Localizable;
 import net.imglib2.Positionable;
-import net.imglib2.meta.AxisType;
 
 /**
  * An element that is {@link Positionable} and {@link Localizable} in

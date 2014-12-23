@@ -35,8 +35,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.imagej.axis.Axes;
 import net.imglib2.RandomAccess;
-import net.imglib2.meta.Axes;
 import net.imglib2.type.numeric.RealType;
 
 import org.scijava.util.RealRect;

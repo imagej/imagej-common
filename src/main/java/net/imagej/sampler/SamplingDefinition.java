@@ -38,11 +38,11 @@ import java.util.List;
 import java.util.Map;
 
 import net.imagej.Data;
+import net.imagej.axis.Axes;
+import net.imagej.axis.AxisType;
+import net.imagej.axis.CalibratedAxis;
 import net.imagej.display.ImageDisplay;
-import net.imglib2.meta.Axes;
-import net.imglib2.meta.AxisType;
-import net.imglib2.meta.CalibratedAxis;
-import net.imglib2.meta.SpaceUtils;
+import net.imagej.space.SpaceUtils;
 
 /**
  * SamplingDefinitions define regions of space and are used by the

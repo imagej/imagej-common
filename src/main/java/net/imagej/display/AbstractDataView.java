@@ -37,11 +37,11 @@ import java.util.Map;
 import net.imagej.Data;
 import net.imagej.Extents;
 import net.imagej.Position;
+import net.imagej.axis.AxisType;
 import net.imagej.display.event.DataViewDeselectedEvent;
 import net.imagej.display.event.DataViewSelectedEvent;
 import net.imagej.display.event.DataViewSelectionEvent;
 import net.imglib2.Localizable;
-import net.imglib2.meta.AxisType;
 
 import org.scijava.AbstractContextual;
 import org.scijava.event.EventService;

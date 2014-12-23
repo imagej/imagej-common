@@ -34,6 +34,8 @@ package net.imagej.ui.viewer.image;
 import net.imagej.Data;
 import net.imagej.Dataset;
 import net.imagej.Position;
+import net.imagej.axis.Axes;
+import net.imagej.axis.AxisType;
 import net.imagej.display.DataView;
 import net.imagej.display.ImageDisplay;
 import net.imagej.display.ImageDisplayService;
@@ -43,8 +45,6 @@ import net.imagej.event.DatasetRestructuredEvent;
 import net.imagej.event.DatasetUpdatedEvent;
 import net.imglib2.img.Img;
 import net.imglib2.img.cell.AbstractCellImg;
-import net.imglib2.meta.Axes;
-import net.imglib2.meta.AxisType;
 
 import org.scijava.display.Display;
 import org.scijava.display.event.DisplayUpdatedEvent;

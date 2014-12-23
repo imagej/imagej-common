@@ -34,11 +34,10 @@ package net.imagej;
 import java.io.IOException;
 import java.util.List;
 
+import net.imagej.axis.AxisType;
 import net.imagej.display.ImageDisplay;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.ImgFactory;
-import net.imglib2.meta.AxisType;
-import net.imglib2.meta.ImgPlus;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 

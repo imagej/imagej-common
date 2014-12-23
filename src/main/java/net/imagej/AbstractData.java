@@ -36,16 +36,16 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import net.imagej.axis.Axes;
+import net.imagej.axis.AxisType;
+import net.imagej.axis.CalibratedAxis;
+import net.imagej.axis.DefaultLinearAxis;
 import net.imagej.event.DataCreatedEvent;
 import net.imagej.event.DataDeletedEvent;
+import net.imagej.interval.AbstractCalibratedRealInterval;
 import net.imagej.overlay.AbstractOverlay;
 import net.imagej.overlay.Overlay;
 import net.imglib2.RealInterval;
-import net.imglib2.meta.AbstractCalibratedRealInterval;
-import net.imglib2.meta.Axes;
-import net.imglib2.meta.AxisType;
-import net.imglib2.meta.CalibratedAxis;
-import net.imglib2.meta.axis.DefaultLinearAxis;
 
 import org.scijava.Context;
 import org.scijava.NullContextException;

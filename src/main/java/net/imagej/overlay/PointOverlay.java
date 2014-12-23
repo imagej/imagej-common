@@ -38,8 +38,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import net.imglib2.meta.Axes;
-import net.imglib2.meta.axis.DefaultLinearAxis;
+import net.imagej.axis.Axes;
+import net.imagej.axis.DefaultLinearAxis;
 import net.imglib2.roi.RectangleRegionOfInterest;
 
 import org.scijava.Context;

@@ -31,7 +31,7 @@
 
 package net.imagej.widget;
 
-import net.imglib2.meta.TypedAxis;
+import net.imagej.axis.TypedAxis;
 
 import org.scijava.widget.InputWidget;
 

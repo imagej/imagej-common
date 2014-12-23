@@ -31,13 +31,13 @@
 
 package net.imagej;
 
+import net.imagej.axis.Axes;
 import net.imagej.render.RenderingService;
 import net.imagej.render.TextRenderer;
 import net.imagej.render.TextRenderer.FontFamily;
 import net.imagej.render.TextRenderer.FontStyle;
 import net.imagej.render.TextRenderer.TextJustification;
 import net.imglib2.RandomAccess;
-import net.imglib2.meta.Axes;
 import net.imglib2.type.numeric.RealType;
 
 // TODO
