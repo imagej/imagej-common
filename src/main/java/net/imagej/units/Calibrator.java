@@ -1,12 +1,10 @@
 /*
  * #%L
- * ImgLib2: a general-purpose, multidimensional image processing library.
+ * ImageJ software for multidimensional image processing and analysis.
  * %%
- * Copyright (C) 2009 - 2014 Stephan Preibisch, Tobias Pietzsch, Barry DeZonia,
- * Stephan Saalfeld, Albert Cardona, Curtis Rueden, Christian Dietz, Jean-Yves
- * Tinevez, Johannes Schindelin, Lee Kamentsky, Larry Lindsey, Grant Harris,
- * Mark Hiner, Aivar Grislis, Martin Horn, Nick Perry, Michael Zinsmaier,
- * Steffen Jaensch, Jan Funke, Mark Longair, and Dimiter Prodanov.
+ * Copyright (C) 2009 - 2014 Board of Regents of the University of
+ * Wisconsin-Madison, Broad Institute of MIT and Harvard, and Max Planck
+ * Institute of Molecular Cell Biology and Genetics.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,57 +29,24 @@
  * #L%
  */
 
-package net.imglib2.meta.units;
+package net.imagej.units;
 
 /**
- * LinearCalibrator is a {@link Calibrator} that maps values linearly from an
- * input space to an output space.
+ * Calibrators map values bidirectionally. One can support user defined units of
+ * arbitrary complexity. For instance supporting Richter scale conversions would
+ * be simple using this interface.
  * 
  * @author Barry DeZonia
- * @deprecated Use {@link net.imagej.units.LinearCalibrator} instead.
  */
-@Deprecated
-public class LinearCalibrator implements Calibrator {
+public interface Calibrator {
 
-	// -- fields --
+	/**
+	 * Map an input double value to an output double value.
+	 */
+	double toOutput(double input);
 
-	private double scale, offset;
-
-	// -- constructor --
-
-	public LinearCalibrator(double scale, double offset) {
-		this.scale = scale;
-		this.offset = offset;
-	}
-
-	// -- accessors --
-
-	public void setScale(double scale) {
-		this.scale = scale;
-	}
-
-	public void setOffset(double offset) {
-		this.offset = offset;
-	}
-
-	public double scale() {
-		return scale;
-	}
-
-	public double offset() {
-		return offset;
-	}
-
-	// -- Calibrator methods --
-
-	@Override
-	public double toOutput(double input) {
-		return (input * scale) + offset;
-	}
-
-	@Override
-	public double toInput(double output) {
-		return (output - offset) / scale;
-	}
-
+	/**
+	 * Map an output double value to an input double value.
+	 */
+	double toInput(double output);
 }

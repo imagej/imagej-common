@@ -39,6 +39,7 @@ package net.imglib2.meta.units;
  * be simple using this interface.
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imagej.units.Calibrator} instead.
  */
 @Deprecated
 public interface Calibrator {
