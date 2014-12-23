@@ -78,7 +78,7 @@ public class HyperSliceImgPlus<T extends Type<T>> extends ImgPlus<T> {
 	 * Errors will be generated if <code>d</code> and/or <code>pos</code> are
 	 * incorrect.
 	 * 
-	 * @param source
+	 * @param sourceImgPlus
 	 *            the source {@link ImgPlus}
 	 * @param d
 	 *            the dimension to freeze
