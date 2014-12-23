@@ -42,6 +42,7 @@ import net.imglib2.meta.axis.IdentityAxis;
  * A simple default {@link CalibratedRealInterval} implementation.
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imagej.interval.DefaultCalibratedRealInterval} instead.
  */
 @Deprecated
 public final class DefaultCalibratedRealInterval extends

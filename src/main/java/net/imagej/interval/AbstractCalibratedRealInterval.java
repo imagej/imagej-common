@@ -31,10 +31,12 @@
  * #L%
  */
 
-package net.imglib2.meta;
+package net.imagej.interval;
 
 import java.util.List;
 
+import net.imagej.axis.CalibratedAxis;
+import net.imagej.space.AbstractCalibratedSpace;
 import net.imglib2.RealInterval;
 import net.imglib2.RealPositionable;
 
@@ -42,9 +44,7 @@ import net.imglib2.RealPositionable;
  * Abstract base class for {@link CalibratedRealInterval}.
  * 
  * @author Barry DeZonia
- * @deprecated Use {@link net.imagej.interval.AbstractCalibratedRealInterval} instead.
  */
-@Deprecated
 public abstract class AbstractCalibratedRealInterval<A extends CalibratedAxis>
 	extends AbstractCalibratedSpace<A> implements CalibratedRealInterval<A>
 {

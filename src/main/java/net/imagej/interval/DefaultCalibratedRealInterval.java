@@ -31,18 +31,82 @@
  * #L%
  */
 
-package net.imglib2.meta;
+package net.imagej.interval;
+
+import java.util.List;
+
+import net.imagej.axis.CalibratedAxis;
+import net.imagej.axis.IdentityAxis;
+import net.imglib2.RealInterval;
 
 /**
- * A CalibratedRealInterval marries a {@link TypedRealInterval} with a
- * {@link CalibratedSpace}.
+ * Default implementation of {@link CalibratedRealInterval}.
  * 
  * @author Barry DeZonia
- * @deprecated Use {@link net.imagej.interval.CalibratedRealInterval} instead.
  */
-@Deprecated
-public interface CalibratedRealInterval<A extends CalibratedAxis> extends
-	TypedRealInterval<A>, CalibratedSpace<A>
+public final class DefaultCalibratedRealInterval extends
+	AbstractCalibratedRealInterval<CalibratedAxis>
 {
-	// has no additional methods
+
+	// -- public constructors --
+
+	public DefaultCalibratedRealInterval(final RealInterval interval) {
+		super(interval);
+		assignDefaultAxes(interval.numDimensions());
+	}
+
+	public DefaultCalibratedRealInterval(final RealInterval interval,
+		final CalibratedAxis... axes)
+	{
+		super(interval, axes);
+	}
+
+	public DefaultCalibratedRealInterval(final RealInterval interval,
+		final List<CalibratedAxis> axes)
+	{
+		super(interval, axes);
+	}
+
+	public DefaultCalibratedRealInterval(final double[] extents) {
+		super(extents);
+		assignDefaultAxes(extents.length);
+	}
+
+	public DefaultCalibratedRealInterval(final double[] extents,
+		final CalibratedAxis... axes)
+	{
+		super(extents, axes);
+	}
+
+	public DefaultCalibratedRealInterval(final double[] extents,
+		final List<CalibratedAxis> axes)
+	{
+		super(extents, axes);
+	}
+
+	public DefaultCalibratedRealInterval(final double[] min, final double[] max) {
+		super(min, max);
+		assignDefaultAxes(min.length);
+	}
+
+	public DefaultCalibratedRealInterval(final double[] min, final double[] max,
+		final CalibratedAxis... axes)
+	{
+		super(min, max, axes);
+	}
+
+	public DefaultCalibratedRealInterval(final double[] min, final double[] max,
+		final List<CalibratedAxis> axes)
+	{
+		super(min, max, axes);
+	}
+
+	// -- Helper methods --
+
+	private void assignDefaultAxes(final int numDimensions) {
+		for (int d = 0; d < numDimensions; d++) {
+			setAxis(new IdentityAxis(), d);
+		}
+	}
+
 }

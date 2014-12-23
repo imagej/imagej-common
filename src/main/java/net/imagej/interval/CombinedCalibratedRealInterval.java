@@ -31,18 +31,23 @@
  * #L%
  */
 
-package net.imglib2.meta;
+package net.imagej.interval;
+
+import net.imagej.axis.CalibratedAxis;
+
 
 /**
- * A CalibratedRealInterval marries a {@link TypedRealInterval} with a
- * {@link CalibratedSpace}.
+ * A {@link CombinedRealInterval} that has calibrated axes. 
  * 
  * @author Barry DeZonia
- * @deprecated Use {@link net.imagej.interval.CalibratedRealInterval} instead.
  */
-@Deprecated
-public interface CalibratedRealInterval<A extends CalibratedAxis> extends
-	TypedRealInterval<A>, CalibratedSpace<A>
+public class CombinedCalibratedRealInterval<A extends CalibratedAxis, S extends CalibratedRealInterval<A>>
+	extends CombinedRealInterval<A, S> implements CalibratedRealInterval<A>
 {
-	// has no additional methods
+
+	@Override
+	public double averageScale(final int d) {
+		return axis(d).averageScale(realMin(d), realMax(d));
+	}
+
 }

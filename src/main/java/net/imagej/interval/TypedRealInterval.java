@@ -31,18 +31,19 @@
  * #L%
  */
 
-package net.imglib2.meta;
+package net.imagej.interval;
+
+import net.imagej.axis.TypedAxis;
+import net.imagej.space.TypedSpace;
+import net.imglib2.RealInterval;
 
 /**
- * A CalibratedRealInterval marries a {@link TypedRealInterval} with a
- * {@link CalibratedSpace}.
+ * A {@link RealInterval} over a {@link TypedSpace}.
  * 
- * @author Barry DeZonia
- * @deprecated Use {@link net.imagej.interval.CalibratedRealInterval} instead.
+ * @author Curtis Rueden
  */
-@Deprecated
-public interface CalibratedRealInterval<A extends CalibratedAxis> extends
-	TypedRealInterval<A>, CalibratedSpace<A>
+public interface TypedRealInterval<A extends TypedAxis> extends RealInterval,
+	TypedSpace<A>
 {
-	// has no additional methods
+	// NB: Marker interface.
 }

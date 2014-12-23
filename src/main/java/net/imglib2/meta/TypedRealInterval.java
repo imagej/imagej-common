@@ -39,6 +39,7 @@ import net.imglib2.RealInterval;
  * A {@link RealInterval} over a {@link TypedSpace}.
  * 
  * @author Curtis Rueden
+ * @deprecated Use {@link net.imagej.interval.TypedRealInterval} instead.
  */
 @Deprecated
 public interface TypedRealInterval<A extends TypedAxis> extends RealInterval,

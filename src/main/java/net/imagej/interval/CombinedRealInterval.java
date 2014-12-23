@@ -31,10 +31,14 @@
  * #L%
  */
 
-package net.imglib2.meta;
+package net.imagej.interval;
 
 import java.util.HashMap;
 
+import net.imagej.axis.AxisType;
+import net.imagej.axis.TypedAxis;
+import net.imagej.space.CalibratedSpace;
+import net.imagej.space.CombinedSpace;
 import net.imglib2.RealInterval;
 import net.imglib2.RealPositionable;
 
@@ -58,9 +62,7 @@ import net.imglib2.RealPositionable;
  * </p>
  * 
  * @author Curtis Rueden
- * @deprecated Use {@link net.imagej.interval.CombinedRealInterval} instead.
  */
-@Deprecated
 public class CombinedRealInterval<A extends TypedAxis, S extends TypedRealInterval<A>>
 	extends CombinedSpace<A, S> implements TypedRealInterval<A>
 {

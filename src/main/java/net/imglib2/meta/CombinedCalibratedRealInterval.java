@@ -38,6 +38,7 @@ package net.imglib2.meta;
  * A {@link CombinedRealInterval} that has calibrated axes. 
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imagej.interval.CombinedCalibratedRealInterval} instead.
  */
 @Deprecated
 public class CombinedCalibratedRealInterval<A extends CalibratedAxis, S extends CalibratedRealInterval<A>>
