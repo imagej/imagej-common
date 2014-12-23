@@ -40,6 +40,7 @@ package net.imglib2.meta;
  * @author Stephan Preibisch
  * @author Stephan Saalfeld
  * @author Barry DeZonia
+ * @deprecated Use {@link org.scijava.Locatable} instead.
  */
 @Deprecated
 public interface Sourced {
