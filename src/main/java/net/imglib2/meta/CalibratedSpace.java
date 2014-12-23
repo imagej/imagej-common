@@ -40,6 +40,7 @@ import net.imglib2.RealInterval;
  * 
  * @author Curtis Rueden
  * @see CalibratedAxis
+ * @deprecated Use {@link net.imagej.space.CalibratedSpace} instead.
  */
 @Deprecated
 public interface CalibratedSpace<A extends CalibratedAxis> extends

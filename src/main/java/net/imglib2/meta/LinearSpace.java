@@ -39,6 +39,7 @@ import net.imglib2.meta.axis.LinearAxis;
  * A {@link CalibratedSpace} whose axes are of type {@link LinearAxis}.
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imagej.space.LinearSpace} instead.
  */
 @Deprecated
 public interface LinearSpace<A extends LinearAxis> extends CalibratedSpace<A> {

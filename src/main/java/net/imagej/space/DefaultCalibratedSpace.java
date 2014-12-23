@@ -31,32 +31,42 @@
  * #L%
  */
 
-package net.imglib2;
+package net.imagej.space;
+
+import java.util.List;
+
+import net.imagej.axis.Axes;
+import net.imagej.axis.CalibratedAxis;
+import net.imagej.axis.IdentityAxis;
 
 /**
- * A Euclidean space with associated metadata about each dimension of the space.
- * The nature of the metadata is left intentionally open-ended; at the topmost
- * level, the {@link Axis} interface provides no additional information about a
- * dimensional axis, but it can be extended to do so.
- * <p>
- * One potential use of the {@link Axis} objects is to store calibration and
- * unit information (see the {@code imglib2-meta} project), but any desired
- * information about the space's dimensions could conceivably be attached.
- * </p>
+ * Default implementation of {@link CalibratedSpace}.
  * 
  * @author Curtis Rueden
- * @deprecated Use {@link net.imagej.space.AnnotatedSpace} instead.
  */
-@Deprecated
-public interface AnnotatedSpace< A extends Axis > extends EuclideanSpace
+public final class DefaultCalibratedSpace extends
+	AbstractCalibratedSpace<CalibratedAxis>
 {
 
-	/** Gets the axis associated with the given dimension of the space. */
-	A axis( int d );
+	/**
+	 * Constructs a new calibrated space of the given dimensionality, with default
+	 * {@link IdentityAxis} axes of unknown type ({@link Axes#unknown()}).
+	 */
+	public DefaultCalibratedSpace(final int numDims) {
+		super(numDims);
+		for (int d = 0; d < numDims; d++) {
+			setAxis(new IdentityAxis(), d);
+		}
+	}
 
-	/** Copies the space's axes into the given array. */
-	void axes( A[] axes );
+	/** Constructs a new calibrated space with the given axes. */
+	public DefaultCalibratedSpace(final CalibratedAxis... axes) {
+		super(axes);
+	}
 
-	/** Sets the dimensional axis associated with the given dimension. */
-	void setAxis( A axis, int d );
+	/** Constructs a new calibrated space with the given axes. */
+	public DefaultCalibratedSpace(final List<CalibratedAxis> axes) {
+		super(axes);
+	}
+
 }

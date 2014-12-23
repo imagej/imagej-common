@@ -31,32 +31,15 @@
  * #L%
  */
 
-package net.imglib2;
+package net.imagej.space;
+
+import net.imagej.axis.LinearAxis;
 
 /**
- * A Euclidean space with associated metadata about each dimension of the space.
- * The nature of the metadata is left intentionally open-ended; at the topmost
- * level, the {@link Axis} interface provides no additional information about a
- * dimensional axis, but it can be extended to do so.
- * <p>
- * One potential use of the {@link Axis} objects is to store calibration and
- * unit information (see the {@code imglib2-meta} project), but any desired
- * information about the space's dimensions could conceivably be attached.
- * </p>
+ * A {@link CalibratedSpace} whose axes are of type {@link LinearAxis}.
  * 
- * @author Curtis Rueden
- * @deprecated Use {@link net.imagej.space.AnnotatedSpace} instead.
+ * @author Barry DeZonia
  */
-@Deprecated
-public interface AnnotatedSpace< A extends Axis > extends EuclideanSpace
-{
-
-	/** Gets the axis associated with the given dimension of the space. */
-	A axis( int d );
-
-	/** Copies the space's axes into the given array. */
-	void axes( A[] axes );
-
-	/** Sets the dimensional axis associated with the given dimension. */
-	void setAxis( A axis, int d );
+public interface LinearSpace<A extends LinearAxis> extends CalibratedSpace<A> {
+	// no additional functionality
 }

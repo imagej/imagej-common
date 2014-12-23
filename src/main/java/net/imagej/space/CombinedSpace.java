@@ -31,10 +31,12 @@
  * #L%
  */
 
-package net.imglib2.meta;
+package net.imagej.space;
 
 import java.util.ArrayList;
 
+import net.imagej.axis.AxisType;
+import net.imagej.axis.TypedAxis;
 import net.imglib2.EuclideanSpace;
 
 /**
@@ -49,9 +51,7 @@ import net.imglib2.EuclideanSpace;
  * </p>
  * 
  * @author Curtis Rueden
- * @deprecated Use {@link net.imagej.space.CombinedSpace} instead.
  */
-@Deprecated
 public class CombinedSpace<A extends TypedAxis, S extends TypedSpace<A>>
 	extends ArrayList<S> implements TypedSpace<A>
 {

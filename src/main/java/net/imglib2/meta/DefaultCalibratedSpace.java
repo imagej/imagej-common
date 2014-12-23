@@ -41,6 +41,7 @@ import net.imglib2.meta.axis.IdentityAxis;
  * Simple, default {@link CalibratedSpace} implementation.
  * 
  * @author Curtis Rueden
+ * @deprecated Use {@link net.imagej.space.DefaultCalibratedSpace} instead.
  */
 @Deprecated
 public final class DefaultCalibratedSpace extends

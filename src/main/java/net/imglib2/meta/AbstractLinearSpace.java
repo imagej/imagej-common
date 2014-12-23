@@ -41,6 +41,7 @@ import net.imglib2.meta.axis.LinearAxis;
  * Abstract base class for {@link LinearSpace}.
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imagej.space.AbstractLinearSpace} instead.
  */
 @Deprecated
 public abstract class AbstractLinearSpace<A extends LinearAxis> extends

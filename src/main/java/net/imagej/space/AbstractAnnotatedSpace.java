@@ -31,32 +31,87 @@
  * #L%
  */
 
-package net.imglib2;
+package net.imagej.space;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import net.imagej.axis.Axis;
 
 /**
- * A Euclidean space with associated metadata about each dimension of the space.
- * The nature of the metadata is left intentionally open-ended; at the topmost
- * level, the {@link Axis} interface provides no additional information about a
- * dimensional axis, but it can be extended to do so.
- * <p>
- * One potential use of the {@link Axis} objects is to store calibration and
- * unit information (see the {@code imglib2-meta} project), but any desired
- * information about the space's dimensions could conceivably be attached.
- * </p>
+ * Abstract base class for {@link AnnotatedSpace} implementations.
  * 
  * @author Curtis Rueden
- * @deprecated Use {@link net.imagej.space.AnnotatedSpace} instead.
  */
-@Deprecated
-public interface AnnotatedSpace< A extends Axis > extends EuclideanSpace
+public abstract class AbstractAnnotatedSpace< A extends Axis > implements
+		AnnotatedSpace< A >
 {
 
-	/** Gets the axis associated with the given dimension of the space. */
-	A axis( int d );
+	private final List< A > axisList;
 
-	/** Copies the space's axes into the given array. */
-	void axes( A[] axes );
+	public AbstractAnnotatedSpace( final int numDims )
+	{
+		axisList = new ArrayList< A >( numDims );
+		// We have no way of knowing the axes to populate, so we fill with
+		// nulls.
+		for ( int d = 0; d < numDims; d++ )
+		{
+			axisList.add( null );
+		}
+	}
 
-	/** Sets the dimensional axis associated with the given dimension. */
-	void setAxis( A axis, int d );
+	public AbstractAnnotatedSpace( final A... axes )
+	{
+		this( Arrays.asList( axes ) );
+	}
+
+	public AbstractAnnotatedSpace( final List< A > axes )
+	{
+		axisList = new ArrayList< A >( axes.size() );
+		axisList.addAll( axes );
+	}
+
+	// -- AnnotatedSpace methods --
+
+	@Override
+	public A axis( final int d )
+	{
+		return axisList.get( d );
+	}
+
+	@Override
+	public void axes( final A[] axes )
+	{
+		for ( int d = 0; d < axes.length; d++ )
+		{
+			axes[ d ] = axis( d );
+		}
+	}
+
+	@Override
+	public void setAxis( final A axis, final int d )
+	{
+		// NB - in some cases AnnotatedSpaces have a fixed number of dimensions.
+		// But
+		// some users (like ImageJ2 overlays) may not know their dimensions
+		// until
+		// after initial construction. To be safe we need to allow the axisList
+		// to
+		// grow as needed. BDZ Aug 14 2013
+		while ( axisList.size() <= d )
+		{
+			axisList.add( null );
+		}
+		axisList.set( d, axis );
+	}
+
+	// -- EuclideanSpace methods --
+
+	@Override
+	public int numDimensions()
+	{
+		return axisList.size();
+	}
+
 }

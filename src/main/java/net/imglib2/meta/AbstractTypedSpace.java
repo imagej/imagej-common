@@ -41,6 +41,7 @@ import net.imglib2.AbstractAnnotatedSpace;
  * Abstract base class for {@link TypedSpace}.
  * 
  * @author Curtis Rueden
+ * @deprecated Use {@link net.imagej.space.AbstractTypedSpace} instead.
  */
 @Deprecated
 public abstract class AbstractTypedSpace<A extends TypedAxis> extends

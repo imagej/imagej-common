@@ -41,6 +41,7 @@ import java.util.List;
  * Abstract base class for {@link AnnotatedSpace} implementations.
  * 
  * @author Curtis Rueden
+ * @deprecated Use {@link net.imagej.space.AbstractAnnotatedSpace} instead.
  */
 @Deprecated
 public abstract class AbstractAnnotatedSpace< A extends Axis > implements

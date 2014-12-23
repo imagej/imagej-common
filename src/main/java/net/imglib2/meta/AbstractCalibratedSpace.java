@@ -39,6 +39,7 @@ import java.util.List;
  * Abstract base class for {@link CalibratedSpace}.
  * 
  * @author Curtis Rueden
+ * @deprecated Use {@link net.imagej.space.AbstractCalibratedSpace} instead.
  */
 @Deprecated
 public abstract class AbstractCalibratedSpace<A extends CalibratedAxis> extends

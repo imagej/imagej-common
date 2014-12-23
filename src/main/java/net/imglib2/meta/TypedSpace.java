@@ -40,6 +40,7 @@ import net.imglib2.AnnotatedSpace;
  * 
  * @author Curtis Rueden
  * @see TypedAxis
+ * @deprecated Use {@link net.imagej.space.TypedSpace} instead.
  */
 @Deprecated
 public interface TypedSpace<A extends TypedAxis> extends AnnotatedSpace<A> {

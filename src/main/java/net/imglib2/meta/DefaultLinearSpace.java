@@ -41,6 +41,7 @@ import net.imglib2.meta.axis.LinearAxis;
  * A simple default {@link LinearSpace}.
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imagej.space.DefaultLinearSpace} instead.
  */
 @Deprecated
 public final class DefaultLinearSpace extends AbstractLinearSpace<LinearAxis> {

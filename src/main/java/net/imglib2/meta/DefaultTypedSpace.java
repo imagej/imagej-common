@@ -39,6 +39,7 @@ import java.util.List;
  * Simple, default {@link TypedSpace} implementation.
  * 
  * @author Curtis Rueden
+ * @deprecated Use {@link net.imagej.space.DefaultTypedSpace} instead.
  */
 @Deprecated
 public class DefaultTypedSpace extends AbstractTypedSpace<TypedAxis> {

@@ -31,32 +31,36 @@
  * #L%
  */
 
-package net.imglib2;
+package net.imagej.space;
+
+import net.imagej.axis.AxisType;
+import net.imagej.axis.TypedAxis;
+import net.imglib2.EuclideanSpace;
 
 /**
- * A Euclidean space with associated metadata about each dimension of the space.
- * The nature of the metadata is left intentionally open-ended; at the topmost
- * level, the {@link Axis} interface provides no additional information about a
- * dimensional axis, but it can be extended to do so.
- * <p>
- * One potential use of the {@link Axis} objects is to store calibration and
- * unit information (see the {@code imglib2-meta} project), but any desired
- * information about the space's dimensions could conceivably be attached.
- * </p>
+ * Utility methods for working with {@link EuclideanSpace}, particularly
+ * {@link TypedSpace}.
  * 
- * @author Curtis Rueden
- * @deprecated Use {@link net.imagej.space.AnnotatedSpace} instead.
+ * @author Barry DeZonia
  */
-@Deprecated
-public interface AnnotatedSpace< A extends Axis > extends EuclideanSpace
-{
+public final class SpaceUtils {
 
-	/** Gets the axis associated with the given dimension of the space. */
-	A axis( int d );
+	private SpaceUtils() {
+		// NB: Prevent instantiation of utility class.
+	}
 
-	/** Copies the space's axes into the given array. */
-	void axes( A[] axes );
+	/**
+	 * Gets an array of {@link AxisType}'s delineating the types of the axes of a
+	 * {@link TypedSpace}.
+	 */
+	public static <A extends TypedAxis> AxisType[] getAxisTypes(
+		final TypedSpace<A> space)
+	{
+		final AxisType[] typeList = new AxisType[space.numDimensions()];
+		for (int i = 0; i < typeList.length; i++) {
+			typeList[i] = space.axis(i).type();
+		}
+		return typeList;
+	}
 
-	/** Sets the dimensional axis associated with the given dimension. */
-	void setAxis( A axis, int d );
 }

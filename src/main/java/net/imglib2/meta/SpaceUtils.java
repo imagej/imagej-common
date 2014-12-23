@@ -40,6 +40,7 @@ import net.imglib2.EuclideanSpace;
  * {@link TypedSpace}.
  * 
  * @author Barry DeZonia
+ * @deprecated Use {@link net.imagej.space.SpaceUtils} instead.
  */
 @Deprecated
 public final class SpaceUtils {

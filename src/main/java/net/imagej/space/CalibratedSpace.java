@@ -31,32 +31,32 @@
  * #L%
  */
 
-package net.imglib2;
+package net.imagej.space;
+
+import net.imagej.axis.CalibratedAxis;
+import net.imglib2.RealInterval;
 
 /**
- * A Euclidean space with associated metadata about each dimension of the space.
- * The nature of the metadata is left intentionally open-ended; at the topmost
- * level, the {@link Axis} interface provides no additional information about a
- * dimensional axis, but it can be extended to do so.
- * <p>
- * One potential use of the {@link Axis} objects is to store calibration and
- * unit information (see the {@code imglib2-meta} project), but any desired
- * information about the space's dimensions could conceivably be attached.
- * </p>
+ * A Euclidean space whose dimensions have units and calibrations.
  * 
  * @author Curtis Rueden
- * @deprecated Use {@link net.imagej.space.AnnotatedSpace} instead.
+ * @see CalibratedAxis
  */
-@Deprecated
-public interface AnnotatedSpace< A extends Axis > extends EuclideanSpace
+public interface CalibratedSpace<A extends CalibratedAxis> extends
+	TypedSpace<A>
 {
 
-	/** Gets the axis associated with the given dimension of the space. */
-	A axis( int d );
+	/**
+	 * Returns the average scale along the given axis, for some reasonable
+	 * interval.
+	 * <p>
+	 * The exact interval used is implementation dependent, but reasonable effort
+	 * will be made to use the largest in-bounds range for the space; e.g., for
+	 * {@link RealInterval}s, the range used is {@link RealInterval#realMin(int)}
+	 * to {@link RealInterval#realMax(int)}. For spaces in general, the default
+	 * range is {@code [0, 1]}.
+	 * </p>
+	 */
+	double averageScale(int d);
 
-	/** Copies the space's axes into the given array. */
-	void axes( A[] axes );
-
-	/** Sets the dimensional axis associated with the given dimension. */
-	void setAxis( A axis, int d );
 }
