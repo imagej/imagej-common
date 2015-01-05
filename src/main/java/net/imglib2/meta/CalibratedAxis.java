@@ -1,12 +1,10 @@
 /*
  * #%L
- * ImgLib2: a general-purpose, multidimensional image processing library.
+ * ImageJ software for multidimensional image processing and analysis.
  * %%
- * Copyright (C) 2009 - 2014 Stephan Preibisch, Tobias Pietzsch, Barry DeZonia,
- * Stephan Saalfeld, Albert Cardona, Curtis Rueden, Christian Dietz, Jean-Yves
- * Tinevez, Johannes Schindelin, Lee Kamentsky, Larry Lindsey, Grant Harris,
- * Mark Hiner, Aivar Grislis, Martin Horn, Nick Perry, Michael Zinsmaier,
- * Steffen Jaensch, Jan Funke, Mark Longair, and Dimiter Prodanov.
+ * Copyright (C) 2009 - 2014 Board of Regents of the University of
+ * Wisconsin-Madison, Broad Institute of MIT and Harvard, and Max Planck
+ * Institute of Molecular Cell Biology and Genetics.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -39,6 +37,7 @@ package net.imglib2.meta;
  * @author Curtis Rueden
  * @author Barry DeZonia
  * @see TypedAxis
+ * @deprecated Use {@link net.imagej.axis.CalibratedAxis} instead.
  */
 @Deprecated
 public interface CalibratedAxis extends TypedAxis {

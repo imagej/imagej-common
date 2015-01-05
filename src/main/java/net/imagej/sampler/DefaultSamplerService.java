@@ -36,6 +36,10 @@ import java.util.List;
 
 import net.imagej.Dataset;
 import net.imagej.DatasetService;
+import net.imagej.ImgPlus;
+import net.imagej.axis.Axes;
+import net.imagej.axis.AxisType;
+import net.imagej.axis.CalibratedAxis;
 import net.imagej.display.DatasetView;
 import net.imagej.display.ImageDisplay;
 import net.imagej.display.ImageDisplayService;
@@ -43,12 +47,8 @@ import net.imagej.display.OverlayService;
 import net.imagej.overlay.Overlay;
 import net.imglib2.RandomAccess;
 import net.imglib2.display.ColorTable;
-import net.imglib2.meta.Axes;
-import net.imglib2.meta.AxisType;
-import net.imglib2.meta.CalibratedAxis;
-import net.imglib2.meta.ImgPlus;
-import net.imglib2.meta.IntervalUtils;
 import net.imglib2.type.numeric.RealType;
+import net.imglib2.util.Intervals;
 
 import org.scijava.display.DisplayService;
 import org.scijava.plugin.Parameter;
@@ -219,8 +219,8 @@ public class DefaultSamplerService extends AbstractService implements
 		// TODO - remove evil casts
 		final Dataset input = (Dataset) def.getDisplay().getActiveView().getData();
 		final Dataset output = (Dataset) outputImage.getActiveView().getData();
-		final long[] inputDims = IntervalUtils.getDims(input);
-		final long[] outputDims = IntervalUtils.getDims(output);
+		final long[] inputDims = Intervals.dimensionsAsLongArray(input);
+		final long[] outputDims = Intervals.dimensionsAsLongArray(output);
 		final RandomAccess<? extends RealType<?>> inputAccessor =
 			input.getImgPlus().randomAccess();
 		final RandomAccess<? extends RealType<?>> outputAccessor =

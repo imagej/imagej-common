@@ -37,8 +37,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.imagej.axis.AxisType;
 import net.imagej.display.ImageDisplay;
-import net.imglib2.meta.AxisType;
 
 /**
  * An AxisSubrange defines a set of position indices using various constructors.

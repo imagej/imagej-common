@@ -30,6 +30,10 @@
 		<url>http://jenkins.imagej.net/job/ImageJ-common/</url>
 	</ciManagement>
 
+	<properties>
+		<scijava-common.version>2.36.0</scijava-common.version>
+	</properties>
+
 	<repositories>
 		<repository>
 			<id>imagej.public</id>

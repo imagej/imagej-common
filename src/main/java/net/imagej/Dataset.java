@@ -31,10 +31,8 @@
 
 package net.imagej;
 
+import net.imagej.axis.CalibratedAxis;
 import net.imglib2.img.Img;
-import net.imglib2.meta.CalibratedAxis;
-import net.imglib2.meta.ImgPlus;
-import net.imglib2.meta.ImgPlusMetadata;
 import net.imglib2.type.numeric.RealType;
 
 /**

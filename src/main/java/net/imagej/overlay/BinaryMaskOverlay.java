@@ -42,6 +42,8 @@ import java.util.Arrays;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
+import net.imagej.axis.Axes;
+import net.imagej.axis.DefaultLinearAxis;
 import net.imglib2.Cursor;
 import net.imglib2.IterableInterval;
 import net.imglib2.RandomAccess;
@@ -50,8 +52,6 @@ import net.imglib2.img.Img;
 import net.imglib2.img.array.ArrayImg;
 import net.imglib2.img.array.ArrayImgs;
 import net.imglib2.img.basictypeaccess.array.LongArray;
-import net.imglib2.meta.Axes;
-import net.imglib2.meta.axis.DefaultLinearAxis;
 import net.imglib2.roi.BinaryMaskRegionOfInterest;
 import net.imglib2.type.logic.BitType;
 import net.imglib2.view.Views;

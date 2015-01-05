@@ -1,12 +1,10 @@
 /*
  * #%L
- * ImgLib2: a general-purpose, multidimensional image processing library.
+ * ImageJ software for multidimensional image processing and analysis.
  * %%
- * Copyright (C) 2009 - 2014 Stephan Preibisch, Tobias Pietzsch, Barry DeZonia,
- * Stephan Saalfeld, Albert Cardona, Curtis Rueden, Christian Dietz, Jean-Yves
- * Tinevez, Johannes Schindelin, Lee Kamentsky, Larry Lindsey, Grant Harris,
- * Mark Hiner, Aivar Grislis, Martin Horn, Nick Perry, Michael Zinsmaier,
- * Steffen Jaensch, Jan Funke, Mark Longair, and Dimiter Prodanov.
+ * Copyright (C) 2009 - 2014 Board of Regents of the University of
+ * Wisconsin-Madison, Broad Institute of MIT and Harvard, and Max Planck
+ * Institute of Molecular Cell Biology and Genetics.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -57,6 +55,7 @@ import net.imglib2.view.Views;
  * 
  * @author Jean-Yves Tinevez <jeanyves.tinevez@gmail.com>
  * @author Christian Dietz <christian.dietz@uni-konstanz.de>
+ * @deprecated No replacement (yet!).
  */
 @Deprecated
 public class HyperSliceImgPlus<T extends Type<T>> extends ImgPlus<T> {
@@ -78,7 +77,7 @@ public class HyperSliceImgPlus<T extends Type<T>> extends ImgPlus<T> {
 	 * Errors will be generated if <code>d</code> and/or <code>pos</code> are
 	 * incorrect.
 	 * 
-	 * @param source
+	 * @param sourceImgPlus
 	 *            the source {@link ImgPlus}
 	 * @param d
 	 *            the dimension to freeze

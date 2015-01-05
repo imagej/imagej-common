@@ -34,6 +34,9 @@ package net.imagej;
 import java.util.Iterator;
 import java.util.Map;
 
+import net.imagej.axis.Axes;
+import net.imagej.axis.AxisType;
+import net.imagej.axis.CalibratedAxis;
 import net.imagej.event.DatasetCreatedEvent;
 import net.imagej.event.DatasetDeletedEvent;
 import net.imagej.event.DatasetRGBChangedEvent;
@@ -43,7 +46,6 @@ import net.imagej.event.DatasetUpdatedEvent;
 import net.imagej.types.DataTypeService;
 import net.imglib2.Cursor;
 import net.imglib2.Interval;
-import net.imglib2.IterableRealInterval;
 import net.imglib2.Positionable;
 import net.imglib2.RandomAccess;
 import net.imglib2.RealPositionable;
@@ -61,16 +63,12 @@ import net.imglib2.img.basictypeaccess.array.FloatArray;
 import net.imglib2.img.basictypeaccess.array.IntArray;
 import net.imglib2.img.basictypeaccess.array.LongArray;
 import net.imglib2.img.basictypeaccess.array.ShortArray;
-import net.imglib2.meta.Axes;
-import net.imglib2.meta.AxisType;
-import net.imglib2.meta.CalibratedAxis;
-import net.imglib2.meta.ImgPlus;
-import net.imglib2.meta.IntervalUtils;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.Type;
 import net.imglib2.type.numeric.IntegerType;
 import net.imglib2.type.numeric.NumericType;
 import net.imglib2.type.numeric.RealType;
+import net.imglib2.util.Intervals;
 
 import org.scijava.Context;
 import org.scijava.log.LogService;
@@ -319,7 +317,7 @@ public class DefaultDataset extends AbstractData implements Dataset {
 		final ImgFactory factory = getImgPlus().factory();
 		@SuppressWarnings("unchecked")
 		final Img<? extends RealType<?>> newImg =
-			factory.create(IntervalUtils.getDims(other), other.getType());
+			factory.create(Intervals.dimensionsAsLongArray(other), other.getType());
 
 		// copy the data into the new img
 		copyDataValues(other.getImgPlus(), newImg);

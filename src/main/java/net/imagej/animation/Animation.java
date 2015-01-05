@@ -31,9 +31,9 @@
 
 package net.imagej.animation;
 
+import net.imagej.axis.Axes;
+import net.imagej.axis.AxisType;
 import net.imagej.display.ImageDisplay;
-import net.imglib2.meta.Axes;
-import net.imglib2.meta.AxisType;
 
 import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;

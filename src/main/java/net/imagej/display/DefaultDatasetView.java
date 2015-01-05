@@ -38,9 +38,12 @@ import java.util.List;
 import net.imagej.ChannelCollection;
 import net.imagej.Data;
 import net.imagej.Dataset;
+import net.imagej.ImgPlus;
 import net.imagej.Position;
 import net.imagej.autoscale.AutoscaleService;
 import net.imagej.autoscale.DataRange;
+import net.imagej.axis.Axes;
+import net.imagej.axis.AxisType;
 import net.imagej.display.event.DataViewUpdatedEvent;
 import net.imagej.display.event.LUTsChangedEvent;
 import net.imagej.event.DatasetRGBChangedEvent;
@@ -52,12 +55,9 @@ import net.imglib2.display.ColorTable;
 import net.imglib2.display.projector.composite.CompositeXYProjector;
 import net.imglib2.display.screenimage.awt.ARGBScreenImage;
 import net.imglib2.img.cell.AbstractCellImg;
-import net.imglib2.meta.Axes;
-import net.imglib2.meta.AxisType;
-import net.imglib2.meta.ImgPlus;
-import net.imglib2.meta.IntervalUtils;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.util.Binning;
+import net.imglib2.util.Intervals;
 import net.imglib2.view.Views;
 
 import org.scijava.Context;
@@ -572,7 +572,7 @@ public class DefaultDatasetView extends AbstractDataView implements DatasetView
 			return imgPlus;
 		}
 		final long[] mn = new long[d.numDimensions()];
-		final long[] mx = IntervalUtils.getDims(d);
+		final long[] mx = Intervals.dimensionsAsLongArray(d);
 		for (int i = 0; i < mx.length; i++) {
 			mx[i]--;
 		}

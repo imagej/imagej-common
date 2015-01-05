@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.imagej.axis.AxisType;
 import net.imagej.display.DataView;
 import net.imagej.display.ImageDisplay;
 import net.imagej.types.DataTypeService;
@@ -45,8 +46,6 @@ import net.imglib2.img.ImgFactory;
 import net.imglib2.img.ImgView;
 import net.imglib2.img.cell.CellImgFactory;
 import net.imglib2.img.planar.PlanarImgFactory;
-import net.imglib2.meta.AxisType;
-import net.imglib2.meta.ImgPlus;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.logic.BitType;
 import net.imglib2.type.numeric.RealType;

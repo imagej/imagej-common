@@ -40,6 +40,8 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
 import net.imagej.AbstractData;
+import net.imagej.axis.Axes;
+import net.imagej.axis.DefaultLinearAxis;
 import net.imagej.display.OverlayService;
 import net.imagej.event.OverlayCreatedEvent;
 import net.imagej.event.OverlayDeletedEvent;
@@ -47,8 +49,6 @@ import net.imagej.event.OverlayRestructuredEvent;
 import net.imagej.event.OverlayUpdatedEvent;
 import net.imglib2.RealInterval;
 import net.imglib2.RealPositionable;
-import net.imglib2.meta.Axes;
-import net.imglib2.meta.axis.DefaultLinearAxis;
 import net.imglib2.roi.RegionOfInterest;
 
 import org.scijava.Context;
