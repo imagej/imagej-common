@@ -161,9 +161,7 @@ public interface DatasetService extends ImageJService {
 	 * Determines whether the given source can be opened as a {@link Dataset}
 	 * using the {@link #open(String)} method.
 	 * 
-	 * @deprecated Replacement coming soon; see also <a
-	 *             href="https://github.com/scijava/scijava-common/compare/robust-io"
-	 *             >scijava-common robust-io branch</a>.
+	 * @deprecated Use io.scif.services.DatasetIOService#canOpen instead.
 	 */
 	@Deprecated
 	boolean canOpen(String source);
@@ -172,9 +170,7 @@ public interface DatasetService extends ImageJService {
 	 * Determines whether the given destination can be used to save a
 	 * {@link Dataset} using the {@link #save(Dataset, String)} method.
 	 * 
-	 * @deprecated Replacement coming soon; see also <a
-	 *             href="https://github.com/scijava/scijava-common/compare/robust-io"
-	 *             >scijava-common robust-io branch</a>.
+	 * @deprecated Use io.scif.services.DatasetIOService#canSave instead.
 	 */
 	@Deprecated
 	boolean canSave(String destination);
@@ -182,9 +178,7 @@ public interface DatasetService extends ImageJService {
 	/**
 	 * Loads a dataset from a source (such as a file on disk).
 	 * 
-	 * @deprecated Replacement coming soon; see also <a
-	 *             href="https://github.com/scijava/scijava-common/compare/robust-io"
-	 *             >scijava-common robust-io branch</a>.
+	 * @deprecated Use io.scif.services.DatasetIOService#open instead.
 	 */
 	@Deprecated
 	Dataset open(String source) throws IOException;
@@ -193,9 +187,7 @@ public interface DatasetService extends ImageJService {
 	 * As {@link #open(String)}, with the given
 	 * {@code io.scif.config.SCIFIOConfig}.
 	 * 
-	 * @deprecated Replacement coming soon; see also <a
-	 *             href="https://github.com/scijava/scijava-common/compare/robust-io"
-	 *             >scijava-common robust-io branch</a>.
+	 * @deprecated Use io.scif.services.DatasetIOService#open instead.
 	 */
 	@Deprecated
 	Dataset open(String source, Object config) throws IOException;
@@ -203,9 +195,7 @@ public interface DatasetService extends ImageJService {
 	/**
 	 * Reverts the given dataset to its original source.
 	 * 
-	 * @deprecated Replacement coming soon; see also <a
-	 *             href="https://github.com/scijava/scijava-common/compare/robust-io"
-	 *             >scijava-common robust-io branch</a>.
+	 * @deprecated Use io.scif.services.DatasetIOService#revert instead.
 	 */
 	@Deprecated
 	void revert(Dataset dataset) throws IOException;
@@ -216,9 +206,7 @@ public interface DatasetService extends ImageJService {
 	 * @param dataset The dataset to save.
 	 * @param destination Where the dataset should be saved (e.g., a file path on
 	 *          disk).
-	 * @deprecated Replacement coming soon; see also <a
-	 *             href="https://github.com/scijava/scijava-common/compare/robust-io"
-	 *             >scijava-common robust-io branch</a>.
+	 * @deprecated Use io.scif.services.DatasetIOService#save instead.
 	 */
 	@Deprecated
 	Object save(Dataset dataset, String destination) throws IOException;
@@ -231,9 +219,7 @@ public interface DatasetService extends ImageJService {
 	 *          disk).
 	 * @param config The {@code io.scif.config.SCIFIOConfig} describing how the
 	 *          data should be saved.
-	 * @deprecated Replacement coming soon; see also <a
-	 *             href="https://github.com/scijava/scijava-common/compare/robust-io"
-	 *             >scijava-common robust-io branch</a>.
+	 * @deprecated Use io.scif.services.DatasetIOService#save instead.
 	 */
 	@Deprecated
 	Object save(Dataset dataset, String destination, Object config)

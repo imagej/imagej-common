@@ -31,7 +31,6 @@
 
 package net.imagej;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,8 +65,6 @@ import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import org.scijava.service.AbstractService;
 import org.scijava.service.Service;
-import org.scijava.util.ReflectException;
-import org.scijava.util.ReflectedUniverse;
 
 /**
  * Default service for working with {@link Dataset}s.
@@ -205,136 +202,80 @@ public final class DefaultDatasetService extends AbstractService implements
 		return create(wrapToImgPlus(rai));
 	}
 
+	/**
+	 * @deprecated Use io.scif.services.DatasetIOService#canOpen instead.
+	 */
 	@Override
+	@Deprecated
 	public boolean canOpen(final String source) {
-		try {
-			final ReflectedUniverse ru = new ReflectedUniverse();
-			ru.setVar("source", source);
-			final Service formatService =
-				getContext().service("io.scif.services.FormatService");
-			ru.setVar("formatService", formatService);
-
-			ru.exec("import io.scif.config.SCIFIOConfig");
-			ru.exec("config = new SCIFIOConfig()");
-			ru.exec("config.checkerSetOpen(true)");
-			return ru.exec("formatService.getFormat(source, config)") != null;
-		}
-		catch (final ReflectException exc) {
-			log.error(exc);
-		}
-		return false;
+		throw new UnsupportedOperationException(
+			"Use io.scif.services.DatasetIOService instead.");
 	}
 
+	/**
+	 * @deprecated Use io.scif.services.DatasetIOService#canSave instead.
+	 */
 	@Override
+	@Deprecated
 	public boolean canSave(final String destination) {
-		try {
-			final ReflectedUniverse ru = new ReflectedUniverse();
-			ru.setVar("destination", destination);
-			final Service formatService =
-				getContext().service("io.scif.services.FormatService");
-			ru.setVar("formatService", formatService);
-
-			return ru.exec("formatService.getWriterByExtension(destination)") != null;
-		}
-		catch (final ReflectException exc) {
-			log.error(exc);
-		}
-		return false;
+		throw new UnsupportedOperationException(
+			"Use io.scif.services.DatasetIOService instead.");
 	}
 
+	/**
+	 * @deprecated Use io.scif.services.DatasetIOService#open instead.
+	 */
 	@Override
+	@Deprecated
 	public Dataset open(final String source) throws IOException {
-		try {
-			final ReflectedUniverse ru = new ReflectedUniverse();
-			ru.exec("import io.scif.config.SCIFIOConfig");
-			ru.exec("config = new SCIFIOConfig()");
-			ru.exec("config.imgOpenerSetIndex(0)");
-			return open(source, ru.getVar("config"));
-		}
-		catch (final ReflectException exc) {
-			throw new IOException(exc);
-		}
+		throw new UnsupportedOperationException(
+			"Use io.scif.services.DatasetIOService instead.");
 	}
 
+	/**
+	 * @deprecated Use io.scif.services.DatasetIOService#open instead.
+	 */
 	@Override
+	@Deprecated
 	public Dataset open(final String source, final Object config)
 		throws IOException
 	{
-		try {
-			final ReflectedUniverse ru = new ReflectedUniverse();
-			ru.setVar("source", source);
-			ru.setVar("config", config);
-			ru.setVar("context", getContext());
-
-			ru.exec("import io.scif.img.ImgOpener");
-			ru.exec("imageOpener = new ImgOpener(context)");
-
-			// skip min/max computation
-			ru.exec("config.imgOpenerSetComputeMinMax(false)");
-
-			// prefer planar array structure, for ImageJ1 and ImgSaver compatibility
-			ru.exec("import io.scif.config.SCIFIOConfig$ImgMode");
-			//TODO
-			// we cannot construct new arrays manually since the ReflectedUniverse
-			// only looks for parenthesees. We should probably move this to a utility
-			// method of the RU if we're going to keep it around.
-			ru.exec("import java.lang.reflect.Array");
-			ru.exec("mode = SCIFIOConfig$ImgMode.PLANAR");
-			ru.exec("modeArray = Array.newInstance(SCIFIOConfig$ImgMode, 1)");
-			ru.exec("Array.set(modeArray, 0, mode)");
-			ru.exec("config.imgOpenerSetImgModes(modeArray)");
-
-			ru.exec("imgPluses = imageOpener.openImgs(source, config)");
-			return create((ImgPlus) ru.exec("imgPluses.get(0)"));
-		}
-		catch (final ReflectException exc) {
-			throw new IOException(exc);
-		}
+		throw new UnsupportedOperationException(
+			"Use io.scif.services.DatasetIOService instead.");
 	}
 
+	/**
+	 * @deprecated Use io.scif.services.DatasetIOService#revert instead.
+	 */
 	@Override
+	@Deprecated
 	public void revert(final Dataset dataset) throws IOException {
-		final String source = dataset.getSource();
-		if (source == null || source.isEmpty()) {
-			// no way to revert
-			throw new IOException("Cannot revert image of unknown origin");
-		}
-		final Dataset revertedDataset = open(source);
-		revertedDataset.copyInto(dataset);
+		throw new UnsupportedOperationException(
+			"Use io.scif.services.DatasetIOService instead.");
 	}
 
+	/**
+	 * @deprecated Use io.scif.services.DatasetIOService#save instead.
+	 */
 	@Override
+	@Deprecated
 	public Object save(final Dataset dataset, final String destination)
 		throws IOException
 	{
-		return save(dataset, destination, null);
+		throw new UnsupportedOperationException(
+			"Use io.scif.services.DatasetIOService instead.");
 	}
 
+	/**
+	 * @deprecated Use io.scif.services.DatasetIOService#save instead.
+	 */
 	@Override
+	@Deprecated
 	public Object save(final Dataset dataset, final String destination,
 		final Object config) throws IOException
 	{
-		final Object metadata;
-		try {
-			final ReflectedUniverse ru = new ReflectedUniverse();
-			ru.setVar("destination", destination);
-			ru.setVar("img", dataset.getImgPlus());
-			ru.setVar("config", config);
-			ru.setVar("context", getContext());
-
-			ru.exec("import io.scif.img.ImgSaver");
-			ru.exec("imageSaver = new ImgSaver(context)");
-			metadata = ru.exec("imageSaver.saveImg(destination, img, config)");
-		}
-		catch (final ReflectException exc) {
-			throw new IOException(exc);
-		}
-
-		final String name = new File(destination).getName();
-		dataset.setName(name);
-		dataset.setDirty(false);
-
-		return metadata;
+		throw new UnsupportedOperationException(
+			"Use io.scif.services.DatasetIOService instead.");
 	}
 
 	// -- Helper methods --
