@@ -732,7 +732,8 @@ public class DefaultDataset extends AbstractData implements Dataset {
 
 	@Override
 	public ImgFactory<RealType<?>> factory() {
-		throw new UnsupportedOperationException("TODO");
+		throw new UnsupportedOperationException(
+			"TODO: Not yet implemented. Use getImgPlus().factory() for now.");
 	}
 
 	@SuppressWarnings("unchecked")
