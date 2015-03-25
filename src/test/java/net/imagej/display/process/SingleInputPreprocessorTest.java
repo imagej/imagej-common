@@ -175,11 +175,19 @@ public class SingleInputPreprocessorTest {
 			return typedThing;
 		}
 		catch (final InterruptedException exc) {
-			throw new AssertionError("Module execution failed", exc);
+			throw assertionError("Module execution failed", exc);
 		}
 		catch (final ExecutionException exc) {
-			throw new AssertionError("Module execution failed", exc);
+			throw assertionError("Module execution failed", exc);
 		}
+	}
+
+	private AssertionError assertionError(final String message,
+		final Throwable cause)
+	{
+			final AssertionError err = new AssertionError(message);
+			err.initCause(cause);
+			return err;
 	}
 
 	// -- Helper classes --
