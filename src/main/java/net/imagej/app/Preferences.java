@@ -37,7 +37,7 @@ import org.scijava.plugin.Attr;
 import org.scijava.plugin.Menu;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
-import org.scijava.util.Prefs;
+import org.scijava.prefs.PrefService;
 
 /**
  * Displays the ImageJ preferences.
@@ -51,12 +51,15 @@ import org.scijava.util.Prefs;
 	@Attr(name = "no-legacy"), @Attr(name = "app-command") })
 public class Preferences implements Command {
 
+	@Parameter
+	private PrefService prefService;
+
 	@Parameter(label = "Clear all preferences")
 	private boolean clearAll = false;
 
 	@Override
 	public void run() {
-		if (clearAll) Prefs.clearAll();
+		if (clearAll) prefService.clearAll();
 	}
 
 	public void setClearAll(boolean val) {
