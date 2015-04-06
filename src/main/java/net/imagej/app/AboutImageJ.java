@@ -187,6 +187,7 @@ public class AboutImageJ extends ContextCommand {
 		}
 		catch (final IllegalArgumentException e) {
 			// ignore if we cannot make it an RGB image
+			log.debug(e);
 		}
 
 		return ds;
