@@ -59,6 +59,7 @@ import org.scijava.command.Command;
 import org.scijava.command.ContextCommand;
 import org.scijava.display.Display;
 import org.scijava.display.DisplayService;
+import org.scijava.io.IOService;
 import org.scijava.log.LogService;
 import org.scijava.menu.MenuConstants;
 import org.scijava.plugin.Attr;
@@ -100,6 +101,9 @@ public class AboutImageJ extends ContextCommand {
 
 	@Parameter
 	private AppService appService;
+
+	@Parameter
+	private IOService ioSrv;
 
 	@Parameter
 	private DatasetService dataSrv;
@@ -151,7 +155,11 @@ public class AboutImageJ extends ContextCommand {
 
 		Dataset ds = null;
 		try {
-			ds = dataSrv.open(source);
+			final Object obj = ioSrv.open(source);
+			if (obj instanceof Dataset) ds = (Dataset) obj;
+			else {
+				log.error(obj.getClass().getName() + " is not a Dataset: " + source);
+			}
 		}
 		catch (final IOException e) {
 			log.error(e);
