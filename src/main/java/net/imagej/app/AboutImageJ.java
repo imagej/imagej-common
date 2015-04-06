@@ -47,10 +47,10 @@ import net.imagej.ChannelCollection;
 import net.imagej.Dataset;
 import net.imagej.DatasetService;
 import net.imagej.DrawingTool;
-import net.imagej.render.RenderingService;
-import net.imagej.render.TextRenderer.TextJustification;
 import net.imagej.axis.Axes;
 import net.imagej.axis.AxisType;
+import net.imagej.render.RenderingService;
+import net.imagej.render.TextRenderer.TextJustification;
 
 import org.scijava.ItemIO;
 import org.scijava.app.App;
