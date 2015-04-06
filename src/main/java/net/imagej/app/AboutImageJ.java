@@ -203,13 +203,14 @@ public class AboutImageJ extends ContextCommand {
 
 	/**
 	 * Returns the path to a backdrop image file. Chooses randomly from those
-	 * present in the "about" folder off the ImageJ base directory.
+	 * present in the "images/about" folder off the ImageJ base directory.
 	 * 
 	 * @return file path of the chosen image
 	 */
 	private File getRandomAboutImagePath() {
-		final File aboutDir =
-			new File(appService.getApp().getBaseDirectory(), "about");
+		final File imagesDir =
+			new File(appService.getApp().getBaseDirectory(), "images");
+		final File aboutDir = new File(imagesDir, "about");
 		if (!aboutDir.exists()) {
 			// no "about" folder found
 			log.warn("About folder '" + aboutDir.getPath() + "' does not exist.");
