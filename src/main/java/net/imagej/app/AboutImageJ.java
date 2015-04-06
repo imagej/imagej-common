@@ -184,7 +184,8 @@ public class AboutImageJ extends ContextCommand {
 		ds.setName(title);
 		try {
 			ds.setRGBMerged(true);
-		} catch (final IllegalArgumentException e) {
+		}
+		catch (final IllegalArgumentException e) {
 			// ignore if we cannot make it an RGB image
 		}
 
