@@ -625,8 +625,8 @@ public class DefaultImageDisplay extends AbstractDisplay<DataView> implements
 		});
 	}
 
-	// TODO - displays should not listen for Data events. Views should listen for
-	// data events, adjust themseleves, and generate view events. The display
+	// FIXME - displays should not listen for Data events. Views should listen for
+	// data events, adjust themselves, and generate view events. The display
 	// classes should listen for view events and refresh themselves as necessary.
 
 	@EventHandler
