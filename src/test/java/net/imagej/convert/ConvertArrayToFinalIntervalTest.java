@@ -8,13 +8,13 @@
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,11 +28,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
+
 package net.imagej.convert;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import net.imagej.ImgPlus;
 import net.imglib2.Dimensions;
 
@@ -41,7 +42,7 @@ import org.scijava.convert.Converter;
 
 /**
  * Tests converters from native java arrays to FinalIntervals
- * 
+ *
  * @author Christian Dietz, University of Konstanz
  */
 public class ConvertArrayToFinalIntervalTest {
@@ -49,9 +50,10 @@ public class ConvertArrayToFinalIntervalTest {
 	@Test
 	public void convertLongArrayToDimensionsTest() {
 
-		long[] dims = new long[] { 1, 2, 3 };
+		final long[] dims = new long[] { 1, 2, 3 };
 
-		final Converter<long[], ? extends Dimensions> converter = new ConvertLongArrayToFinalInterval();
+		final Converter<long[], ? extends Dimensions> converter =
+			new ConvertLongArrayToFinalInterval();
 		assertTrue(converter.canConvert(dims, Dimensions.class));
 
 		final Dimensions dimensions = converter.convert(dims, Dimensions.class);
@@ -67,9 +69,10 @@ public class ConvertArrayToFinalIntervalTest {
 	@Test
 	public void convertIntArrayToDimensionsTest() {
 
-		int[] dims = new int[] { 1, 2, 3 };
+		final int[] dims = new int[] { 1, 2, 3 };
 
-		final Converter<int[], ? extends Dimensions> converter = new ConvertIntArrayToFinalInterval();
+		final Converter<int[], ? extends Dimensions> converter =
+			new ConvertIntArrayToFinalInterval();
 		assertTrue(converter.canConvert(dims, Dimensions.class));
 
 		final Dimensions dimensions = converter.convert(dims, Dimensions.class);
@@ -88,7 +91,7 @@ public class ConvertArrayToFinalIntervalTest {
 	@Test
 	public void testFalsePositives() {
 
-		int[] dims = new int[] { 1, 2, 3 };
+		final int[] dims = new int[] { 1, 2, 3 };
 
 		final Converter<int[], ? extends Dimensions> converter =
 			new ConvertIntArrayToFinalInterval();
