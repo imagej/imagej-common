@@ -28,22 +28,40 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package net.imagej.converters;
+package net.imagej.convert;
 
+import static org.junit.Assert.assertTrue;
+import net.imagej.convert.ConvertRAIToIterableInterval;
+import net.imglib2.IterableInterval;
+import net.imglib2.RandomAccessibleInterval;
+import net.imglib2.img.array.ArrayImgs;
+import net.imglib2.type.numeric.integer.ByteType;
+import net.imglib2.view.Views;
+
+import org.junit.Test;
 import org.scijava.convert.Converter;
 
-import net.imglib2.Dimensions;
-
 /**
- * 
- * Interface to describe Converters from native long[] arrays to Dimensions
+ * Tests conversion between RandomAccessibleInterval and IterableInterval
  * 
  * @author Christian Dietz, University of Konstanz
- *
- * @param <D>
- *            resulting Dimensions type
  */
-public interface ConvertLongArrayToDimensions<D extends Dimensions> extends
-		Converter<long[], D> {
-	// NB: Marker interface
+public class ConvertRAIToIterableIntervalTest {
+
+	@Test
+	public void convertRaitoIterableIntervalTest() {
+
+		// we need a Rai
+		final RandomAccessibleInterval<ByteType> rai = Views.subsample(
+				ArrayImgs.bytes(10, 10, 10), 2);
+
+		// Test if converter can convert
+		@SuppressWarnings("rawtypes")
+		final Converter<RandomAccessibleInterval, IterableInterval> converter = new ConvertRAIToIterableInterval();
+		assertTrue(converter.canConvert(rai, IterableInterval.class));
+
+		// Test if result is non-null
+		assertTrue(converter.convert(rai, IterableInterval.class) != null);
+
+	}
 }

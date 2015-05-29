@@ -28,39 +28,41 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package net.imagej.converters;
+package net.imagej.convert;
 
-import static org.junit.Assert.assertTrue;
 import net.imglib2.IterableInterval;
 import net.imglib2.RandomAccessibleInterval;
-import net.imglib2.img.array.ArrayImgs;
-import net.imglib2.type.numeric.integer.ByteType;
 import net.imglib2.view.Views;
 
-import org.junit.Test;
+import org.scijava.convert.AbstractConverter;
 import org.scijava.convert.Converter;
+import org.scijava.plugin.Plugin;
 
 /**
- * Tests conversion between RandomAccessibleInterval and IterableInterval
+ * Converts RandomAccessibleInterval to IterableInterval using Views
  * 
  * @author Christian Dietz, University of Konstanz
  */
-public class ConvertRAIToIterableIntervalTest {
+@SuppressWarnings("rawtypes")
+@Plugin(type = Converter.class)
+public class ConvertRAIToIterableInterval extends
+		AbstractConverter<RandomAccessibleInterval, IterableInterval> implements
+		Converter<RandomAccessibleInterval, IterableInterval> {
 
-	@Test
-	public void convertRaitoIterableIntervalTest() {
-
-		// we need a Rai
-		final RandomAccessibleInterval<ByteType> rai = Views.subsample(
-				ArrayImgs.bytes(10, 10, 10), 2);
-
-		// Test if converter can convert
-		@SuppressWarnings("rawtypes")
-		final Converter<RandomAccessibleInterval, IterableInterval> converter = new ConvertRAIToIterableInterval();
-		assertTrue(converter.canConvert(rai, IterableInterval.class));
-
-		// Test if result is non-null
-		assertTrue(converter.convert(rai, IterableInterval.class) != null);
-
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T convert(Object src, Class<T> dest) {
+		return (T) Views.iterable((RandomAccessibleInterval<T>) src);
 	}
+
+	@Override
+	public Class<IterableInterval> getOutputType() {
+		return IterableInterval.class;
+	}
+
+	@Override
+	public Class<RandomAccessibleInterval> getInputType() {
+		return RandomAccessibleInterval.class;
+	}
+
 }

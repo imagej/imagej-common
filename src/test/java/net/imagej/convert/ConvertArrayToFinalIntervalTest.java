@@ -28,22 +28,57 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package net.imagej.converters;
+package net.imagej.convert;
 
-import org.scijava.convert.Converter;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import net.imagej.convert.ConvertIntArrayToFinalInterval;
+import net.imagej.convert.ConvertLongArrayToFinalInterval;
 import net.imglib2.Dimensions;
 
+import org.junit.Test;
+import org.scijava.convert.Converter;
+
 /**
- * 
- * Interface to describe Converters from native int[] arrays to Dimensions
+ * Tests converters from native java arrays to FinalIntervals
  * 
  * @author Christian Dietz, University of Konstanz
- *
- * @param <D>
- *            resulting Dimensions type
  */
-public interface ConvertIntArrayToDimensions<D extends Dimensions> extends
-		Converter<int[], D> {
-	// NB: Marker interface
+public class ConvertArrayToFinalIntervalTest {
+
+	@Test
+	public void convertLongArrayToDimensionsTest() {
+
+		long[] dims = new long[] { 1, 2, 3 };
+
+		final Converter<long[], ? extends Dimensions> converter = new ConvertLongArrayToFinalInterval();
+		assertTrue(converter.canConvert(dims, Dimensions.class));
+
+		final Dimensions dimensions = converter.convert(dims, Dimensions.class);
+
+		assertTrue(dimensions != null);
+
+		for (int d = 0; d < dimensions.numDimensions(); d++) {
+			assertEquals(dims[d], dimensions.dimension(d));
+		}
+
+	}
+
+	@Test
+	public void convertIntArrayToDimensionsTest() {
+
+		int[] dims = new int[] { 1, 2, 3 };
+
+		final Converter<int[], ? extends Dimensions> converter = new ConvertIntArrayToFinalInterval();
+		assertTrue(converter.canConvert(dims, Dimensions.class));
+
+		final Dimensions dimensions = converter.convert(dims, Dimensions.class);
+
+		assertTrue(dimensions != null);
+
+		for (int d = 0; d < dimensions.numDimensions(); d++) {
+			assertEquals(dims[d], dimensions.dimension(d));
+		}
+
+	}
 }

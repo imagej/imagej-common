@@ -28,41 +28,55 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package net.imagej.converters;
+package net.imagej.convert;
 
-import net.imglib2.IterableInterval;
-import net.imglib2.RandomAccessibleInterval;
-import net.imglib2.view.Views;
+import net.imglib2.Dimensions;
+import net.imglib2.FinalInterval;
 
 import org.scijava.convert.AbstractConverter;
-import org.scijava.convert.Converter;
+import org.scijava.convert.ConversionRequest;
 import org.scijava.plugin.Plugin;
 
 /**
- * Converts RandomAccessibleInterval to IterableInterval using Views
+ * Converter from native long[] array to Dimensions
  * 
- * @author Christian Dietz, University of Konstanz
+ * Christian Dietz, University of Konstanz
  */
-@SuppressWarnings("rawtypes")
-@Plugin(type = Converter.class)
-public class ConvertRAIToIterableInterval extends
-		AbstractConverter<RandomAccessibleInterval, IterableInterval> implements
-		Converter<RandomAccessibleInterval, IterableInterval> {
+@Plugin(type = ConvertLongArrayToDimensions.class)
+public class ConvertLongArrayToFinalInterval extends
+		AbstractConverter<long[], FinalInterval> implements
+		ConvertLongArrayToDimensions<FinalInterval> {
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T convert(Object src, Class<T> dest) {
-		return (T) Views.iterable((RandomAccessibleInterval<T>) src);
+		long[] input = (long[]) src;
+		return (T) new FinalInterval(input);
 	}
 
 	@Override
-	public Class<IterableInterval> getOutputType() {
-		return IterableInterval.class;
+	public Class<FinalInterval> getOutputType() {
+		return FinalInterval.class;
 	}
 
 	@Override
-	public Class<RandomAccessibleInterval> getInputType() {
-		return RandomAccessibleInterval.class;
+	public Class<long[]> getInputType() {
+		return long[].class;
 	}
 
+	@Override
+	public boolean canConvert(Object src, Class<?> dest) {
+		return canConvert(new ConversionRequest(src.getClass(), dest));
+	}
+
+	@Override
+	public boolean canConvert(ConversionRequest req) {
+		return supports(req);
+	}
+
+	@Override
+	public boolean supports(ConversionRequest request) {
+		return request.sourceClass() == long[].class
+				&& Dimensions.class.isAssignableFrom(request.destClass());
+	}
 }

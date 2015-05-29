@@ -28,55 +28,22 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package net.imagej.converters;
+package net.imagej.convert;
+
+import org.scijava.convert.Converter;
 
 import net.imglib2.Dimensions;
-import net.imglib2.FinalInterval;
-
-import org.scijava.convert.AbstractConverter;
-import org.scijava.convert.ConversionRequest;
-import org.scijava.plugin.Plugin;
 
 /**
- * Converter from native long[] array to Dimensions
  * 
- * Christian Dietz, University of Konstanz
+ * Interface to describe Converters from native int[] arrays to Dimensions
+ * 
+ * @author Christian Dietz, University of Konstanz
+ *
+ * @param <D>
+ *            resulting Dimensions type
  */
-@Plugin(type = ConvertLongArrayToDimensions.class)
-public class ConvertLongArrayToFinalInterval extends
-		AbstractConverter<long[], FinalInterval> implements
-		ConvertLongArrayToDimensions<FinalInterval> {
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T convert(Object src, Class<T> dest) {
-		long[] input = (long[]) src;
-		return (T) new FinalInterval(input);
-	}
-
-	@Override
-	public Class<FinalInterval> getOutputType() {
-		return FinalInterval.class;
-	}
-
-	@Override
-	public Class<long[]> getInputType() {
-		return long[].class;
-	}
-
-	@Override
-	public boolean canConvert(Object src, Class<?> dest) {
-		return canConvert(new ConversionRequest(src.getClass(), dest));
-	}
-
-	@Override
-	public boolean canConvert(ConversionRequest req) {
-		return supports(req);
-	}
-
-	@Override
-	public boolean supports(ConversionRequest request) {
-		return request.sourceClass() == long[].class
-				&& Dimensions.class.isAssignableFrom(request.destClass());
-	}
+public interface ConvertIntArrayToDimensions<D extends Dimensions> extends
+		Converter<int[], D> {
+	// NB: Marker interface
 }

@@ -28,7 +28,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package net.imagej.converters;
+package net.imagej.convert;
 
 import net.imglib2.Dimensions;
 import net.imglib2.FinalInterval;
