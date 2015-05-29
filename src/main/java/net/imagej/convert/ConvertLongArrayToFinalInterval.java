@@ -30,11 +30,9 @@
  */
 package net.imagej.convert;
 
-import net.imglib2.Dimensions;
 import net.imglib2.FinalInterval;
 
 import org.scijava.convert.AbstractConverter;
-import org.scijava.convert.ConversionRequest;
 import org.scijava.plugin.Plugin;
 
 /**
@@ -62,21 +60,5 @@ public class ConvertLongArrayToFinalInterval extends
 	@Override
 	public Class<long[]> getInputType() {
 		return long[].class;
-	}
-
-	@Override
-	public boolean canConvert(Object src, Class<?> dest) {
-		return canConvert(new ConversionRequest(src.getClass(), dest));
-	}
-
-	@Override
-	public boolean canConvert(ConversionRequest req) {
-		return supports(req);
-	}
-
-	@Override
-	public boolean supports(ConversionRequest request) {
-		return request.sourceClass() == long[].class
-				&& Dimensions.class.isAssignableFrom(request.destClass());
 	}
 }
