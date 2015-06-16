@@ -12,8 +12,8 @@
 	<artifactId>imagej-common</artifactId>
 	<version>0.15.2-SNAPSHOT</version>
 
-	<name>ImageJ Common library</name>
-	<description>The ImageJ common library contains ImageJ's core image data model, based on ImgLib2. This is the primary mechanism by which image data is managed internally by ImageJ2. This component also provides the corresponding core image display logic for user interfaces.</description>
+	<name>ImageJ Common</name>
+	<description>This library contains ImageJ's core image data model, based on ImgLib2. It is the primary mechanism by which image data is managed internally by ImageJ2. This component also provides the corresponding core image display logic for user interfaces.</description>
 
 	<scm>
 		<connection>scm:git:git://github.com/imagej/imagej-common</connection>
