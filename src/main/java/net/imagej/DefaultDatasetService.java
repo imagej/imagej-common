@@ -63,6 +63,7 @@ import org.scijava.log.LogService;
 import org.scijava.object.ObjectService;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
+import org.scijava.script.ScriptService;
 import org.scijava.service.AbstractService;
 import org.scijava.service.Service;
 
@@ -77,6 +78,9 @@ import org.scijava.service.Service;
 public final class DefaultDatasetService extends AbstractService implements
 	DatasetService
 {
+
+	@Parameter
+	private ScriptService scriptService;
 
 	@Parameter
 	private LogService log;
@@ -200,6 +204,11 @@ public final class DefaultDatasetService extends AbstractService implements
 		final RandomAccessibleInterval<T> rai)
 	{
 		return create(wrapToImgPlus(rai));
+	}
+
+	@Override
+	public void initialize() {
+		scriptService.addAlias(Dataset.class);
 	}
 
 	/**

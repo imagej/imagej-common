@@ -37,7 +37,9 @@ import net.imglib2.type.numeric.IntegerType;
 import net.imglib2.type.numeric.NumericType;
 import net.imglib2.type.numeric.RealType;
 
+import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
+import org.scijava.script.ScriptService;
 import org.scijava.service.AbstractService;
 import org.scijava.service.Service;
 
@@ -51,6 +53,9 @@ import org.scijava.service.Service;
 public class DefaultImgPlusService extends AbstractService implements
 	ImgPlusService
 {
+
+	@Parameter
+	private ScriptService scriptService;
 
 	// TODO
 	// Using this class we should relax Dataset's ImgPlus' base type to Type
@@ -144,6 +149,11 @@ public class DefaultImgPlusService extends AbstractService implements
 //		}
 //		return null;
 //	}
+
+	@Override
+	public void initialize() {
+		scriptService.addAlias(net.imagej.ImgPlus.class);
+	}
 
 	// -- helpers --
 

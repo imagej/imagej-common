@@ -36,12 +36,14 @@ import java.util.List;
 import net.imagej.Data;
 import net.imagej.Dataset;
 import net.imagej.Position;
+import net.imagej.overlay.Overlay;
 
 import org.scijava.display.DisplayService;
 import org.scijava.event.EventService;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import org.scijava.plugin.PluginService;
+import org.scijava.script.ScriptService;
 import org.scijava.service.AbstractService;
 import org.scijava.service.Service;
 
@@ -65,6 +67,9 @@ public final class DefaultImageDisplayService extends AbstractService
 
 	@Parameter
 	private DisplayService displayService;
+
+	@Parameter
+	private ScriptService scriptService;
 
 	// -- ImageDisplayService methods --
 
@@ -148,4 +153,12 @@ public final class DefaultImageDisplayService extends AbstractService
 		return displayService.getDisplaysOfType(ImageDisplay.class);
 	}
 
+	@Override
+	public void initialize() {
+		scriptService.addAlias(ImageDisplay.class);
+		scriptService.addAlias(DatasetView.class);
+		scriptService.addAlias(DataView.class);
+		scriptService.addAlias(OverlayView.class);
+		scriptService.addAlias(Overlay.class);
+	}
 }
