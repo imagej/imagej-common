@@ -97,13 +97,27 @@ public class ImgPlus<T> extends AbstractCalibratedRealInterval<CalibratedAxis>
 	}
 
 	public ImgPlus(final Img<T> img, final ImgPlusMetadata metadata) {
+		this(img, metadata, false);
+	}
+
+	/**
+	 * As {@link #ImgPlus(Img, ImgPlusMetadata)} but with a flag to determine if
+	 * metadata beyond axis information is copied.
+	 *
+	 * @param axesOnly - if true, only axis metadata is copied.
+	 */
+	public ImgPlus(final Img<T> img,
+		final ImgPlusMetadata metadata, final boolean axesOnly)
+	{
 		this(img, metadata.getName(), copyAxes(metadata));
 
-		validBits = metadata.getValidBits();
-		compositeChannelCount = metadata.getCompositeChannelCount();
-		final int count = metadata.getColorTableCount();
-		for (int i = 0; i < count; i++) {
-			colorTable.add(metadata.getColorTable(i));
+		if (!axesOnly) {
+			validBits = metadata.getValidBits();
+			compositeChannelCount = metadata.getCompositeChannelCount();
+			final int count = metadata.getColorTableCount();
+			for (int i = 0; i < count; i++) {
+				colorTable.add(metadata.getColorTable(i));
+			}
 		}
 	}
 
