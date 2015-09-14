@@ -38,11 +38,15 @@ import net.imglib2.img.Img;
 
 /**
  * Metadata relating to channels and intensity scales.
+ * <p>
+ * <strong>NOTE:</strong> This class is slated for redesign in spring 2016. Use
+ * at your own risk! If you need future stability, use <a
+ * href="http://javadoc.imagej.net/ImgLib2/">ImgLib2</a> and/or <a
+ * href="http://javadoc.imagej.net/ImageJ1/">ImageJ 1.x</a> classes.
+ * </p>
  * 
  * @author Lee Kamentsky
- * @deprecated Placeholder until something better exists!
  */
-@Deprecated
 public interface ImageMetadata {
 
 	/** Gets the number of valid bits (if applicable to this {@link Img}). */
