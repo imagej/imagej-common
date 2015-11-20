@@ -94,6 +94,19 @@
 			<url>http://imagej.net/User:JeanYvesTinevez</url>
 			<properties><id>tinevez</id></properties>
 		</contributor>
+		<contributor>
+			<name>Luciano Culacciatti</name>
+		</contributor>
+		<contributor>
+			<name>Stephan Preibisch</name>
+			<url>http://imagej.net/User:Preibisch</url>
+			<properties><id>StephanPreibisch</id></properties>
+		</contributor>
+		<contributor>
+			<name>Wayne Rasband</name>
+			<url>http://imagej.net/Wayne_Rasband</url>
+			<properties><id>rasband</id></properties>
+		</contributor>
 	</contributors>
 
 	<scm>
