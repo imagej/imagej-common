@@ -281,6 +281,11 @@ public class UnboundedIntegerType implements IntegerType<UnboundedIntegerType> {
 	}
 
 	@Override
+	public BigInteger getBigInteger() {
+		return v;
+	}
+
+	@Override
 	public void setInteger(int f) {
 		set(f);
 	}
@@ -288,6 +293,11 @@ public class UnboundedIntegerType implements IntegerType<UnboundedIntegerType> {
 	@Override
 	public void setInteger(long f) {
 		set(f);
+	}
+
+	@Override
+	public void setBigInteger(BigInteger v) {
+		this.v = v;
 	}
 
 	@Override
