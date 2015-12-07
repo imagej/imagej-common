@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>net.imagej</groupId>
 		<artifactId>pom-imagej</artifactId>
-		<version>14.0.0</version>
+		<version>14.2.0</version>
 		<relativePath />
 	</parent>
 
@@ -123,10 +123,6 @@
 		<system>Jenkins</system>
 		<url>http://jenkins.imagej.net/job/ImageJ-common/</url>
 	</ciManagement>
-
-	<properties>
-		<imglib2.version>2.5.0</imglib2.version>
-	</properties>
 
 	<repositories>
 		<repository>
