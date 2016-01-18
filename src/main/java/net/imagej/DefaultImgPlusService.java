@@ -153,6 +153,7 @@ public class DefaultImgPlusService extends AbstractService implements
 	@Override
 	public void initialize() {
 		scriptService.addAlias(net.imagej.ImgPlus.class);
+		scriptService.addAlias(net.imglib2.img.Img.class);
 	}
 
 	// -- helpers --
