@@ -61,4 +61,9 @@ public class ShortColumn extends ShortArray implements Column<Short> {
 		this.header = header;
 	}
 
+	@Override
+	public Class<Short> getType() {
+		return Short.class;
+	}
+
 }

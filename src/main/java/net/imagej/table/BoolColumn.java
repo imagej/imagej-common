@@ -61,4 +61,9 @@ public class BoolColumn extends BoolArray implements Column<Boolean> {
 		this.header = header;
 	}
 
+	@Override
+	public Class<Boolean> getType() {
+		return Boolean.class;
+	}
+
 }

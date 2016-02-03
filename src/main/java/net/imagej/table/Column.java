@@ -56,5 +56,7 @@ public interface Column<T> extends List<T>, Sizable {
 	/** Sets the column's size (i.e., number of rows). */
 	@Override
 	void setSize(int size);
-	
+
+	/** Returns the actual type of data stored in the column. */
+	Class<T> getType();
 }

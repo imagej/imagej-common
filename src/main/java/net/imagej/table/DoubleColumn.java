@@ -61,4 +61,9 @@ public class DoubleColumn extends DoubleArray implements Column<Double> {
 		this.header = header;
 	}
 
+	@Override
+	public Class<Double> getType() {
+		return Double.class;
+	}
+
 }

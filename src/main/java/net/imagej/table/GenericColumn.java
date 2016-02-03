@@ -43,7 +43,7 @@ public class GenericColumn extends DefaultColumn<Object> {
 	}
 
 	public GenericColumn(final String header) {
-		super(header);
+		super(Object.class, header);
 	}
 
 }

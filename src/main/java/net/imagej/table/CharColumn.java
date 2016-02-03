@@ -61,4 +61,9 @@ public class CharColumn extends CharArray implements Column<Character> {
 		this.header = header;
 	}
 
+	@Override
+	public Class<Character> getType() {
+		return Character.class;
+	}
+
 }

@@ -61,4 +61,9 @@ public class ByteColumn extends ByteArray implements Column<Byte> {
 		this.header = header;
 	}
 
+	@Override
+	public Class<Byte> getType() {
+		return Byte.class;
+	}
+
 }

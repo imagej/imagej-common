@@ -61,4 +61,9 @@ public class LongColumn extends LongArray implements Column<Long> {
 		this.header = header;
 	}
 
+	@Override
+	public Class<Long> getType() {
+		return Long.class;
+	}
+
 }

@@ -61,4 +61,9 @@ public class FloatColumn extends FloatArray implements Column<Float> {
 		this.header = header;
 	}
 
+	@Override
+	public Class<Float> getType() {
+		return Float.class;
+	}
+
 }

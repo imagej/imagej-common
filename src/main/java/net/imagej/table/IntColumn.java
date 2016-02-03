@@ -61,4 +61,9 @@ public class IntColumn extends IntArray implements Column<Integer> {
 		this.header = header;
 	}
 
+	@Override
+	public Class<Integer> getType() {
+		return Integer.class;
+	}
+
 }

@@ -41,12 +41,16 @@ import org.scijava.util.SizableArrayList;
  */
 public class DefaultColumn<T> extends SizableArrayList<T> implements Column<T> {
 
+	/** The type of this column. */
+	private Class<T> type;
+
 	/** The column header. */
 	private String header;
 
 	public DefaultColumn() {}
 
-	public DefaultColumn(final String header) {
+	public DefaultColumn(final Class<T> type, final String header) {
+		this.type = type;
 		this.header = header;
 	}
 
@@ -60,6 +64,11 @@ public class DefaultColumn<T> extends SizableArrayList<T> implements Column<T> {
 	@Override
 	public void setHeader(final String header) {
 		this.header = header;
+	}
+
+	@Override
+	public Class<T> getType() {
+		return type;
 	}
 
 }
