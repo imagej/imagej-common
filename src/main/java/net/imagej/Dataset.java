@@ -31,6 +31,8 @@
 
 package net.imagej;
 
+import net.imagej.axis.Axes;
+import net.imagej.axis.AxisType;
 import net.imagej.axis.CalibratedAxis;
 import net.imglib2.img.Img;
 import net.imglib2.type.numeric.RealType;
@@ -152,6 +154,38 @@ public interface Dataset extends Data, ImgPlusMetadata, Img<RealType<?>> {
 
 	// TODO - move into Imglib
 	void setAxes(final CalibratedAxis[] axes);
+
+	//region -- Convenience methods --
+	default long getWidth() {
+		return getNamedAxisSize(Axes.X);
+	}
+
+	default long getHeight() {
+		return getNamedAxisSize(Axes.Y);
+	}
+
+	default long getDepth() {
+		return getNamedAxisSize(Axes.Z);
+	}
+
+	default long getFrames() {
+		return getNamedAxisSize(Axes.TIME);
+	}
+
+	default long getChannels() {
+		return getNamedAxisSize(Axes.CHANNEL);
+	}
+
+	default long getNamedAxisSize(AxisType axisType) {
+		int index = dimensionIndex(axisType);
+
+		if (index < 0) {
+			return -1;
+		}
+
+		return dimension(index);
+	}
+	//endregion
 
 	// -- Data methods --
 
