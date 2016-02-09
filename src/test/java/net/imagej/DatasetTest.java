@@ -32,9 +32,16 @@
 package net.imagej;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
+import java.util.Optional;
+
+import net.imagej.axis.Axes;
+import net.imagej.axis.AxisType;
+import net.imagej.axis.CalibratedAxis;
 import net.imglib2.RandomAccess;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
@@ -44,6 +51,8 @@ import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.integer.IntType;
 import net.imglib2.type.numeric.real.FloatType;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.scijava.Context;
 
@@ -51,6 +60,8 @@ import org.scijava.Context;
  * Unit tests for {@link Dataset}.
  *
  * @author Barry DeZonia
+ * @author Richard Domander
+ * @author Curtis Rueden
  */
 public class DatasetTest {
 
@@ -61,11 +72,10 @@ public class DatasetTest {
 	private static final int TPLANES = 4;
 	private static final long[] DIMENSIONS = { 4, 4, CPLANES, ZPLANES, TPLANES };
 
-	private Dataset createDataset(final ImgFactory<IntType> factory) {
-		final Context context = new Context(DatasetService.class);
-		final DatasetService datasetService = //
-			context.getService(DatasetService.class);
+	private Context context;
+	private DatasetService datasetService;
 
+	private Dataset createDataset(final ImgFactory<IntType> factory) {
 		final Img<IntType> img = factory.create(DIMENSIONS, new IntType());
 		final ImgPlus<IntType> imgPlus = new ImgPlus<>(img);
 		return datasetService.create(imgPlus);
@@ -168,6 +178,17 @@ public class DatasetTest {
 
 	// -- public tests --
 
+	@Before
+	public void setUp() {
+		context = new Context(DatasetService.class);
+		datasetService = context.getService(DatasetService.class);
+	}
+
+	@After
+	public void tearDown() {
+		context.dispose();
+	}
+
 	@Test
 	public void testGetPlane() {
 		testPlanarCase();
@@ -197,5 +218,69 @@ public class DatasetTest {
 		}
 		assertSame(d.getImgPlus().getImg().getClass(), //
 			d2.getImgPlus().getImg().getClass());
+	}
+
+	/**
+	 * Tests dimensional convenience methods:
+	 * <ul>
+	 * <li>{@link Dataset#getWidth()}</li>
+	 * <li>{@link Dataset#getHeight()}</li>
+	 * <li>{@link Dataset#getDepth()}</li>
+	 * <li>{@link Dataset#getFrames()}</li>
+	 * <li>{@link Dataset#getChannels()}</li>
+	 * </ul>
+	 */
+	@Test
+	public void testDimensionConvenienceMethods() {
+		final AxisType[] axes = { Axes.X, Axes.Y, Axes.Z, Axes.TIME, Axes.CHANNEL };
+		final long[] dims = { 1, 2, 3, 4, 5 };
+		final Dataset dataset = testData(dims, axes);
+
+		assertEquals("Unexpected width", dims[0], dataset.getWidth());
+		assertEquals("Unexpected height", dims[1], dataset.getHeight());
+		assertEquals("Unexpected depth", dims[2], dataset.getDepth());
+		assertEquals("Unexpected frames", dims[3], dataset.getFrames());
+		assertEquals("Unexpected channels", dims[4], dataset.getChannels());
+	}
+
+	/** Tests {@link Dataset#dimension(AxisType)} for non-existent axis type. */
+	@Test
+	public void testDimensionReturnsOneIfDimensionDoesNotExist() {
+		final AxisType[] axes = { Axes.X, Axes.Y };
+		final long[] dims = { 10, 10 };
+		final Dataset dataset = testData(dims, axes);
+
+		assertEquals("Absent Z-axis should return 1", 1, dataset.dimension(Axes.Z));
+	}
+
+	/** Tests {@link Dataset#axis(AxisType)} for non-existent axis type. */
+	@Test
+	public void testAxisReturnsEmptyIfTypeNotFound() {
+		final AxisType[] axes = { Axes.X };
+		final long[] dims = { 10 };
+		final Dataset dataset = testData(dims, axes);
+
+		assertFalse("Optional should be empty, no Y-axis", //
+			dataset.axis(Axes.Y).isPresent());
+	}
+
+	/** Tests {@link Dataset#axis(AxisType)}. */
+	@Test
+	public void testAxis() {
+		final AxisType[] axes = { Axes.X, Axes.Y };
+		final long[] dims = { 10, 10 };
+		final Dataset dataset = testData(dims, axes);
+
+		final Optional<CalibratedAxis> result = dataset.axis(Axes.Y);
+
+		assertTrue("Optional should be present", result.isPresent());
+		assertTrue("Wrong axis returned", //
+			result.get().type().getLabel().equals(Axes.Y.getLabel()));
+	}
+
+	// -- Helper methods --
+
+	private Dataset testData(final long[] dims, final AxisType[] axes) {
+		return datasetService.create(new IntType(), dims, "Test dataset", axes);
 	}
 }
