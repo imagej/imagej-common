@@ -34,6 +34,9 @@ package net.imagej;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
+
+import net.imagej.axis.Axes;
+import net.imagej.axis.AxisType;
 import net.imglib2.RandomAccess;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
@@ -42,6 +45,7 @@ import net.imglib2.img.planar.PlanarImgFactory;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.integer.IntType;
 
+import org.junit.AfterClass;
 import org.junit.Test;
 import org.scijava.Context;
 
@@ -53,6 +57,8 @@ import org.scijava.Context;
 public class DatasetTest {
 
 	// -- private interface --
+	private static final Context context = new Context(DatasetService.class);
+	private static final DatasetService datasetService = context.getService(DatasetService.class);
 
 	private static final int CPLANES = 2;
 	private static final int ZPLANES = 3;
@@ -60,10 +66,6 @@ public class DatasetTest {
 	private static final long[] DIMENSIONS = { 4, 4, CPLANES, ZPLANES, TPLANES };
 
 	private Dataset createDataset(final ImgFactory<IntType> factory) {
-		final Context context = new Context(DatasetService.class);
-		final DatasetService datasetService =
-			context.getService(DatasetService.class);
-
 		final Img<IntType> img = factory.create(DIMENSIONS, new IntType());
 		final ImgPlus<IntType> imgPlus = new ImgPlus<IntType>(img);
 		return datasetService.create(imgPlus);
@@ -166,9 +168,36 @@ public class DatasetTest {
 
 	// -- public tests --
 
+	@AfterClass
+	public static void oneTimeTearDown() {
+		context.dispose();
+	}
+
 	@Test
 	public void testGetPlane() {
 		testPlanarCase();
 		testNonplanarCase();
+	}
+
+	@Test
+	public void testConvenienceMethodsReturnRightDimension() {
+		final AxisType[] axes = {Axes.X, Axes.Y, Axes.Z, Axes.TIME, Axes.CHANNEL};
+		final long[] dimensions = {1, 2, 3, 4, 5};
+		final Dataset dataset = datasetService.create(new IntType(), dimensions, "", axes);
+
+		assertEquals("Unexpected width (x-axis size)", dimensions[0], dataset.getWidth());
+		assertEquals("Unexpected height (y-axis size)", dimensions[1], dataset.getHeight());
+		assertEquals("Unexpected depth (z-axis size)", dimensions[2], dataset.getDepth());
+		assertEquals("Unexpected frames (time-axis size)", dimensions[3], dataset.getFrames());
+		assertEquals("Unexpected channels (channel-axis size)", dimensions[4], dataset.getChannels());
+	}
+
+	@Test
+	public void testGetNamedAxisReturnsMinusOneIfDimensionDoesNotExist() {
+		final AxisType[] axes = {Axes.X, Axes.Y};
+		final long[] dimensions = {10, 10};
+		final Dataset dataset = datasetService.create(new IntType(), dimensions, "", axes);
+
+		assertEquals("There's no Z-axis, should return -1", -1, dataset.getNamedAxisSize(Axes.Z));
 	}
 }
