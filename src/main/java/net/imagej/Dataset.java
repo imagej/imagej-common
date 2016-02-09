@@ -45,6 +45,7 @@ import net.imglib2.type.numeric.RealType;
  * 
  * @author Curtis Rueden
  * @author Barry DeZonia
+ * @author Richard Domander
  */
 public interface Dataset extends Data, ImgPlusMetadata, Img<RealType<?>> {
 
@@ -176,6 +177,11 @@ public interface Dataset extends Data, ImgPlusMetadata, Img<RealType<?>> {
 		return getNamedAxisSize(Axes.CHANNEL);
 	}
 
+	/**
+	 * Returns the size of the given AxisType
+	 *
+	 * @return The size of the axis, or -1 if the Dataset doesn't have that axis
+	 */
 	default long getNamedAxisSize(AxisType axisType) {
 		int index = dimensionIndex(axisType);
 

@@ -53,6 +53,7 @@ import org.scijava.Context;
  * Unit tests for {@link Dataset}.
  * 
  * @author Barry DeZonia
+ * @author Richard Domander
  */
 public class DatasetTest {
 
