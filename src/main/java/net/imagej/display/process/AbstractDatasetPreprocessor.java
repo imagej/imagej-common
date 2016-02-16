@@ -32,36 +32,28 @@
 package net.imagej.display.process;
 
 import net.imagej.Dataset;
+import net.imagej.display.ImageDisplayService;
 
-import org.scijava.Priority;
-import org.scijava.module.process.PreprocessorPlugin;
-import org.scijava.plugin.Plugin;
+import org.scijava.plugin.Parameter;
 
 /**
- * Assigns the active {@link Dataset} when there is one single unresolved
- * {@link Dataset} parameter. Hence, rather than a dialog prompting the user to
- * choose a {@link Dataset}, the active {@link Dataset} is used automatically.
- * <p>
- * In the case of more than one {@link Dataset} parameter, the active
- * {@link Dataset} is not used and instead the user must select. This behavior
- * is consistent with ImageJ v1.x.
- * </p>
- * 
- * @author Curtis Rueden
+ * Abstract superclass for {@link SingleInputPreprocessor} implementations that
+ * operate on the active {@link Dataset}
+ *
+ * @author Mark Hiner hinerm at gmail.com
  */
-@Plugin(type = PreprocessorPlugin.class, priority = Priority.VERY_HIGH_PRIORITY)
-public class ActiveDatasetPreprocessor extends AbstractDatasetPreprocessor<Dataset>
-{
+public abstract class AbstractDatasetPreprocessor<T> extends SingleInputPreprocessor<T> {
 
-	public ActiveDatasetPreprocessor() {
-		super(Dataset.class);
+	public AbstractDatasetPreprocessor(Class<T> inputType) {
+		super(inputType);
 	}
 
-	// -- SingleInputProcessor methods --
+	@Parameter(required = false)
+	private ImageDisplayService imageDisplayService;
 
-	@Override
-	public Dataset getValue() {
-		return getDataset();
+	public Dataset getDataset() {
+		if (imageDisplayService == null)
+			return null;
+		return imageDisplayService.getActiveDataset();
 	}
-
 }
