@@ -70,9 +70,6 @@ public class ImgPlus<T> extends AbstractCalibratedRealInterval<CalibratedAxis>
 	implements Img<T>, WrappedImg<T>, ImgPlusMetadata
 {
 
-	/** The name assigned to the ImgPlus if none is provided. */
-	private static final String DEFAULT_NAME = "Untitled";
-
 	private final Img<T> img;
 
 	private String name;
@@ -142,7 +139,7 @@ public class ImgPlus<T> extends AbstractCalibratedRealInterval<CalibratedAxis>
 	{
 		super(img, axes);
 		this.img = img;
-		this.name = validateName(name);
+		setName(name);
 
 		channelMin = new ArrayList<Double>();
 		channelMax = new ArrayList<Double>();
@@ -457,12 +454,6 @@ public class ImgPlus<T> extends AbstractCalibratedRealInterval<CalibratedAxis>
 				new DefaultLinearAxis(validTypes[d], validUnits[d], validCal[d]);
 		}
 		return axes;
-	}
-
-	/** Ensures the given name is valid. */
-	private static String validateName(final String name) {
-		if (name == null) return DEFAULT_NAME;
-		return name;
 	}
 
 	/** Ensures the given axis types are valid. */
