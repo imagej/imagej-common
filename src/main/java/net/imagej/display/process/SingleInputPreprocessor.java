@@ -31,6 +31,10 @@
 
 package net.imagej.display.process;
 
+import java.util.Collection;
+
+import org.scijava.convert.ConvertService;
+import org.scijava.convert.Converter;
 import org.scijava.module.Module;
 import org.scijava.module.ModuleItem;
 import org.scijava.module.ModuleService;
@@ -38,9 +42,15 @@ import org.scijava.module.process.AbstractPreprocessorPlugin;
 import org.scijava.plugin.Parameter;
 
 /**
- * Base class for preprocessors that populate single input parameters.
+ * Base class for preprocessors that populate single input parameters. The
+ * {@link ConvertService} is used so that any single unresolved module that is
+ * convertible with the type of this preprocessor can be satisfied. For example,
+ * if there is a single unresolved {@code S} parameter, and a {@link Converter}
+ * exists from {@code T} to {@code S}, then the parameter can be resolved by
+ * this preprocessor.
  * 
  * @author Curtis Rueden
+ * @author Mark Hiner hinerm at gmail.com
  */
 public abstract class SingleInputPreprocessor<T> extends
 	AbstractPreprocessorPlugin
@@ -50,6 +60,9 @@ public abstract class SingleInputPreprocessor<T> extends
 
 	@Parameter(required = false)
 	private ModuleService moduleService;
+
+	@Parameter(required = false)
+	private ConvertService convertService;
 
 	public SingleInputPreprocessor(final Class<T> inputType) {
 		this.inputType = inputType;
@@ -65,23 +78,32 @@ public abstract class SingleInputPreprocessor<T> extends
 	@Override
 	public void process(final Module module) {
 		// look for single inputs that can be populated
-		final String singleInput = getSingleInput(module, inputType);
+		ModuleItem<?> singleInput = getSingleInput(module, inputType);
 		if (singleInput == null) return;
 
 		// populate the value of the single input
-		final Object value = getValue();
+		Object value = getValue();
 		if (value == null) return;
-		module.setInput(singleInput, value);
-		module.setResolved(singleInput, true);
+
+		String itemName = singleInput.getName();
+		value = convertService.convert(value, singleInput.getType());
+		module.setInput(itemName, value);
+		module.setResolved(itemName, true);
 	}
 
 	// -- Helper methods --
 
-	private String getSingleInput(final Module module, final Class<?> type) {
-		if (moduleService == null) return null;
-		final ModuleItem<?> item = moduleService.getSingleInput(module, type);
+	private ModuleItem<?> getSingleInput(final Module module, final Class<?> type) {
+		if (moduleService == null || convertService == null) return null;
+		// Check the actual class first
+		ModuleItem<?> item = moduleService.getSingleInput(module, type);
+		if (item == null || !item.isAutoFill()) {
+			// No match, so check look for classes that can be converted from the specified type
+			final Collection<Class<?>> compatibleClasses = convertService.getCompatibleOutputClasses(type);
+			item = moduleService.getSingleInput(module, compatibleClasses);
+		}
 		if (item == null || !item.isAutoFill()) return null;
-		return item.getName();
+		return item;
 	}
 
 }

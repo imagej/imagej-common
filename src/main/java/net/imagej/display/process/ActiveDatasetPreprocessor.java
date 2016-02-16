@@ -40,16 +40,18 @@ import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
 /**
- * Assigns the active {@link Dataset} when there is one single unresolved
- * {@link Dataset} parameter. Hence, rather than a dialog prompting the user to
- * choose a {@link Dataset}, the active {@link Dataset} is used automatically.
+ * Fills single, unresolved module inputs with the active active
+ * {@link Dataset}. Hence, rather than a dialog prompting the user to - *
+ * manually select an input, the active {@link Dataset} is used automatically. -
+ * *
  * <p>
- * In the case of more than one {@link Dataset} parameter, the active
- * {@link Dataset} is not used and instead the user must select. This behavior
- * is consistent with ImageJ v1.x.
+ * - * In the case of more than one compatible parameter, the active - *
+ * {@link Dataset} is not used and instead the user must select. This behavior -
+ * * is consistent with ImageJ v1.x. - *
  * </p>
  * 
  * @author Curtis Rueden
+ * @author Mark Hiner hinerm at gmail.com
  */
 @Plugin(type = PreprocessorPlugin.class, priority = Priority.VERY_HIGH_PRIORITY)
 public class ActiveDatasetPreprocessor extends SingleInputPreprocessor<Dataset>
