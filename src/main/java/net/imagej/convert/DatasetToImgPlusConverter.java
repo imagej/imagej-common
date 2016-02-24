@@ -2,7 +2,7 @@
  * #%L
  * ImageJ software for multidimensional image processing and analysis.
  * %%
- * Copyright (C) 2009 - 2015 Board of Regents of the University of
+ * Copyright (C) 2009 - 2016 Board of Regents of the University of
  * Wisconsin-Madison, Broad Institute of MIT and Harvard, and Max Planck
  * Institute of Molecular Cell Biology and Genetics.
  * %%
@@ -29,47 +29,41 @@
  * #L%
  */
 
-package net.imagej.display.process;
+package net.imagej.convert;
 
 import net.imagej.Dataset;
-import net.imagej.display.ImageDisplayService;
+import net.imagej.ImgPlus;
 
 import org.scijava.Priority;
-import org.scijava.module.process.PreprocessorPlugin;
-import org.scijava.plugin.Parameter;
+import org.scijava.convert.AbstractConverter;
+import org.scijava.convert.Converter;
 import org.scijava.plugin.Plugin;
 
 /**
- * Fills single, unresolved module inputs with the active active
- * {@link Dataset}. Hence, rather than a dialog prompting the user to - *
- * manually select an input, the active {@link Dataset} is used automatically. -
- * *
- * <p>
- * - * In the case of more than one compatible parameter, the active - *
- * {@link Dataset} is not used and instead the user must select. This behavior -
- * * is consistent with ImageJ v1.x. - *
- * </p>
- * 
- * @author Curtis Rueden
+ * Simple {@link Converter} for unwrapping {@link Dataset}s to their underlying
+ * {@link ImgPlus}.
+ *
  * @author Mark Hiner hinerm at gmail.com
  */
-@Plugin(type = PreprocessorPlugin.class, priority = Priority.VERY_HIGH_PRIORITY)
-public class ActiveDatasetPreprocessor extends SingleInputPreprocessor<Dataset>
-{
+@SuppressWarnings("rawtypes")
+@Plugin(type = Converter.class, priority = Priority.LOW_PRIORITY)
+public class DatasetToImgPlusConverter extends AbstractConverter<Dataset, ImgPlus>{
 
-	@Parameter(required = false)
-	private ImageDisplayService imageDisplayService;
-
-	public ActiveDatasetPreprocessor() {
-		super(Dataset.class);
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T convert(Object src, Class<T> dest) {
+		Dataset data = (Dataset)src;
+		return (T) data.getImgPlus();
 	}
 
-	// -- SingleInputProcessor methods --
+	@Override
+	public Class<ImgPlus> getOutputType() {
+		return ImgPlus.class;
+	}
 
 	@Override
-	public Dataset getValue() {
-		if (imageDisplayService == null) return null;
-		return imageDisplayService.getActiveDataset();
+	public Class<Dataset> getInputType() {
+		return Dataset.class;
 	}
 
 }
