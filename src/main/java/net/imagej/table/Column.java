@@ -37,7 +37,7 @@ import org.scijava.util.Sizable;
 
 /**
  * A column of data of a {@link Table}.
- * 
+ *
  * @author Curtis Rueden
  * @param <T> The type of data stored in the table.
  */
@@ -59,4 +59,11 @@ public interface Column<T> extends List<T>, Sizable {
 
 	/** Returns the actual type of data stored in the column. */
 	Class<T> getType();
+
+	/** Fills the column with the values in the given array. */
+	void fill(T[] values);
+
+	/** Fills the column with the values in the given array. */
+	void fill(T[] values, int offset);
+
 }

@@ -35,7 +35,7 @@ import org.scijava.util.DoubleArray;
 
 /**
  * Efficient implementation of {@link Column} for {@code double} primitives.
- * 
+ *
  * @author Curtis Rueden
  */
 public class DoubleColumn extends DoubleArray implements Column<Double> {
@@ -64,6 +64,33 @@ public class DoubleColumn extends DoubleArray implements Column<Double> {
 	@Override
 	public Class<Double> getType() {
 		return Double.class;
+	}
+
+	@Override
+	public void fill(final Double[] values) {
+		final double[] prim = toPrimitive(values);
+		this.setArray(prim);
+	}
+
+	@Override
+	public void fill(final Double[] values, final int offset) {
+		final double[] prim = toPrimitive(values);
+
+		// Check if array has been initialized
+		if (this.getArray() == null) this.setArray(prim);
+		else {
+			System.arraycopy(prim, 0, this.getArray(), offset, prim.length);
+		}
+	}
+
+	// -- Helper methods --
+
+	private double[] toPrimitive(final Double[] values) {
+		final double[] prim = new double[values.length];
+		for (int i = 0; i < prim.length; i++) {
+			prim[i] = values[i].doubleValue();
+		}
+		return prim;
 	}
 
 }

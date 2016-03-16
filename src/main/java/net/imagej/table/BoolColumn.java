@@ -35,7 +35,7 @@ import org.scijava.util.BoolArray;
 
 /**
  * Efficient implementation of {@link Column} for {@code boolean} primitives.
- * 
+ *
  * @author Alison Walter
  */
 public class BoolColumn extends BoolArray implements Column<Boolean> {
@@ -64,6 +64,33 @@ public class BoolColumn extends BoolArray implements Column<Boolean> {
 	@Override
 	public Class<Boolean> getType() {
 		return Boolean.class;
+	}
+
+	@Override
+	public void fill(final Boolean[] values) {
+		final boolean[] prim = toPrimitive(values);
+		this.setArray(prim);
+	}
+
+	@Override
+	public void fill(final Boolean[] values, final int offset) {
+		final boolean[] prim = toPrimitive(values);
+
+		// Check if array has been initialized
+		if (this.getArray() == null) this.setArray(prim);
+		else {
+			System.arraycopy(prim, 0, this.getArray(), offset, prim.length);
+		}
+	}
+
+	// -- Helper methods --
+
+	private boolean[] toPrimitive(final Boolean[] values) {
+		final boolean[] prim = new boolean[values.length];
+		for (int i = 0; i < prim.length; i++) {
+			prim[i] = values[i].booleanValue();
+		}
+		return prim;
 	}
 
 }

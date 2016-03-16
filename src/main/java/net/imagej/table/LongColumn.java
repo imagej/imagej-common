@@ -35,7 +35,7 @@ import org.scijava.util.LongArray;
 
 /**
  * Efficient implementation of {@link Column} for {@code long} primitives.
- * 
+ *
  * @author Alison Walter
  */
 public class LongColumn extends LongArray implements Column<Long> {
@@ -64,6 +64,33 @@ public class LongColumn extends LongArray implements Column<Long> {
 	@Override
 	public Class<Long> getType() {
 		return Long.class;
+	}
+
+	@Override
+	public void fill(final Long[] values) {
+		final long[] prim = toPrimitive(values);
+		this.setArray(prim);
+	}
+
+	@Override
+	public void fill(final Long[] values, final int offset) {
+		final long[] prim = toPrimitive(values);
+
+		// Check if array has been initialized
+		if (this.getArray() == null) this.setArray(prim);
+		else {
+			System.arraycopy(prim, 0, this.getArray(), offset, prim.length);
+		}
+	}
+
+	// -- Helper methods --
+
+	private long[] toPrimitive(final Long[] values) {
+		final long[] prim = new long[values.length];
+		for (int i = 0; i < prim.length; i++) {
+			prim[i] = values[i].longValue();
+		}
+		return prim;
 	}
 
 }

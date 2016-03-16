@@ -35,7 +35,7 @@ import org.scijava.util.IntArray;
 
 /**
  * Efficient implementation of {@link Column} for {@code int} primitives.
- * 
+ *
  * @author Alison Walter
  */
 public class IntColumn extends IntArray implements Column<Integer> {
@@ -64,6 +64,33 @@ public class IntColumn extends IntArray implements Column<Integer> {
 	@Override
 	public Class<Integer> getType() {
 		return Integer.class;
+	}
+
+	@Override
+	public void fill(final Integer[] values) {
+		final int[] prim = toPrimitive(values);
+		this.setArray(prim);
+	}
+
+	@Override
+	public void fill(final Integer[] values, final int offset) {
+		final int[] prim = toPrimitive(values);
+
+		// Check if array has been initialized
+		if (this.getArray() == null) this.setArray(prim);
+		else {
+			System.arraycopy(prim, 0, this.getArray(), offset, prim.length);
+		}
+	}
+
+	// -- Helper methods --
+
+	private int[] toPrimitive(final Integer[] values) {
+		final int[] prim = new int[values.length];
+		for (int i = 0; i < prim.length; i++) {
+			prim[i] = values[i].intValue();
+		}
+		return prim;
 	}
 
 }

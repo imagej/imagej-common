@@ -35,7 +35,7 @@ import org.scijava.util.CharArray;
 
 /**
  * Efficient implementation of {@link Column} for {@code char} primitives.
- * 
+ *
  * @author Alison Walter
  */
 public class CharColumn extends CharArray implements Column<Character> {
@@ -64,6 +64,33 @@ public class CharColumn extends CharArray implements Column<Character> {
 	@Override
 	public Class<Character> getType() {
 		return Character.class;
+	}
+
+	@Override
+	public void fill(final Character[] values) {
+		final char[] prim = toPrimitive(values);
+		this.setArray(prim);
+	}
+
+	@Override
+	public void fill(final Character[] values, final int offset) {
+		final char[] prim = toPrimitive(values);
+
+		// Check if array has been initialized
+		if (this.getArray() == null) this.setArray(prim);
+		else {
+			System.arraycopy(prim, 0, this.getArray(), offset, prim.length);
+		}
+	}
+
+	// -- Helper methods --
+
+	private char[] toPrimitive(final Character[] values) {
+		final char[] prim = new char[values.length];
+		for (int i = 0; i < prim.length; i++) {
+			prim[i] = values[i].charValue();
+		}
+		return prim;
 	}
 
 }

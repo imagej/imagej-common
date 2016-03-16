@@ -35,7 +35,7 @@ import org.scijava.util.ByteArray;
 
 /**
  * Efficient implementation of {@link Column} for {@code byte} primitives.
- * 
+ *
  * @author Alison Walter
  */
 public class ByteColumn extends ByteArray implements Column<Byte> {
@@ -64,6 +64,33 @@ public class ByteColumn extends ByteArray implements Column<Byte> {
 	@Override
 	public Class<Byte> getType() {
 		return Byte.class;
+	}
+
+	@Override
+	public void fill(final Byte[] values) {
+		final byte[] prim = toPrimitive(values);
+		this.setArray(prim);
+	}
+
+	@Override
+	public void fill(final Byte[] values, final int offset) {
+		final byte[] prim = toPrimitive(values);
+
+		// Check if array has been initialized
+		if (this.getArray() == null) this.setArray(prim);
+		else {
+			System.arraycopy(prim, 0, this.getArray(), offset, prim.length);
+		}
+	}
+
+	// -- Helper methods --
+
+	private byte[] toPrimitive(final Byte[] values) {
+		final byte[] prim = new byte[values.length];
+		for (int i = 0; i < prim.length; i++) {
+			prim[i] = values[i].byteValue();
+		}
+		return prim;
 	}
 
 }

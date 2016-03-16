@@ -35,7 +35,7 @@ import org.scijava.util.ShortArray;
 
 /**
  * Efficient implementation of {@link Column} for {@code short} primitives.
- * 
+ *
  * @author Alison Walter
  */
 public class ShortColumn extends ShortArray implements Column<Short> {
@@ -64,6 +64,33 @@ public class ShortColumn extends ShortArray implements Column<Short> {
 	@Override
 	public Class<Short> getType() {
 		return Short.class;
+	}
+
+	@Override
+	public void fill(final Short[] values) {
+		final short[] prim = toPrimitive(values);
+		this.setArray(prim);
+	}
+
+	@Override
+	public void fill(final Short[] values, final int offset) {
+		final short[] prim = toPrimitive(values);
+
+		// Check if array has been initialized
+		if (this.getArray() == null) this.setArray(prim);
+		else {
+			System.arraycopy(prim, 0, this.getArray(), offset, prim.length);
+		}
+	}
+
+	// -- Helper methods --
+
+	private short[] toPrimitive(final Short[] values) {
+		final short[] prim = new short[values.length];
+		for (int i = 0; i < prim.length; i++) {
+			prim[i] = values[i].shortValue();
+		}
+		return prim;
 	}
 
 }

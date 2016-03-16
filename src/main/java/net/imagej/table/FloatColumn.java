@@ -35,7 +35,7 @@ import org.scijava.util.FloatArray;
 
 /**
  * Efficient implementation of {@link Column} for {@code float} primitives.
- * 
+ *
  * @author Alison Walter
  */
 public class FloatColumn extends FloatArray implements Column<Float> {
@@ -64,6 +64,33 @@ public class FloatColumn extends FloatArray implements Column<Float> {
 	@Override
 	public Class<Float> getType() {
 		return Float.class;
+	}
+
+	@Override
+	public void fill(final Float[] values) {
+		final float[] prim = toPrimitive(values);
+		this.setArray(prim);
+	}
+
+	@Override
+	public void fill(final Float[] values, final int offset) {
+		final float[] prim = toPrimitive(values);
+
+		// Check if array has been initialized
+		if (this.getArray() == null) this.setArray(prim);
+		else {
+			System.arraycopy(prim, 0, this.getArray(), offset, prim.length);
+		}
+	}
+
+	// -- Helper methods --
+
+	private float[] toPrimitive(final Float[] values) {
+		final float[] prim = new float[values.length];
+		for (int i = 0; i < prim.length; i++) {
+			prim[i] = values[i].floatValue();
+		}
+		return prim;
 	}
 
 }
