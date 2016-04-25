@@ -37,6 +37,8 @@ import net.imagej.axis.CalibratedAxis;
 import net.imglib2.img.Img;
 import net.imglib2.type.numeric.RealType;
 
+import java.util.Optional;
+
 /**
  * Dataset is the primary image data structure in ImageJ. A Dataset wraps an
  * ImgLib {@link ImgPlus}. It also provides a number of convenience methods,
@@ -190,6 +192,23 @@ public interface Dataset extends Data, ImgPlusMetadata, Img<RealType<?>> {
 		}
 
 		return dimension(index);
+	}
+
+	/**
+	 * Returns the axis of the given type from this Dataset
+	 *
+	 * @param 	type Type of the axis, e.g. Axes.X
+	 * @return  An Optional containing the CalibratedAxis,
+	 *  		or empty if the Dataset doesn't contain an axis of the type
+     */
+	default Optional<CalibratedAxis> getTypedAxis(final AxisType type) {
+		final int index = dimensionIndex(type);
+
+		if (index < 0) {
+			return Optional.empty();
+		}
+
+		return Optional.of(this.axis(index));
 	}
 	//endregion
 

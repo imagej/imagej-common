@@ -32,11 +32,14 @@
 package net.imagej;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import net.imagej.axis.Axes;
 import net.imagej.axis.AxisType;
+import net.imagej.axis.CalibratedAxis;
 import net.imglib2.RandomAccess;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
@@ -48,6 +51,8 @@ import net.imglib2.type.numeric.integer.IntType;
 import org.junit.AfterClass;
 import org.junit.Test;
 import org.scijava.Context;
+
+import java.util.Optional;
 
 /**
  * Unit tests for {@link Dataset}.
@@ -200,5 +205,26 @@ public class DatasetTest {
 		final Dataset dataset = datasetService.create(new IntType(), dimensions, "", axes);
 
 		assertEquals("There's no Z-axis, should return -1", -1, dataset.getNamedAxisSize(Axes.Z));
+	}
+
+	@Test
+	public void testGetAxisReturnsEmptyIfTypeNotFound() {
+		final AxisType[] axes = {Axes.X};
+		final long[] dimensions = {10};
+		final Dataset dataset = datasetService.create(new IntType(), dimensions, "Test dataset", axes);
+
+		assertFalse("Optional should be empty, no Y-axis", dataset.getTypedAxis(Axes.Y).isPresent());
+	}
+
+	@Test
+	public void testGetAxis() {
+		final AxisType[] axes = {Axes.X, Axes.Y};
+		final long[] dimensions = {10, 10};
+		final Dataset dataset = datasetService.create(new IntType(), dimensions, "Test dataset", axes);
+
+		final Optional<CalibratedAxis> result = dataset.getTypedAxis(Axes.Y);
+
+		assertTrue("Optional should be present", result.isPresent());
+		assertTrue("Wrong axis returned", result.get().type().getLabel().equals(Axes.Y.getLabel()));
 	}
 }
