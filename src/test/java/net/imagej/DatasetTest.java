@@ -204,7 +204,7 @@ public class DatasetTest {
 		final long[] dimensions = {10, 10};
 		final Dataset dataset = datasetService.create(new IntType(), dimensions, "", axes);
 
-		assertEquals("There's no Z-axis, should return -1", -1, dataset.getNamedAxisSize(Axes.Z));
+		assertEquals("There's no Z-axis, should return -1", -1, dataset.getTypedAxisSize(Axes.Z));
 	}
 
 	@Test

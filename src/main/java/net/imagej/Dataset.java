@@ -160,32 +160,33 @@ public interface Dataset extends Data, ImgPlusMetadata, Img<RealType<?>> {
 
 	//region -- Convenience methods --
 	default long getWidth() {
-		return getNamedAxisSize(Axes.X);
+		return getTypedAxisSize(Axes.X);
 	}
 
 	default long getHeight() {
-		return getNamedAxisSize(Axes.Y);
+		return getTypedAxisSize(Axes.Y);
 	}
 
 	default long getDepth() {
-		return getNamedAxisSize(Axes.Z);
+		return getTypedAxisSize(Axes.Z);
 	}
 
 	default long getFrames() {
-		return getNamedAxisSize(Axes.TIME);
+		return getTypedAxisSize(Axes.TIME);
 	}
 
 	default long getChannels() {
-		return getNamedAxisSize(Axes.CHANNEL);
+		return getTypedAxisSize(Axes.CHANNEL);
 	}
 
 	/**
-	 * Returns the size of the given AxisType
+	 * Returns the size of the axis with the given AxisType
 	 *
-	 * @return The size of the axis, or -1 if the Dataset doesn't have that axis
+	 * @param	type Type of the axis, e.g. Axes.X
+	 * @return 	The size of the axis, or -1 if the Dataset doesn't have that axis
 	 */
-	default long getNamedAxisSize(AxisType axisType) {
-		int index = dimensionIndex(axisType);
+	default long getTypedAxisSize(final AxisType type) {
+		final int index = dimensionIndex(type);
 
 		if (index < 0) {
 			return -1;
