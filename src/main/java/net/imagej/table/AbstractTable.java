@@ -143,6 +143,8 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 		final ArrayList<C> result = new ArrayList<>(count);
 		for (int c = 0; c < count; c++) {
 			final C column = createColumn(null);
+			// initialize array
+			column.setSize(getRowCount());
 			result.add(column);
 			set(col + c, column);
 		}
