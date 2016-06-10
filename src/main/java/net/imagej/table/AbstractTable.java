@@ -134,7 +134,7 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 		setColumnCount(newColCount);
 
 		// copy columns after the inserted range into the new position
-		for (int oldC = col; oldC < oldColCount; oldC++) {
+		for (int oldC = oldColCount - 1; oldC >= col; oldC--) {
 			final int newC = oldC + count;
 			set(newC, get(oldC));
 		}
@@ -263,7 +263,9 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 		setRowCount(newRowCount);
 
 		// copy data after the inserted range into the new position
-		for (int oldR = row; oldR < oldRowCount; oldR++) {
+		// NB: This loop goes backwards to prevent the same row from being copied
+		// over and over again.
+		for (int oldR = oldRowCount - 1; oldR >= row; oldR--) {
 			final int newR = oldR + count;
 			for (int c = 0; c < getColumnCount(); c++) {
 				set(c, newR, get(c, oldR));
