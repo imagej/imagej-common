@@ -135,6 +135,22 @@ public class DefaultResultsTableTest {
 	}
 
 	@Test
+	public void testInsertColumn() {
+		final ResultsTable table = createTable();
+		final Double[] values = { -0.25, 0.5, 0.625, -1.25, 0.0, 0.0325, 100.5,
+			13.25, 110.5, -2.25, 4.625, -3.0, 100.0, 1209.25, -10.5, 16.25, -200.0,
+			-0.0325, 940385034958.5, -301284390284.25, 17.25 };
+
+		final DoubleColumn col = table.insertColumn(1, "Header4");
+		col.fill(values);
+
+		assertEquals(table.getColumnCount(), 4);
+		assertEquals(table.get(1).getHeader(), "Header4");
+
+		checkTableModifiedColumn(table, values, 1);
+	}
+
+	@Test
 	public void testAppendRow() {
 		final ResultsTable table = createTable();
 		final double[] values = { 1999, 42, 0.0 };
@@ -162,6 +178,21 @@ public class DefaultResultsTableTest {
 		}
 
 		checkTableModifiedRow(table, null, 4);
+	}
+
+	@Test
+	public void testRowInsert() {
+		final ResultsTable table = createTable();
+		final double[] values = { 1999, 42, 0.0 };
+
+		table.insertRow(6);
+
+		assertEquals(table.getRowCount(), 22);
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			table.setValue(i, 6, values[i]);
+		}
+
+		checkTableModifiedRow(table, values, 6);
 	}
 
 	//TODO - Add more tests. 
