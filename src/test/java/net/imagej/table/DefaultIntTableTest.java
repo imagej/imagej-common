@@ -2,7 +2,7 @@
  * #%L
  * ImageJ software for multidimensional image processing and analysis.
  * %%
- * Copyright (C) 2009 - 2016 Board of Regents of the University of
+ * Copyright (C) 2009 - 2015 Board of Regents of the University of
  * Wisconsin-Madison, Broad Institute of MIT and Harvard, and Max Planck
  * Institute of Molecular Cell Biology and Genetics.
  * %%
@@ -37,79 +37,77 @@ import static org.junit.Assert.assertSame;
 import org.junit.Test;
 
 /**
- * Tests {@link DefaultResultsTable}.
- * 
- * @author Curtis Rueden
+ * Tests {@link DefaultIntTable}.
+ *
  * @author Alison Walter
  */
-public class DefaultResultsTableTest {
+public class DefaultIntTableTest {
 
-	private static final String[] HEADERS = {"Year", "Age", "BA"};
+	private static final String[] HEADERS = { "Header1", "Header2", "Header3",
+		"Header4", "Header5", "Header6" };
 
-	// Paul Molitor
-	private static final double[][] DATA = {
-		{1978, 21, .273},
-		{1979, 22, .322},
-		{1980, 23, .304},
-		{1981, 24, .267},
-		{1982, 25, .302},
-		{1983, 26, .270},
-		{1984, 27, .217},
-		{1985, 28, .297},
-		{1986, 29, .281},
-		{1987, 30, .353},
-		{1988, 31, .312},
-		{1989, 32, .315},
-		{1990, 33, .285},
-		{1991, 34, .325},
-		{1992, 35, .320},
-		{1993, 36, .332},
-		{1994, 37, .341},
-		{1995, 38, .270},
-		{1996, 39, .341},
-		{1997, 40, .305},
-		{1998, 41, .281},
+	private static final int[][] DATA = {
+		{ 127, -45, 605, -123440804, -4082, 57823 },
+		{ 0, 0, 9, 12, 856, 1036 },
+		{ 17, 77, -684325, 894, -3246, 423 },
+		{ -3, -5234, 97, 93726, 672, -2 },
+		{ 4, 6, -22222222, 56234, -934270, -1938475430 },
+		{ 2147483647, -104, 867, -8, 386443263, 1248 },
+		{ 12, -2147483648, 456, 4652, -17, 95 },
+		{ 9275, -676, 7, 134, -32176368, 759 },
+		{ 184, 56, 104920256, 1436437635, -435, 1 },
+		{ 67, 3, -9, 94754, 4, -287934657 },
+		{ 48, -356, -748, -93784, 5879, 5 },
+		{ 289, 546453765, 0, 0, -6456, -23455 },
+		{ 768, -1411556, 7, 2356, 7925, 7468 },
+		{ -45, 25367, 546, 6757, -3, 1645 },
+		{ 1, 6, -2562345, -23565584, -35815, 956 },
 	};
 
 	@Test
 	public void testStructure() {
-		final ResultsTable table = createTable();
-		assertEquals(3, table.getColumnCount());
-		assertEquals(21, table.getRowCount());
-		for (DoubleColumn column : table) {
-			assertEquals(21, column.size());
+		final IntTable table = createTable();
+		// Check table size
+		assertEquals(6, table.getColumnCount());
+		assertEquals(15, table.getRowCount());
+		for (final IntColumn column : table) {
+			assertEquals(15, column.size());
 		}
 
-		assertEquals("Year", table.getColumnHeader(0));
-		assertEquals("Age", table.getColumnHeader(1));
-		assertEquals("BA", table.getColumnHeader(2));
+		// Test headers
+		for (int n = 0; n < table.getColumnCount(); n++) {
+			assertEquals(table.getColumnHeader(n), HEADERS[n]);
+		}
 
+		// Test getting columns
 		for (int c = 0; c < table.getColumnCount(); c++) {
-			final DoubleColumn columnByHeader = table.get(HEADERS[c]);
-			final DoubleColumn columnByIndex = table.get(c);
+			final IntColumn columnByHeader = table.get(HEADERS[c]);
+			final IntColumn columnByIndex = table.get(c);
 			assertSame(columnByHeader, columnByIndex);
 			assertEquals(DATA.length, columnByHeader.size());
+			// Test columns have expected row values
 			for (int r = 0; r < table.getRowCount(); r++) {
-				assertEquals(DATA[r][c], table.getValue(c, r), 0);
-				assertEquals(DATA[r][c], columnByHeader.getValue(r), 0);
+				assertEquals(DATA[r][c], table.getValue(c, r));
+				assertEquals(DATA[r][c], columnByHeader.getValue(r));
 			}
 		}
 	}
 
 	@Test
 	public void testGetColumnType() {
-		final ResultsTable table = createTable();
-		final DoubleColumn col = table.get(0);
-		assertEquals(col.getType(), Double.class);
+		final IntTable table = createTable();
+		final IntColumn col = table.get(0);
+		assertEquals(col.getType(), Integer.class);
 	}
+
+	// TODO - Add more tests.
 
 	// -- Helper methods --
 
-	private ResultsTable createTable() {
-		final ResultsTable table =
-			new DefaultResultsTable(DATA[0].length, DATA.length);
+	private IntTable createTable() {
+		final IntTable table = new DefaultIntTable(DATA[0].length, DATA.length);
 
-		for (int c=0; c<HEADERS.length; c++) {
+		for (int c = 0; c < HEADERS.length; c++) {
 			table.setColumnHeader(c, HEADERS[c]);
 		}
 

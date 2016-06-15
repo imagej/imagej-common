@@ -2,7 +2,7 @@
  * #%L
  * ImageJ software for multidimensional image processing and analysis.
  * %%
- * Copyright (C) 2009 - 2016 Board of Regents of the University of
+ * Copyright (C) 2009 - 2015 Board of Regents of the University of
  * Wisconsin-Madison, Broad Institute of MIT and Harvard, and Max Planck
  * Institute of Molecular Cell Biology and Genetics.
  * %%
@@ -37,79 +37,67 @@ import static org.junit.Assert.assertSame;
 import org.junit.Test;
 
 /**
- * Tests {@link DefaultResultsTable}.
- * 
- * @author Curtis Rueden
+ * Tests {@link DefaultShortTable}.
+ *
  * @author Alison Walter
  */
-public class DefaultResultsTableTest {
+public class DefaultShortTableTest {
 
-	private static final String[] HEADERS = {"Year", "Age", "BA"};
+	private static final String[] HEADERS = { "Header1", "Header2", "Header3",
+		"Header4" };
 
-	// Paul Molitor
-	private static final double[][] DATA = {
-		{1978, 21, .273},
-		{1979, 22, .322},
-		{1980, 23, .304},
-		{1981, 24, .267},
-		{1982, 25, .302},
-		{1983, 26, .270},
-		{1984, 27, .217},
-		{1985, 28, .297},
-		{1986, 29, .281},
-		{1987, 30, .353},
-		{1988, 31, .312},
-		{1989, 32, .315},
-		{1990, 33, .285},
-		{1991, 34, .325},
-		{1992, 35, .320},
-		{1993, 36, .332},
-		{1994, 37, .341},
-		{1995, 38, .270},
-		{1996, 39, .341},
-		{1997, 40, .305},
-		{1998, 41, .281},
+	private static final short[][] DATA = {
+		{ -32768, 0, 32767, 12 },
+		{ 3024, -31, 34, 21, },
+		{ 1, 2, 3, 4 },
+		{ 121, -3987, 7353, 9139 },
+		{ -31987, 5987, 12, -33 },
 	};
 
 	@Test
 	public void testStructure() {
-		final ResultsTable table = createTable();
-		assertEquals(3, table.getColumnCount());
-		assertEquals(21, table.getRowCount());
-		for (DoubleColumn column : table) {
-			assertEquals(21, column.size());
+		final ShortTable table = createTable();
+		// Check table size
+		assertEquals(4, table.getColumnCount());
+		assertEquals(5, table.getRowCount());
+		for (final ShortColumn column : table) {
+			assertEquals(5, column.size());
 		}
 
-		assertEquals("Year", table.getColumnHeader(0));
-		assertEquals("Age", table.getColumnHeader(1));
-		assertEquals("BA", table.getColumnHeader(2));
+		// Test headers
+		for (int n = 0; n < table.getColumnCount(); n++) {
+			assertEquals(table.getColumnHeader(n), HEADERS[n]);
+		}
 
+		// Test getting columns
 		for (int c = 0; c < table.getColumnCount(); c++) {
-			final DoubleColumn columnByHeader = table.get(HEADERS[c]);
-			final DoubleColumn columnByIndex = table.get(c);
+			final ShortColumn columnByHeader = table.get(HEADERS[c]);
+			final ShortColumn columnByIndex = table.get(c);
 			assertSame(columnByHeader, columnByIndex);
 			assertEquals(DATA.length, columnByHeader.size());
+			// Test columns have expected row values
 			for (int r = 0; r < table.getRowCount(); r++) {
-				assertEquals(DATA[r][c], table.getValue(c, r), 0);
-				assertEquals(DATA[r][c], columnByHeader.getValue(r), 0);
+				assertEquals(DATA[r][c], table.getValue(c, r));
+				assertEquals(DATA[r][c], columnByHeader.getValue(r));
 			}
 		}
 	}
 
 	@Test
 	public void testGetColumnType() {
-		final ResultsTable table = createTable();
-		final DoubleColumn col = table.get(0);
-		assertEquals(col.getType(), Double.class);
+		final ShortTable table = createTable();
+		final ShortColumn col = table.get(0);
+		assertEquals(col.getType(), Short.class);
 	}
+
+	// TODO - Add more tests.
 
 	// -- Helper methods --
 
-	private ResultsTable createTable() {
-		final ResultsTable table =
-			new DefaultResultsTable(DATA[0].length, DATA.length);
+	private ShortTable createTable() {
+		final ShortTable table = new DefaultShortTable(DATA[0].length, DATA.length);
 
-		for (int c=0; c<HEADERS.length; c++) {
+		for (int c = 0; c < HEADERS.length; c++) {
 			table.setColumnHeader(c, HEADERS[c]);
 		}
 
