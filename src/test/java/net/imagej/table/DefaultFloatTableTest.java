@@ -88,6 +88,67 @@ public class DefaultFloatTableTest {
 		assertEquals(col.getType(), Float.class);
 	}
 
+	@Test
+	public void testAppendColumn() {
+		final FloatTable table = createTable();
+		final Float[] values =
+			{ 17.0625f, 22.125f, -0.00000762939f, 0f, -2.03125f, -717.5f, 127.5f };
+
+		final FloatColumn col = table.appendColumn("Header6");
+		col.fill(values);
+
+		// Test appending a column
+		assertEquals(table.getColumnCount(), 6);
+		assertEquals(table.getColumnHeader(5), "Header6");
+
+		checkTableModifiedColumn(table, values, 5);
+	}
+
+	@Test
+	public void testRemoveColumn() {
+		final FloatTable table = createTable();
+		final FloatColumn col = table.removeColumn(1);
+
+		// Test removing a column
+		for (int i = 0; i < col.size(); i++) {
+			assertEquals(col.getValue(i), DATA[i][1], 0);
+		}
+		assertEquals(table.getColumnCount(), 4);
+
+		checkTableModifiedColumn(table, null, 1);
+	}
+
+	@Test
+	public void testAppendRow() {
+		final FloatTable table = createTable();
+		final float[] values = { -0.0625f, 5.5f, -4.03125f, 46.125f, 10489.5f };
+
+		// Test appending a row
+		table.appendRow();
+		assertEquals(table.getRowCount(), 8);
+		for (int i = 0; i < values.length; i++) {
+			table.setValue(i, 7, values[i]);
+			assertEquals(table.getValue(i, 7), values[i], 0);
+		}
+
+		checkTableModifiedRow(table, values, 7);
+	}
+
+	@Test
+	public void testRemoveRow() {
+		final FloatTable table = createTable();
+
+		// Test removing a row
+		table.removeRow(4);
+
+		assertEquals(table.getRowCount(), 6);
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			assertEquals(table.getValue(i, 4), DATA[5][i], 0);
+		}
+
+		checkTableModifiedRow(table, null, 4);
+	}
+
 	// TODO - Add more tests.
 
 	// -- Helper methods --
@@ -106,6 +167,48 @@ public class DefaultFloatTableTest {
 		}
 
 		return table;
+	}
+
+	private void checkTableModifiedColumn(final FloatTable table,
+		final Float[] values, final int mod)
+	{
+		for (int r = 0; r < table.getRowCount(); r++) {
+			for (int c = 0; c < table.getColumnCount(); c++) {
+				if ( c == mod && values != null ) {
+					assertEquals(table.getValue(c, r), values[r].floatValue(), 0);
+				}
+				else if ( c > mod && values != null ) {
+					assertEquals(table.getValue(c, r), DATA[r][c - 1], 0);
+				}
+				else if ( c >= mod && values == null ) {
+					assertEquals(table.getValue(c, r), DATA[r][c + 1], 0);
+				}
+				else {
+					assertEquals(table.getValue(c, r), DATA[r][c], 0);
+				}
+			}
+		}
+	}
+
+	private void checkTableModifiedRow(final FloatTable table,
+		final float[] values, final int mod)
+	{
+		for (int r = 0; r < table.getRowCount(); r++) {
+			for (int c = 0; c < table.getColumnCount(); c++) {
+				if ( r == mod && values != null ) {
+					assertEquals(table.getValue(c, r), values[c], 0);
+				}
+				else if ( r > mod && values != null) {
+					assertEquals(table.getValue(c, r), DATA[r-1][c], 0);
+				}
+				else if ( r >= mod && values == null ) {
+					assertEquals(table.getValue(c, r), DATA[r+1][c], 0);
+				}
+				else {
+					assertEquals(table.getValue(c, r), DATA[r][c], 0);
+				}
+			}
+		}
 	}
 
 }

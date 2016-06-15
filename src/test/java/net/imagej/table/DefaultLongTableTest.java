@@ -83,6 +83,67 @@ public class DefaultLongTableTest {
 		assertEquals(col.getType(), Long.class);
 	}
 
+	@Test
+	public void testAppendColumn() {
+		final LongTable table = createTable();
+		final Long[] values = { 542908l, 9574597419085l, -11l };
+
+		final LongColumn col = table.appendColumn("Header3");
+		col.fill(values);
+
+		// Test appending a column
+		assertEquals(table.getColumnCount(), 3);
+		assertEquals(table.get(2).getHeader(), "Header3");
+
+		checkTableModifiedColumn(table, values, 2);
+	}
+
+	@Test
+	public void testRemoveColumn() {
+		final LongTable table = createTable();
+
+		final LongColumn col = table.removeColumn(1);
+
+		// Test removing a column
+		for (int i = 0; i < col.size(); i++) {
+			assertEquals(col.getValue(i), DATA[i][1]);
+		}
+		assertEquals(table.getColumnCount(), 1);
+
+		checkTableModifiedColumn(table, null, 1);
+	}
+
+	@Test
+	public void testAppendRow() {
+		final LongTable table = createTable();
+		final long[] values = { 301984l, 15l };
+
+		// Test appending a row
+		table.appendRow();
+		assertEquals(table.getRowCount(), 4);
+		for (int i = 0; i < values.length; i++) {
+			table.setValue(i, 3, values[i]);
+			assertEquals(table.getValue(i, 3), values[i]);
+		}
+
+		checkTableModifiedRow(table, values, 3);
+	}
+
+	@Test
+	public void testRemoveRow() {
+		final LongTable table = createTable();
+
+		// Test removing a row
+		table.removeRow(0);
+
+		assertEquals(table.getRowCount(), 2);
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			assertEquals(table.getValue(i, 0), DATA[1][i]);
+		}
+
+		checkTableModifiedRow(table, null, 0);
+	}
+
 	// TODO - Add more tests.
 
 	// -- Helper methods --
@@ -101,6 +162,48 @@ public class DefaultLongTableTest {
 		}
 
 		return table;
+	}
+
+	private void checkTableModifiedColumn(final LongTable table,
+		final Long[] values, final int mod)
+	{
+		for (int r = 0; r < table.getRowCount(); r++) {
+			for (int c = 0; c < table.getColumnCount(); c++) {
+				if ( c == mod && values != null ) {
+					assertEquals(table.getValue(c, r), values[r].longValue());
+				}
+				else if ( c > mod && values != null ) {
+					assertEquals(table.getValue(c, r), DATA[r][c - 1]);
+				}
+				else if ( c >= mod && values == null ) {
+					assertEquals(table.getValue(c, r), DATA[r][c + 1]);
+				}
+				else {
+					assertEquals(table.getValue(c, r), DATA[r][c]);
+				}
+			}
+		}
+	}
+
+	private void checkTableModifiedRow(final LongTable table,
+		final long[] values, final int mod)
+	{
+		for (int r = 0; r < table.getRowCount(); r++) {
+			for (int c = 0; c < table.getColumnCount(); c++) {
+				if ( r == mod && values != null ) {
+					assertEquals(table.getValue(c, r), values[c]);
+				}
+				else if ( r > mod && values != null) {
+					assertEquals(table.getValue(c, r), DATA[r-1][c]);
+				}
+				else if ( r >= mod && values == null ) {
+					assertEquals(table.getValue(c, r), DATA[r+1][c]);
+				}
+				else {
+					assertEquals(table.getValue(c, r), DATA[r][c]);
+				}
+			}
+		}
 	}
 
 }

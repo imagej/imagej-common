@@ -88,6 +88,66 @@ public class DefaultBoolTableTest {
 		assertEquals(col.getType(), Boolean.class);
 	}
 
+	@Test
+	public void testAppendColumn() {
+		final BoolTable table = createTable();
+		final Boolean[] values =
+			{ true, true, true, true, false, true, false, true };
+
+		final BoolColumn col = table.appendColumn("Header4");
+		col.fill(values);
+
+		// Test appending a column
+		assertEquals(table.getColumnCount(), 4);
+		assertEquals(table.get(3).getHeader(), "Header4");
+
+		checkTableModifiedColumn(table, values, 3);
+	}
+
+	@Test
+	public void testRemoveColumn() {
+		final BoolTable table = createTable();
+		final BoolColumn col = table.removeColumn(2);
+
+		// Test removing a column
+		for (int i = 0; i < col.size(); i++) {
+			assertEquals(col.getValue(i), DATA[i][2]);
+		}
+		assertEquals(table.getColumnCount(), 2);
+
+		checkTableModifiedColumn(table, null, 2);
+	}
+
+	@Test
+	public void testAppendRow() {
+		final BoolTable table = createTable();
+		final boolean[] values = { true, true, false };
+
+		// Test appending a row
+		table.appendRow();
+		assertEquals(table.getRowCount(), 9);
+		for (int i = 0; i < values.length; i++) {
+			table.setValue(i, 8, values[i]);
+			assertEquals(table.getValue(i, 8), values[i]);
+		}
+
+		checkTableModifiedRow(table, values, 8);
+	}
+
+	@Test
+	public void testRemoveRow() {
+		final BoolTable table = createTable();
+
+		table.removeRow(1);
+
+		assertEquals(table.getRowCount(), 7);
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			assertEquals(table.getValue(i, 1), DATA[2][i]);
+		}
+
+		checkTableModifiedRow(table, null, 1);
+	}
+
 	// TODO - Add more tests.
 
 	// -- Helper methods --
@@ -106,6 +166,48 @@ public class DefaultBoolTableTest {
 		}
 
 		return table;
+	}
+
+	private void checkTableModifiedColumn(final BoolTable table,
+		final Boolean[] values, final int mod)
+	{
+		for (int r = 0; r < table.getRowCount(); r++) {
+			for (int c = 0; c < table.getColumnCount(); c++) {
+				if ( c == mod && values != null ) {
+					assertEquals(table.getValue(c, r), values[r]);
+				}
+				else if ( c > mod && values != null ) {
+					assertEquals(table.getValue(c, r), DATA[r][c - 1]);
+				}
+				else if ( c >= mod && values == null ) {
+					assertEquals(table.getValue(c, r), DATA[r][c + 1]);
+				}
+				else {
+					assertEquals(table.getValue(c, r), DATA[r][c]);
+				}
+			}
+		}
+	}
+
+	private void checkTableModifiedRow(final BoolTable table,
+		final boolean[] values, final int mod)
+	{
+		for (int r = 0; r < table.getRowCount(); r++) {
+			for (int c = 0; c < table.getColumnCount(); c++) {
+				if ( r == mod && values != null ) {
+					assertEquals(table.getValue(c, r), values[c]);
+				}
+				else if ( r > mod && values != null) {
+					assertEquals(table.getValue(c, r), DATA[r-1][c]);
+				}
+				else if ( r >= mod && values == null ) {
+					assertEquals(table.getValue(c, r), DATA[r+1][c]);
+				}
+				else {
+					assertEquals(table.getValue(c, r), DATA[r][c]);
+				}
+			}
+		}
 	}
 
 }

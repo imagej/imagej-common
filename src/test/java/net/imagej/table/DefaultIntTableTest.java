@@ -100,6 +100,68 @@ public class DefaultIntTableTest {
 		assertEquals(col.getType(), Integer.class);
 	}
 
+	@Test
+	public void testAppendColumn() {
+		final IntTable table = createTable();
+		final Integer[] values =
+			{ 30, 3109842, 28, 25, -432579, 22, -12, 0, 54235423, -7858345, -34, -3,
+			-35648443, 43512356, 999 };
+
+		final IntColumn col = table.appendColumn("Header7");
+		col.fill(values);
+
+		// Test appending a column
+		assertEquals(table.getColumnCount(), 7);
+		assertEquals(table.get(6).getHeader(), "Header7");
+
+		checkTableModifiedColumn(table, values, 6);
+	}
+
+	@Test
+	public void testRemoveColumn() {
+		final IntTable table = createTable();
+
+		// Test removing a column
+		final IntColumn col = table.removeColumn(5);
+
+		for (int i = 0; i < col.size(); i++) {
+			assertEquals(col.getValue(i), DATA[i][5]);
+		}
+		assertEquals(table.getColumnCount(), 5);
+
+		checkTableModifiedColumn(table, null, 5);
+	}
+
+	@Test
+	public void testAppendRow() {
+		final IntTable table = createTable();
+		final int[] values = { 179, 43148, -36, 1, 6, -356 };
+
+		// Test appending a row
+		table.appendRow();
+		assertEquals(table.getRowCount(), 16);
+		for (int i = 0; i < values.length; i++) {
+			table.setValue(i, 15, values[i]);
+			assertEquals(table.getValue(i, 15), values[i]);
+		}
+
+		checkTableModifiedRow(table, values, 15);
+	}
+
+	@Test
+	public void testRemoveRow() {
+		final IntTable table = createTable();
+
+		// Test removing a row
+		table.removeRow(10);
+		assertEquals(table.getRowCount(), 14);
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			assertEquals(table.getValue(i, 10), DATA[11][i]);
+		}
+
+		checkTableModifiedRow(table, null, 10);
+	}
+
 	// TODO - Add more tests.
 
 	// -- Helper methods --
@@ -118,6 +180,48 @@ public class DefaultIntTableTest {
 		}
 
 		return table;
+	}
+
+	private void checkTableModifiedColumn(final IntTable table,
+		final Integer[] values, final int mod)
+	{
+		for (int r = 0; r < table.getRowCount(); r++) {
+			for (int c = 0; c < table.getColumnCount(); c++) {
+				if ( c == mod && values != null ) {
+					assertEquals(table.getValue(c, r), values[r].intValue());
+				}
+				else if ( c > mod && values != null ) {
+					assertEquals(table.getValue(c, r), DATA[r][c - 1]);
+				}
+				else if ( c >= mod && values == null ) {
+					assertEquals(table.getValue(c, r), DATA[r][c + 1]);
+				}
+				else {
+					assertEquals(table.getValue(c, r), DATA[r][c]);
+				}
+			}
+		}
+	}
+
+	private void checkTableModifiedRow(final IntTable table, final int[] values,
+		final int mod)
+	{
+		for (int r = 0; r < table.getRowCount(); r++) {
+			for (int c = 0; c < table.getColumnCount(); c++) {
+				if ( r == mod && values != null ) {
+					assertEquals(table.getValue(c, r), values[c]);
+				}
+				else if ( r > mod && values != null) {
+					assertEquals(table.getValue(c, r), DATA[r-1][c]);
+				}
+				else if ( r >= mod && values == null ) {
+					assertEquals(table.getValue(c, r), DATA[r+1][c]);
+				}
+				else {
+					assertEquals(table.getValue(c, r), DATA[r][c]);
+				}
+			}
+		}
 	}
 
 }

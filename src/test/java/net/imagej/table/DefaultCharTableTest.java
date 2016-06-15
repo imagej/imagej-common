@@ -89,6 +89,66 @@ public class DefaultCharTableTest {
 		assertEquals(col.getType(), Character.class);
 	}
 
+	@Test
+	public void testAppendColumn() {
+		final CharTable table = createTable();
+		final Character[] values = { '2', 'W', '!', '*', 'o', 'E', ' ', 'A', '\t' };
+
+		final CharColumn col = table.appendColumn("Header4");
+		col.fill(values);
+
+		// Test appending a column
+		assertEquals(table.getColumnCount(), 4);
+		assertEquals(table.get(3).getHeader(), "Header4");
+
+		checkTableModifiedColumn(table, values, 3);
+	}
+
+	@Test
+	public void testRemoveColumn() {
+		final CharTable table = createTable();
+
+		final CharColumn col = table.removeColumn(2);
+
+		// Test removing a column
+		for (int i = 0; i < col.size(); i++) {
+			assertEquals(col.getValue(i), DATA[i][2]);
+		}
+		assertEquals(table.getColumnCount(), 2);
+
+		checkTableModifiedColumn(table, null, 2);
+	}
+
+	@Test
+	public void testAppendRow() {
+		final CharTable table = createTable();
+		final char[] values = { '\t', '\uffff', '\u0000' };
+
+		// Test appending a row
+		table.appendRow();
+		assertEquals(table.getRowCount(), 10);
+		for (int i = 0; i < values.length; i++) {
+			table.setValue(i, 9, values[i]);
+			assertEquals(table.getValue(i, 9), values[i]);
+		}
+
+		checkTableModifiedRow(table, values, 9);
+	}
+
+	@Test
+	public void testRemoveRow() {
+		final CharTable table = createTable();
+
+		// Test removing a row
+		table.removeRow(7);
+		assertEquals(table.getRowCount(), 8);
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			assertEquals(table.getValue(i, 7), DATA[8][i]);
+		}
+
+		checkTableModifiedRow(table, null, 7);
+	}
+
 	// TODO - Add more tests.
 
 	// -- Helper methods --
@@ -107,6 +167,48 @@ public class DefaultCharTableTest {
 		}
 
 		return table;
+	}
+
+	private void checkTableModifiedColumn(final CharTable table,
+		final Character[] values, final int mod)
+	{
+		for (int r = 0; r < table.getRowCount(); r++) {
+			for (int c = 0; c < table.getColumnCount(); c++) {
+				if ( c == mod && values != null ) {
+					assertEquals(table.getValue(c, r), values[r].charValue());
+				}
+				else if ( c > mod && values != null ) {
+					assertEquals(table.getValue(c, r), DATA[r][c - 1]);
+				}
+				else if ( c >= mod && values == null ) {
+					assertEquals(table.getValue(c, r), DATA[r][c + 1]);
+				}
+				else {
+					assertEquals(table.getValue(c, r), DATA[r][c]);
+				}
+			}
+		}
+	}
+
+	private void checkTableModifiedRow(final CharTable table, final char[] values,
+		final int mod)
+	{
+		for (int r = 0; r < table.getRowCount(); r++) {
+			for (int c = 0; c < table.getColumnCount(); c++) {
+				if ( r == mod && values != null ) {
+					assertEquals(table.getValue(c, r), values[c]);
+				}
+				else if ( r > mod && values != null) {
+					assertEquals(table.getValue(c, r), DATA[r-1][c]);
+				}
+				else if ( r >= mod && values == null ) {
+					assertEquals(table.getValue(c, r), DATA[r+1][c]);
+				}
+				else {
+					assertEquals(table.getValue(c, r), DATA[r][c]);
+				}
+			}
+		}
 	}
 
 }
