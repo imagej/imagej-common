@@ -324,7 +324,7 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 		final int oldRowCount = getRowCount();
 		final int newRowCount = oldRowCount - count;
 		// copy data after the deleted range into the new position
-		for (int oldR = row+1; oldR < oldRowCount; oldR++) {
+		for (int oldR = row+count; oldR < oldRowCount; oldR++) {
 			final int newR = oldR - count;
 			setRowHeader(newR, getRowHeader(oldR));
 			for (int c = 0; c < getColumnCount(); c++) {
