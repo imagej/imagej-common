@@ -188,7 +188,7 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 		final int newColCount = oldColCount - count;
 
 		// copy data after the deleted range into the new position
-		for (int oldC = col; oldC < oldColCount; oldC++) {
+		for (int oldC = col+count; oldC < oldColCount; oldC++) {
 			final int newC = oldC - count;
 			set(newC, get(oldC));
 		}
