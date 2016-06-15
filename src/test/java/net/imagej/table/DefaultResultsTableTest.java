@@ -34,6 +34,8 @@ package net.imagej.table;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
+import java.util.List;
+
 import org.junit.Test;
 
 /**
@@ -151,6 +153,72 @@ public class DefaultResultsTableTest {
 	}
 
 	@Test
+	public void testAppendColumns() {
+		final ResultsTable table = createTable();
+		final Double[][] values = {
+			{ -0.25, 0.5, 0.625, -1.25, 0.0, 0.0325, 100.5, 13.25, 110.5, -2.25,
+				4.625, -3.0, 100.0, 1209.25, -10.5, 16.25, -200.0, -0.0325,
+				940385034958.5, -301284390284.25, 17.25 },
+				{ 0.5, 0.5, 0.25, 1.25, 0.0, 0.625, 100.5, 13.25, 11.5, -112.25, 4.625,
+					-3.5, 105.0, 19.625, -10.5, 16.25, 200.0325, -0.0325, 940385034958.5,
+					-1.25, 17.25 }
+		};
+
+		final String[] headers = {"Header4", "Header5"};
+		final List<DoubleColumn> col = table.appendColumns(headers);
+		col.get(0).fill(values[0]);
+		col.get(1).fill(values[1]);
+
+		// Test appending a column
+		assertEquals(table.getColumnCount(), 5);
+		assertEquals(table.get(3).getHeader(), "Header4");
+		assertEquals(table.get(4).getHeader(), "Header5");
+
+		checkTableModifiedColumns(table, values, 3, 4);
+	}
+
+	@Test
+	public void testRemoveColumns() {
+		final ResultsTable table = createTable();
+
+		final List<DoubleColumn> col = table.removeColumns(0,2);
+
+		// Test removing a column
+		for (int q = 0; q < col.size(); q++) {
+			for (int i = 0; i < col.get(0).size(); i++) {
+				assertEquals(col.get(q).getValue(i), DATA[i][q], 0);
+			}
+		}
+		assertEquals(table.getColumnCount(), 1);
+
+		checkTableModifiedColumns(table, null, 0, 2);
+	}
+
+	@Test
+	public void testInsertColumns() {
+		final ResultsTable table = createTable();
+		final Double[][] values = {
+			{ -0.25, 0.5, 0.625, -1.25, 0.0, 0.0325, 100.5, 13.25, 110.5, -2.25,
+				4.625, -3.0, 100.0, 1209.25, -10.5, 16.25, -200.0, -0.0325,
+				940385034958.5, -301284390284.25, 17.25 },
+				{ 0.5, 0.5, 0.25, 1.25, 0.0, 0.625, 100.5, 13.25, 11.5, -112.25, 4.625,
+					-3.5, 105.0, 19.625, -10.5, 16.25, 200.0325, -0.0325, 940385034958.5,
+					-1.25, 17.25 }
+		};
+
+		final String[] headers = {"Header4", "Header5"};
+		final List<DoubleColumn> col = table.insertColumns(1, headers);
+		col.get(0).fill(values[0]);
+		col.get(1).fill(values[1]);
+
+		assertEquals(table.getColumnCount(), 5);
+		assertEquals(table.get(1).getHeader(), "Header4");
+		assertEquals(table.get(2).getHeader(), "Header5");
+
+		checkTableModifiedColumns(table, values, 1, 2);
+	}
+
+	@Test
 	public void testAppendRow() {
 		final ResultsTable table = createTable();
 		final double[] values = { 1999, 42, 0.0 };
@@ -181,7 +249,7 @@ public class DefaultResultsTableTest {
 	}
 
 	@Test
-	public void testRowInsert() {
+	public void testInsertRow() {
 		final ResultsTable table = createTable();
 		final double[] values = { 1999, 42, 0.0 };
 
@@ -193,6 +261,61 @@ public class DefaultResultsTableTest {
 		}
 
 		checkTableModifiedRow(table, values, 6);
+	}
+
+	@Test
+	public void testAppendRows() {
+		final ResultsTable table = createTable();
+		final double[][] values = {
+			{ 1999, 42, 0.123 },
+			{ 2000, 43, 0.006 },
+			{ 2001, 44, 0.89 },
+			{ 2002, 45, 0.0 },
+		};
+
+		// Test appending a row
+		table.appendRows(4);
+		assertEquals(table.getRowCount(), 25);
+		for (int r = 0; r < values.length; r++) {
+			for (int c = 0; c < values[0].length; c++) {
+				table.setValue(c, r + 21, values[r][c]);
+				assertEquals(table.getValue(c, r + 21), values[r][c], 0);
+			}
+		}
+
+		checkTableModifiedRows(table, values, 21, 24);
+	}
+
+	@Test
+	public void testRemoveRows() {
+		final ResultsTable table = createTable();
+		table.removeRows(11, 6);
+		assertEquals(table.getRowCount(), 15);
+
+		checkTableModifiedRows(table, null, 11, 16);
+	}
+
+	@Test
+	public void testInsertRows() {
+		final ResultsTable table = createTable();
+		final double[][] values = {
+			{ 1999, 42, 0.123 },
+			{ 2000, 43, 0.006 },
+			{ 2001, 44, 0.89 },
+			{ 2002, 45, 0.0 },
+		};
+
+		table.insertRows(3, 4);
+
+		assertEquals(table.getRowCount(), 25);
+		for (int r = 0; r < values.length; r++) {
+			for (int c = 0; c < values[0].length; c++) {
+				table.setValue(c, r + 3, values[r][c]);
+				assertEquals(table.getValue(c, r + 3), values[r][c], 0);
+			}
+		}
+
+		checkTableModifiedRows(table, values, 3, 6);
 	}
 
 	//TODO - Add more tests. 
@@ -250,6 +373,48 @@ public class DefaultResultsTableTest {
 				}
 				else if ( r >= mod && values == null ) {
 					assertEquals(table.getValue(c, r), DATA[r+1][c], 0);
+				}
+				else {
+					assertEquals(table.getValue(c, r), DATA[r][c], 0);
+				}
+			}
+		}
+	}
+
+	private void checkTableModifiedColumns(final ResultsTable table,
+		final Double[][] values, final int startMod, final int endMod)
+	{
+		for (int r = 0; r < table.getRowCount(); r++) {
+			for (int c = 0; c < table.getColumnCount(); c++) {
+				if ( c >= startMod && c <= endMod && values != null ) {
+					assertEquals(table.getValue(c, r), values[c - startMod][r], 0);
+				}
+				else if ( c > endMod && values != null ) {
+					assertEquals(table.getValue(c, r), DATA[r][c - values.length], 0);
+				}
+				else if ( c >= startMod && values == null ) {
+					assertEquals(table.getValue(c, r), DATA[r][c + (endMod-startMod)], 0);
+				}
+				else {
+					assertEquals(table.getValue(c, r), DATA[r][c], 0);
+				}
+			}
+		}
+	}
+
+	private void checkTableModifiedRows(final ResultsTable table,
+		final double[][] values, final int startMod, final int endMod)
+	{
+		for (int r = 0; r < table.getRowCount(); r++) {
+			for (int c = 0; c < table.getColumnCount(); c++) {
+				if ( r >= startMod && r <= endMod && values != null ) {
+					assertEquals(table.getValue(c, r), values[r - startMod][c], 0);
+				}
+				else if ( r > endMod && values != null) {
+					assertEquals(table.getValue(c, r), DATA[r - values.length][c], 0);
+				}
+				else if ( r >= startMod && values == null ) {
+					assertEquals(table.getValue(c, r), DATA[r + (endMod-startMod + 1)][c], 0);
 				}
 				else {
 					assertEquals(table.getValue(c, r), DATA[r][c], 0);
