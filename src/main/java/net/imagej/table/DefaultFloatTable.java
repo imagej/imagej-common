@@ -37,7 +37,8 @@ package net.imagej.table;
  * @author Alison Walter
  */
 public class DefaultFloatTable extends AbstractTable<FloatColumn, Float>
-	implements FloatTable {
+	implements FloatTable
+{
 
 	/** Creates an empty float table. */
 	public DefaultFloatTable() {
@@ -47,18 +48,6 @@ public class DefaultFloatTable extends AbstractTable<FloatColumn, Float>
 	/** Creates a float table with the given row and column dimensions. */
 	public DefaultFloatTable(final int columnCount, final int rowCount) {
 		super(columnCount, rowCount);
-	}
-
-	// -- FloatTable methods --
-
-	@Override
-	public float getValue(final int col, final int row) {
-		return get(col).getValue(row);
-	}
-
-	@Override
-	public void setValue(final int col, final int row, final float value) {
-		get(col).setValue(row, value);
 	}
 
 	// -- Internal methods --

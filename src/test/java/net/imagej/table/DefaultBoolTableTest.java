@@ -91,7 +91,7 @@ public class DefaultBoolTableTest {
 	@Test
 	public void testAppendColumn() {
 		final BoolTable table = createTable();
-		final Boolean[] values =
+		final boolean[] values =
 			{ true, true, true, true, false, true, false, true };
 
 		final BoolColumn col = table.appendColumn("Header4");
@@ -169,7 +169,7 @@ public class DefaultBoolTableTest {
 	}
 
 	private void checkTableModifiedColumn(final BoolTable table,
-		final Boolean[] values, final int mod)
+		final boolean[] values, final int mod)
 	{
 		for (int r = 0; r < table.getRowCount(); r++) {
 			for (int c = 0; c < table.getColumnCount(); c++) {

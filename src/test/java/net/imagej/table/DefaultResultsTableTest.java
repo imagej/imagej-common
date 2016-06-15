@@ -108,7 +108,7 @@ public class DefaultResultsTableTest {
 	@Test
 	public void testAppendColumn() {
 		final ResultsTable table = createTable();
-		final Double[] values = 
+		final double[] values = 
 			{ -0.25, 0.5, 0.625, -1.25, 0.0, 0.0325, 100.5, 13.25, 110.5, -2.25,
 				4.625, -3.0, 100.0, 1209.25, -10.5, 16.25, -200.0, -0.0325,
 				940385034958.5, -301284390284.25, 17.25 };
@@ -140,7 +140,7 @@ public class DefaultResultsTableTest {
 	@Test
 	public void testInsertColumn() {
 		final ResultsTable table = createTable();
-		final Double[] values = 
+		final double[] values =
 			{ -0.25, 0.5, 0.625, -1.25, 0.0, 0.0325, 100.5, 13.25, 110.5, -2.25,
 				4.625, -3.0, 100.0, 1209.25, -10.5, 16.25, -200.0, -0.0325,
 				940385034958.5, -301284390284.25, 17.25 };
@@ -157,7 +157,7 @@ public class DefaultResultsTableTest {
 	@Test
 	public void testAppendColumns() {
 		final ResultsTable table = createTable();
-		final Double[][] values =
+		final double[][] values =
 			{
 				{ -0.25, 0.5, 0.625, -1.25, 0.0, 0.0325, 100.5, 13.25, 110.5, -2.25,
 					4.625, -3.0, 100.0, 1209.25, -10.5, 16.25, -200.0, -0.0325,
@@ -199,7 +199,7 @@ public class DefaultResultsTableTest {
 	@Test
 	public void testInsertColumns() {
 		final ResultsTable table = createTable();
-		final Double[][] values =
+		final double[][] values =
 			{
 				{ -0.25, 0.5, 0.625, -1.25, 0.0, 0.0325, 100.5, 13.25, 110.5, -2.25,
 					4.625, -3.0, 100.0, 1209.25, -10.5, 16.25, -200.0, -0.0325,
@@ -342,7 +342,7 @@ public class DefaultResultsTableTest {
 	}
 
 	private void checkTableModifiedColumn(final ResultsTable table,
-		final Double[] values, final int mod)
+		final double[] values, final int mod)
 	{
 		for (int r = 0; r < table.getRowCount(); r++) {
 			for (int c = 0; c < table.getColumnCount(); c++) {
@@ -384,7 +384,7 @@ public class DefaultResultsTableTest {
 	}
 
 	private void checkTableModifiedColumns(final ResultsTable table,
-		final Double[][] values, final int startMod, final int endMod)
+		final double[][] values, final int startMod, final int endMod)
 	{
 		for (int r = 0; r < table.getRowCount(); r++) {
 			for (int c = 0; c < table.getColumnCount(); c++) {

@@ -39,9 +39,13 @@ package net.imagej.table;
 public interface IntTable extends Table<IntColumn, Integer> {
 
 	/** Gets the value of the given table cell. */
-	int getValue(int col, int row);
+	default int getValue(final int col, final int row) {
+		return get(col).getValue(row);
+	}
 
 	/** Sets the value of the given table cell. */
-	void setValue(int col, int row, int value);
+	default void setValue(final int col, final int row, final int value) {
+		get(col).setValue(row, value);
+	}
 
 }

@@ -91,7 +91,7 @@ public class DefaultFloatTableTest {
 	@Test
 	public void testAppendColumn() {
 		final FloatTable table = createTable();
-		final Float[] values =
+		final float[] values =
 			{ 17.0625f, 22.125f, -0.00000762939f, 0f, -2.03125f, -717.5f, 127.5f };
 
 		final FloatColumn col = table.appendColumn("Header6");
@@ -170,12 +170,12 @@ public class DefaultFloatTableTest {
 	}
 
 	private void checkTableModifiedColumn(final FloatTable table,
-		final Float[] values, final int mod)
+		final float[] values, final int mod)
 	{
 		for (int r = 0; r < table.getRowCount(); r++) {
 			for (int c = 0; c < table.getColumnCount(); c++) {
 				if ( c == mod && values != null ) {
-					assertEquals(table.getValue(c, r), values[r].floatValue(), 0);
+					assertEquals(table.getValue(c, r), values[r], 0);
 				}
 				else if ( c > mod && values != null ) {
 					assertEquals(table.getValue(c, r), DATA[r][c - 1], 0);

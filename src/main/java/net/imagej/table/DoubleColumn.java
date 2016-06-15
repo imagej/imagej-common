@@ -38,7 +38,9 @@ import org.scijava.util.DoubleArray;
  *
  * @author Curtis Rueden
  */
-public class DoubleColumn extends DoubleArray implements Column<Double> {
+public class DoubleColumn extends DoubleArray implements
+	PrimitiveColumn<double[], Double>
+{
 
 	/** The column header. */
 	private String header;
@@ -66,31 +68,20 @@ public class DoubleColumn extends DoubleArray implements Column<Double> {
 		return Double.class;
 	}
 
+	// -- PrimitiveColumn methods --
+
 	@Override
-	public void fill(final Double[] values) {
-		final double[] prim = toPrimitive(values);
-		this.setArray(prim);
+	public void fill(final double[] values) {
+		setArray(values);
 	}
 
 	@Override
-	public void fill(final Double[] values, final int offset) {
-		final double[] prim = toPrimitive(values);
-
+	public void fill(final double[] values, final int offset) {
 		// Check if array has been initialized
-		if (this.getArray() == null) this.setArray(prim);
+		if (getArray() == null) setArray(values);
 		else {
-			System.arraycopy(prim, 0, this.getArray(), offset, prim.length);
+			System.arraycopy(values, 0, getArray(), offset, values.length);
 		}
-	}
-
-	// -- Helper methods --
-
-	private double[] toPrimitive(final Double[] values) {
-		final double[] prim = new double[values.length];
-		for (int i = 0; i < prim.length; i++) {
-			prim[i] = values[i].doubleValue();
-		}
-		return prim;
 	}
 
 }

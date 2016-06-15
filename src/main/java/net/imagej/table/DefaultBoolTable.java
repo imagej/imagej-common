@@ -37,7 +37,8 @@ package net.imagej.table;
  * @author Alison Walter
  */
 public class DefaultBoolTable extends AbstractTable<BoolColumn, Boolean>
-	implements BoolTable {
+	implements BoolTable
+{
 
 	/** Creates an empty boolean table. */
 	public DefaultBoolTable() {
@@ -47,18 +48,6 @@ public class DefaultBoolTable extends AbstractTable<BoolColumn, Boolean>
 	/** Creates a boolean table with the given row and column dimensions. */
 	public DefaultBoolTable(final int columnCount, final int rowCount) {
 		super(columnCount, rowCount);
-	}
-
-	// -- BoolTable methods --
-
-	@Override
-	public boolean getValue(final int col, final int row) {
-		return get(col).getValue(row);
-	}
-
-	@Override
-	public void setValue(final int col, final int row, final boolean value) {
-		get(col).setValue(row, value);
 	}
 
 	// -- Internal methods --

@@ -90,7 +90,7 @@ public class DefaultByteTableTest {
 	@Test
 	public void testAppendColumn() {
 		final ByteTable table = createTable();
-		final Byte[] values = { 17, 23, -12, 0, -93, -7, 127 };
+		final byte[] values = { 17, 23, -12, 0, -93, -7, 127 };
 
 		final ByteColumn col = table.appendColumn("Header3");
 		col.fill(values);
@@ -168,12 +168,12 @@ public class DefaultByteTableTest {
 	}
 
 	private void checkTableModifiedColumn(final ByteTable table,
-		final Byte[] values, final int mod)
+		final byte[] values, final int mod)
 	{
 		for (int r = 0; r < table.getRowCount(); r++) {
 			for (int c = 0; c < table.getColumnCount(); c++) {
 				if ( c == mod && values != null ) {
-					assertEquals(table.getValue(c, r), values[r].byteValue());
+					assertEquals(table.getValue(c, r), values[r]);
 				}
 				else if ( c > mod && values != null ) {
 					assertEquals(table.getValue(c, r), DATA[r][c - 1]);

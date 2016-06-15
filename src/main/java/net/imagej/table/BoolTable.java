@@ -39,9 +39,13 @@ package net.imagej.table;
 public interface BoolTable extends Table<BoolColumn, Boolean> {
 
 	/** Gets the value of the given table cell. */
-	boolean getValue(int col, int row);
+	default boolean getValue(final int col, final int row) {
+		return get(col).getValue(row);
+	}
 
 	/** Sets the value of the given table cell. */
-	void setValue(int col, int row, boolean value);
+	default void setValue(final int col, final int row, final boolean value) {
+		get(col).setValue(row, value);
+	}
 
 }

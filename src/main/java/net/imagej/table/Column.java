@@ -60,10 +60,4 @@ public interface Column<T> extends List<T>, Sizable {
 	/** Returns the actual type of data stored in the column. */
 	Class<T> getType();
 
-	/** Fills the column with the values in the given array. */
-	void fill(T[] values);
-
-	/** Fills the column with the values in the given array. */
-	void fill(T[] values, int offset);
-
 }

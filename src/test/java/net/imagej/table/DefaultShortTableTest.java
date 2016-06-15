@@ -93,7 +93,7 @@ public class DefaultShortTableTest {
 	@Test
 	public void testAppendColumn() {
 		final ShortTable table = createTable();
-		final Short[] values = { -11, 32000, 9798, -18687, 97 };
+		final short[] values = { -11, 32000, 9798, -18687, 97 };
 
 		final ShortColumn col = table.appendColumn("Header5");
 		col.fill(values);
@@ -172,12 +172,12 @@ public class DefaultShortTableTest {
 	}
 
 	private void checkTableModifiedColumn(final ShortTable table,
-		final Short[] values, final int mod)
+		final short[] values, final int mod)
 	{
 		for (int r = 0; r < table.getRowCount(); r++) {
 			for (int c = 0; c < table.getColumnCount(); c++) {
 				if ( c == mod && values != null ) {
-					assertEquals(table.getValue(c, r), values[r].shortValue());
+					assertEquals(table.getValue(c, r), values[r]);
 				}
 				else if ( c > mod && values != null ) {
 					assertEquals(table.getValue(c, r), DATA[r][c - 1]);

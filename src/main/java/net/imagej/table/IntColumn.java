@@ -38,7 +38,9 @@ import org.scijava.util.IntArray;
  *
  * @author Alison Walter
  */
-public class IntColumn extends IntArray implements Column<Integer> {
+public class IntColumn extends IntArray implements
+	PrimitiveColumn<int[], Integer>
+{
 
 	/** The column header. */
 	private String header;
@@ -66,31 +68,20 @@ public class IntColumn extends IntArray implements Column<Integer> {
 		return Integer.class;
 	}
 
+	// -- PrimitiveColumn methods --
+
 	@Override
-	public void fill(final Integer[] values) {
-		final int[] prim = toPrimitive(values);
-		this.setArray(prim);
+	public void fill(final int[] values) {
+		setArray(values);
 	}
 
 	@Override
-	public void fill(final Integer[] values, final int offset) {
-		final int[] prim = toPrimitive(values);
-
+	public void fill(final int[] values, final int offset) {
 		// Check if array has been initialized
-		if (this.getArray() == null) this.setArray(prim);
+		if (getArray() == null) setArray(values);
 		else {
-			System.arraycopy(prim, 0, this.getArray(), offset, prim.length);
+			System.arraycopy(values, 0, getArray(), offset, values.length);
 		}
-	}
-
-	// -- Helper methods --
-
-	private int[] toPrimitive(final Integer[] values) {
-		final int[] prim = new int[values.length];
-		for (int i = 0; i < prim.length; i++) {
-			prim[i] = values[i].intValue();
-		}
-		return prim;
 	}
 
 }

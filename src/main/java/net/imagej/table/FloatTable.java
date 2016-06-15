@@ -39,9 +39,13 @@ package net.imagej.table;
 public interface FloatTable extends Table<FloatColumn, Float> {
 
 	/** Gets the value of the given table cell. */
-	float getValue(int col, int row);
+	default float getValue(final int col, final int row) {
+		return get(col).getValue(row);
+	}
 
 	/** Sets the value of the given table cell. */
-	void setValue(int col, int row, float value);
+	default void setValue(final int col, final int row, final float value) {
+		get(col).setValue(row, value);
+	}
 
 }

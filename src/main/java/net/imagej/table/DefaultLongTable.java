@@ -37,7 +37,8 @@ package net.imagej.table;
  * @author Alison Walter
  */
 public class DefaultLongTable extends AbstractTable<LongColumn, Long>
-	implements LongTable {
+	implements LongTable
+{
 
 	/** Creates an empty long table. */
 	public DefaultLongTable() {
@@ -47,18 +48,6 @@ public class DefaultLongTable extends AbstractTable<LongColumn, Long>
 	/** Creates a long table with the given row and column dimensions. */
 	public DefaultLongTable(final int columnCount, final int rowCount) {
 		super(columnCount, rowCount);
-	}
-
-	// -- LongTable methods --
-
-	@Override
-	public long getValue(final int col, final int row) {
-		return get(col).getValue(row);
-	}
-
-	@Override
-	public void setValue(final int col, final int row, final long value) {
-		get(col).setValue(row, value);
 	}
 
 	// -- Internal methods --

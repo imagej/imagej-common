@@ -39,9 +39,13 @@ package net.imagej.table;
 public interface CharTable extends Table<CharColumn, Character> {
 
 	/** Gets the value of the given table cell. */
-	char getValue(int col, int row);
+	default char getValue(final int col, final int row) {
+		return get(col).getValue(row);
+	}
 
 	/** Sets the value of the given table cell. */
-	void setValue(int col, int row, char value);
+	default void setValue(final int col, final int row, final char value) {
+		get(col).setValue(row, value);
+	}
 
 }

@@ -37,7 +37,8 @@ package net.imagej.table;
  * @author Alison Walter
  */
 public class DefaultCharTable extends AbstractTable<CharColumn, Character>
-	implements CharTable {
+	implements CharTable
+{
 
 	/** Creates an empty char table. */
 	public DefaultCharTable() {
@@ -47,18 +48,6 @@ public class DefaultCharTable extends AbstractTable<CharColumn, Character>
 	/** Creates a char table with the given row and column dimensions. */
 	public DefaultCharTable(final int columnCount, final int rowCount) {
 		super(columnCount, rowCount);
-	}
-
-	// -- CharTable methods --
-
-	@Override
-	public char getValue(final int col, final int row) {
-		return get(col).getValue(row);
-	}
-
-	@Override
-	public void setValue(final int col, final int row, final char value) {
-		get(col).setValue(row, value);
 	}
 
 	// -- Internal methods --

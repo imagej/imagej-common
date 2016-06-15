@@ -59,16 +59,6 @@ public class DefaultResultsTable extends AbstractTable<DoubleColumn, Double>
 	// -- ResultsTable methods --
 
 	@Override
-	public double getValue(final int col, final int row) {
-		return get(col).getValue(row);
-	}
-
-	@Override
-	public void setValue(final int col, final int row, final double value) {
-		get(col).setValue(row, value);
-	}
-
-	@Override
 	public ImgPlus<DoubleType> img() {
 		final Img<DoubleType> img = new ResultsImg(this);
 		final AxisType[] axes = { Axes.X, Axes.Y };

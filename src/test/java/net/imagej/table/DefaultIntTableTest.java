@@ -103,7 +103,7 @@ public class DefaultIntTableTest {
 	@Test
 	public void testAppendColumn() {
 		final IntTable table = createTable();
-		final Integer[] values =
+		final int[] values =
 			{ 30, 3109842, 28, 25, -432579, 22, -12, 0, 54235423, -7858345, -34, -3,
 			-35648443, 43512356, 999 };
 
@@ -183,12 +183,12 @@ public class DefaultIntTableTest {
 	}
 
 	private void checkTableModifiedColumn(final IntTable table,
-		final Integer[] values, final int mod)
+		final int[] values, final int mod)
 	{
 		for (int r = 0; r < table.getRowCount(); r++) {
 			for (int c = 0; c < table.getColumnCount(); c++) {
 				if ( c == mod && values != null ) {
-					assertEquals(table.getValue(c, r), values[r].intValue());
+					assertEquals(table.getValue(c, r), values[r]);
 				}
 				else if ( c > mod && values != null ) {
 					assertEquals(table.getValue(c, r), DATA[r][c - 1]);

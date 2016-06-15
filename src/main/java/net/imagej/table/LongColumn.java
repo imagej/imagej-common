@@ -38,7 +38,9 @@ import org.scijava.util.LongArray;
  *
  * @author Alison Walter
  */
-public class LongColumn extends LongArray implements Column<Long> {
+public class LongColumn extends LongArray implements
+	PrimitiveColumn<long[], Long>
+{
 
 	/** The column header. */
 	private String header;
@@ -66,31 +68,20 @@ public class LongColumn extends LongArray implements Column<Long> {
 		return Long.class;
 	}
 
+	// -- PrimitiveColumn methods --
+
 	@Override
-	public void fill(final Long[] values) {
-		final long[] prim = toPrimitive(values);
-		this.setArray(prim);
+	public void fill(final long[] values) {
+		this.setArray(values.clone());
 	}
 
 	@Override
-	public void fill(final Long[] values, final int offset) {
-		final long[] prim = toPrimitive(values);
-
+	public void fill(final long[] values, final int offset) {
 		// Check if array has been initialized
-		if (this.getArray() == null) this.setArray(prim);
+		if (getArray() == null) setArray(values.clone());
 		else {
-			System.arraycopy(prim, 0, this.getArray(), offset, prim.length);
+			System.arraycopy(values, 0, getArray(), offset, values.length);
 		}
-	}
-
-	// -- Helper methods --
-
-	private long[] toPrimitive(final Long[] values) {
-		final long[] prim = new long[values.length];
-		for (int i = 0; i < prim.length; i++) {
-			prim[i] = values[i].longValue();
-		}
-		return prim;
 	}
 
 }

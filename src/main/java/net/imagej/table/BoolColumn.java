@@ -38,7 +38,9 @@ import org.scijava.util.BoolArray;
  *
  * @author Alison Walter
  */
-public class BoolColumn extends BoolArray implements Column<Boolean> {
+public class BoolColumn extends BoolArray implements
+	PrimitiveColumn<boolean[], Boolean>
+{
 
 	/** The column header. */
 	private String header;
@@ -66,31 +68,20 @@ public class BoolColumn extends BoolArray implements Column<Boolean> {
 		return Boolean.class;
 	}
 
+	// -- PrimitiveColumn methods --
+
 	@Override
-	public void fill(final Boolean[] values) {
-		final boolean[] prim = toPrimitive(values);
-		this.setArray(prim);
+	public void fill(final boolean[] values) {
+		setArray(values.clone());
 	}
 
 	@Override
-	public void fill(final Boolean[] values, final int offset) {
-		final boolean[] prim = toPrimitive(values);
-
+	public void fill(final boolean[] values, final int offset) {
 		// Check if array has been initialized
-		if (this.getArray() == null) this.setArray(prim);
+		if (getArray() == null) setArray(values.clone());
 		else {
-			System.arraycopy(prim, 0, this.getArray(), offset, prim.length);
+			System.arraycopy(values, 0, getArray(), offset, values.length);
 		}
-	}
-
-	// -- Helper methods --
-
-	private boolean[] toPrimitive(final Boolean[] values) {
-		final boolean[] prim = new boolean[values.length];
-		for (int i = 0; i < prim.length; i++) {
-			prim[i] = values[i].booleanValue();
-		}
-		return prim;
 	}
 
 }

@@ -86,7 +86,7 @@ public class DefaultLongTableTest {
 	@Test
 	public void testAppendColumn() {
 		final LongTable table = createTable();
-		final Long[] values = { 542908l, 9574597419085l, -11l };
+		final long[] values = { 542908l, 9574597419085l, -11l };
 
 		final LongColumn col = table.appendColumn("Header3");
 		col.fill(values);
@@ -165,12 +165,12 @@ public class DefaultLongTableTest {
 	}
 
 	private void checkTableModifiedColumn(final LongTable table,
-		final Long[] values, final int mod)
+		final long[] values, final int mod)
 	{
 		for (int r = 0; r < table.getRowCount(); r++) {
 			for (int c = 0; c < table.getColumnCount(); c++) {
 				if ( c == mod && values != null ) {
-					assertEquals(table.getValue(c, r), values[r].longValue());
+					assertEquals(table.getValue(c, r), values[r]);
 				}
 				else if ( c > mod && values != null ) {
 					assertEquals(table.getValue(c, r), DATA[r][c - 1]);

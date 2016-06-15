@@ -92,7 +92,7 @@ public class DefaultCharTableTest {
 	@Test
 	public void testAppendColumn() {
 		final CharTable table = createTable();
-		final Character[] values = { '2', 'W', '!', '*', 'o', 'E', ' ', 'A', '\t' };
+		final char[] values = { '2', 'W', '!', '*', 'o', 'E', ' ', 'A', '\t' };
 
 		final CharColumn col = table.appendColumn("Header4");
 		col.fill(values);
@@ -170,12 +170,12 @@ public class DefaultCharTableTest {
 	}
 
 	private void checkTableModifiedColumn(final CharTable table,
-		final Character[] values, final int mod)
+		final char[] values, final int mod)
 	{
 		for (int r = 0; r < table.getRowCount(); r++) {
 			for (int c = 0; c < table.getColumnCount(); c++) {
 				if ( c == mod && values != null ) {
-					assertEquals(table.getValue(c, r), values[r].charValue());
+					assertEquals(table.getValue(c, r), values[r]);
 				}
 				else if ( c > mod && values != null ) {
 					assertEquals(table.getValue(c, r), DATA[r][c - 1]);

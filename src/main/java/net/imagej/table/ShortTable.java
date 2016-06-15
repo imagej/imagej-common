@@ -39,9 +39,13 @@ package net.imagej.table;
 public interface ShortTable extends Table<ShortColumn, Short> {
 
 	/** Gets the value of the given table cell. */
-	short getValue(int col, int row);
+	default short getValue(final int col, final int row) {
+		return get(col).getValue(row);
+	}
 
 	/** Sets the value of the given table cell. */
-	void setValue(int col, int row, short value);
+	default void setValue(final int col, final int row, final short value) {
+		get(col).setValue(row, value);
+	}
 
 }

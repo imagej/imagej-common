@@ -71,14 +71,4 @@ public class DefaultColumn<T> extends SizableArrayList<T> implements Column<T> {
 		return type;
 	}
 
-	@Override
-	public void fill(final T[] values) {
-		fill(values, 0);
-	}
-
-	@Override
-	public void fill(final T[] values, final int offset) {
-		System.arraycopy(values, 0, this.toArray(), 0, values.length);
-	}
-
 }

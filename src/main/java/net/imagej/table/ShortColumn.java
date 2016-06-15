@@ -38,7 +38,9 @@ import org.scijava.util.ShortArray;
  *
  * @author Alison Walter
  */
-public class ShortColumn extends ShortArray implements Column<Short> {
+public class ShortColumn extends ShortArray implements
+	PrimitiveColumn<short[], Short>
+{
 
 	/** The column header. */
 	private String header;
@@ -66,31 +68,20 @@ public class ShortColumn extends ShortArray implements Column<Short> {
 		return Short.class;
 	}
 
+	// -- PrimitiveColumn methods --
+
 	@Override
-	public void fill(final Short[] values) {
-		final short[] prim = toPrimitive(values);
-		this.setArray(prim);
+	public void fill(final short[] values) {
+		setArray(values);
 	}
 
 	@Override
-	public void fill(final Short[] values, final int offset) {
-		final short[] prim = toPrimitive(values);
-
+	public void fill(final short[] values, final int offset) {
 		// Check if array has been initialized
-		if (this.getArray() == null) this.setArray(prim);
+		if (getArray() == null) setArray(values);
 		else {
-			System.arraycopy(prim, 0, this.getArray(), offset, prim.length);
+			System.arraycopy(values, 0, getArray(), offset, values.length);
 		}
-	}
-
-	// -- Helper methods --
-
-	private short[] toPrimitive(final Short[] values) {
-		final short[] prim = new short[values.length];
-		for (int i = 0; i < prim.length; i++) {
-			prim[i] = values[i].shortValue();
-		}
-		return prim;
 	}
 
 }

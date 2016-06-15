@@ -38,7 +38,9 @@ import org.scijava.util.ByteArray;
  *
  * @author Alison Walter
  */
-public class ByteColumn extends ByteArray implements Column<Byte> {
+public class ByteColumn extends ByteArray implements
+	PrimitiveColumn<byte[], Byte>
+{
 
 	/** The column header. */
 	private String header;
@@ -66,31 +68,20 @@ public class ByteColumn extends ByteArray implements Column<Byte> {
 		return Byte.class;
 	}
 
+	// -- PrimitiveColumn methods --
+
 	@Override
-	public void fill(final Byte[] values) {
-		final byte[] prim = toPrimitive(values);
-		this.setArray(prim);
+	public void fill(final byte[] values) {
+		setArray(values.clone());
 	}
 
 	@Override
-	public void fill(final Byte[] values, final int offset) {
-		final byte[] prim = toPrimitive(values);
-
+	public void fill(final byte[] values, final int offset) {
 		// Check if array has been initialized
-		if (this.getArray() == null) this.setArray(prim);
+		if (getArray() == null) setArray(values.clone());
 		else {
-			System.arraycopy(prim, 0, this.getArray(), offset, prim.length);
+			System.arraycopy(values, 0, getArray(), offset, values.length);
 		}
-	}
-
-	// -- Helper methods --
-
-	private byte[] toPrimitive(final Byte[] values) {
-		final byte[] prim = new byte[values.length];
-		for (int i = 0; i < prim.length; i++) {
-			prim[i] = values[i].byteValue();
-		}
-		return prim;
 	}
 
 }

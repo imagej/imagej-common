@@ -39,9 +39,13 @@ package net.imagej.table;
 public interface ByteTable extends Table<ByteColumn, Byte> {
 
 	/** Gets the value of the given table cell. */
-	byte getValue(int col, int row);
+	default byte getValue(int col, int row) {
+		return get(col).getValue(row);
+	}
 
 	/** Sets the value of the given table cell. */
-	void setValue(int col, int row, byte value);
+	default void setValue(int col, int row, byte value) {
+		get(col).setValue(row, value);
+	}
 
 }

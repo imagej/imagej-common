@@ -38,7 +38,9 @@ import org.scijava.util.FloatArray;
  *
  * @author Alison Walter
  */
-public class FloatColumn extends FloatArray implements Column<Float> {
+public class FloatColumn extends FloatArray implements 
+	PrimitiveColumn<float[], Float>
+{
 
 	/** The column header. */
 	private String header;
@@ -66,31 +68,20 @@ public class FloatColumn extends FloatArray implements Column<Float> {
 		return Float.class;
 	}
 
+	// -- PrimitiveColumn methods --
+
 	@Override
-	public void fill(final Float[] values) {
-		final float[] prim = toPrimitive(values);
-		this.setArray(prim);
+	public void fill(final float[] values) {
+		setArray(values.clone());
 	}
 
 	@Override
-	public void fill(final Float[] values, final int offset) {
-		final float[] prim = toPrimitive(values);
-
+	public void fill(final float[] values, final int offset) {
 		// Check if array has been initialized
-		if (this.getArray() == null) this.setArray(prim);
+		if (getArray() == null) setArray(values.clone());
 		else {
-			System.arraycopy(prim, 0, this.getArray(), offset, prim.length);
+			System.arraycopy(values, 0, getArray(), offset, values.length);
 		}
-	}
-
-	// -- Helper methods --
-
-	private float[] toPrimitive(final Float[] values) {
-		final float[] prim = new float[values.length];
-		for (int i = 0; i < prim.length; i++) {
-			prim[i] = values[i].floatValue();
-		}
-		return prim;
 	}
 
 }

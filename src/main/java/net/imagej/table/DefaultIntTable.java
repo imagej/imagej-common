@@ -37,7 +37,8 @@ package net.imagej.table;
  * @author Alison Walter
  */
 public class DefaultIntTable extends AbstractTable<IntColumn, Integer>
-	implements IntTable {
+	implements IntTable
+{
 
 	/** Creates an empty int table. */
 	public DefaultIntTable() {
@@ -47,18 +48,6 @@ public class DefaultIntTable extends AbstractTable<IntColumn, Integer>
 	/** Creates a int table with the given row and column dimensions. */
 	public DefaultIntTable(final int columnCount, final int rowCount) {
 		super(columnCount, rowCount);
-	}
-
-	// -- IntTable methods --
-
-	@Override
-	public int getValue(final int col, final int row) {
-		return get(col).getValue(row);
-	}
-
-	@Override
-	public void setValue(final int col, final int row, final int value) {
-		get(col).setValue(row, value);
 	}
 
 	// -- Internal methods --

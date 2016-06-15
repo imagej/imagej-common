@@ -31,57 +31,24 @@
 
 package net.imagej.table;
 
-import org.scijava.util.CharArray;
+import org.scijava.util.PrimitiveArray;
 
 /**
- * Efficient implementation of {@link Column} for {@code char} primitives.
+ * A column of data backed by a {@link PrimitiveArray}.
  *
+ * @author Curtis Rueden
  * @author Alison Walter
+ * @param <ArrayType> Type of the primitive array; e.g., {@code double[]}.
+ * @param <BaseType> Boxed type of the array element; e.g., {@code Double}.
  */
-public class CharColumn extends CharArray implements
-	PrimitiveColumn<char[], Character>
+public interface PrimitiveColumn<ArrayType, BaseType> extends Column<BaseType>,
+	PrimitiveArray<ArrayType, BaseType>
 {
 
-	/** The column header. */
-	private String header;
+	/** Fills the column with the values in the given array. */
+	void fill(ArrayType values);
 
-	public CharColumn() {}
-
-	public CharColumn(final String header) {
-		this.header = header;
-	}
-
-	// -- Column methods --
-
-	@Override
-	public String getHeader() {
-		return header;
-	}
-
-	@Override
-	public void setHeader(final String header) {
-		this.header = header;
-	}
-
-	@Override
-	public Class<Character> getType() {
-		return Character.class;
-	}
-
-	// -- PrimitiveColumn methods --
-
-	@Override
-	public void fill(final char[] values) {
-		setArray(values.clone());
-	}
-
-	@Override
-	public void fill(final char[] values, final int offset) {
-		// Check if array has been initialized
-		if (getArray() == null) setArray(values.clone());
-		else {
-			System.arraycopy(values, 0, getArray(), offset, values.length);
-		}
-	}
+	/** Fills the column with the values in the given array. */
+	void fill(ArrayType values, int offset);
 
 }

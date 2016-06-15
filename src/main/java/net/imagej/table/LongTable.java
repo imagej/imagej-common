@@ -39,9 +39,13 @@ package net.imagej.table;
 public interface LongTable extends Table<LongColumn, Long> {
 
 	/** Gets the value of the given table cell. */
-	long getValue(int col, int row);
+	default long getValue(final int col, final int row) {
+		return get(col).getValue(row);
+	}
 
 	/** Sets the value of the given table cell. */
-	void setValue(int col, int row, long value);
+	default void setValue(final int col, final int row, final long value) {
+		get(col).setValue(row, value);
+	}
 
 }

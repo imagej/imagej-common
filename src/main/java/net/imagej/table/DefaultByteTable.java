@@ -37,7 +37,8 @@ package net.imagej.table;
  * @author Alison Walter
  */
 public class DefaultByteTable extends AbstractTable<ByteColumn, Byte>
-	implements ByteTable {
+	implements ByteTable
+{
 
 	/** Creates an empty byte table. */
 	public DefaultByteTable() {
@@ -47,18 +48,6 @@ public class DefaultByteTable extends AbstractTable<ByteColumn, Byte>
 	/** Creates a byte table with the given row and column dimensions. */
 	public DefaultByteTable(final int columnCount, final int rowCount) {
 		super(columnCount, rowCount);
-	}
-
-	// -- ByteTable methods --
-
-	@Override
-	public byte getValue(final int col, final int row) {
-		return get(col).getValue(row);
-	}
-
-	@Override
-	public void setValue(final int col, final int row, final byte value) {
-		get(col).setValue(row, value);
 	}
 
 	// -- Internal methods --

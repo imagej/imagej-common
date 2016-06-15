@@ -37,7 +37,8 @@ package net.imagej.table;
  * @author Alison Walter
  */
 public class DefaultShortTable extends AbstractTable<ShortColumn, Short>
-	implements ShortTable {
+	implements ShortTable
+{
 
 	/** Creates an empty short table. */
 	public DefaultShortTable() {
@@ -47,18 +48,6 @@ public class DefaultShortTable extends AbstractTable<ShortColumn, Short>
 	/** Creates a short table with the given row and column dimensions. */
 	public DefaultShortTable(final int columnCount, final int rowCount) {
 		super(columnCount, rowCount);
-	}
-
-	// -- ShortTable methods --
-
-	@Override
-	public short getValue(final int col, final int row) {
-		return get(col).getValue(row);
-	}
-
-	@Override
-	public void setValue(final int col, final int row, final short value) {
-		get(col).setValue(row, value);
 	}
 
 	// -- Internal methods --
