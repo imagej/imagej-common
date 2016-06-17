@@ -120,6 +120,20 @@ public class DefaultCharTableTest {
 	}
 
 	@Test
+	public void testInsertColumn() {
+		final CharTable table = createTable();
+		final char[] values = { '2', 'W', '!', '*', 'o', 'E', ' ', 'A', '\t' };
+
+		final CharColumn col = table.insertColumn(2, "Header4");
+		col.fill(values);
+
+		assertEquals(table.getColumnCount(), 4);
+		assertEquals(table.get(2).getHeader(), "Header4");
+
+		checkTableModifiedColumn(table, values, 2);
+	}
+
+	@Test
 	public void testAppendRow() {
 		final CharTable table = createTable();
 		final char[] values = { '\t', '\uffff', '\u0000' };
@@ -147,6 +161,21 @@ public class DefaultCharTableTest {
 		}
 
 		checkTableModifiedRow(table, null, 7);
+	}
+
+	@Test
+	public void testInsertRow() {
+		final CharTable table = createTable();
+		final char[] values = { '\t', '\uffff', '\u0000' };
+
+		table.insertRow(7);
+
+		assertEquals(table.getRowCount(), 10);
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			table.setValue(i, 7, values[i]);
+		}
+
+		checkTableModifiedRow(table, values, 7);
 	}
 
 	// TODO - Add more tests.

@@ -119,6 +119,21 @@ public class DefaultBoolTableTest {
 	}
 
 	@Test
+	public void testInsertColumn() {
+		final BoolTable table = createTable();
+		final boolean[] values =
+			{ true, true, true, true, false, true, false, true };
+
+		final BoolColumn col = table.insertColumn(1, "Header4");
+		col.fill(values);
+
+		assertEquals(table.getColumnCount(), 4);
+		assertEquals(table.get(1).getHeader(), "Header4");
+
+		checkTableModifiedColumn(table, values, 1);
+	}
+
+	@Test
 	public void testAppendRow() {
 		final BoolTable table = createTable();
 		final boolean[] values = { true, true, false };
@@ -146,6 +161,21 @@ public class DefaultBoolTableTest {
 		}
 
 		checkTableModifiedRow(table, null, 1);
+	}
+
+	@Test
+	public void testInsertRow() {
+		final BoolTable table = createTable();
+		final boolean[] values = { true, true, false };
+
+		table.insertRow(6);
+
+		assertEquals(table.getRowCount(), 9);
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			table.setValue(i, 6, values[i]);
+		}
+
+		checkTableModifiedRow(table, values, 6);
 	}
 
 	// TODO - Add more tests.

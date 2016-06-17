@@ -133,6 +133,22 @@ public class DefaultIntTableTest {
 	}
 
 	@Test
+	public void testInsertColumn() {
+		final IntTable table = createTable();
+		final int[] values =
+			{ 30, 3109842, 28, 25, -432579, 22, -12, 0, 54235423, -7858345, -34, -3,
+			-35648443, 43512356, 999 };
+
+		final IntColumn col = table.insertColumn(3, "Header7");
+		col.fill(values);
+
+		assertEquals(table.getColumnCount(), 7);
+		assertEquals(table.get(3).getHeader(), "Header7");
+
+		checkTableModifiedColumn(table, values, 3);
+	}
+
+	@Test
 	public void testAppendRow() {
 		final IntTable table = createTable();
 		final int[] values = { 179, 43148, -36, 1, 6, -356 };
@@ -160,6 +176,21 @@ public class DefaultIntTableTest {
 		}
 
 		checkTableModifiedRow(table, null, 10);
+	}
+
+	@Test
+	public void testInsertRow() {
+		final IntTable table = createTable();
+		final int[] values = { 179, 43148, -36, 1, 6, -356 };
+
+		table.insertRow(13);
+
+		assertEquals(table.getRowCount(), 16);
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			table.setValue(i, 13, values[i]);
+		}
+
+		checkTableModifiedRow(table, values, 13);
 	}
 
 	// TODO - Add more tests.

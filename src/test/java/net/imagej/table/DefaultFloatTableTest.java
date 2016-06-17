@@ -119,6 +119,21 @@ public class DefaultFloatTableTest {
 	}
 
 	@Test
+	public void testInsertColumn() {
+		final FloatTable table = createTable();
+		final float[] values =
+			{ 17.0625f, 22.125f, -0.00000762939f, 0f, -2.03125f, -717.5f, 127.5f };
+
+		final FloatColumn col = table.insertColumn(4, "Header6");
+		col.fill(values);
+
+		assertEquals(table.getColumnCount(), 6);
+		assertEquals(table.get(4).getHeader(), "Header6");
+
+		checkTableModifiedColumn(table, values, 4);
+	}
+
+	@Test
 	public void testAppendRow() {
 		final FloatTable table = createTable();
 		final float[] values = { -0.0625f, 5.5f, -4.03125f, 46.125f, 10489.5f };
@@ -147,6 +162,21 @@ public class DefaultFloatTableTest {
 		}
 
 		checkTableModifiedRow(table, null, 4);
+	}
+
+	@Test
+	public void testInsertRow() {
+		final FloatTable table = createTable();
+		final float[] values = { -0.0625f, 5.5f, -4.03125f, 46.125f, 10489.5f };
+
+		table.insertRow(0);
+
+		assertEquals(table.getRowCount(), 8);
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			table.setValue(i, 0, values[i]);
+		}
+
+		checkTableModifiedRow(table, values, 0);
 	}
 
 	// TODO - Add more tests.

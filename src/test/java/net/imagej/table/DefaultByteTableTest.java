@@ -117,6 +117,20 @@ public class DefaultByteTableTest {
 	}
 
 	@Test
+	public void testInsertColumn() {
+		final ByteTable table = createTable();
+		final byte[] values = { 17, 23, -12, 0, -93, -7, 127 };
+
+		final ByteColumn col = table.insertColumn(0, "Header3");
+		col.fill(values);
+
+		assertEquals(table.getColumnCount(), 3);
+		assertEquals(table.get(0).getHeader(), "Header3");
+
+		checkTableModifiedColumn(table, values, 0);
+	}
+
+	@Test
 	public void testAppendRow() {
 		final ByteTable table = createTable();
 		final byte[] values = { 79, 8 };
@@ -145,6 +159,21 @@ public class DefaultByteTableTest {
 		}
 
 		checkTableModifiedRow(table, null, 2);
+	}
+
+	@Test
+	public void testInsertRow() {
+		final ByteTable table = createTable();
+		final byte[] values = { 79, 8 };
+
+		table.insertRow(5);
+
+		assertEquals(table.getRowCount(), 8);
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			table.setValue(i, 5, values[i]);
+		}
+
+		checkTableModifiedRow(table, values, 5);
 	}
 
 	// TODO - Add more tests.

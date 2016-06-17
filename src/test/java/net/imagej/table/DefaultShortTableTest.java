@@ -106,6 +106,20 @@ public class DefaultShortTableTest {
 	}
 
 	@Test
+	public void testInsertColumn() {
+		final ShortTable table = createTable();
+		final short[] values = { -11, 32000, 9798, -18687, 97 };
+
+		final ShortColumn col = table.insertColumn(2, "Header5");
+		col.fill(values);
+
+		assertEquals(table.getColumnCount(), 5);
+		assertEquals(table.get(2).getHeader(), "Header5");
+
+		checkTableModifiedColumn(table, values, 2);
+	}
+
+	@Test
 	public void testRemoveColumn() {
 		final ShortTable table = createTable();
 
@@ -149,6 +163,21 @@ public class DefaultShortTableTest {
 		}
 
 		checkTableModifiedRow(table, null, 2);
+	}
+
+	@Test
+	public void testInsertRow() {
+		final ShortTable table = createTable();
+		final short[] values = { 7911, 937, -1508, -8 };
+
+		table.insertRow(3);
+
+		assertEquals(table.getRowCount(), 6);
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			table.setValue(i, 3, values[i]);
+		}
+
+		checkTableModifiedRow(table, values, 3);
 	}
 
 	// TODO - Add more tests.

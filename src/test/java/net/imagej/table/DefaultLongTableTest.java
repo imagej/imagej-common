@@ -114,6 +114,20 @@ public class DefaultLongTableTest {
 	}
 
 	@Test
+	public void testInsertColumn() {
+		final LongTable table = createTable();
+		final long[] values = { 542908l, 9574597419085l, -11l };
+
+		final LongColumn col = table.insertColumn(1, "Header3");
+		col.fill(values);
+
+		assertEquals(table.getColumnCount(), 3);
+		assertEquals(table.get(1).getHeader(), "Header3");
+
+		checkTableModifiedColumn(table, values, 1);
+	}
+
+	@Test
 	public void testAppendRow() {
 		final LongTable table = createTable();
 		final long[] values = { 301984l, 15l };
@@ -142,6 +156,21 @@ public class DefaultLongTableTest {
 		}
 
 		checkTableModifiedRow(table, null, 0);
+	}
+
+	@Test
+	public void testInsertRow() {
+		final LongTable table = createTable();
+		final long[] values = { 301984l, 15l };
+
+		table.insertRow(1);
+
+		assertEquals(table.getRowCount(), 4);
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			table.setValue(i, 1, values[i]);
+		}
+
+		checkTableModifiedRow(table, values, 1);
 	}
 
 	// TODO - Add more tests.
