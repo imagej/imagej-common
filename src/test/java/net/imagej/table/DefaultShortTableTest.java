@@ -34,6 +34,8 @@ package net.imagej.table;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
+import java.util.List;
+
 import org.junit.Test;
 
 /**
@@ -135,6 +137,71 @@ public class DefaultShortTableTest {
 	}
 
 	@Test
+	public void testAppendColumns() {
+		final ShortTable table = createTable();
+		final short[][] values =
+			{
+				{ -11, 32000, 9798, -18687, 97 },
+				{ 19487, 3, 786, 12984, 113 },
+				{ -1, 8, -234, -9, 10 } };
+
+		final String[] headers = { "Header5", "Header6", "Header7" };
+		final List<ShortColumn> col = table.appendColumns(headers);
+		col.get(0).fill(values[0]);
+		col.get(1).fill(values[1]);
+		col.get(2).fill(values[2]);
+
+		// Test appending a column
+		assertEquals(table.getColumnCount(), 7);
+		assertEquals(table.get(4).getHeader(), "Header5");
+		assertEquals(table.get(5).getHeader(), "Header6");
+		assertEquals(table.get(6).getHeader(), "Header7");
+
+		checkTableModifiedColumns(table, values, 4, 7);
+	}
+
+	@Test
+	public void testRemoveColumns() {
+		final ShortTable table = createTable();
+
+		final List<ShortColumn> col = table.removeColumns(1, 3);
+
+		// Test removing a column
+		for (int q = 0; q < col.size(); q++) {
+			for (int i = 0; i < col.get(0).size(); i++) {
+				assertEquals(col.get(q).getValue(i), DATA[i][q + 1]);
+			}
+		}
+		assertEquals(table.getColumnCount(), 1);
+
+		checkTableModifiedColumns(table, null, 1, 4);
+	}
+
+	@Test
+	public void testInsertColumns() {
+		final ShortTable table = createTable();
+		final short[][] values =
+			{
+				{ -11, 32000, 9798, -18687, 97 },
+				{ 19487, 3, 786, 12984, 113 },
+				{ -1, 8, -234, -9, 10 } };
+
+		final String[] headers = { "Header5", "Header6", "Header7" };
+		final List<ShortColumn> col = table.insertColumns(3, headers);
+		col.get(0).fill(values[0]);
+		col.get(1).fill(values[1]);
+		col.get(2).fill(values[2]);
+
+		// Test appending a column
+		assertEquals(table.getColumnCount(), 7);
+		assertEquals(table.get(3).getHeader(), "Header5");
+		assertEquals(table.get(4).getHeader(), "Header6");
+		assertEquals(table.get(5).getHeader(), "Header7");
+
+		checkTableModifiedColumns(table, values, 3, 5);
+	}
+
+	@Test
 	public void testAppendRow() {
 		final ShortTable table = createTable();
 		final short[] values = { 7911, 937, -1508, -8 };
@@ -178,6 +245,53 @@ public class DefaultShortTableTest {
 		}
 
 		checkTableModifiedRow(table, values, 3);
+	}
+
+	@Test
+	public void testAppendRows() {
+		final ShortTable table = createTable();
+		final short[][] values =
+			{ { 7911, 937, -1508, -8 }, { -1212, 16, -1, -10 } };
+
+		// Test appending a row
+		table.appendRows(2);
+		assertEquals(table.getRowCount(), 7);
+		for (int r = 0; r < values.length; r++) {
+			for (int c = 0; c < values[0].length; c++) {
+				table.setValue(c, r + 5, values[r][c]);
+				assertEquals(table.getValue(c, r + 5), values[r][c]);
+			}
+		}
+
+		checkTableModifiedRows(table, values, 5, 6);
+	}
+
+	@Test
+	public void testRemoveRows() {
+		final ShortTable table = createTable();
+		table.removeRows(2, 2);
+		assertEquals(table.getRowCount(), 3);
+
+		checkTableModifiedRows(table, null, 2, 3);
+	}
+
+	@Test
+	public void testInsertRows() {
+		final ShortTable table = createTable();
+		final short[][] values =
+			{ { 7911, 937, -1508, -8 }, { -1212, 16, -1, -10 } };
+
+		table.insertRows(3, 2);
+
+		assertEquals(table.getRowCount(), 7);
+		for (int r = 0; r < values.length; r++) {
+			for (int c = 0; c < values[0].length; c++) {
+				table.setValue(c, r + 3, values[r][c]);
+				assertEquals(table.getValue(c, r + 3), values[r][c]);
+			}
+		}
+
+		checkTableModifiedRows(table, values, 3, 4);
 	}
 
 	// TODO - Add more tests.
@@ -234,6 +348,49 @@ public class DefaultShortTableTest {
 				}
 				else if ( r >= mod && values == null ) {
 					assertEquals(table.getValue(c, r), DATA[r+1][c]);
+				}
+				else {
+					assertEquals(table.getValue(c, r), DATA[r][c]);
+				}
+			}
+		}
+	}
+
+	private void checkTableModifiedColumns(final ShortTable table,
+		final short[][] values, final int startMod, final int endMod)
+	{
+		for (int r = 0; r < table.getRowCount(); r++) {
+			for (int c = 0; c < table.getColumnCount(); c++) {
+				if (c >= startMod && c <= endMod && values != null) {
+					assertEquals(table.getValue(c, r), values[c - startMod][r]);
+				}
+				else if (c > endMod && values != null) {
+					assertEquals(table.getValue(c, r), DATA[r][c - values.length]);
+				}
+				else if (c >= startMod && values == null) {
+					assertEquals(table.getValue(c, r), DATA[r][c + (endMod - startMod)]);
+				}
+				else {
+					assertEquals(table.getValue(c, r), DATA[r][c]);
+				}
+			}
+		}
+	}
+
+	private void checkTableModifiedRows(final ShortTable table,
+		final short[][] values, final int startMod, final int endMod)
+	{
+		for (int r = 0; r < table.getRowCount(); r++) {
+			for (int c = 0; c < table.getColumnCount(); c++) {
+				if (r >= startMod && r <= endMod && values != null) {
+					assertEquals(table.getValue(c, r), values[r - startMod][c]);
+				}
+				else if (r > endMod && values != null) {
+					assertEquals(table.getValue(c, r), DATA[r - values.length][c]);
+				}
+				else if (r >= startMod && values == null) {
+					assertEquals(table.getValue(c, r),
+						DATA[r + (endMod - startMod + 1)][c]);
 				}
 				else {
 					assertEquals(table.getValue(c, r), DATA[r][c]);

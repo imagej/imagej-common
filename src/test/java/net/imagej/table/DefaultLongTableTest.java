@@ -34,6 +34,8 @@ package net.imagej.table;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
+import java.util.List;
+
 import org.junit.Test;
 
 /**
@@ -128,6 +130,85 @@ public class DefaultLongTableTest {
 	}
 
 	@Test
+	public void testAppendColumns() {
+		final LongTable table = createTable();
+		final long[][] values =
+			{
+				{ 542908l, 9574597419085l, -11l },
+				{ 8l, -574l, -1l },
+				{ 0l, -1112313l, 98137l },
+				{ 30l, 672534l, -173271l },
+				{ 310249871l, -9879723194187l, -294l } };
+
+		final String[] headers =
+			{ "Header3", "Header4", "Header5", "Header6", "Header7" };
+		final List<LongColumn> col = table.appendColumns(headers);
+		col.get(0).fill(values[0]);
+		col.get(1).fill(values[1]);
+		col.get(2).fill(values[2]);
+		col.get(3).fill(values[3]);
+		col.get(4).fill(values[4]);
+
+		// Test appending a column
+		assertEquals(table.getColumnCount(), 7);
+		assertEquals(table.get(2).getHeader(), "Header3");
+		assertEquals(table.get(3).getHeader(), "Header4");
+		assertEquals(table.get(4).getHeader(), "Header5");
+		assertEquals(table.get(5).getHeader(), "Header6");
+		assertEquals(table.get(6).getHeader(), "Header7");
+
+		checkTableModifiedColumns(table, values, 2, 6);
+	}
+
+	@Test
+	public void testRemoveColumns() {
+		final LongTable table = createTable();
+
+		final List<LongColumn> col = table.removeColumns(0, 2);
+
+		// Test removing a column
+		for (int q = 0; q < col.size(); q++) {
+			for (int i = 0; i < col.get(0).size(); i++) {
+				assertEquals(col.get(q).getValue(i), DATA[i][q]);
+			}
+		}
+		assertEquals(table.getColumnCount(), 0);
+
+		checkTableModifiedColumns(table, null, 0, 2);
+	}
+
+	@Test
+	public void testInsertColumns() {
+		final LongTable table = createTable();
+		final long[][] values =
+			{
+				{ 542908l, 9574597419085l, -11l },
+				{ 8l, -574l, -1l },
+				{ 0l, -1112313l, 98137l },
+				{ 30l, 672534l, -173271l },
+				{ 310249871l, -9879723194187l, -294l } };
+
+		final String[] headers =
+			{ "Header3", "Header4", "Header5", "Header6", "Header7" };
+		final List<LongColumn> col = table.insertColumns(1, headers);
+		col.get(0).fill(values[0]);
+		col.get(1).fill(values[1]);
+		col.get(2).fill(values[2]);
+		col.get(3).fill(values[3]);
+		col.get(4).fill(values[4]);
+
+		// Test appending a column
+		assertEquals(table.getColumnCount(), 7);
+		assertEquals(table.get(1).getHeader(), "Header3");
+		assertEquals(table.get(2).getHeader(), "Header4");
+		assertEquals(table.get(3).getHeader(), "Header5");
+		assertEquals(table.get(4).getHeader(), "Header6");
+		assertEquals(table.get(5).getHeader(), "Header7");
+
+		checkTableModifiedColumns(table, values, 1, 5);
+	}
+
+	@Test
 	public void testAppendRow() {
 		final LongTable table = createTable();
 		final long[] values = { 301984l, 15l };
@@ -171,6 +252,55 @@ public class DefaultLongTableTest {
 		}
 
 		checkTableModifiedRow(table, values, 1);
+	}
+
+	@Test
+	public void testAppendRows() {
+		final LongTable table = createTable();
+		final long[][] values =
+			{ { 301984l, 15l }, { -12l, -10849l }, { 0l, -8l }, { 90l, -110l },
+				{ -9879128347l, -91874l }, { -330l, 8910347l }, { 13214l, -98417l } };
+
+		// Test appending a row
+		table.appendRows(7);
+		assertEquals(table.getRowCount(), 10);
+		for (int r = 0; r < values.length; r++) {
+			for (int c = 0; c < values[0].length; c++) {
+				table.setValue(c, r + 3, values[r][c]);
+				assertEquals(table.getValue(c, r + 3), values[r][c]);
+			}
+		}
+
+		checkTableModifiedRows(table, values, 3, 10);
+	}
+
+	@Test
+	public void testRemoveRows() {
+		final LongTable table = createTable();
+		table.removeRows(0, 2);
+		assertEquals(table.getRowCount(), 1);
+
+		checkTableModifiedRows(table, null, 0, 1);
+	}
+
+	@Test
+	public void testInsertRows() {
+		final LongTable table = createTable();
+		final long[][] values =
+			{ { 301984l, 15l }, { -12l, -10849l }, { 0l, -8l }, { 90l, -110l },
+				{ -9879128347l, -91874l }, { -330l, 8910347l }, { 13214l, -98417l } };
+
+		table.insertRows(1, 7);
+
+		assertEquals(table.getRowCount(), 10);
+		for (int r = 0; r < values.length; r++) {
+			for (int c = 0; c < values[0].length; c++) {
+				table.setValue(c, r + 1, values[r][c]);
+				assertEquals(table.getValue(c, r + 1), values[r][c]);
+			}
+		}
+
+		checkTableModifiedRows(table, values, 1, 7);
 	}
 
 	// TODO - Add more tests.
@@ -227,6 +357,49 @@ public class DefaultLongTableTest {
 				}
 				else if ( r >= mod && values == null ) {
 					assertEquals(table.getValue(c, r), DATA[r+1][c]);
+				}
+				else {
+					assertEquals(table.getValue(c, r), DATA[r][c]);
+				}
+			}
+		}
+	}
+
+	private void checkTableModifiedColumns(final LongTable table,
+		final long[][] values, final int startMod, final int endMod)
+	{
+		for (int r = 0; r < table.getRowCount(); r++) {
+			for (int c = 0; c < table.getColumnCount(); c++) {
+				if (c >= startMod && c <= endMod && values != null) {
+					assertEquals(table.getValue(c, r), values[c - startMod][r]);
+				}
+				else if (c > endMod && values != null) {
+					assertEquals(table.getValue(c, r), DATA[r][c - values.length]);
+				}
+				else if (c >= startMod && values == null) {
+					assertEquals(table.getValue(c, r), DATA[r][c + (endMod - startMod)]);
+				}
+				else {
+					assertEquals(table.getValue(c, r), DATA[r][c]);
+				}
+			}
+		}
+	}
+
+	private void checkTableModifiedRows(final LongTable table,
+		final long[][] values, final int startMod, final int endMod)
+	{
+		for (int r = 0; r < table.getRowCount(); r++) {
+			for (int c = 0; c < table.getColumnCount(); c++) {
+				if (r >= startMod && r <= endMod && values != null) {
+					assertEquals(table.getValue(c, r), values[r - startMod][c]);
+				}
+				else if (r > endMod && values != null) {
+					assertEquals(table.getValue(c, r), DATA[r - values.length][c]);
+				}
+				else if (r >= startMod && values == null) {
+					assertEquals(table.getValue(c, r),
+						DATA[r + (endMod - startMod + 1)][c]);
 				}
 				else {
 					assertEquals(table.getValue(c, r), DATA[r][c]);

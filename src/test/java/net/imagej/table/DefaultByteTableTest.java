@@ -34,6 +34,8 @@ package net.imagej.table;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
+import java.util.List;
+
 import org.junit.Test;
 
 /**
@@ -131,6 +133,70 @@ public class DefaultByteTableTest {
 	}
 
 	@Test
+	public void testAppendColumns() {
+		final ByteTable table = createTable();
+		final byte[][] values =
+			{
+				{ 17, 23, -12, 0, -93, -7, 127 },
+				{ -100, 54, 93, -2, 111, -86, -74 },
+				{ -12, 120, 6, 8, -4, -121, 13 } };
+
+		final String[] headers = { "Header3", "Header4", "Header5" };
+		final List<ByteColumn> col = table.appendColumns(headers);
+		col.get(0).fill(values[0]);
+		col.get(1).fill(values[1]);
+		col.get(2).fill(values[2]);
+
+		// Test appending a column
+		assertEquals(table.getColumnCount(), 5);
+		assertEquals(table.get(2).getHeader(), "Header3");
+		assertEquals(table.get(3).getHeader(), "Header4");
+		assertEquals(table.get(4).getHeader(), "Header5");
+
+		checkTableModifiedColumns(table, values, 2, 4);
+	}
+
+	@Test
+	public void testRemoveColumns() {
+		final ByteTable table = createTable();
+
+		final List<ByteColumn> col = table.removeColumns(0, 2);
+
+		// Test removing a column
+		for (int q = 0; q < col.size(); q++) {
+			for (int i = 0; i < col.get(0).size(); i++) {
+				assertEquals(col.get(q).getValue(i), DATA[i][q]);
+			}
+		}
+		assertEquals(table.getColumnCount(), 0);
+
+		checkTableModifiedColumns(table, null, 0, 1);
+	}
+
+	@Test
+	public void testInsertColumns() {
+		final ByteTable table = createTable();
+		final byte[][] values =
+			{
+				{ 17, 23, -12, 0, -93, -7, 127 },
+				{ -100, 54, 93, -2, 111, -86, -74 },
+				{ -12, 120, 6, 8, -4, -121, 13 } };
+
+		final String[] headers = { "Header3", "Header4", "Header5" };
+		final List<ByteColumn> col = table.insertColumns(1, headers);
+		col.get(0).fill(values[0]);
+		col.get(1).fill(values[1]);
+		col.get(2).fill(values[2]);
+
+		assertEquals(table.getColumnCount(), 5);
+		assertEquals(table.get(1).getHeader(), "Header3");
+		assertEquals(table.get(2).getHeader(), "Header4");
+		assertEquals(table.get(3).getHeader(), "Header5");
+
+		checkTableModifiedColumns(table, values, 1, 3);
+	}
+
+	@Test
 	public void testAppendRow() {
 		final ByteTable table = createTable();
 		final byte[] values = { 79, 8 };
@@ -174,6 +240,55 @@ public class DefaultByteTableTest {
 		}
 
 		checkTableModifiedRow(table, values, 5);
+	}
+
+	@Test
+	public void testAppendRows() {
+		final ByteTable table = createTable();
+		final byte[][] values =
+			{ { 79, 8 }, { 100, -12 }, { 54, 36 }, { -100, -86 }, { -43, 60 },
+				{ 92, -122 } };
+
+		// Test appending a row
+		table.appendRows(6);
+		assertEquals(table.getRowCount(), 13);
+		for (int r = 0; r < values.length; r++) {
+			for (int c = 0; c < values[0].length; c++) {
+				table.setValue(c, r + 7, values[r][c]);
+				assertEquals(table.getValue(c, r + 7), values[r][c]);
+			}
+		}
+
+		checkTableModifiedRows(table, values, 7, 12);
+	}
+
+	@Test
+	public void testRemoveRows() {
+		final ByteTable table = createTable();
+		table.removeRows(2, 3);
+		assertEquals(table.getRowCount(), 4);
+
+		checkTableModifiedRows(table, null, 2, 4);
+	}
+
+	@Test
+	public void testInsertRows() {
+		final ByteTable table = createTable();
+		final byte[][] values =
+			{ { 79, 8 }, { 100, -12 }, { 54, 36 }, { -100, -86 }, { -43, 60 },
+				{ 92, -122 } };
+
+		table.insertRows(4, 6);
+
+		assertEquals(table.getRowCount(), 13);
+		for (int r = 0; r < values.length; r++) {
+			for (int c = 0; c < values[0].length; c++) {
+				table.setValue(c, r + 4, values[r][c]);
+				assertEquals(table.getValue(c, r + 4), values[r][c]);
+			}
+		}
+
+		checkTableModifiedRows(table, values, 4, 9);
 	}
 
 	// TODO - Add more tests.
@@ -230,6 +345,49 @@ public class DefaultByteTableTest {
 				}
 				else if ( r >= mod && values == null ) {
 					assertEquals(table.getValue(c, r), DATA[r+1][c]);
+				}
+				else {
+					assertEquals(table.getValue(c, r), DATA[r][c]);
+				}
+			}
+		}
+	}
+
+	private void checkTableModifiedColumns(final ByteTable table,
+		final byte[][] values, final int startMod, final int endMod)
+	{
+		for (int r = 0; r < table.getRowCount(); r++) {
+			for (int c = 0; c < table.getColumnCount(); c++) {
+				if (c >= startMod && c <= endMod && values != null) {
+					assertEquals(table.getValue(c, r), values[c - startMod][r]);
+				}
+				else if (c > endMod && values != null) {
+					assertEquals(table.getValue(c, r), DATA[r][c - values.length]);
+				}
+				else if (c >= startMod && values == null) {
+					assertEquals(table.getValue(c, r), DATA[r][c + (endMod - startMod)]);
+				}
+				else {
+					assertEquals(table.getValue(c, r), DATA[r][c]);
+				}
+			}
+		}
+	}
+
+	private void checkTableModifiedRows(final ByteTable table,
+		final byte[][] values, final int startMod, final int endMod)
+	{
+		for (int r = 0; r < table.getRowCount(); r++) {
+			for (int c = 0; c < table.getColumnCount(); c++) {
+				if (r >= startMod && r <= endMod && values != null) {
+					assertEquals(table.getValue(c, r), values[r - startMod][c]);
+				}
+				else if (r > endMod && values != null) {
+					assertEquals(table.getValue(c, r), DATA[r - values.length][c]);
+				}
+				else if (r >= startMod && values == null) {
+					assertEquals(table.getValue(c, r),
+						DATA[r + (endMod - startMod + 1)][c]);
 				}
 				else {
 					assertEquals(table.getValue(c, r), DATA[r][c]);
