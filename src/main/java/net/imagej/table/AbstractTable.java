@@ -41,7 +41,7 @@ import org.scijava.util.SizableArrayList;
  * @author Curtis Rueden
  * @param <T> The type of data stored in the table.
  */
-public abstract class AbstractTable<C extends Column<T>, T> extends
+public abstract class AbstractTable<C extends Column<? extends T>, T> extends
 	SizableArrayList<C> implements Table<C, T>
 {
 
@@ -398,14 +398,14 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 	@Override
 	public void set(final int col, final int row, final T value) {
 		check(col, row);
-		get(col).set(row, value);
+		assign((Column<?>) get(col), row, value);
 	}
 
 	@Override
 	public void set(final String colHeader, final int row, final T value) {
 		final int col = colIndex(colHeader);
 		checkRow(row, 1);
-		get(col).set(row, value);
+		assign((Column<?>) get(col), row, value);
 	}
 
 	@Override
@@ -493,6 +493,22 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 			throw new IllegalArgumentException("No such column: " + header);
 		}
 		return col;
+	}
+
+	/**
+	 * Generics-friendly helper method for {@link #set(int, int, Object)} and
+	 * {@link #set(String, int, Object)}.
+	 */
+	private <U> void assign(final Column<U> column, final int row,
+		final Object value)
+	{
+		if (value != null && !column.getType().isInstance(value)) {
+			throw new IllegalArgumentException("value of type " + value.getClass() +
+				" is not a " + column.getType());
+		}
+		@SuppressWarnings("unchecked")
+		final U typedValue = (U) value;
+		column.set(row, typedValue);
 	}
 
 	/**

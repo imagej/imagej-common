@@ -43,7 +43,7 @@ import java.util.ListIterator;
  * @param <C> The type of column used by the table.
  * @param <T> The type of data stored in the table.
  */
-public interface Table<C extends Column<T>, T> extends List<C> {
+public interface Table<C extends Column<? extends T>, T> extends List<C> {
 
 	/** Gets the number of columns in the table. */
 	int getColumnCount();
