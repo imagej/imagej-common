@@ -36,8 +36,8 @@ package net.imagej.table;
  * 
  * @author Curtis Rueden
  */
-public class DefaultGenericTable extends AbstractTable<GenericColumn, Object>
-	implements GenericTable
+public class DefaultGenericTable extends
+	AbstractTable<Column<? extends Object>, Object> implements GenericTable
 {
 
 	/** Creates an empty table. */

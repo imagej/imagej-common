@@ -39,7 +39,7 @@ package net.imagej.table;
 public class GenericColumn extends DefaultColumn<Object> {
 
 	public GenericColumn() {
-		super();
+		super(Object.class);
 	}
 
 	public GenericColumn(final String header) {
