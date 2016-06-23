@@ -178,10 +178,12 @@ public class MetaViews
 			return attachedToAxes != null;
 		}
 
+		public T get() { return data; }
+
 		@Override
 		public T getAt( final Localizable pos )
 		{
-			return data;
+			return get();
 		}
 
 		@Override
@@ -236,6 +238,8 @@ public class MetaViews
 		{
 			return attachedToAxes != null;
 		}
+
+		public RandomAccessible<T> get() { return data; }
 
 		@Override
 		public T getAt( final Localizable pos )
