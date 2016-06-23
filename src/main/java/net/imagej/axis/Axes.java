@@ -55,7 +55,7 @@ public final class Axes {
 	 * Table of existing AxisTypes
 	 */
 	private static HashMap<String, AxisType> axes =
-		new HashMap<String, AxisType>();
+		new HashMap<>();
 
 	// -- Constructor to prevent instantiation --
 

@@ -65,13 +65,13 @@ public class DefaultDataTypeService extends
 	@Override
 	public void initialize() {
 		super.initialize();
-		typesByName = new HashMap<String, DataType<?>>();
-		typesByClass = new HashMap<Class<?>, DataType<?>>();
+		typesByName = new HashMap<>();
+		typesByClass = new HashMap<>();
 		for (DataType<?> type : super.getInstances()) {
 			typesByName.put(type.longName(), type);
 			typesByClass.put(type.getType().getClass(), type);
 		}
-		sortedInstances = new ArrayList<DataType<?>>();
+		sortedInstances = new ArrayList<>();
 		sortedInstances.addAll(super.getInstances());
 		Collections.sort(sortedInstances, new Comparator<DataType<?>>() {
 

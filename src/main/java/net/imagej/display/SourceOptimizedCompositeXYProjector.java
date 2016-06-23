@@ -110,7 +110,7 @@ public class SourceOptimizedCompositeXYProjector< A, S extends RandomAccessibleI
 		max[ 0 ] = raTarget.max( 0 );
 		max[ 1 ] = raTarget.max( 1 );
 
-		final List< RandomAccess< A >> sourceRandomAccess = new ArrayList< RandomAccess< A >>();
+		final List< RandomAccess< A >> sourceRandomAccess = new ArrayList<>();
 
 		Cursor< A > leadCursor = iraSource.localizingCursor();
 

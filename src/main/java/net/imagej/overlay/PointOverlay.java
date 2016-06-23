@@ -53,7 +53,7 @@ public class PointOverlay extends AbstractROIOverlay<RectangleRegionOfInterest> 
 
 	private static final long serialVersionUID = 1L;
 
-	private List<double[]> points = new ArrayList<double[]>();
+	private List<double[]> points = new ArrayList<>();
 	
 	// default constructor for use by serialization code
 	//   (see AbstractOverlay::duplicate())

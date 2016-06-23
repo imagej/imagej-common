@@ -55,7 +55,7 @@ public class CombinedSpace<A extends TypedAxis, S extends TypedSpace<A>>
 {
 
 	/** List of axis types for the combined space. */
-	private final ArrayList<AxisType> axisTypes = new ArrayList<AxisType>();
+	private final ArrayList<AxisType> axisTypes = new ArrayList<>();
 
 	// -- CombinedSpace methods --
 

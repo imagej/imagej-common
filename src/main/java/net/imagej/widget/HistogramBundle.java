@@ -62,7 +62,7 @@ public class HistogramBundle {
 	// -- constructors --
 
 	public HistogramBundle(Histogram1d<?> hist) {
-		histograms = new ArrayList<Histogram1d<?>>();
+		histograms = new ArrayList<>();
 		histograms.add(hist);
 		hasChanges = true;
 	}

@@ -71,7 +71,7 @@ public class TestBinaryMaskOverlay {
 	private BinaryMaskRegionOfInterest<BitType, Img<BitType>> makeRoi(
 		final boolean[][] imgArray)
 	{
-		return new BinaryMaskRegionOfInterest<BitType, Img<BitType>>(
+		return new BinaryMaskRegionOfInterest<>(
 			makeImg(imgArray));
 	}
 

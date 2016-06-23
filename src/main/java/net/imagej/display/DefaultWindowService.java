@@ -147,8 +147,8 @@ public final class DefaultWindowService extends AbstractService implements
 
 	@Override
 	public void initialize() {
-		openWindows = new ArrayList<String>();
-		windowModules = new HashMap<String, ModuleInfo>();
+		openWindows = new ArrayList<>();
+		windowModules = new HashMap<>();
 	}
 
 	// -- Event handlers --
@@ -179,7 +179,7 @@ public final class DefaultWindowService extends AbstractService implements
 		final CommandInfo info = new CommandInfo(SelectWindow.class.getName());
 
 		// hard code path to open as a preset
-		final HashMap<String, Object> presets = new HashMap<String, Object>();
+		final HashMap<String, Object> presets = new HashMap<>();
 		presets.put("displayToSelect", displayName);
 		info.setPresets(presets);
 

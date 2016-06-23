@@ -65,8 +65,8 @@ public class CompositeOverlay extends
 
 	// -- instance variables --
 	
-	private List< Overlay > overlays = new ArrayList< Overlay >();
-	private List< Operation > operations = new ArrayList< Operation >();
+	private List< Overlay > overlays = new ArrayList< >();
+	private List< Operation > operations = new ArrayList< >();
 	
 
 	// -- CompositeOverlay methods --

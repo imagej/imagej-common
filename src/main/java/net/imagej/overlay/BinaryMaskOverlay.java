@@ -193,7 +193,7 @@ public class BinaryMaskOverlay<U extends BitType, V extends Img<U>> extends Abst
 				ra.get().set(true);
 			}
 		}
-		setRegionOfInterest(new BinaryMaskRegionOfInterest<U,V>((V)img));
+		setRegionOfInterest(new BinaryMaskRegionOfInterest<>((V)img));
 		getRegionOfInterest().move(maskOrigin);
 	}
 
@@ -201,9 +201,9 @@ public class BinaryMaskOverlay<U extends BitType, V extends Img<U>> extends Abst
 	public Overlay duplicate() {
 		@SuppressWarnings("unchecked")
 		BinaryMaskRegionOfInterest<U,V> newRoi =
-				new BinaryMaskRegionOfInterest<U,V>((V)(getRegionOfInterest().getImg().copy()));
+				new BinaryMaskRegionOfInterest<>((V)(getRegionOfInterest().getImg().copy()));
 		newRoi.move(getRegionOfInterest().getOrigin());
-		BinaryMaskOverlay<U,V> overlay = new BinaryMaskOverlay<U,V>(getContext(), newRoi);
+		BinaryMaskOverlay<U,V> overlay = new BinaryMaskOverlay<>(getContext(), newRoi);
 		overlay.setAlpha(getAlpha());
 		overlay.setAxis(new DefaultLinearAxis(Axes.X), 0);
 		overlay.setAxis(new DefaultLinearAxis(Axes.Y), 1);

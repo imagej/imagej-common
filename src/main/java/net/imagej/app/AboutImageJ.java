@@ -119,7 +119,7 @@ public class AboutImageJ extends ContextCommand {
 
 	// -- instance variables that are not parameters --
 
-	private final List<String> attributionStrings = new LinkedList<String>();
+	private final List<String> attributionStrings = new LinkedList<>();
 	private ColorRGB textColor = Colors.YELLOW;
 	private final ColorRGB outlineColor = Colors.BLACK;
 	private int largestFontSize = 35;
@@ -284,7 +284,7 @@ public class AboutImageJ extends ContextCommand {
 	private List<String> getTextBlock() {
 		final Manifest mft = getApp().getManifest();
 
-		final LinkedList<String> stringList = new LinkedList<String>();
+		final LinkedList<String> stringList = new LinkedList<>();
 		stringList.add("Version: " + getApp().getVersion());
 		if (mft != null) {
 			final String build = mft.getImplementationBuild();

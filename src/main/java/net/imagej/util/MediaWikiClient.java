@@ -63,9 +63,9 @@ public class MediaWikiClient {
 	private static final String IMAGEJ_WIKI_URL = "http://wiki.imagej.net/";
 
 	private final String baseURL;
-	private final Set<String> postActions = new HashSet<String>(Arrays.asList("login", "changeuploadpassword"));
+	private final Set<String> postActions = new HashSet<>(Arrays.asList("login", "changeuploadpassword"));
 	private String currentUser;
-	private Map<String, String> cookies = new LinkedHashMap<String, String>();
+	private Map<String, String> cookies = new LinkedHashMap<>();
 
 	public MediaWikiClient() {
 		this(IMAGEJ_WIKI_URL);

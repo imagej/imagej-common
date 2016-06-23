@@ -77,7 +77,7 @@ public class DefaultImageDisplay extends AbstractDisplay<DataView> implements
 	/** Data structure that aggregates dimensional axes from constituent views. */
 	// private final CombinedInterval combinedInterval = new CombinedInterval();
 	private final CombinedCalibratedRealInterval<CalibratedAxis, CalibratedRealInterval<CalibratedAxis>> combinedInterval =
-		new CombinedCalibratedRealInterval<CalibratedAxis, CalibratedRealInterval<CalibratedAxis>>();
+		new CombinedCalibratedRealInterval<>();
 
 	@Parameter
 	private ThreadService threadService;
@@ -105,7 +105,7 @@ public class DefaultImageDisplay extends AbstractDisplay<DataView> implements
 	// If pos is a HashMap rather than a ConcurrentHashMap,
 	// the Delete Axis plugin throws a ConcurrentModificationException.
 	private final ConcurrentHashMap<AxisType, Long> pos =
-		new ConcurrentHashMap<AxisType, Long>();
+		new ConcurrentHashMap<>();
 
 	// NB - after a rewrite around 12-7-11 by CTR a ConcurrentHashMap might not
 	// be needed. Initial testing seemed okay but will try and relax this

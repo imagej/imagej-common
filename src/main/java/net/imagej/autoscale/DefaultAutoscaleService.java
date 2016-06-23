@@ -129,7 +129,7 @@ public class DefaultAutoscaleService extends
 		if (methods != null) return; // already initialized
 
 		final HashMap<String, AutoscaleMethod> map =
-			new HashMap<String, AutoscaleMethod>();
+			new HashMap<>();
 		for (final AutoscaleMethod method : getInstances()) {
 			final String name = method.getInfo().getName();
 			map.put(name, method);
@@ -142,7 +142,7 @@ public class DefaultAutoscaleService extends
 	private synchronized void initMethodNames() {
 		if (methodNames != null) return; // already initialized
 
-		final ArrayList<String> list = new ArrayList<String>();
+		final ArrayList<String> list = new ArrayList<>();
 		for (final AutoscaleMethod method : getInstances()) {
 			final String name = method.getInfo().getName();
 			list.add(name);

@@ -43,7 +43,7 @@ public enum ColorMode {
 	COLOR("Color"), COMPOSITE("Composite"), GRAYSCALE("Grayscale");
 
 	private static Hashtable<String, ColorMode> colorModes =
-		new Hashtable<String, ColorMode>();
+		new Hashtable<>();
 
 	static {
 		for (final ColorMode colorMode : ColorMode.values()) {

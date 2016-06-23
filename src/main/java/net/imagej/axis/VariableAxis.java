@@ -42,7 +42,7 @@ import java.util.Set;
  */
 public abstract class VariableAxis extends AbstractCalibratedAxis {
 
-	private final HashMap<String, Double> vars = new HashMap<String, Double>();
+	private final HashMap<String, Double> vars = new HashMap<>();
 
 	// -- Constructors --
 

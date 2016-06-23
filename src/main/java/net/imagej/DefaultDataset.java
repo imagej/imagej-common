@@ -701,13 +701,13 @@ public class DefaultDataset extends AbstractData implements Dataset {
 		img.dimensions(dimensions);
 		final Img<T> blankImg =
 			img.factory().create(dimensions, img.firstElement());
-		return new ImgPlus<T>(blankImg, img);
+		return new ImgPlus<>(blankImg, img);
 	}
 
 	private <T extends RealType<?>> ImgPlus<T> wrapAsImgPlus(final Img<T> newImg,
 		final CalibratedAxis... calibAxes)
 	{
-		return new ImgPlus<T>(newImg, getName(), calibAxes);
+		return new ImgPlus<>(newImg, getName(), calibAxes);
 	}
 
 	private void update(boolean metadataOnly) {

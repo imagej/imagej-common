@@ -50,7 +50,7 @@ public class OverlayInfoList {
 	private final LinkedList<OverlayInfo> list;
 	
 	public OverlayInfoList() {
-		list = new LinkedList<OverlayInfo>();
+		list = new LinkedList<>();
 	}
 
 	public int getOverlayInfoCount() {
@@ -162,7 +162,7 @@ public class OverlayInfoList {
 	}
 	
 	public List<Overlay> selectedOverlays() {
-		ArrayList<Overlay> overlays = new ArrayList<Overlay>();
+		ArrayList<Overlay> overlays = new ArrayList<>();
 		for (int i = 0; i < getOverlayInfoCount(); i++) {
 			OverlayInfo info = getOverlayInfo(i);
 			if (info.isSelected())

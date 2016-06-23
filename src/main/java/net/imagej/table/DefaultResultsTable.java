@@ -74,7 +74,7 @@ public class DefaultResultsTable extends AbstractTable<DoubleColumn, Double>
 		final AxisType[] axes = { Axes.X, Axes.Y };
 		final String name = "Results";
 		final ImgPlus<DoubleType> imgPlus =
-			new ImgPlus<DoubleType>(img, name, axes);
+			new ImgPlus<>(img, name, axes);
 		// TODO: Once ImgPlus has a place for row & column labels, add those too.
 		return imgPlus;
 	}

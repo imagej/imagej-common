@@ -107,7 +107,7 @@ public final class DefaultDatasetService extends AbstractService implements
 
 	@Override
 	public List<Dataset> getDatasets(final ImageDisplay display) {
-		final ArrayList<Dataset> datasets = new ArrayList<Dataset>();
+		final ArrayList<Dataset> datasets = new ArrayList<>();
 		if (display != null) {
 			for (final DataView view : display) {
 				final Data data = view.getData();
@@ -180,8 +180,8 @@ public final class DefaultDatasetService extends AbstractService implements
 		final boolean virtual)
 	{
 		final ImgFactory<T> imgFactory;
-		if (virtual) imgFactory = new CellImgFactory<T>();
-		else imgFactory = new PlanarImgFactory<T>();
+		if (virtual) imgFactory = new CellImgFactory<>();
+		else imgFactory = new PlanarImgFactory<>();
 		return create(imgFactory, type, dims, name, axes);
 	}
 
@@ -190,7 +190,7 @@ public final class DefaultDatasetService extends AbstractService implements
 		final T type, final long[] dims, final String name, final AxisType[] axes)
 	{
 		final Img<T> img = factory.create(dims, type);
-		final ImgPlus<T> imgPlus = new ImgPlus<T>(img, name, axes, null);
+		final ImgPlus<T> imgPlus = new ImgPlus<>(img, name, axes, null);
 		return create(imgPlus);
 	}
 
@@ -300,14 +300,14 @@ public final class DefaultDatasetService extends AbstractService implements
 		final RandomAccessibleInterval<T> rai)
 	{
 		if (rai instanceof ImgPlus) return (ImgPlus<T>) rai;
-		return new ImgPlus<T>(wrapToImg(rai));
+		return new ImgPlus<>(wrapToImg(rai));
 	}
 
 	private <T extends RealType<T>> Img<T> wrapToImg(
 		final RandomAccessibleInterval<T> rai)
 	{
 		if (rai instanceof Img) return (Img<T>) rai;
-		return new ImgView<T>(rai, null);
+		return new ImgView<>(rai, null);
 	}
 
 }

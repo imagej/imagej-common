@@ -66,7 +66,7 @@ public class DefaultUnitService extends AbstractService implements UnitService {
 	private LogService log;
 
 	private Map<String, UnitDef> userDefinedUnits =
-		new HashMap<String, DefaultUnitService.UnitDef>();
+		new HashMap<>();
 	private UnitFormat unitFormatter = UnitFormatManager.instance();
 
 	// -- UnitService methods --

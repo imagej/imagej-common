@@ -73,7 +73,7 @@ public class DefaultImageCanvas implements ImageCanvas {
 	private static double[] defaultZooms;
 
 	static {
-		final List<Double> midLevelZooms = new ArrayList<Double>();
+		final List<Double> midLevelZooms = new ArrayList<>();
 
 		midLevelZooms.add(1 / 32d);
 		midLevelZooms.add(1 / 24d);
@@ -99,7 +99,7 @@ public class DefaultImageCanvas implements ImageCanvas {
 
 		final int EXTRA_ZOOMS = 30;
 
-		final List<Double> loZooms = new ArrayList<Double>();
+		final List<Double> loZooms = new ArrayList<>();
 		double prevDenom = 1 / midLevelZooms.get(0);
 		for (int i = 0; i < EXTRA_ZOOMS; i++) {
 			final double newDenom = prevDenom + 16;
@@ -108,7 +108,7 @@ public class DefaultImageCanvas implements ImageCanvas {
 		}
 		Collections.reverse(loZooms);
 
-		final List<Double> hiZooms = new ArrayList<Double>();
+		final List<Double> hiZooms = new ArrayList<>();
 		double prevNumer = midLevelZooms.get(midLevelZooms.size() - 1);
 		for (int i = 0; i < EXTRA_ZOOMS; i++) {
 			final double newNumer = prevNumer + 16;
@@ -116,7 +116,7 @@ public class DefaultImageCanvas implements ImageCanvas {
 			prevNumer = newNumer;
 		}
 
-		final List<Double> combinedZoomLevels = new ArrayList<Double>();
+		final List<Double> combinedZoomLevels = new ArrayList<>();
 		combinedZoomLevels.addAll(loZooms);
 		combinedZoomLevels.addAll(midLevelZooms);
 		combinedZoomLevels.addAll(hiZooms);

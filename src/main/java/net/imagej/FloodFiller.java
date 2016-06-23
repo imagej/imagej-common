@@ -296,7 +296,7 @@ public class FloodFiller {
 	}
 	
 	private void setValues(DrawingTool tool, long numChan, double value) {
-		final List<Double> values = new LinkedList<Double>();
+		final List<Double> values = new LinkedList<>();
 		for (long i = 0; i < numChan; i++)
 			values.add(value);
 		final ChannelCollection channels = new ChannelCollection(values);
@@ -340,7 +340,7 @@ public class FloodFiller {
 		final RandomAccess<? extends RealType<?>> accessor,
 		final long u, final long v)
 	{
-		final List<Double> channels = new LinkedList<Double>();
+		final List<Double> channels = new LinkedList<>();
 		accessor.setPosition(u, uAxis);
 		accessor.setPosition(v, vAxis);
 		long numChannels = 1;

@@ -60,7 +60,7 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 	public AbstractTable(final int colCount, final int rowCount) {
 		super();
 		checkRowCount(rowCount);
-		rowHeaders = new SizableArrayList<String>();
+		rowHeaders = new SizableArrayList<>();
 		this.rowCount = rowCount;
 		setColumnCount(colCount);
 	}
@@ -96,7 +96,7 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 
 	@Override
 	public ArrayList<C> appendColumns(final int count) {
-		final ArrayList<C> result = new ArrayList<C>(count);
+		final ArrayList<C> result = new ArrayList<>(count);
 		for (int c = 0; c < count; c++) {
 			result.add(appendColumn());
 		}
@@ -105,7 +105,7 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 
 	@Override
 	public ArrayList<C> appendColumns(final String... headers) {
-		final ArrayList<C> result = new ArrayList<C>(headers.length);
+		final ArrayList<C> result = new ArrayList<>(headers.length);
 		for (final String header : headers) {
 			result.add(appendColumn(header));
 		}
@@ -140,7 +140,7 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 		}
 
 		// insert new blank columns
-		final ArrayList<C> result = new ArrayList<C>(count);
+		final ArrayList<C> result = new ArrayList<>(count);
 		for (int c = 0; c < count; c++) {
 			final C column = createColumn(null);
 			result.add(column);
@@ -177,7 +177,7 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 		checkCol(col, count);
 
 		// save to-be-removed columns
-		final ArrayList<C> result = new ArrayList<C>(count);
+		final ArrayList<C> result = new ArrayList<>(count);
 		for (int c = 0; c < count; c++) {
 			result.add(get(col + c));
 		}
@@ -197,7 +197,7 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 
 	@Override
 	public ArrayList<C> removeColumns(final String... headers) {
-		final ArrayList<C> result = new ArrayList<C>(headers.length);
+		final ArrayList<C> result = new ArrayList<>(headers.length);
 		for (final String header : headers) {
 			result.add(removeColumn(header));
 		}

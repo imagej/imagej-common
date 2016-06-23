@@ -169,7 +169,7 @@ public class OptionsChannels extends OptionsPlugin {
 	// -- private helpers --
 
 	private ChannelCollection decode(final String channelString) {
-		final List<Double> collection = new LinkedList<Double>();
+		final List<Double> collection = new LinkedList<>();
 		final String[] values = channelString.split(",");
 		for (final String value : values) {
 			double val;

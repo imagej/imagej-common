@@ -128,8 +128,8 @@ public class ConfidenceIntervalAutoscaleMethod<T extends RealType<T>> extends
 		DataRange range = autoscaleService.getDefaultIntervalRange(interval);
 		// pass two through data
 		Real1dBinMapper<T> mapper =
-			new Real1dBinMapper<T>(range.getMin(), range.getMax(), 1000, false);
-		Histogram1d<T> histogram = new Histogram1d<T>(mapper);
+			new Real1dBinMapper<>(range.getMin(), range.getMax(), 1000, false);
+		Histogram1d<T> histogram = new Histogram1d<>(mapper);
 		histogram.countData(interval);
 		// calc some sizes
 		long totValues = histogram.distributionCount();

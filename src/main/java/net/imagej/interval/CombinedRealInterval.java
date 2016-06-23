@@ -67,7 +67,7 @@ public class CombinedRealInterval<A extends TypedAxis, S extends TypedRealInterv
 
 	/** Combined min and max values for each axis. */
 	private final HashMap<AxisType, MinMax> minMax =
-		new HashMap<AxisType, MinMax>();
+		new HashMap<>();
 
 	// -- CombinedRealInterval methods --
 

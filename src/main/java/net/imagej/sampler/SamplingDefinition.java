@@ -62,7 +62,7 @@ public class SamplingDefinition {
 
 	private SamplingDefinition(final ImageDisplay display) {
 		this.display = display;
-		this.axisSubranges = new HashMap<AxisType, AxisSubrange>();
+		this.axisSubranges = new HashMap<>();
 		this.err = null;
 	}
 
@@ -109,7 +109,7 @@ public class SamplingDefinition {
 	 * [1,2,3]]
 	 */
 	public List<List<Long>> getInputRanges() {
-		final List<List<Long>> axesDefs = new ArrayList<List<Long>>();
+		final List<List<Long>> axesDefs = new ArrayList<>();
 		for (int i = 0; i < display.numDimensions(); i++) {
 			final AxisType axisType = display.axis(i).type();
 			final AxisSubrange subrange = axisSubranges.get(axisType);

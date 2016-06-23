@@ -70,7 +70,7 @@ public class ConvertListToIntervalTest {
 	 */
 	@Test
 	public void convertLongListToDimensionsTest() {
-		final List<Long> dims = new ArrayList<Long>();
+		final List<Long> dims = new ArrayList<>();
 		for (int i = 0; i < 10; i++) dims.add((long) (Math.random() * 10000));
 
 		assertTrue(convertService.supports(dims, Dimensions.class));
@@ -90,7 +90,7 @@ public class ConvertListToIntervalTest {
 	 */
 	@Test
 	public void convertIntListToDimensionsTest() {
-		final List<Integer> dims = new ArrayList<Integer>();
+		final List<Integer> dims = new ArrayList<>();
 		for (int i = 0; i < 10; i++) dims.add((int) (Math.random() * 10000));
 
 		assertTrue(convertService.supports(dims, Dimensions.class));
@@ -110,7 +110,7 @@ public class ConvertListToIntervalTest {
 	 */
 	@Test
 	public void testIntFalsePositives() {
-		final List<Integer> dims = new ArrayList<Integer>();
+		final List<Integer> dims = new ArrayList<>();
 		for (int i = 0; i < 10; i++) dims.add((int) (Math.random() * 10000));
 
 		final Converter<List, FinalInterval> converter =

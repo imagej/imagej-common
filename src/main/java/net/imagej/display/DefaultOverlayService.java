@@ -110,7 +110,7 @@ public final class DefaultOverlayService extends AbstractService implements
 	public List<Overlay> getOverlays(final ImageDisplay display,
 		final boolean selectedOnly)
 	{
-		final ArrayList<Overlay> overlays = new ArrayList<Overlay>();
+		final ArrayList<Overlay> overlays = new ArrayList<>();
 		for (final DataView view : display) {
 			if (selectedOnly && !view.isSelected()) {
 				// ignore non-selected objects
@@ -140,7 +140,7 @@ public final class DefaultOverlayService extends AbstractService implements
 
 	@Override
 	public void removeOverlay(final ImageDisplay display, final Overlay overlay) {
-		final ArrayList<DataView> overlayViews = new ArrayList<DataView>();
+		final ArrayList<DataView> overlayViews = new ArrayList<>();
 		final List<DataView> views = display;
 		for (final DataView view : views) {
 			final Data data = view.getData();
@@ -266,7 +266,7 @@ public final class DefaultOverlayService extends AbstractService implements
 
 	@Override
 	public List<ImageDisplay> getDisplays(final Overlay o) {
-		final ArrayList<ImageDisplay> containers = new ArrayList<ImageDisplay>();
+		final ArrayList<ImageDisplay> containers = new ArrayList<>();
 		final List<Display<?>> displays = displayService.getDisplays();
 		for (final Display<?> display : displays) {
 			if (!(display instanceof ImageDisplay)) continue;

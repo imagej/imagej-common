@@ -97,7 +97,7 @@ public abstract class AbstractDataView extends AbstractContextual implements
 		data = d;
 
 		data.incrementReferences();
-		pos = new HashMap<AxisType, Long>();
+		pos = new HashMap<>();
 	}
 
 	@Override

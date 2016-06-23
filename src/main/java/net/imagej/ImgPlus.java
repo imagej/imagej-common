@@ -81,7 +81,7 @@ public class ImgPlus<T> extends AbstractCalibratedRealInterval<CalibratedAxis>
 
 	private int compositeChannelCount = 1;
 	private final ArrayList<ColorTable> colorTable;
-	private final Map<String, Object> properties = new HashMap<String, Object>();
+	private final Map<String, Object> properties = new HashMap<>();
 
 	// -- Constructors --
 
@@ -141,9 +141,9 @@ public class ImgPlus<T> extends AbstractCalibratedRealInterval<CalibratedAxis>
 		this.img = img;
 		setName(name);
 
-		channelMin = new ArrayList<Double>();
-		channelMax = new ArrayList<Double>();
-		colorTable = new ArrayList<ColorTable>();
+		channelMin = new ArrayList<>();
+		channelMax = new ArrayList<>();
+		colorTable = new ArrayList<>();
 		setSource("");
 	}
 
@@ -297,7 +297,7 @@ public class ImgPlus<T> extends AbstractCalibratedRealInterval<CalibratedAxis>
 
 	@Override
 	public ImgPlus<T> copy() {
-		return new ImgPlus<T>(img.copy(), this);
+		return new ImgPlus<>(img.copy(), this);
 	}
 
 	// -- Named methods --
@@ -412,7 +412,7 @@ public class ImgPlus<T> extends AbstractCalibratedRealInterval<CalibratedAxis>
 	/** Ensures the given {@link Img} is an ImgPlus, wrapping if necessary. */
 	public static <T> ImgPlus<T> wrap(final Img<T> img) {
 		if (img instanceof ImgPlus) return (ImgPlus<T>) img;
-		return new ImgPlus<T>(img);
+		return new ImgPlus<>(img);
 	}
 
 	/** Ensures the given {@link Img} is an ImgPlus, wrapping if necessary. */
@@ -420,7 +420,7 @@ public class ImgPlus<T> extends AbstractCalibratedRealInterval<CalibratedAxis>
 		final ImgPlusMetadata metadata)
 	{
 		if (img instanceof ImgPlus) return (ImgPlus<T>) img;
-		return new ImgPlus<T>(img, metadata);
+		return new ImgPlus<>(img, metadata);
 	}
 
 	// -- Helper methods --

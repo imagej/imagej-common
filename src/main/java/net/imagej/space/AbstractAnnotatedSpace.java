@@ -49,7 +49,7 @@ public abstract class AbstractAnnotatedSpace<A extends Axis> implements
 	private final List<A> axisList;
 
 	public AbstractAnnotatedSpace(final int numDims) {
-		axisList = new ArrayList<A>(numDims);
+		axisList = new ArrayList<>(numDims);
 		// We have no way of knowing the axes to populate, so we fill with
 		// nulls.
 		for (int d = 0; d < numDims; d++) {
@@ -62,7 +62,7 @@ public abstract class AbstractAnnotatedSpace<A extends Axis> implements
 	}
 
 	public AbstractAnnotatedSpace(final List<A> axes) {
-		axisList = new ArrayList<A>(axes.size());
+		axisList = new ArrayList<>(axes.size());
 		axisList.addAll(axes);
 	}
 

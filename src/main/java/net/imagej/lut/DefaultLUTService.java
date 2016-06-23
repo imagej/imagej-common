@@ -242,7 +242,7 @@ public class DefaultLUTService extends AbstractService implements LUTService {
 			@Override
 			public Collection<ModuleInfo> get() {
 				final Map<String, URL> luts = findLUTs();
-				final List<ModuleInfo> modules = new ArrayList<ModuleInfo>();
+				final List<ModuleInfo> modules = new ArrayList<>();
 				for (final String key : luts.keySet()) {
 					modules.add(createInfo(key, luts.get(key)));
 				}
@@ -268,7 +268,7 @@ public class DefaultLUTService extends AbstractService implements LUTService {
 		menuPath.add(leaf);
 
 		// hard code path to open as a preset
-		final HashMap<String, Object> presets = new HashMap<String, Object>();
+		final HashMap<String, Object> presets = new HashMap<>();
 		presets.put("tableURL", url);
 		// and create the command info
 		// CTR FIXME: Avoid circular dependency.

@@ -65,7 +65,7 @@ public class DatasetTest {
 			context.getService(DatasetService.class);
 
 		final Img<IntType> img = factory.create(DIMENSIONS, new IntType());
-		final ImgPlus<IntType> imgPlus = new ImgPlus<IntType>(img);
+		final ImgPlus<IntType> imgPlus = new ImgPlus<>(img);
 		return datasetService.create(imgPlus);
 	}
 

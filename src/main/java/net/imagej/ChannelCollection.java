@@ -65,7 +65,7 @@ public class ChannelCollection {
 	 * Constructs a new channel collection from a list of Double values.
 	 */
 	public ChannelCollection(List<Double> values) {
-		this.channelInfos = new LinkedList<Double>();
+		this.channelInfos = new LinkedList<>();
 		channelInfos.addAll(values);
 		// NB - make sure its always populated with at least one channel. This
 		// simplifies API elsewhere (by always having a positive channel count)

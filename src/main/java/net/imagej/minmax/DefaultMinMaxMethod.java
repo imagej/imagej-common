@@ -159,8 +159,8 @@ public class DefaultMinMaxMethod<T extends Type<T> & Comparable<T>> extends
 
 		final Vector<Chunk> threadChunks =
 			SimpleMultiThreading.divideIntoChunks(imageSize, numThreads);
-		final Vector<T> minValues = new Vector<T>();
-		final Vector<T> maxValues = new Vector<T>();
+		final Vector<T> minValues = new Vector<>();
+		final Vector<T> maxValues = new Vector<>();
 
 		for (int ithread = 0; ithread < threads.length; ++ithread) {
 			minValues.add(image.firstElement().createVariable());
@@ -318,7 +318,7 @@ public class DefaultMinMaxMethod<T extends Type<T> & Comparable<T>> extends
 			final long threadChunkSize = imageSize / numThreads;
 			final long threadChunkMod = imageSize % numThreads;
 
-			final Vector<Chunk> chunks = new Vector<Chunk>();
+			final Vector<Chunk> chunks = new Vector<>();
 
 			for (int threadID = 0; threadID < numThreads; ++threadID) {
 				// move to the starting position of the current thread

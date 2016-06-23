@@ -99,7 +99,7 @@ public class ConfigFileParameters extends AbstractContextual {
 	 */
 	public ConfigFileParameters(final Context context, final File configFile) {
 		setContext(context);
-		this.dataMap = new HashMap<String, String>();
+		this.dataMap = new HashMap<>();
 		this.configFile = configFile == null ? defaultConfigFile() : configFile;
 		initialize();
 	}

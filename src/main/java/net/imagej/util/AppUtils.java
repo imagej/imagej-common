@@ -106,7 +106,7 @@ public final class AppUtils {
 	{
 		// scan URL resource paths first
 		final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-		final ArrayList<URL> urls = new ArrayList<URL>();
+		final ArrayList<URL> urls = new ArrayList<>();
 		try {
 			urls.addAll(Collections.list(loader.getResources(pathPrefix + "/")));
 		}
@@ -143,7 +143,7 @@ public final class AppUtils {
 	public static Map<String, URL> findResources(final String regex,
 		final Iterable<URL> urls)
 	{
-		final HashMap<String, URL> result = new HashMap<String, URL>();
+		final HashMap<String, URL> result = new HashMap<>();
 		final Pattern pattern = regex == null ? null : Pattern.compile(regex);
 		for (final URL url : urls) {
 			getResources(pattern, result, url);

@@ -369,7 +369,7 @@ public class DefaultSamplerService extends AbstractService implements
 		final double[] toOrigin = new double[2];
 		toOrigin[0] = -bounds.x;
 		toOrigin[1] = -bounds.y;
-		final List<Overlay> newOverlays = new ArrayList<Overlay>();
+		final List<Overlay> newOverlays = new ArrayList<>();
 		for (final Overlay overlay : overlays) {
 			if (overlayWithinBounds(overlay, bounds)) {
 				// add a reference to existing overlay?

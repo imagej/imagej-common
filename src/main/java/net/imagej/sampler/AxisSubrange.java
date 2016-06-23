@@ -58,7 +58,7 @@ public class AxisSubrange {
 
 	private AxisSubrange() {
 		this.err = null;
-		this.indices = new ArrayList<Long>();
+		this.indices = new ArrayList<>();
 	}
 
 	// -- public interface --

@@ -102,7 +102,7 @@ public class DefaultDatasetView extends AbstractDataView implements DatasetView
 	private CompositeXYProjector<? extends RealType<?>> projector;
 
 	private final ArrayList<RealLUTConverter<? extends RealType<?>>> converters =
-		new ArrayList<RealLUTConverter<? extends RealType<?>>>();
+		new ArrayList<>();
 
 	// -- DatasetView methods --
 
@@ -388,7 +388,7 @@ public class DefaultDatasetView extends AbstractDataView implements DatasetView
 		final ImgPlus<? extends RealType<?>> img = getData().getImgPlus();
 
 		if (defaultLUTs == null || defaultLUTs.size() != getChannelCount()) {
-			defaultLUTs = new ArrayList<ColorTable>();
+			defaultLUTs = new ArrayList<>();
 			resetColorTables(false);
 		}
 

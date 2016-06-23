@@ -125,7 +125,7 @@ public class DefaultAnimationService extends AbstractService implements
 
 	@Override
 	public void initialize() {
-		animations = new ConcurrentHashMap<ImageDisplay, Animation>();
+		animations = new ConcurrentHashMap<>();
 	}
 
 	// -- Disposable methods --
