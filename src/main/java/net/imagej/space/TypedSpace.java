@@ -52,6 +52,11 @@ public interface TypedSpace<A extends TypedAxis> extends AnnotatedSpace<A> {
 	 * @return the dimensional index of the specified axis type. Return 
 	 * <code>-1</code> if the specified axis type is not found.
 	 */
-	int dimensionIndex(final AxisType axisType);
+	default int dimensionIndex(final AxisType axisType) {
+		for (int d = 0; d < numDimensions(); d++) {
+			if (axis(d).type() == axisType) return d;
+		}
+		return -1;
+	}
 
 }

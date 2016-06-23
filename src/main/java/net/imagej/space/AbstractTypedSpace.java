@@ -33,9 +33,7 @@ package net.imagej.space;
 
 import java.util.List;
 
-import net.imagej.axis.AxisType;
 import net.imagej.axis.TypedAxis;
-import net.imagej.space.AbstractAnnotatedSpace;
 
 /**
  * Abstract base class for {@link TypedSpace}.
@@ -56,16 +54,6 @@ public abstract class AbstractTypedSpace<A extends TypedAxis> extends
 
 	public AbstractTypedSpace(final List<A> axes) {
 		super(axes);
-	}
-
-	// -- TypedSpace methods --
-
-	@Override
-	public int dimensionIndex(final AxisType axisType) {
-		for (int d = 0; d < numDimensions(); d++) {
-			if (axis(d).type() == axisType) return d;
-		}
-		return -1;
 	}
 
 }
