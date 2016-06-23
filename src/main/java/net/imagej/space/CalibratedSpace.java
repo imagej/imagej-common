@@ -55,6 +55,8 @@ public interface CalibratedSpace<A extends CalibratedAxis> extends
 	 * range is {@code [0, 1]}.
 	 * </p>
 	 */
-	double averageScale(int d);
+	default double averageScale(final int d) {
+		return axis(d).averageScale(0, 1);
+	}
 
 }
