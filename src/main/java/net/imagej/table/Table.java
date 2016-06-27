@@ -270,8 +270,8 @@ public interface Table<C extends Column<? extends T>, T> extends List<C> {
 	/**
 	 * Appends the specified column to the end of the table.
 	 * <p>
-	 * No checking is done to ensure the new column has the same number of rows as
-	 * the other existing columns.
+	 * Updates the row count if this column has more rows than current table and
+	 * scales the existing columns to have the same number of rows.
 	 * </p>
 	 */
 	@Override
@@ -298,8 +298,8 @@ public interface Table<C extends Column<? extends T>, T> extends List<C> {
 	 * table, in the order that they are returned by the specified collection's
 	 * iterator.
 	 * <p>
-	 * No checking is done to ensure the new columns have the same number of rows
-	 * as the other existing columns.
+	 * Updates the row count if necessary, and scales the columns to match the row
+	 * count if necessary.
 	 * </p>
 	 * 
 	 * @return <tt>true</tt> if the table changed as a result of the call
@@ -311,8 +311,8 @@ public interface Table<C extends Column<? extends T>, T> extends List<C> {
 	 * Inserts all of the columns in the specified collection into this list at
 	 * the specified position.
 	 * <p>
-	 * No checking is done to ensure the new columns have the same number of rows
-	 * as the other existing columns.
+	 * Updates the row count if necessary, and scales the columns to match the row
+	 * count if necessary.
 	 * </p>
 	 * 
 	 * @return <tt>true</tt> if the table changed as a result of the call
@@ -371,8 +371,8 @@ public interface Table<C extends Column<? extends T>, T> extends List<C> {
 	/**
 	 * Inserts the specified column at the specified position in the table.
 	 * <p>
-	 * No checking is done to ensure the new column has the same number of rows as
-	 * the other existing columns.
+	 * Updates the row count if this column has more rows than current table and
+	 * scales the existing columns to have the same number of rows.
 	 * </p>
 	 */
 	@Override
