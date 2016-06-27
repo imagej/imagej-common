@@ -73,6 +73,7 @@ public class ShortColumn extends ShortArray implements
 	@Override
 	public void fill(final short[] values) {
 		setArray(values);
+		setSize(values.length);
 	}
 
 	@Override
@@ -82,6 +83,7 @@ public class ShortColumn extends ShortArray implements
 		else {
 			System.arraycopy(values, 0, getArray(), offset, values.length);
 		}
+		setSize(values.length);
 	}
 
 }

@@ -73,6 +73,7 @@ public class IntColumn extends IntArray implements
 	@Override
 	public void fill(final int[] values) {
 		setArray(values);
+		setSize(values.length);
 	}
 
 	@Override
@@ -82,6 +83,7 @@ public class IntColumn extends IntArray implements
 		else {
 			System.arraycopy(values, 0, getArray(), offset, values.length);
 		}
+		setSize(values.length);
 	}
 
 }

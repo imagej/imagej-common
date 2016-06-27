@@ -73,6 +73,7 @@ public class DoubleColumn extends DoubleArray implements
 	@Override
 	public void fill(final double[] values) {
 		setArray(values);
+		setSize(values.length);
 	}
 
 	@Override
@@ -82,6 +83,7 @@ public class DoubleColumn extends DoubleArray implements
 		else {
 			System.arraycopy(values, 0, getArray(), offset, values.length);
 		}
+		setSize(values.length);
 	}
 
 }

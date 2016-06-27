@@ -72,7 +72,8 @@ public class LongColumn extends LongArray implements
 
 	@Override
 	public void fill(final long[] values) {
-		this.setArray(values.clone());
+		setArray(values.clone());
+		setSize(values.length);
 	}
 
 	@Override
@@ -82,6 +83,7 @@ public class LongColumn extends LongArray implements
 		else {
 			System.arraycopy(values, 0, getArray(), offset, values.length);
 		}
+		setSize(values.length);
 	}
 
 }

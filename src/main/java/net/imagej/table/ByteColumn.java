@@ -73,6 +73,7 @@ public class ByteColumn extends ByteArray implements
 	@Override
 	public void fill(final byte[] values) {
 		setArray(values.clone());
+		setSize(values.length);
 	}
 
 	@Override
@@ -82,6 +83,7 @@ public class ByteColumn extends ByteArray implements
 		else {
 			System.arraycopy(values, 0, getArray(), offset, values.length);
 		}
+		setSize(values.length);
 	}
 
 }
