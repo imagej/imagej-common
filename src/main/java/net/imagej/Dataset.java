@@ -31,9 +31,13 @@
 
 package net.imagej;
 
+import net.imagej.axis.Axes;
+import net.imagej.axis.AxisType;
 import net.imagej.axis.CalibratedAxis;
 import net.imglib2.img.Img;
 import net.imglib2.type.numeric.RealType;
+
+import java.util.Optional;
 
 /**
  * Dataset is the primary image data structure in ImageJ. A Dataset wraps an
@@ -43,6 +47,7 @@ import net.imglib2.type.numeric.RealType;
  * 
  * @author Curtis Rueden
  * @author Barry DeZonia
+ * @author Richard Domander
  */
 public interface Dataset extends Data, ImgPlusMetadata, Img<RealType<?>> {
 
@@ -152,6 +157,61 @@ public interface Dataset extends Data, ImgPlusMetadata, Img<RealType<?>> {
 
 	// TODO - move into Imglib
 	void setAxes(final CalibratedAxis[] axes);
+
+	//region -- Convenience methods --
+	default long getWidth() {
+		return getTypedAxisSize(Axes.X);
+	}
+
+	default long getHeight() {
+		return getTypedAxisSize(Axes.Y);
+	}
+
+	default long getDepth() {
+		return getTypedAxisSize(Axes.Z);
+	}
+
+	default long getFrames() {
+		return getTypedAxisSize(Axes.TIME);
+	}
+
+	default long getChannels() {
+		return getTypedAxisSize(Axes.CHANNEL);
+	}
+
+	/**
+	 * Returns the size of the axis with the given AxisType
+	 *
+	 * @param	type Type of the axis, e.g. Axes.X
+	 * @return 	The size of the axis, or -1 if the Dataset doesn't have that axis
+	 */
+	default long getTypedAxisSize(final AxisType type) {
+		final int index = dimensionIndex(type);
+
+		if (index < 0) {
+			return -1;
+		}
+
+		return dimension(index);
+	}
+
+	/**
+	 * Returns the axis of the given type from this Dataset
+	 *
+	 * @param 	type Type of the axis, e.g. Axes.X
+	 * @return  An Optional containing the CalibratedAxis,
+	 *  		or empty if the Dataset doesn't contain an axis of the type
+     */
+	default Optional<CalibratedAxis> getTypedAxis(final AxisType type) {
+		final int index = dimensionIndex(type);
+
+		if (index < 0) {
+			return Optional.empty();
+		}
+
+		return Optional.of(this.axis(index));
+	}
+	//endregion
 
 	// -- Data methods --
 
