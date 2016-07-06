@@ -31,14 +31,14 @@
 
 package net.imagej.units;
 
-import org.scijava.service.Service;
+import net.imagej.ImageJService;
 
 /**
  * Service for defining units and making unit conversions.
  * 
  * @author Barry DeZonia
  */
-public interface UnitService extends Service {
+public interface UnitService extends ImageJService {
 
 	/**
 	 * Returns a value after conversion between two compatible types of units.
