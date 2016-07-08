@@ -50,6 +50,7 @@ import net.imglib2.Positionable;
 import net.imglib2.RandomAccess;
 import net.imglib2.RealPositionable;
 import net.imglib2.display.ColorTable;
+import net.imglib2.exception.IncompatibleTypeException;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
 import net.imglib2.img.NativeImgFactory;
@@ -732,8 +733,35 @@ public class DefaultDataset extends AbstractData implements Dataset {
 
 	@Override
 	public ImgFactory<RealType<?>> factory() {
-		throw new UnsupportedOperationException(
-			"TODO: Not yet implemented. Use getImgPlus().factory() for now.");
+		return new ImgFactory<RealType<?>>() {
+
+			@Override
+			public Dataset create(final long[] dim, final RealType<?> type) {
+				ImgPlus<RealType<?>> imp = makeImgPlus(dim, type);
+				return new DefaultDataset(getContext(), imp);
+			}
+
+			@Override
+			@SuppressWarnings("unchecked")
+			public <S> ImgFactory<S> imgFactory(final S type)
+				throws IncompatibleTypeException
+			{
+				return (ImgFactory<S>) this;
+			}
+
+			private <T> ImgPlus<T> makeImgPlus(final long[] dim, final T type) {
+				final ImgFactory<T> factory;
+				try {
+					factory = getImgPlus().factory().imgFactory(type);
+				}
+				catch (final IncompatibleTypeException exc) {
+					throw new IllegalStateException("Ill-understood type weirdness", exc);
+				}
+				final Img<T> img = factory.create(dim, type);
+				return img instanceof ImgPlus ?
+					(ImgPlus<T>) img : new ImgPlus<>(img, getImgPlus());
+			}
+		};
 	}
 
 	@SuppressWarnings("unchecked")
