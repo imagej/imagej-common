@@ -33,6 +33,7 @@ package net.imagej.easy;
 
 import net.imagej.delegate.AbstractThreadSafeDelegate;
 import net.imagej.delegate.DelegateRandomAccess;
+import net.imglib2.Localizable;
 import net.imglib2.RandomAccess;
 import net.imglib2.RandomAccessible;
 
@@ -48,8 +49,24 @@ public abstract class EasyRA<T> extends
 	DelegateRandomAccess<RandomAccess<T>, T>
 {
 
+	public T get(final long... pos) {
+		setPosition(pos);
+		return get();
+	}
+
+	public T get(final Localizable pos) {
+		setPosition(pos);
+		return get();
+	}
+
+	public T get(final int... pos) {
+		setPosition(pos);
+		return get();
+	}
+
 	@Override
 	public RandomAccess<T> initDelegate() {
 		return randomAccess();
 	}
+
 }
