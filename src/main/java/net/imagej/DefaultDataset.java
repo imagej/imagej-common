@@ -732,8 +732,8 @@ public class DefaultDataset extends AbstractData implements Dataset {
 	}
 
 	@Override
-	public ImgFactory<RealType<?>> factory() {
-		return new ImgFactory<RealType<?>>() {
+	public DatasetFactory factory() {
+		return new DatasetFactory() {
 
 			@Override
 			public Dataset create(final long[] dim, final RealType<?> type) {

@@ -177,15 +177,13 @@ public class DatasetTest {
 	@Test
 	public void testFactory() {
 		final Dataset planar = createPlanarDataset();
-		final Dataset planar2 = (Dataset) //
-			planar.factory().create(DIMENSIONS, new FloatType());
+		final Dataset planar2 = planar.factory().create(DIMENSIONS, new FloatType());
 		assertDatasetsMatch(planar, planar2);
 		assertNotSame(FloatType.class, planar.getType().getClass());
 		assertSame(FloatType.class, planar2.getType().getClass());
 
 		final Dataset cell = createNonplanarDataset();
-		final Dataset cell2 = (Dataset) //
-			cell.factory().create(DIMENSIONS, new FloatType());
+		final Dataset cell2 = cell.factory().create(DIMENSIONS, new FloatType());
 		assertDatasetsMatch(cell, cell2);
 		assertNotSame(FloatType.class, cell.getType().getClass());
 		assertSame(FloatType.class, cell2.getType().getClass());

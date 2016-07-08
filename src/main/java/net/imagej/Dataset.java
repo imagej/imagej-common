@@ -170,4 +170,9 @@ public interface Dataset extends Data, ImgPlusMetadata, Img<RealType<?>> {
 	 */
 	@Override
 	void rebuild();
+
+	// -- Img methods --
+
+	@Override
+	DatasetFactory factory();
 }
