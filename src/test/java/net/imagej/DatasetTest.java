@@ -34,6 +34,7 @@ package net.imagej;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
+
 import net.imglib2.RandomAccess;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
@@ -41,6 +42,7 @@ import net.imglib2.img.cell.CellImgFactory;
 import net.imglib2.img.planar.PlanarImgFactory;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.integer.IntType;
+import net.imglib2.type.numeric.real.FloatType;
 
 import org.junit.Test;
 import org.scijava.Context;
@@ -170,5 +172,31 @@ public class DatasetTest {
 	public void testGetPlane() {
 		testPlanarCase();
 		testNonplanarCase();
+	}
+
+	@Test
+	public void testFactory() {
+		final Dataset planar = createPlanarDataset();
+		final Dataset planar2 = (Dataset) //
+			planar.factory().create(DIMENSIONS, new FloatType());
+		assertDatasetsMatch(planar, planar2);
+		assertNotSame(FloatType.class, planar.getType().getClass());
+		assertSame(FloatType.class, planar2.getType().getClass());
+
+		final Dataset cell = createNonplanarDataset();
+		final Dataset cell2 = (Dataset) //
+			cell.factory().create(DIMENSIONS, new FloatType());
+		assertDatasetsMatch(cell, cell2);
+		assertNotSame(FloatType.class, cell.getType().getClass());
+		assertSame(FloatType.class, cell2.getType().getClass());
+	}
+
+	private void assertDatasetsMatch(final Dataset d, final Dataset d2) {
+		assertEquals(d.numDimensions(), d2.numDimensions());
+		for (int i=0; i<d.numDimensions(); i++) {
+			assertEquals(d.dimension(i), d2.dimension(i));
+		}
+		assertSame(d.getImgPlus().getImg().getClass(), //
+			d2.getImgPlus().getImg().getClass());
 	}
 }
