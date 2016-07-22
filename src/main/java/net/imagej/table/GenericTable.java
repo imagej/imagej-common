@@ -36,6 +36,6 @@ package net.imagej.table;
  * 
  * @author Curtis Rueden
  */
-public interface GenericTable extends Table<GenericColumn, Object> {
+public interface GenericTable extends Table<Column<? extends Object>, Object> {
 	// NB: No implementation needed.
 }

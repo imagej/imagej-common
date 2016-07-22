@@ -32,6 +32,7 @@
 package net.imagej.table;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.scijava.util.SizableArrayList;
 
@@ -41,7 +42,7 @@ import org.scijava.util.SizableArrayList;
  * @author Curtis Rueden
  * @param <T> The type of data stored in the table.
  */
-public abstract class AbstractTable<C extends Column<T>, T> extends
+public abstract class AbstractTable<C extends Column<? extends T>, T> extends
 	SizableArrayList<C> implements Table<C, T>
 {
 
@@ -134,7 +135,7 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 		setColumnCount(newColCount);
 
 		// copy columns after the inserted range into the new position
-		for (int oldC = col; oldC < oldColCount; oldC++) {
+		for (int oldC = oldColCount - 1; oldC >= col; oldC--) {
 			final int newC = oldC + count;
 			set(newC, get(oldC));
 		}
@@ -143,6 +144,8 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 		final ArrayList<C> result = new ArrayList<>(count);
 		for (int c = 0; c < count; c++) {
 			final C column = createColumn(null);
+			// initialize array
+			column.setSize(getRowCount());
 			result.add(column);
 			set(col + c, column);
 		}
@@ -186,7 +189,7 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 		final int newColCount = oldColCount - count;
 
 		// copy data after the deleted range into the new position
-		for (int oldC = col; oldC < oldColCount; oldC++) {
+		for (int oldC = col+count; oldC < oldColCount; oldC++) {
 			final int newC = oldC - count;
 			set(newC, get(oldC));
 		}
@@ -261,7 +264,9 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 		setRowCount(newRowCount);
 
 		// copy data after the inserted range into the new position
-		for (int oldR = row; oldR < oldRowCount; oldR++) {
+		// NB: This loop goes backwards to prevent the same row from being copied
+		// over and over again.
+		for (int oldR = oldRowCount - 1; oldR >= row; oldR--) {
 			final int newR = oldR + count;
 			for (int c = 0; c < getColumnCount(); c++) {
 				set(c, newR, get(c, oldR));
@@ -320,7 +325,7 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 		final int oldRowCount = getRowCount();
 		final int newRowCount = oldRowCount - count;
 		// copy data after the deleted range into the new position
-		for (int oldR = row; oldR < oldRowCount; oldR++) {
+		for (int oldR = row+count; oldR < oldRowCount; oldR++) {
 			final int newR = oldR - count;
 			setRowHeader(newR, getRowHeader(oldR));
 			for (int c = 0; c < getColumnCount(); c++) {
@@ -394,14 +399,14 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 	@Override
 	public void set(final int col, final int row, final T value) {
 		check(col, row);
-		get(col).set(row, value);
+		assign((Column<?>) get(col), row, value);
 	}
 
 	@Override
 	public void set(final String colHeader, final int row, final T value) {
 		final int col = colIndex(colHeader);
 		checkRow(row, 1);
-		get(col).set(row, value);
+		assign((Column<?>) get(col), row, value);
 	}
 
 	@Override
@@ -415,6 +420,40 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 		final int col = colIndex(colHeader);
 		checkRow(row, 1);
 		return get(col).get(row);
+	}
+
+	// -- List methods --
+
+	@Override
+	public boolean add(final C column) {
+		if (column.size() > rowCount) rowCount = column.size();
+		scaleColumns();
+		return super.add(column);
+	}
+
+	@Override
+	public void add(final int col, final C column) {
+		super.add(col, column);
+		if (column.size() > rowCount) rowCount = column.size();
+		scaleColumns();
+	}
+
+	@Override
+	public boolean addAll(final Collection<? extends C> c) {
+		for (final C column : c) {
+			if (column.size() > rowCount) rowCount = column.size();
+		}
+		scaleColumns();
+		return super.addAll(c);
+	}
+
+	@Override
+	public boolean addAll(final int col, final Collection<? extends C> c) {
+		for (final C column : c) {
+			if (column.size() > rowCount) rowCount = column.size();
+		}
+		scaleColumns();
+		return super.addAll(col, c);
 	}
 
 	// -- Internal methods --
@@ -489,6 +528,22 @@ public abstract class AbstractTable<C extends Column<T>, T> extends
 			throw new IllegalArgumentException("No such column: " + header);
 		}
 		return col;
+	}
+
+	/**
+	 * Generics-friendly helper method for {@link #set(int, int, Object)} and
+	 * {@link #set(String, int, Object)}.
+	 */
+	private <U> void assign(final Column<U> column, final int row,
+		final Object value)
+	{
+		if (value != null && !column.getType().isInstance(value)) {
+			throw new IllegalArgumentException("value of type " + value.getClass() +
+				" is not a " + column.getType());
+		}
+		@SuppressWarnings("unchecked")
+		final U typedValue = (U) value;
+		column.set(row, typedValue);
 	}
 
 	/**

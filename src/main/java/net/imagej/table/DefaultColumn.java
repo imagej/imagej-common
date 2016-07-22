@@ -31,7 +31,7 @@
 
 package net.imagej.table;
 
-import org.scijava.util.SizableArrayList;
+import org.scijava.util.ObjectArray;
 
 /**
  * Default implementation of {@link Column}.
@@ -39,14 +39,22 @@ import org.scijava.util.SizableArrayList;
  * @author Curtis Rueden
  * @param <T> The type of data stored in the table.
  */
-public class DefaultColumn<T> extends SizableArrayList<T> implements Column<T> {
+public class DefaultColumn<T> extends ObjectArray<T> implements Column<T> {
+
+	/** The type of this column. */
+	private final Class<T> type;
 
 	/** The column header. */
 	private String header;
 
-	public DefaultColumn() {}
+	public DefaultColumn(final Class<T> type) {
+		super(type);
+		this.type = type;
+	}
 
-	public DefaultColumn(final String header) {
+	public DefaultColumn(final Class<T> type, final String header) {
+		super(type);
+		this.type = type;
 		this.header = header;
 	}
 
@@ -60,6 +68,11 @@ public class DefaultColumn<T> extends SizableArrayList<T> implements Column<T> {
 	@Override
 	public void setHeader(final String header) {
 		this.header = header;
+	}
+
+	@Override
+	public Class<T> getType() {
+		return type;
 	}
 
 }

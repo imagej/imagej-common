@@ -2,7 +2,7 @@
  * #%L
  * ImageJ software for multidimensional image processing and analysis.
  * %%
- * Copyright (C) 2009 - 2016 Board of Regents of the University of
+ * Copyright (C) 2009 - 2015 Board of Regents of the University of
  * Wisconsin-Madison, Broad Institute of MIT and Harvard, and Max Planck
  * Institute of Molecular Cell Biology and Genetics.
  * %%
@@ -31,49 +31,59 @@
 
 package net.imagej.table;
 
-import net.imagej.ImgPlus;
-import net.imagej.axis.Axes;
-import net.imagej.axis.AxisType;
-import net.imglib2.img.Img;
-import net.imglib2.type.numeric.real.DoubleType;
+import org.scijava.util.ByteArray;
 
 /**
- * Default implementation of {@link ResultsTable}.
- * 
- * @author Curtis Rueden
+ * Efficient implementation of {@link Column} for {@code byte} primitives.
+ *
+ * @author Alison Walter
  */
-public class DefaultResultsTable extends AbstractTable<DoubleColumn, Double>
-	implements ResultsTable
+public class ByteColumn extends ByteArray implements
+	PrimitiveColumn<byte[], Byte>
 {
 
-	/** Creates an empty results table. */
-	public DefaultResultsTable() {
-		super();
+	/** The column header. */
+	private String header;
+
+	public ByteColumn() {}
+
+	public ByteColumn(final String header) {
+		this.header = header;
 	}
 
-	/** Creates a results table with the given row and column dimensions. */
-	public DefaultResultsTable(final int columnCount, final int rowCount) {
-		super(columnCount, rowCount);
-	}
-
-	// -- ResultsTable methods --
+	// -- Column methods --
 
 	@Override
-	public ImgPlus<DoubleType> img() {
-		final Img<DoubleType> img = new ResultsImg(this);
-		final AxisType[] axes = { Axes.X, Axes.Y };
-		final String name = "Results";
-		final ImgPlus<DoubleType> imgPlus =
-			new ImgPlus<>(img, name, axes);
-		// TODO: Once ImgPlus has a place for row & column labels, add those too.
-		return imgPlus;
+	public String getHeader() {
+		return header;
 	}
 
-	// -- Internal methods --
+	@Override
+	public void setHeader(final String header) {
+		this.header = header;
+	}
 
 	@Override
-	protected DoubleColumn createColumn(final String header) {
-		return new DoubleColumn(header);
+	public Class<Byte> getType() {
+		return Byte.class;
+	}
+
+	// -- PrimitiveColumn methods --
+
+	@Override
+	public void fill(final byte[] values) {
+		setArray(values.clone());
+		setSize(values.length);
+	}
+
+	@Override
+	public void fill(final byte[] values, final int offset) {
+		// Check if array has been initialized
+		if (getArray() == null) setArray(values.clone());
+		else {
+			System.arraycopy(values, 0, getArray(), offset, values.length);
+		}
+		setSize(values.length);
 	}
 
 }

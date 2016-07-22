@@ -35,10 +35,12 @@ import org.scijava.util.DoubleArray;
 
 /**
  * Efficient implementation of {@link Column} for {@code double} primitives.
- * 
+ *
  * @author Curtis Rueden
  */
-public class DoubleColumn extends DoubleArray implements Column<Double> {
+public class DoubleColumn extends DoubleArray implements
+	PrimitiveColumn<double[], Double>
+{
 
 	/** The column header. */
 	private String header;
@@ -59,6 +61,29 @@ public class DoubleColumn extends DoubleArray implements Column<Double> {
 	@Override
 	public void setHeader(final String header) {
 		this.header = header;
+	}
+
+	@Override
+	public Class<Double> getType() {
+		return Double.class;
+	}
+
+	// -- PrimitiveColumn methods --
+
+	@Override
+	public void fill(final double[] values) {
+		setArray(values);
+		setSize(values.length);
+	}
+
+	@Override
+	public void fill(final double[] values, final int offset) {
+		// Check if array has been initialized
+		if (getArray() == null) setArray(values);
+		else {
+			System.arraycopy(values, 0, getArray(), offset, values.length);
+		}
+		setSize(values.length);
 	}
 
 }

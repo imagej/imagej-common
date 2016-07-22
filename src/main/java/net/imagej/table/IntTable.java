@@ -2,7 +2,7 @@
  * #%L
  * ImageJ software for multidimensional image processing and analysis.
  * %%
- * Copyright (C) 2009 - 2016 Board of Regents of the University of
+ * Copyright (C) 2009 - 2015 Board of Regents of the University of
  * Wisconsin-Madison, Broad Institute of MIT and Harvard, and Max Planck
  * Institute of Molecular Cell Biology and Genetics.
  * %%
@@ -31,49 +31,21 @@
 
 package net.imagej.table;
 
-import net.imagej.ImgPlus;
-import net.imagej.axis.Axes;
-import net.imagej.axis.AxisType;
-import net.imglib2.img.Img;
-import net.imglib2.type.numeric.real.DoubleType;
-
 /**
- * Default implementation of {@link ResultsTable}.
- * 
- * @author Curtis Rueden
+ * A table of int-precision integer values.
+ *
+ * @author Alison Walter
  */
-public class DefaultResultsTable extends AbstractTable<DoubleColumn, Double>
-	implements ResultsTable
-{
+public interface IntTable extends Table<IntColumn, Integer> {
 
-	/** Creates an empty results table. */
-	public DefaultResultsTable() {
-		super();
+	/** Gets the value of the given table cell. */
+	default int getValue(final int col, final int row) {
+		return get(col).getValue(row);
 	}
 
-	/** Creates a results table with the given row and column dimensions. */
-	public DefaultResultsTable(final int columnCount, final int rowCount) {
-		super(columnCount, rowCount);
-	}
-
-	// -- ResultsTable methods --
-
-	@Override
-	public ImgPlus<DoubleType> img() {
-		final Img<DoubleType> img = new ResultsImg(this);
-		final AxisType[] axes = { Axes.X, Axes.Y };
-		final String name = "Results";
-		final ImgPlus<DoubleType> imgPlus =
-			new ImgPlus<>(img, name, axes);
-		// TODO: Once ImgPlus has a place for row & column labels, add those too.
-		return imgPlus;
-	}
-
-	// -- Internal methods --
-
-	@Override
-	protected DoubleColumn createColumn(final String header) {
-		return new DoubleColumn(header);
+	/** Sets the value of the given table cell. */
+	default void setValue(final int col, final int row, final int value) {
+		get(col).setValue(row, value);
 	}
 
 }

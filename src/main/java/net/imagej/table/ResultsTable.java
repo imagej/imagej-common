@@ -42,10 +42,14 @@ import net.imglib2.type.numeric.real.DoubleType;
 public interface ResultsTable extends Table<DoubleColumn, Double> {
 
 	/** Gets the value of the given table cell. */
-	double getValue(int col, int row);
+	default double getValue(final int col, final int row) {
+		return get(col).getValue(row);
+	}
 
 	/** Sets the value of the given table cell. */
-	void setValue(int col, int row, double value);
+	default void setValue(final int col, final int row, final double value) {
+		get(col).setValue(row, value);
+	}
 
 	/** Wraps the results table in an ImgLib {@link net.imglib2.img.Img}. */
 	ImgPlus<DoubleType> img();
