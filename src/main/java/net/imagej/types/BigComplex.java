@@ -34,6 +34,7 @@ package net.imagej.types;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.Objects;
 
 import net.imglib2.type.numeric.ComplexType;
 
@@ -696,6 +697,12 @@ public class BigComplex implements ComplexType<BigComplex> {
 //	public void atanh(BigComplex input) {
 //		throw new IllegalArgumentException("TODO");
 //	}
+
+	@Override
+	public boolean valueEquals(final BigComplex t) {
+		return Objects.equals(getReal(), t.getReal()) && //
+			Objects.equals(getImag(), t.getImag());
+	}
 
 	// -- helpers --
 

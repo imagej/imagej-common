@@ -314,4 +314,11 @@ public class PreciseFixedComplexFloatType implements
 	public void complexConjugate() {
 		imag.negate();
 	}
+
+	@Override
+	public boolean valueEquals(final PreciseFixedComplexFloatType t) {
+		if (t == null) return false;
+		return getReal().valueEquals(t.getReal()) && //
+			getImag().valueEquals(t.getImag());
+	}
 }

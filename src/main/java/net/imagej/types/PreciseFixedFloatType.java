@@ -33,6 +33,7 @@ package net.imagej.types;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Objects;
 
 import net.imglib2.type.numeric.RealType;
 
@@ -340,6 +341,11 @@ public class PreciseFixedFloatType implements RealType<PreciseFixedFloatType> {
 	@Override
 	public int getBitsPerPixel() {
 		return 1024; // TODO - a WAG : nothing makes sense here. Use DataType.
+	}
+
+	@Override
+	public boolean valueEquals(final PreciseFixedFloatType t) {
+		return Objects.equals(get(), t.get());
 	}
 
 	@Override

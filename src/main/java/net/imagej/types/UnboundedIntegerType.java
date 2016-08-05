@@ -33,6 +33,7 @@ package net.imagej.types;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Objects;
 
 import net.imglib2.type.numeric.IntegerType;
 
@@ -298,6 +299,11 @@ public class UnboundedIntegerType implements IntegerType<UnboundedIntegerType> {
 	@Override
 	public void setBigInteger(BigInteger v) {
 		this.v = v;
+	}
+
+	@Override
+	public boolean valueEquals(final UnboundedIntegerType t) {
+		return Objects.equals(get(), t.get());
 	}
 
 	@Override
