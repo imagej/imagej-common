@@ -49,7 +49,7 @@ import org.scijava.Context;
 
 /**
  * Unit tests for {@link Dataset}.
- * 
+ *
  * @author Barry DeZonia
  */
 public class DatasetTest {
@@ -63,7 +63,7 @@ public class DatasetTest {
 
 	private Dataset createDataset(final ImgFactory<IntType> factory) {
 		final Context context = new Context(DatasetService.class);
-		final DatasetService datasetService =
+		final DatasetService datasetService = //
 			context.getService(DatasetService.class);
 
 		final Img<IntType> img = factory.create(DIMENSIONS, new IntType());
@@ -127,7 +127,7 @@ public class DatasetTest {
 		// test non planar container backed case : get by copy
 		final Dataset ds = createNonplanarDataset();
 
-		final RandomAccess<? extends RealType<?>> accessor =
+		final RandomAccess<? extends RealType<?>> accessor = //
 			ds.getImgPlus().randomAccess();
 		final long[] pos = new long[DIMENSIONS.length];
 		for (int t = 0; t < TPLANES; t++) {
@@ -142,7 +142,7 @@ public class DatasetTest {
 							pos[0] = x;
 							accessor.setPosition(pos);
 							accessor.get().setReal(planeValue(c, z, t));
-							assertEquals(planeValue(c, z, t),
+							assertEquals(planeValue(c, z, t), //
 								accessor.get().getRealDouble(), 0);
 						}
 					}
@@ -177,7 +177,8 @@ public class DatasetTest {
 	@Test
 	public void testFactory() {
 		final Dataset planar = createPlanarDataset();
-		final Dataset planar2 = planar.factory().create(DIMENSIONS, new FloatType());
+		final Dataset planar2 = //
+			planar.factory().create(DIMENSIONS, new FloatType());
 		assertDatasetsMatch(planar, planar2);
 		assertNotSame(FloatType.class, planar.getType().getClass());
 		assertSame(FloatType.class, planar2.getType().getClass());
@@ -191,7 +192,7 @@ public class DatasetTest {
 
 	private void assertDatasetsMatch(final Dataset d, final Dataset d2) {
 		assertEquals(d.numDimensions(), d2.numDimensions());
-		for (int i=0; i<d.numDimensions(); i++) {
+		for (int i = 0; i < d.numDimensions(); i++) {
 			assertEquals(d.dimension(i), d2.dimension(i));
 		}
 		assertSame(d.getImgPlus().getImg().getClass(), //
