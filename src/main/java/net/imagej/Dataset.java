@@ -31,9 +31,13 @@
 
 package net.imagej;
 
+import net.imagej.axis.Axes;
+import net.imagej.axis.AxisType;
 import net.imagej.axis.CalibratedAxis;
 import net.imglib2.img.Img;
 import net.imglib2.type.numeric.RealType;
+
+import java.util.Optional;
 
 /**
  * Dataset is the primary image data structure in ImageJ. A Dataset wraps an
@@ -43,6 +47,7 @@ import net.imglib2.type.numeric.RealType;
  * 
  * @author Curtis Rueden
  * @author Barry DeZonia
+ * @author Richard Domander
  */
 public interface Dataset extends Data, ImgPlusMetadata, Img<RealType<?>> {
 
@@ -152,6 +157,56 @@ public interface Dataset extends Data, ImgPlusMetadata, Img<RealType<?>> {
 
 	// TODO - move into Imglib
 	void setAxes(final CalibratedAxis[] axes);
+
+	//region -- Convenience methods --
+	/** Gets the length of the {@link Axes#X} axis, or 1 if no such axis. */
+	default long getWidth() {
+		return dimension(Axes.X);
+	}
+
+	/** Gets the length of the {@link Axes#Y} axis, or 1 if no such axis. */
+	default long getHeight() {
+		return dimension(Axes.Y);
+	}
+
+	/** Gets the length of the {@link Axes#Z} axis, or 1 if no such axis. */
+	default long getDepth() {
+		return dimension(Axes.Z);
+	}
+
+	/** Gets the length of the {@link Axes#TIME} axis, or 1 if no such axis. */
+	default long getFrames() {
+		return dimension(Axes.TIME);
+	}
+
+	/** Gets the length of the {@link Axes#CHANNEL} axis, or 1 if no such axis. */
+	default long getChannels() {
+		return dimension(Axes.CHANNEL);
+	}
+
+	/**
+	 * Gets the length of the axis with the given {@link AxisType}.
+	 *
+	 * @param type Type of the axis, e.g. {@link Axes#X}
+	 * @return The size of the axis, or 1 if the dataset doesn't have that axis
+	 */
+	default long dimension(final AxisType type) {
+		final int index = dimensionIndex(type);
+		return index < 0 ? 1 : dimension(index);
+	}
+
+	/**
+	 * Gets the axis of the given type.
+	 *
+	 * @param type Type of the axis, e.g. {@link Axes#X}
+	 * @return An {@link Optional} containing the {@link CalibratedAxis}, or empty
+	 *         if the dataset doesn't have that axis
+	 */
+	default Optional<CalibratedAxis> axis(final AxisType type) {
+		final int index = dimensionIndex(type);
+		return index < 0 ? Optional.empty() : Optional.of(axis(index));
+	}
+	//endregion
 
 	// -- Data methods --
 
