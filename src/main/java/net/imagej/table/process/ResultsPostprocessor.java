@@ -70,7 +70,7 @@ public class ResultsPostprocessor extends AbstractPostprocessorPlugin {
 			final String name = output.getName();
 			if (module.isOutputResolved(name)) return;
 			if (module.getOutput(name) == null) return;
-			if (!isSimpleType(output.getType())) return;
+			if (!isSimple(module, output)) return;
 			outputs.add(output);
 		});
 
@@ -104,9 +104,21 @@ public class ResultsPostprocessor extends AbstractPostprocessorPlugin {
 
 	// -- Helper methods --
 
+	private boolean isSimple(final Module m, final ModuleItem<?> item) {
+		final Class<?> type = item.getType();
+		return isSimpleType(type) || //
+			// NB: The output is typed on Object -- maybe the default result output.
+			// In this case, let's decide based on the actual value rather than type.
+			type == Object.class && isSimpleValue(item.getValue(m));
+	}
+
 	private boolean isSimpleType(final Class<?> type) {
 		return ClassUtils.isText(type) || //
 			ClassUtils.isNumber(type) || //
 			ClassUtils.isBoolean(type);
+	}
+
+	private boolean isSimpleValue(final Object o) {
+		return o != null && isSimpleType(o.getClass());
 	}
 }
