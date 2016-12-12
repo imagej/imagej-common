@@ -78,7 +78,7 @@ public abstract class SingleInputPreprocessor<T> extends
 	@Override
 	public void process(final Module module) {
 		// look for single inputs that can be populated
-		ModuleItem<?> singleInput = getSingleInput(module, inputType);
+		final ModuleItem<?> singleInput = getSingleInput(module, inputType);
 		if (singleInput == null) return;
 
 		// populate the value of the single input
