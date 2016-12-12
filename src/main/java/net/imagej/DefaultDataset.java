@@ -33,6 +33,7 @@ package net.imagej;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 
 import net.imagej.axis.Axes;
 import net.imagej.axis.AxisType;
@@ -74,7 +75,6 @@ import net.imglib2.util.Intervals;
 import org.scijava.Context;
 import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
-import org.scijava.util.MiscUtils;
 
 /**
  * Default implementation of {@link Dataset}.
@@ -489,7 +489,7 @@ public class DefaultDataset extends AbstractData implements Dataset {
 
 	@Override
 	public void setName(final String name) {
-		if (MiscUtils.equal(name, imgPlus.getName())) return;
+		if (Objects.equals(name, imgPlus.getName())) return;
 		imgPlus.setName(name);
 		update(true);
 	}

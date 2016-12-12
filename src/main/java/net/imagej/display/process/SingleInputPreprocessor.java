@@ -88,7 +88,7 @@ public abstract class SingleInputPreprocessor<T> extends
 		String itemName = singleInput.getName();
 		value = convertService.convert(value, singleInput.getType());
 		module.setInput(itemName, value);
-		module.setResolved(itemName, true);
+		module.resolveInput(itemName);
 	}
 
 	// -- Helper methods --
