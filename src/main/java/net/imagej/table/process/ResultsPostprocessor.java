@@ -57,13 +57,18 @@ import org.scijava.util.ClassUtils;
 	priority = Priority.VERY_LOW_PRIORITY + 1)
 public class ResultsPostprocessor extends AbstractPostprocessorPlugin {
 
-	@Parameter
+	@Parameter(required = false)
 	private UIService ui;
 
 	// -- ModuleProcessor methods --
 
 	@Override
 	public void process(final Module module) {
+		if (ui == null) {
+			// no UIService available for displaying results
+			return;
+		}
+
 		// filter the compatible outputs (simple types: number, boolean, text)
 		final ArrayList<ModuleItem<?>> outputs = new ArrayList<>();
 		module.getInfo().outputs().forEach(output -> {
