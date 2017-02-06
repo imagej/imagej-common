@@ -54,6 +54,7 @@ import org.scijava.options.OptionsService;
 import org.scijava.plugin.Parameter;
 import org.scijava.tool.ToolService;
 import org.scijava.ui.viewer.AbstractDisplayViewer;
+import org.scijava.ui.viewer.DisplayPanel;
 import org.scijava.ui.viewer.DisplayWindow;
 import org.scijava.util.UnitUtils;
 
@@ -111,13 +112,12 @@ public abstract class AbstractImageDisplayViewer extends
 		return data instanceof Dataset ? (Dataset) data : null;
 	}
 
-	/**
-	 * Recalculate the label text and update it on the panel.
-	 */
+	/** Recalculate the label text and update it on the panel. */
 	protected void updateLabel() {
-		if (getDisplay().getActiveView() != null) {
-			getPanel().setLabel(makeLabel());
-		}
+		final ImageDisplay d = getDisplay();
+		if (d == null || d.getActiveView() == null) return;
+		final DisplayPanel p = getPanel();
+		if (p != null) p.setLabel(makeLabel());
 	}
 
 	/**
