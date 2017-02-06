@@ -34,13 +34,14 @@ package net.imagej.convert;
 import net.imglib2.FinalInterval;
 
 import org.scijava.convert.AbstractConverter;
+import org.scijava.convert.Converter;
 import org.scijava.plugin.Plugin;
 
 /**
  * Converter from native long[] array to Dimensions Christian Dietz, University
  * of Konstanz
  */
-@Plugin(type = ConvertLongArrayToDimensions.class)
+@Plugin(type = Converter.class)
 public class ConvertLongArrayToFinalInterval extends
 	AbstractConverter<long[], FinalInterval> implements
 	ConvertLongArrayToDimensions<FinalInterval>
