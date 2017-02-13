@@ -87,7 +87,9 @@ public abstract class AbstractCalibratedAxis extends DefaultTypedAxis implements
 
 	/** Computes a likely-to-be-unique string for this axis. */
 	private String hashString(final CalibratedAxis axis) {
-		return axis.type() + "\n" + axis.unit() + "\n" + axis.particularEquation();
+		return axis.type().hashCode() + "\n" + //
+			axis.unit() + "\n" + //
+			axis.particularEquation();
 	}
 
 }
