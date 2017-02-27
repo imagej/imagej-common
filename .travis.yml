@@ -1,6 +1,6 @@
 language: java
 install: true
-script: mvn -Pdeploy-to-imagej deploy --settings .travis/settings.xml
+script: .travis/build.sh
 after_success: .travis/notify.sh Travis-Success
 after_failure: .travis/notify.sh Travis-Failure
 env:
