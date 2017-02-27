@@ -1,5 +1,5 @@
-after_success:
-- mvn -Pdeploy-to-imagej deploy --settings settings.xml
+language: java
+script: mvn -Pdeploy-to-imagej deploy --settings settings.xml
 env:
   matrix:
     secure: B5w445YXWI810gaixLLJv4ejeFsgz9JhN+eKQu7hfY38rKafMmVYoXAWPxy1pK/WrcSYA8nYKm2MIdI9MWm3TBaYoT+2WdpBRXhWx0BzlBhOdTpKtuj3C3EYkPIN2RwS4mjfC49SsXX2T4EfLqWJIisQFGLoIuRYDC/ZLfkUVBc=
