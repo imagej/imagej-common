@@ -1,6 +1,6 @@
 language: java
 install: true
-script: mvn -Pdeploy-to-imagej deploy --settings settings.xml
+script: mvn -Pdeploy-to-imagej deploy --settings .travis/settings.xml
 env:
   matrix:
     secure: W7pZHHN3nOemJ4wDk7iSZcDOk+Jm06QjM5xNA8Hv+zclVbx1IYxcv4iMaDwHZWYgw9+txuUSUmtnnUomifDn/T3SZqwKMNZbeq2fMtQ2TlN6JKonR4MXryx2+LsX58Jh0iTkyY7geN1qF5JSRSR6BcknDci9jCZEHD2WutrNXrg=
