@@ -3,4 +3,4 @@ install: true
 script: mvn -Pdeploy-to-imagej deploy --settings settings.xml
 env:
   matrix:
-    secure: FVxqh3AbSIoS2iADCcfydpsYyE7ZhDXGFSo93ZHJ93VaZMIGYJCuxC5SWhm3GSL7h/6M/LIpEe/T+FMIr5qSBNfqQ/CmFkVPogaTHuY1tHg6r6u0ovGBxOBroDKTkjxmKIGSUB4rtkXRYv3hYoU26xd0VtUthIgpFq8gZ7Nfre4=
+    secure: W7pZHHN3nOemJ4wDk7iSZcDOk+Jm06QjM5xNA8Hv+zclVbx1IYxcv4iMaDwHZWYgw9+txuUSUmtnnUomifDn/T3SZqwKMNZbeq2fMtQ2TlN6JKonR4MXryx2+LsX58Jh0iTkyY7geN1qF5JSRSR6BcknDci9jCZEHD2WutrNXrg=
