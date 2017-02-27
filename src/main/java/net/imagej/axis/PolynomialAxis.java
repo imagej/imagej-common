@@ -34,7 +34,7 @@ package net.imagej.axis;
 
 /**
  * PolynomialAxis is a {@link CalibratedAxis} that scale nonlinearly as a
- * polynomial of degree >= 2. Calibrated values are calculated using the
+ * polynomial of {@code degree >= 2}. Calibrated values are calculated using the
  * equation {@code y = a + b*x + c*x^2 + ...}.
  * 
  * @author Barry DeZonia

@@ -372,8 +372,7 @@ public class PreciseFixedFloatType implements RealType<PreciseFixedFloatType> {
 	 * Uses Newton Raphson to compute the square root of a BigDecimal.
 	 * 
 	 * @author Luciano Culacciatti
-	 * @url 
-	 *      http://www.codeproject.com/Tips/257031/Implementing-SqrtRoot-in-BigDecimal
+	 * @see <a href="https://www.codeproject.com/tips/257031/implementing-sqrtroot-in-bigdecimal">Implementing SqrtRoot in BigDecimal</a>
 	 * @param c
 	 */
 	public static PreciseFixedFloatType sqrt(PreciseFixedFloatType c) {
@@ -386,8 +385,7 @@ public class PreciseFixedFloatType implements RealType<PreciseFixedFloatType> {
 	 * Private utility method used to compute the square root of a BigDecimal.
 	 * 
 	 * @author Luciano Culacciatti
-	 * @url 
-	 *      http://www.codeproject.com/Tips/257031/Implementing-SqrtRoot-in-BigDecimal
+	 * @see <a href="https://www.codeproject.com/tips/257031/implementing-sqrtroot-in-bigdecimal">Implementing SqrtRoot in BigDecimal</a>
 	 * @param c
 	 * @param xn
 	 * @param precision

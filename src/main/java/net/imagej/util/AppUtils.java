@@ -133,7 +133,8 @@ public final class AppUtils {
 	 * <p>
 	 * Each of the given {@link URL}s is recursively scanned using SciJava
 	 * Common's {@link FileUtils#listContents(URL)}, and anything matching the
-	 * given {@code regex} pattern is added to the output map.</li>
+	 * given {@code regex} pattern is added to the output map.
+	 * </p>
 	 * 
 	 * @param regex The regex to use when matching resources, or null to match
 	 *          everything.

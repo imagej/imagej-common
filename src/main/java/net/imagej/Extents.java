@@ -54,8 +54,8 @@ public class Extents extends AbstractInterval {
 	}
 
 	/**
-	 * Constructor that takes min and max extents. No checking is done that min <=
-	 * max for all dim i.
+	 * Constructor that takes min and max extents. No checking is done that
+	 * {@code min <= max} for all dim i.
 	 */
 	public Extents(final long[] min, final long[] max) {
 		super(min, max);
