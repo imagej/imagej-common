@@ -1,4 +1,4 @@
-[![](http://jenkins.imagej.net/job/ImageJ-common/lastBuild/badge/icon)](http://jenkins.imagej.net/job/ImageJ-common/)
+[![](https://travis-ci.org/imagej/imagej-common.svg?branch=master)](https://travis-ci.org/imagej/imagej-common)
 
 This is the ImageJ common library, containing ImageJ2's core image data model,
 based on [ImgLib2](http://imglib2.net/). This is the primary mechanism by which
