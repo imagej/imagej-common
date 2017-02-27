@@ -4,6 +4,6 @@ script: .travis/build.sh
 after_success: .travis/notify.sh Travis-Success
 after_failure: .travis/notify.sh Travis-Failure
 env:
-  matrix:
+  global:
   - secure: W7pZHHN3nOemJ4wDk7iSZcDOk+Jm06QjM5xNA8Hv+zclVbx1IYxcv4iMaDwHZWYgw9+txuUSUmtnnUomifDn/T3SZqwKMNZbeq2fMtQ2TlN6JKonR4MXryx2+LsX58Jh0iTkyY7geN1qF5JSRSR6BcknDci9jCZEHD2WutrNXrg=
   - secure: QGvus4gdiK0xIk8BKab7XP6T2G9mtwuHK/vqtKr8nX2+oC4WkYdZbwL34+X4VysLyuhEIll4BRH/63vTWaTuK1K7+1pRIsOkglYVN7CgIEvv9I+EReiCR7XD3ayFn7RTrdsADwb/nFzDorJbGfg2JHZGU7sVk4V8C33kwR7fkto=
