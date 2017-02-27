@@ -1,4 +1,5 @@
 language: java
+install: true
 script: mvn -Pdeploy-to-imagej deploy --settings settings.xml
 env:
   matrix:
