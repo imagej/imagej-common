@@ -7,5 +7,5 @@ corresponding core image display logic for user interfaces.
 
 For further details, see:
 
-* https://imagej.net/ImageJ\_Common
+* https://imagej.net/ImageJ_Common
 * https://github.com/imagej
