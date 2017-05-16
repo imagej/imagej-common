@@ -43,7 +43,9 @@ import java.util.ListIterator;
  * @param <C> The type of column used by the table.
  * @param <T> The type of data stored in the table.
  */
-public interface Table<C extends Column<? extends T>, T> extends List<C> {
+public interface Table<C extends Column<? extends T>, T> extends List<C>,
+	RowOutput<Row>
+{
 
 	/** Gets the number of columns in the table. */
 	int getColumnCount();
@@ -422,4 +424,55 @@ public interface Table<C extends Column<? extends T>, T> extends List<C> {
 	@Override
 	List<C> subList(int fromCol, int toCol);
 
+	default RowInput<Row> rows() {
+		class TableIterator implements Iterator<Row> {
+
+			private Table<?, ?> table;
+			public TableIterator(final Table<?, ?> table) {
+				this.table = table;
+			}
+			private int r = 0;
+			private Row row = new Row() {
+
+				@Override
+				public Object get(int columnIndex) {
+					return table.get(columnIndex, r);
+				}
+
+				@Override
+				@SuppressWarnings("unchecked")
+				public <CT> CT get(int columnIndex, Class<CT> columnType) {
+					return (CT) get(columnIndex);
+				}
+			};
+
+			@Override
+			public boolean hasNext() {
+				return r < size();
+			}
+
+			@Override
+			public Row next() {
+				r++;
+				return row;
+			}
+		}
+		return new RowInput<Row>() {
+			@Override
+			public Iterator<Row> iterator() {
+				return new TableIterator(Table.this);
+			}
+		};
+	}
+
+	// -- RowOutput methods --
+
+	@Override
+	default void accept(final Row row) {
+		for (int c=0; c<size(); c++) {
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			final Column<Object> col = (Column) get(c);
+			col.add(row.get(c, col.getType()));
+		}
+	}
 }
