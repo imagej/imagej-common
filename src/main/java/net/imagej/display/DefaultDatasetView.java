@@ -58,6 +58,7 @@ import net.imglib2.img.cell.AbstractCellImg;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.util.Binning;
 import net.imglib2.util.Intervals;
+import net.imglib2.view.IntervalView;
 import net.imglib2.view.Views;
 
 import org.scijava.Context;
@@ -521,15 +522,17 @@ public class DefaultDatasetView extends AbstractDataView implements DatasetView
 
 		final ImgPlus<?> img = getData().getImgPlus();
 
+		// NB: See http://forum.imagej.net/t/5068/8.
+		final IntervalView<? extends RealType<?>> source = //
+			Views.zeroMin(getData().getImgPlus());
+
 		if (AbstractCellImg.class.isAssignableFrom(img.getImg().getClass())) {
-			projector =
-				new SourceOptimizedCompositeXYProjector(getData().getImgPlus(),
-					screenImage, converters, channelDimIndex);
+			projector = new SourceOptimizedCompositeXYProjector(source, screenImage,
+				converters, channelDimIndex);
 		}
 		else {
-			projector =
-				new CompositeXYProjector(getData().getImgPlus(), screenImage,
-					converters, channelDimIndex);
+			projector = new CompositeXYProjector(source, screenImage, converters,
+				channelDimIndex);
 		}
 
 		projector.setComposite(composite);
