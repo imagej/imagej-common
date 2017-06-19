@@ -117,7 +117,8 @@ public abstract class AbstractData extends
 
 	@Override
 	public String toString() {
-		return getName();
+		final String n = getName();
+		return n == null ? "<unnamed data>" : n;
 	}
 
 	// -- Data methods --
