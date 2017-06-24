@@ -133,17 +133,6 @@ public class DefaultDataset extends AbstractData implements Dataset {
 	}
 
 	@Override
-	public <T extends RealType<T>> ImgPlus<T> typedImg(final T t) {
-		final ImgPlus<? extends RealType<?>> img = getImgPlus();
-		if (t.getClass().isAssignableFrom(img.firstElement().getClass())) {
-			@SuppressWarnings("unchecked")
-			final ImgPlus<T> typedImg = (ImgPlus<T>) img;
-			return typedImg;
-		}
-		return null;
-	}
-
-	@Override
 	public void setImgPlus(final ImgPlus<? extends RealType<?>> imgPlus) {
 
 		final boolean wasRgbMerged = isRGBMerged();

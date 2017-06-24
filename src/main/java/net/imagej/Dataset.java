@@ -61,7 +61,15 @@ public interface Dataset extends Data, ImgPlusMetadata, Img<RealType<?>> {
 	ImgPlus<? extends RealType<?>> getImgPlus();
 
 	/** TODO */
-	<T extends RealType<T>> ImgPlus<T> typedImg(T t);
+	default <T extends RealType<T>> ImgPlus<T> typedImg(T t) {
+		final ImgPlus<? extends RealType<?>> img = getImgPlus();
+		if (t.getClass().isAssignableFrom(img.firstElement().getClass())) {
+			@SuppressWarnings("unchecked")
+			final ImgPlus<T> typedImg = (ImgPlus<T>) img;
+			return typedImg;
+		}
+		return null;
+	}
 
 	/** TODO */
 	void setImgPlus(ImgPlus<? extends RealType<?>> imgPlus);
