@@ -710,4 +710,8 @@ public class DefaultImageDisplay extends AbstractDisplay<DataView> implements
 		combinedInterval.clear();
 	}
 
+	@Override
+	public String toString() {
+		return getName();
+	}
 }
