@@ -131,14 +131,13 @@ public interface DatasetService extends ImageJService {
 	 * 
 	 * @param <T> The type of the dataset.
 	 * @param factory The ImgFactory to use to create the data.
-	 * @param type The type of the dataset.
 	 * @param dims The dataset's dimensional extents.
 	 * @param name The dataset's name.
 	 * @param axes The dataset's dimensional axis labels.
 	 * @return The newly created dataset.
 	 */
 	<T extends RealType<T>> Dataset create(
-		ImgFactory<T> factory, T type, long[] dims, String name, AxisType[] axes);
+		ImgFactory<T> factory, long[] dims, String name, AxisType[] axes);
 
 	/**
 	 * Creates a new dataset using the provided {@link ImgPlus}.
@@ -225,4 +224,11 @@ public interface DatasetService extends ImageJService {
 	Object save(Dataset dataset, String destination, Object config)
 		throws IOException;
 
+	/**
+	 * @deprecated Use {@link #create(ImgFactory, long[], String, AxisType[])}
+	 *             instead.
+	 */
+	@Deprecated
+	<T extends RealType<T>> Dataset create(ImgFactory<T> factory, T type,
+		long[] dims, String name, AxisType[] axes);
 }

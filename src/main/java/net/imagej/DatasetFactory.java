@@ -32,6 +32,7 @@
 package net.imagej;
 
 import net.imglib2.Dimensions;
+import net.imglib2.exception.IncompatibleTypeException;
 import net.imglib2.img.ImgFactory;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.util.Util;
@@ -43,20 +44,34 @@ import net.imglib2.util.Util;
  */
 public abstract class DatasetFactory extends ImgFactory<RealType<?>> {
 
+	public DatasetFactory(final RealType<?> type) {
+		super(type);
+	}
+
+	@Override
+	public abstract Dataset create(final long... dimensions);
+
+	@Override
+	public Dataset create(final Dimensions dimensions) {
+		final long[] size = new long[dimensions.numDimensions()];
+		dimensions.dimensions(size);
+		return create(size);
+	}
+
+	@Override
+	public Dataset create(final int[] dimensions) {
+		return create(Util.int2long(dimensions));
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public <S> ImgFactory<S> imgFactory(final S type)
+		throws IncompatibleTypeException
+	{
+		return (ImgFactory<S>) this;
+	}
+
+	@Deprecated
 	@Override
 	public abstract Dataset create(final long[] dim, final RealType<?> type);
-
-	@Override
-	public Dataset create(final Dimensions dim, final RealType<?> type) {
-		final long[] size = new long[dim.numDimensions()];
-		dim.dimensions(size);
-
-		return create(size, type);
-	}
-
-	@Override
-	public Dataset create(final int[] dim, final RealType<?> type) {
-		return create(Util.int2long(dim), type);
-	}
-
 }

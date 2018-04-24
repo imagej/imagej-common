@@ -54,7 +54,6 @@ import net.imglib2.display.ColorTable;
 import net.imglib2.exception.IncompatibleTypeException;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
-import net.imglib2.img.NativeImgFactory;
 import net.imglib2.img.array.ArrayImg;
 import net.imglib2.img.array.ArrayImgFactory;
 import net.imglib2.img.basictypeaccess.PlanarAccess;
@@ -305,7 +304,7 @@ public class DefaultDataset extends AbstractData implements Dataset {
 		// create a new img to hold data using our own factory
 		@SuppressWarnings("rawtypes")
 		final ImgFactory factory = getImgPlus().factory();
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings({ "deprecation", "unchecked" })
 		final Img<? extends RealType<?>> newImg =
 			factory.create(Intervals.dimensionsAsLongArray(other), other.getType());
 
@@ -634,12 +633,9 @@ public class DefaultDataset extends AbstractData implements Dataset {
 		// might not be able to get a copy of native data
 		if (!(type instanceof NativeType<?>)) return null;
 		final NativeType<?> nativeType = (NativeType<?>) type;
-		@SuppressWarnings("rawtypes")
-		final NativeImgFactory storageFactory = new ArrayImgFactory();
-		@SuppressWarnings("unchecked")
-		final ArrayImg<?, ?> container =
-			(ArrayImg<?, ?>) nativeType.createSuitableNativeImg(storageFactory,
-				new long[] { w, h });
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		final ArrayImgFactory storageFactory = new ArrayImgFactory(nativeType);
+		final ArrayImg<?, ?> container = storageFactory.create(w, h);
 		final RandomAccess<? extends RealType<?>> input = imgPlus.randomAccess();
 		@SuppressWarnings("unchecked")
 		final RandomAccess<? extends RealType<?>> output =
@@ -689,8 +685,7 @@ public class DefaultDataset extends AbstractData implements Dataset {
 	{
 		final long[] dimensions = new long[img.numDimensions()];
 		img.dimensions(dimensions);
-		final Img<T> blankImg =
-			img.factory().create(dimensions, img.firstElement());
+		final Img<T> blankImg = img.factory().create(dimensions);
 		return new ImgPlus<>(blankImg, img);
 	}
 
@@ -722,20 +717,19 @@ public class DefaultDataset extends AbstractData implements Dataset {
 
 	@Override
 	public DatasetFactory factory() {
-		return new DatasetFactory() {
+		return new DatasetFactory(getType()) {
 
 			@Override
-			public Dataset create(final long[] dim, final RealType<?> type) {
-				ImgPlus<RealType<?>> imp = makeImgPlus(dim, type);
+			public Dataset create(final long... dimensions) {
+				final ImgPlus<RealType<?>> imp = makeImgPlus(dimensions, type());
 				return new DefaultDataset(getContext(), imp);
 			}
 
+			@Deprecated
 			@Override
-			@SuppressWarnings("unchecked")
-			public <S> ImgFactory<S> imgFactory(final S type)
-				throws IncompatibleTypeException
-			{
-				return (ImgFactory<S>) this;
+			public Dataset create(final long[] dimensions, final RealType<?> type) {
+				final ImgPlus<RealType<?>> imp = makeImgPlus(dimensions, type);
+				return new DefaultDataset(getContext(), imp);
 			}
 
 			private <T> ImgPlus<T> makeImgPlus(final long[] dim, final T type) {
@@ -746,6 +740,7 @@ public class DefaultDataset extends AbstractData implements Dataset {
 				catch (final IncompatibleTypeException exc) {
 					throw new IllegalStateException("Ill-understood type weirdness", exc);
 				}
+				@SuppressWarnings("deprecation")
 				final Img<T> img = factory.create(dim, type);
 				return img instanceof ImgPlus ?
 					(ImgPlus<T>) img : new ImgPlus<>(img, getImgPlus());

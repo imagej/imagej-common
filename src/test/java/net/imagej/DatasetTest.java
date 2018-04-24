@@ -49,7 +49,6 @@ import net.imglib2.img.cell.CellImgFactory;
 import net.imglib2.img.planar.PlanarImgFactory;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.integer.IntType;
-import net.imglib2.type.numeric.real.FloatType;
 
 import org.junit.After;
 import org.junit.Before;
@@ -76,17 +75,17 @@ public class DatasetTest {
 	private DatasetService datasetService;
 
 	private Dataset createDataset(final ImgFactory<IntType> factory) {
-		final Img<IntType> img = factory.create(DIMENSIONS, new IntType());
+		final Img<IntType> img = factory.create(DIMENSIONS);
 		final ImgPlus<IntType> imgPlus = new ImgPlus<>(img);
 		return datasetService.create(imgPlus);
 	}
 
 	private Dataset createPlanarDataset() {
-		return createDataset(new PlanarImgFactory<IntType>());
+		return createDataset(new PlanarImgFactory<>(new IntType()));
 	}
 
 	private Dataset createNonplanarDataset() {
-		return createDataset(new CellImgFactory<IntType>());
+		return createDataset(new CellImgFactory<>(new IntType()));
 	}
 
 	private int planeValue(final int c, final int z, final int t) {
@@ -198,17 +197,16 @@ public class DatasetTest {
 	@Test
 	public void testFactory() {
 		final Dataset planar = createPlanarDataset();
-		final Dataset planar2 = //
-			planar.factory().create(DIMENSIONS, new FloatType());
+		final Dataset planar2 = planar.factory().create(DIMENSIONS);
 		assertDatasetsMatch(planar, planar2);
-		assertNotSame(FloatType.class, planar.getType().getClass());
-		assertSame(FloatType.class, planar2.getType().getClass());
+		assertSame(IntType.class, planar.getType().getClass());
+		assertSame(IntType.class, planar2.getType().getClass());
 
 		final Dataset cell = createNonplanarDataset();
-		final Dataset cell2 = cell.factory().create(DIMENSIONS, new FloatType());
+		final Dataset cell2 = cell.factory().create(DIMENSIONS);
 		assertDatasetsMatch(cell, cell2);
-		assertNotSame(FloatType.class, cell.getType().getClass());
-		assertSame(FloatType.class, cell2.getType().getClass());
+		assertSame(IntType.class, cell.getType().getClass());
+		assertSame(IntType.class, cell2.getType().getClass());
 	}
 
 	private void assertDatasetsMatch(final Dataset d, final Dataset d2) {

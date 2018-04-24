@@ -183,16 +183,16 @@ public final class DefaultDatasetService extends AbstractService implements
 		final boolean virtual)
 	{
 		final ImgFactory<T> imgFactory;
-		if (virtual) imgFactory = new CellImgFactory<>();
-		else imgFactory = new PlanarImgFactory<>();
-		return create(imgFactory, type, dims, name, axes);
+		if (virtual) imgFactory = new CellImgFactory<>(type);
+		else imgFactory = new PlanarImgFactory<>(type);
+		return create(imgFactory, dims, name, axes);
 	}
 
 	@Override
 	public <T extends RealType<T>> Dataset create(final ImgFactory<T> factory,
-		final T type, final long[] dims, final String name, final AxisType[] axes)
+		final long[] dims, final String name, final AxisType[] axes)
 	{
-		final Img<T> img = factory.create(dims, type);
+		final Img<T> img = factory.create(dims);
 		final ImgPlus<T> imgPlus = new ImgPlus<>(img, name, axes, null);
 		return create(imgPlus);
 	}
@@ -290,6 +290,16 @@ public final class DefaultDatasetService extends AbstractService implements
 			"Use io.scif.services.DatasetIOService instead.");
 	}
 
+	@Deprecated
+	@Override
+	public <T extends RealType<T>> Dataset create(final ImgFactory<T> factory,
+		final T type, final long[] dims, final String name, final AxisType[] axes)
+	{
+		final Img<T> img = factory.create(dims, type);
+		final ImgPlus<T> imgPlus = new ImgPlus<>(img, name, axes, null);
+		return create(imgPlus);
+	}
+
 	// -- Helper methods --
 
 	private void invalidParams(final int bitsPerPixel, final boolean signed,
@@ -329,7 +339,8 @@ public final class DefaultDatasetService extends AbstractService implements
 		// TODO: Call create.imgFactory op instead. As things stand, we cannot,
 		// because imagej-common cannot depend on imagej-ops. Perhaps this
 		// "wrapToImgPlus" logic should not live here? Consider best approach.
+		final T type = Util.getTypeFromInterval(rai);
 		return rai == null || Intervals.numElements(rai) <= Integer.MAX_VALUE
-			? new ArrayImgFactory<>() : new CellImgFactory<>();
+			? new ArrayImgFactory<>(type) : new CellImgFactory<>(type);
 	}
 }
