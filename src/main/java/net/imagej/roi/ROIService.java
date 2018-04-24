@@ -32,9 +32,13 @@
 package net.imagej.roi;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import net.imagej.DataNode;
+import net.imagej.Dataset;
+import net.imagej.DefaultDataNode;
 import net.imagej.ImageJService;
 import net.imglib2.KDTree;
 import net.imglib2.RandomAccessible;
@@ -74,6 +78,46 @@ import gnu.trove.list.array.TDoubleArrayList;
  * @author Alison Walter
  */
 public interface ROIService extends ImageJService {
+
+	public static final String ROI_PROPERTY = "rois";
+
+	/**
+	 * Returns the {@link ROIParent} of the given {@link Dataset}
+	 *
+	 * @param img {@link Dataset} whose associated ROIs will be returned
+	 * @return {@link ROIParent} whose children are the associated ROIs as
+	 *         {@link DataNode}s
+	 */
+	default ROIParent getRois(final Dataset img) {
+		final Object o = img.getProperties().get(ROI_PROPERTY);
+		return o instanceof ROIParent ? (ROIParent) o : null;
+	}
+
+	/**
+	 * Attaches the given {@link MaskPredicate} to the given {@link Dataset}
+	 *
+	 * @param roi {@link MaskPredicate} to be attached
+	 * @param img {@link Dataset} to attach {@link MaskPredicate} to
+	 */
+	default void add(final MaskPredicate<?> roi, final Dataset img) {
+		if (img.getProperties().get(ROI_PROPERTY) != null) {
+			final ROIParent rp = (ROIParent) img.getProperties().get(ROI_PROPERTY);
+			rp.children().add(new DefaultDataNode<>(roi, rp, null));
+		}
+		else {
+			final ROIParent rp = new DefaultROIParent(Collections.singletonList(roi));
+			img.getProperties().put(ROI_PROPERTY, rp);
+		}
+	}
+
+	/**
+	 * Clears all {@link MaskPredicate}s associated with the given {@link Dataset}
+	 *
+	 * @param img {@link Dataset} whose rois will be cleared
+	 */
+	default void clear(final Dataset img) {
+		img.getProperties().put(ROI_PROPERTY, null);
+	}
 
 	// -- Object to (Real)Mask methods --
 
