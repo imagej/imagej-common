@@ -58,10 +58,10 @@ import net.imglib2.img.array.ArrayImg;
  * A simple container for storing an {@link Img} together with its metadata.
  * Metadata includes name, dimensional axes and calibration information.
  * <p>
- * <strong>NOTE:</strong> This class is slated for redesign in spring 2016. Use
- * at your own risk! If you need future stability, use <a
- * href="http://javadoc.imagej.net/ImgLib2/">ImgLib2</a> and/or <a
- * href="http://javadoc.imagej.net/ImageJ1/">ImageJ 1.x</a> classes.
+ * <strong>NOTE:</strong> This class is slated for redesign soon. Use at your
+ * own risk! If you need future stability, use
+ * <a href="http://javadoc.imagej.net/ImgLib2/">ImgLib2</a> and/or
+ * <a href="http://javadoc.imagej.net/ImageJ1/">ImageJ 1.x</a> classes.
  * </p>
  * 
  * @author Curtis Rueden
