@@ -117,6 +117,18 @@ public interface ROIService extends ImageJService {
 	}
 
 	/**
+	 * Check if the given {@code Object} is or has ROIs
+	 *
+	 * @param o {@code Object} to check
+	 * @return true if it has or is a ROI, false otherwise
+	 */
+	default boolean hasROIs(final Object o) {
+		if (o instanceof Dataset) return ((Dataset) o).getProperties().get(
+			ROI_PROPERTY) != null;
+		return o instanceof MaskPredicate;
+	}
+
+	/**
 	 * Clears all {@link MaskPredicate}s associated with the given {@link Dataset}
 	 *
 	 * @param img {@link Dataset} whose rois will be cleared
