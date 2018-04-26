@@ -94,19 +94,25 @@ public interface ROIService extends ImageJService {
 	}
 
 	/**
-	 * Attaches the given {@link MaskPredicate} to the given {@link Dataset}
+	 * Attaches the given ROI to the given image
 	 *
-	 * @param roi {@link MaskPredicate} to be attached
-	 * @param img {@link Dataset} to attach {@link MaskPredicate} to
+	 * @param roi ROI (most likely {@link MaskPredicate}) to be attached
+	 * @param img image to attach ROI to
 	 */
-	default void add(final MaskPredicate<?> roi, final Dataset img) {
-		if (img.getProperties().get(ROI_PROPERTY) != null) {
-			final ROIParent rp = (ROIParent) img.getProperties().get(ROI_PROPERTY);
-			rp.children().add(new DefaultDataNode<>(roi, rp, null));
+	default void add(final Object roi, final Object img) {
+		if (!(roi instanceof MaskPredicate)) throw new IllegalArgumentException(roi
+			.getClass() + " is not a supported ROI type");
+		if (!(img instanceof Dataset)) throw new IllegalArgumentException(img
+			.getClass() + " is not a supported image type");
+		final Dataset d = (Dataset) img;
+		final MaskPredicate<?> mp = (MaskPredicate<?>) roi;
+		if (d.getProperties().get(ROI_PROPERTY) != null) {
+			final ROIParent rp = (ROIParent) d.getProperties().get(ROI_PROPERTY);
+			rp.children().add(new DefaultDataNode<>(mp, rp, null));
 		}
 		else {
-			final ROIParent rp = new DefaultROIParent(Collections.singletonList(roi));
-			img.getProperties().put(ROI_PROPERTY, rp);
+			final ROIParent rp = new DefaultROIParent(Collections.singletonList(mp));
+			d.getProperties().put(ROI_PROPERTY, rp);
 		}
 	}
 
