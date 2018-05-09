@@ -1,4 +1,4 @@
-/*-
+/*
  * #%L
  * ImageJ software for multidimensional image processing and analysis.
  * %%
@@ -11,35 +11,61 @@
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 2 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html>.
  * #L%
  */
 
-package net.imagej;
+package net.imagej.roi;
 
 import java.util.List;
 
+import net.imglib2.roi.MaskPredicate;
+
+import org.scijava.util.DefaultTreeNode;
+import org.scijava.util.TreeNode;
+
 /**
- * Tree node for storing meta-data.
+ * A tree of ROIs.
  *
  * @author Alison Walter
- * @param <T> type of additional data associated with this
+ * @author Curtis Rueden
+ * @see TreeNode
+ * @see MaskPredicate
  */
-public interface DataNode<T> {
+public interface ROITree extends TreeNode<Void> {
 
-	DataNode<?> getParent();
+	/**
+	 * Adds the given list of ROIs to the tree.
+	 * 
+	 * @param rois list of {@link MaskPredicate}s to be wrapped as
+	 *          {@link TreeNode}s and stored as children
+	 */
+	default void addROIs(final List<MaskPredicate<?>> rois) {
+		final List<TreeNode<?>> children = children();
+		for (final MaskPredicate<?> roi : rois)
+			children.add(new DefaultTreeNode<>(roi, this));
+	}
 
-	void setParent(final DataNode<?> parent);
+	@Override
+	default Void data() {
+		return null;
+	}
 
-	List<DataNode<?>> children();
+	@Override
+	default TreeNode<?> parent() {
+		return null;
+	}
 
-	T getData();
+	@Override
+	default void setParent(final TreeNode<?> parent) {
+		throw new UnsupportedOperationException();
+	}
 }

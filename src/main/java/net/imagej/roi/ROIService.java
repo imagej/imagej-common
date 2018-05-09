@@ -36,9 +36,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import net.imagej.DataNode;
 import net.imagej.Dataset;
-import net.imagej.DefaultDataNode;
 import net.imagej.ImageJService;
 import net.imglib2.KDTree;
 import net.imglib2.RandomAccessible;
@@ -69,6 +67,8 @@ import net.imglib2.roi.geom.real.WritableSuperEllipsoid;
 import net.imglib2.type.logic.BoolType;
 
 import org.scijava.service.Service;
+import org.scijava.util.DefaultTreeNode;
+import org.scijava.util.TreeNode;
 
 import gnu.trove.list.array.TDoubleArrayList;
 
@@ -82,15 +82,15 @@ public interface ROIService extends ImageJService {
 	public static final String ROI_PROPERTY = "rois";
 
 	/**
-	 * Returns the {@link ROIParent} of the given {@link Dataset}
+	 * Returns the {@link ROITree} of the given {@link Dataset}
 	 *
 	 * @param img {@link Dataset} whose associated ROIs will be returned
-	 * @return {@link ROIParent} whose children are the associated ROIs as
-	 *         {@link DataNode}s
+	 * @return {@link ROITree} whose children are the associated ROIs as
+	 *         {@link TreeNode}s
 	 */
-	default ROIParent getRois(final Dataset img) {
+	default ROITree getRois(final Dataset img) {
 		final Object o = img.getProperties().get(ROI_PROPERTY);
-		return o instanceof ROIParent ? (ROIParent) o : null;
+		return o instanceof ROITree ? (ROITree) o : null;
 	}
 
 	/**
@@ -107,11 +107,12 @@ public interface ROIService extends ImageJService {
 		final Dataset d = (Dataset) img;
 		final MaskPredicate<?> mp = (MaskPredicate<?>) roi;
 		if (d.getProperties().get(ROI_PROPERTY) != null) {
-			final ROIParent rp = (ROIParent) d.getProperties().get(ROI_PROPERTY);
-			rp.children().add(new DefaultDataNode<>(mp, rp, null));
+			final ROITree rp = (ROITree) d.getProperties().get(ROI_PROPERTY);
+			rp.children().add(new DefaultTreeNode<>(mp, rp));
 		}
 		else {
-			final ROIParent rp = new DefaultROIParent(Collections.singletonList(mp));
+			final ROITree rp = new DefaultROITree();
+			rp.addROIs(Collections.singletonList(mp));
 			d.getProperties().put(ROI_PROPERTY, rp);
 		}
 	}

@@ -25,13 +25,28 @@
 
 package net.imagej.roi;
 
-import net.imagej.DataNode;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.scijava.util.TreeNode;
 
 /**
- * {@link DataNode} representation of a {@code Collection<MaskPredicate>}
+ * Default implementation of {@link ROITree}.
  *
  * @author Alison Walter
+ * @author Curtis Rueden
  */
-public interface ROIParent extends DataNode<Void> {
-	// NB: Marker interface
+public class DefaultROITree implements ROITree {
+
+	private final List<TreeNode<?>> children;
+
+	/** Creates an empty tree of ROIs. */
+	public DefaultROITree() {
+		children = new ArrayList<>();
+	}
+
+	@Override
+	public List<TreeNode<?>> children() {
+		return children;
+	}
 }
