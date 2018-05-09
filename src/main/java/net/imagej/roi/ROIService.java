@@ -88,7 +88,7 @@ public interface ROIService extends ImageJService {
 	 * @return {@link ROITree} whose children are the associated ROIs as
 	 *         {@link TreeNode}s
 	 */
-	default ROITree getRois(final Dataset img) {
+	default ROITree getROIs(final Dataset img) {
 		final Object o = img.getProperties().get(ROI_PROPERTY);
 		return o instanceof ROITree ? (ROITree) o : null;
 	}
