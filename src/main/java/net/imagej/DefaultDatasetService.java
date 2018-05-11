@@ -43,7 +43,6 @@ import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
 import net.imglib2.img.ImgView;
-import net.imglib2.img.array.ArrayImgFactory;
 import net.imglib2.img.cell.CellImgFactory;
 import net.imglib2.img.planar.PlanarImgFactory;
 import net.imglib2.type.NativeType;
@@ -59,7 +58,6 @@ import net.imglib2.type.numeric.integer.UnsignedIntType;
 import net.imglib2.type.numeric.integer.UnsignedShortType;
 import net.imglib2.type.numeric.real.DoubleType;
 import net.imglib2.type.numeric.real.FloatType;
-import net.imglib2.util.Intervals;
 import net.imglib2.util.Util;
 
 import org.scijava.log.LogService;
@@ -320,27 +318,13 @@ public final class DefaultDatasetService extends AbstractService implements
 		final RandomAccessibleInterval<T> rai)
 	{
 		if (rai instanceof Img) return (Img<T>) rai;
-		// NB: In order to synthesize an ImgFactory here, the RAI
-		// type must extend NativeType. So let's check!
-		final T type = Util.getTypeFromInterval(rai);
-		if (!(type instanceof NativeType)) {
-			throw new IllegalArgumentException(
-				"Cannot create factory for non-Img RAI of non-native-type: " + //
-					type.getClass());
-		}
-		@SuppressWarnings({ "rawtypes", "unchecked" })
-		final ImgFactory<T> imgFactory = imgFactory((RandomAccessibleInterval) rai);
-		return ImgView.wrap(rai, imgFactory);
+		return ImgView.wrap(rai, imgFactory(rai));
 	}
 
-	private <T extends NativeType<T>> ImgFactory<T> imgFactory(
+	private <T> ImgFactory<T> imgFactory(
 		final RandomAccessibleInterval<T> rai)
 	{
-		// TODO: Call create.imgFactory op instead. As things stand, we cannot,
-		// because imagej-common cannot depend on imagej-ops. Perhaps this
-		// "wrapToImgPlus" logic should not live here? Consider best approach.
 		final T type = Util.getTypeFromInterval(rai);
-		return rai == null || Intervals.numElements(rai) <= Integer.MAX_VALUE
-			? new ArrayImgFactory<>(type) : new CellImgFactory<>(type);
+		return Util.getSuitableImgFactory(rai, type);
 	}
 }
