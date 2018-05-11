@@ -52,9 +52,7 @@ import net.imglib2.roi.MaskPredicate;
 import net.imglib2.roi.RealMask;
 import net.imglib2.roi.RealMaskRealInterval;
 import net.imglib2.roi.geom.GeomMasks;
-import net.imglib2.roi.geom.real.DefaultWritableRealPointCollection;
 import net.imglib2.roi.geom.real.RealPointCollection;
-import net.imglib2.roi.geom.real.RealPointSampleListWritableRealPointCollection;
 import net.imglib2.roi.geom.real.WritableBox;
 import net.imglib2.roi.geom.real.WritableEllipsoid;
 import net.imglib2.roi.geom.real.WritableLine;
@@ -247,7 +245,7 @@ public interface ROIService extends ImageJService {
 	 * @return a {@link WritableBox} with the given min/max
 	 */
 	default WritableBox closedBox(final double[] min, final double[] max) {
-		return GeomMasks.closedWritableBox(min, max);
+		return GeomMasks.closedBox(min, max);
 	}
 
 	/**
@@ -259,7 +257,7 @@ public interface ROIService extends ImageJService {
 	 * @return a {@link WritableBox} with the given min/max
 	 */
 	default WritableBox openBox(final double[] min, final double[] max) {
-		return GeomMasks.openWritableBox(min, max);
+		return GeomMasks.openBox(min, max);
 	}
 
 	// ---- Ellipsoid ----
@@ -276,7 +274,7 @@ public interface ROIService extends ImageJService {
 	default WritableEllipsoid closedEllipsoid(final double[] center,
 		final double[] semiAxisLengths)
 	{
-		return GeomMasks.closedWritableEllipsoid(center, semiAxisLengths);
+		return GeomMasks.closedEllipsoid(center, semiAxisLengths);
 	}
 
 	/**
@@ -291,7 +289,7 @@ public interface ROIService extends ImageJService {
 	default WritableEllipsoid openEllipsoid(final double[] center,
 		final double[] semiAxisLengths)
 	{
-		return GeomMasks.openWritableEllipsoid(center, semiAxisLengths);
+		return GeomMasks.openEllipsoid(center, semiAxisLengths);
 	}
 
 	// ---- Line ----
@@ -306,7 +304,7 @@ public interface ROIService extends ImageJService {
 	default WritableLine line(final RealLocalizable pointOne,
 		final RealLocalizable pointTwo)
 	{
-		return GeomMasks.writableLine(pointOne, pointTwo);
+		return GeomMasks.line(pointOne, pointTwo);
 	}
 
 	/**
@@ -321,7 +319,7 @@ public interface ROIService extends ImageJService {
 	default WritableLine line(final double[] pointOne, final double[] pointTwo,
 		final boolean copy)
 	{
-		return GeomMasks.writableLine(pointOne, pointTwo, copy);
+		return GeomMasks.line(pointOne, pointTwo, copy);
 	}
 
 	// ---- Point ----
@@ -333,7 +331,7 @@ public interface ROIService extends ImageJService {
 	 * @return a point at the given location
 	 */
 	default WritablePointMask pointMask(final double[] point) {
-		return (WritablePointMask) GeomMasks.writablePointMask(point);
+		return GeomMasks.pointMask(point);
 	}
 
 	/**
@@ -343,7 +341,7 @@ public interface ROIService extends ImageJService {
 	 * @return a point at the given location
 	 */
 	default WritablePointMask pointMask(final RealLocalizable point) {
-		return (WritablePointMask) GeomMasks.writablePointMask(point);
+		return GeomMasks.pointMask(point);
 	}
 
 	// ---- Polygon2D ----
@@ -358,7 +356,7 @@ public interface ROIService extends ImageJService {
 	default WritablePolygon2D polygon2D(
 		final List<? extends RealLocalizable> vertices)
 	{
-		return GeomMasks.writablePolygon2D(vertices);
+		return GeomMasks.polygon2D(vertices);
 	}
 
 	/**
@@ -370,7 +368,7 @@ public interface ROIService extends ImageJService {
 	 * @return a 2D polygon with the given vertices
 	 */
 	default WritablePolygon2D polygon2D(final double[] x, final double[] y) {
-		return GeomMasks.writablePolygon2D(x, y);
+		return GeomMasks.polygon2D(x, y);
 	}
 
 	/**
@@ -383,7 +381,7 @@ public interface ROIService extends ImageJService {
 	default WritablePolygon2D closedPolygon2D(
 		final List<? extends RealLocalizable> vertices)
 	{
-		return GeomMasks.closedWritablePolygon2D(vertices);
+		return GeomMasks.closedPolygon2D(vertices);
 	}
 
 	/**
@@ -397,7 +395,7 @@ public interface ROIService extends ImageJService {
 	default WritablePolygon2D closedPolygon2D(final double[] x,
 		final double[] y)
 	{
-		return GeomMasks.closedWritablePolygon2D(x, y);
+		return GeomMasks.closedPolygon2D(x, y);
 	}
 
 	/**
@@ -410,7 +408,7 @@ public interface ROIService extends ImageJService {
 	default WritablePolygon2D openPolygon2D(
 		final List<? extends RealLocalizable> vertices)
 	{
-		return GeomMasks.openWritablePolygon2D(vertices);
+		return GeomMasks.openPolygon2D(vertices);
 	}
 
 	/**
@@ -422,7 +420,7 @@ public interface ROIService extends ImageJService {
 	 * @return a 2D polygon with the given vertices
 	 */
 	default WritablePolygon2D openPolygon2D(final double[] x, final double[] y) {
-		return GeomMasks.openWritablePolygon2D(x, y);
+		return GeomMasks.openPolygon2D(x, y);
 	}
 
 	// ---- Polyline ----
@@ -438,7 +436,7 @@ public interface ROIService extends ImageJService {
 	default WritablePolyline polyline(
 		final List<? extends RealLocalizable> vertices)
 	{
-		return GeomMasks.writablePolyline(vertices);
+		return GeomMasks.polyline(vertices);
 	}
 
 	// ---- RealPointCollection ----
@@ -453,8 +451,7 @@ public interface ROIService extends ImageJService {
 	default <L extends RealLocalizable> WritableRealPointCollection<L>
 		realPointCollection(final HashMap<TDoubleArrayList, L> points)
 	{
-		// TODO: Use GeomMasks once this is fixed
-		return new DefaultWritableRealPointCollection<>(points);
+		return GeomMasks.realPointCollection(points);
 	}
 
 	/**
@@ -466,8 +463,7 @@ public interface ROIService extends ImageJService {
 	default <L extends RealLocalizable> WritableRealPointCollection<L>
 		realPointCollection(final Collection<L> points)
 	{
-		return (WritableRealPointCollection<L>) GeomMasks
-			.writableRealPointCollection(points);
+		return GeomMasks.realPointCollection(points);
 	}
 
 	/**
@@ -503,13 +499,11 @@ public interface ROIService extends ImageJService {
 	 * @param points contains the locations of the points in the collection
 	 * @return a {@link WritableRealPointCollection} containing the given points
 	 */
-	@SuppressWarnings("unchecked")
 	default <L extends RealLocalizable> WritableRealPointCollection<L>
 		realPointSampleListRealPointCollection(
 			final RealPointSampleList<L> points)
 	{
-		return (WritableRealPointCollection<L>) GeomMasks
-			.realPointSampleListWritableRealPointCollection(points);
+		return GeomMasks.realPointSampleListRealPointCollection(points);
 	}
 
 	/**
@@ -522,7 +516,7 @@ public interface ROIService extends ImageJService {
 		realPointSampleListRealPointCollection(final Collection<L> points)
 	{
 		// TODO: Replace with GeoMasks when that's fixed
-		return new RealPointSampleListWritableRealPointCollection<>(points);
+		return GeomMasks.realPointSampleListRealPointCollection(points);
 	}
 
 	// ---- Sphere ----
@@ -538,7 +532,7 @@ public interface ROIService extends ImageJService {
 	default WritableSphere closedSphere(final double[] center,
 		final double radius)
 	{
-		return GeomMasks.closedWritableSphere(center, radius);
+		return GeomMasks.closedSphere(center, radius);
 	}
 
 	/**
@@ -552,7 +546,7 @@ public interface ROIService extends ImageJService {
 	default WritableSphere openSphere(final double[] center,
 		final double radius)
 	{
-		return GeomMasks.openWritableSphere(center, radius);
+		return GeomMasks.openSphere(center, radius);
 	}
 
 	// ---- SuperEllispoid ----
@@ -570,7 +564,7 @@ public interface ROIService extends ImageJService {
 	default WritableSuperEllipsoid closedSuperEllipsoid(final double[] center,
 		final double[] semiAxisLengths, final double exponent)
 	{
-		return GeomMasks.closedWritableSuperEllipsoid(center, semiAxisLengths,
+		return GeomMasks.closedSuperEllipsoid(center, semiAxisLengths,
 			exponent);
 	}
 
@@ -587,7 +581,7 @@ public interface ROIService extends ImageJService {
 	default WritableSuperEllipsoid openSuperEllipsoid(final double[] center,
 		final double[] semiAxisLengths, final double exponent)
 	{
-		return GeomMasks.openWritableSuperEllipsoid(center, semiAxisLengths,
+		return GeomMasks.openSuperEllipsoid(center, semiAxisLengths,
 			exponent);
 	}
 }
