@@ -40,7 +40,10 @@ import org.scijava.util.PrimitiveArray;
  * @author Alison Walter
  * @param <ArrayType> Type of the primitive array; e.g., {@code double[]}.
  * @param <BaseType> Boxed type of the array element; e.g., {@code Double}.
+ * 
+ * @deprecated use {@link org.scijava.table.PrimitiveColumn}
  */
+@Deprecated
 public interface PrimitiveColumn<ArrayType, BaseType> extends Column<BaseType>,
 	PrimitiveArray<ArrayType, BaseType>
 {

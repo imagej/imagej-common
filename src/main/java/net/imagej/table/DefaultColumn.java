@@ -38,7 +38,10 @@ import org.scijava.util.ObjectArray;
  * 
  * @author Curtis Rueden
  * @param <T> The type of data stored in the table.
+ * 
+ * @deprecated use {@link org.scijava.table.DefaultColumn}
  */
+@Deprecated
 public class DefaultColumn<T> extends ObjectArray<T> implements Column<T> {
 
 	/** The type of this column. */

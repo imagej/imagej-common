@@ -37,7 +37,10 @@ import org.scijava.util.ShortArray;
  * Efficient implementation of {@link Column} for {@code short} primitives.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.ShortColumn}
  */
+@Deprecated
 public class ShortColumn extends ShortArray implements
 	PrimitiveColumn<short[], Short>
 {

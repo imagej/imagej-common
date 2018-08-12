@@ -35,7 +35,10 @@ package net.imagej.table;
  * Default implementation of {@link LongTable}.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.DefaultLongTable}
  */
+@Deprecated
 public class DefaultLongTable extends AbstractTable<LongColumn, Long>
 	implements LongTable
 {

@@ -35,7 +35,10 @@ package net.imagej.table;
  * Default implementation of {@link BoolTable}.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.DefaultBoolTable}
  */
+@Deprecated
 public class DefaultBoolTable extends AbstractTable<BoolColumn, Boolean>
 	implements BoolTable
 {

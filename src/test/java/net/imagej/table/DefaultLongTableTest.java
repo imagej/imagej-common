@@ -42,7 +42,10 @@ import org.junit.Test;
  * Tests {@link DefaultLongTable}.
  *
  * @author Alison Walter
+ * 
+ * @deprecated replaced by {@link org.scijava.table.DefaultLongTableTest}
  */
+@Deprecated
 public class DefaultLongTableTest {
 
 	private static final String[] HEADERS = { "Header1", "Header2" };

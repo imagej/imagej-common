@@ -37,7 +37,10 @@ import org.scijava.util.IntArray;
  * Efficient implementation of {@link Column} for {@code int} primitives.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.IntColumn}
  */
+@Deprecated
 public class IntColumn extends IntArray implements
 	PrimitiveColumn<int[], Integer>
 {

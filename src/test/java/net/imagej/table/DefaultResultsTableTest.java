@@ -38,6 +38,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.scijava.table.DoubleColumn;
+
 /**
  * Tests {@link DefaultResultsTable}.
  * 

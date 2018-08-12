@@ -8,6 +8,9 @@ import net.imagej.Dataset;
 import net.imagej.ImageJService;
 
 import org.scijava.service.Service;
+import org.scijava.table.Table;
+
+//TODO keep deprecated version of this with net.imagej.table.Table ?
 
 /**
  * {@link Service} for working with {@link Table}s.

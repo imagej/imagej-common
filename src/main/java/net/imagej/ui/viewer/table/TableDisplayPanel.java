@@ -41,7 +41,10 @@ import org.scijava.ui.viewer.DisplayPanel;
  * {@link Table}s.
  * 
  * @author Curtis Rueden
+ * 
+ * @deprecated replaced by {@link org.scijava.ui.viewer.table.TableDisplayPanel}
  */
+@Deprecated
 public interface TableDisplayPanel extends DisplayPanel {
 
 	@Override

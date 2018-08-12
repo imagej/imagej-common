@@ -37,7 +37,10 @@ import org.scijava.util.FloatArray;
  * Efficient implementation of {@link Column} for {@code float} primitives.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.FloatColumn}
  */
+@Deprecated
 public class FloatColumn extends FloatArray implements 
 	PrimitiveColumn<float[], Float>
 {

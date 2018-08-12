@@ -35,7 +35,10 @@ package net.imagej.table;
  * A table of float-precision floating point values.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.FloatTable}
  */
+@Deprecated
 public interface FloatTable extends Table<FloatColumn, Float> {
 
 	/** Gets the value of the given table cell. */

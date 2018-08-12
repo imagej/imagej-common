@@ -35,7 +35,10 @@ package net.imagej.table;
  * A table of {@code boolean} values.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.BoolTable}
  */
+@Deprecated
 public interface BoolTable extends Table<BoolColumn, Boolean> {
 
 	/** Gets the value of the given table cell. */

@@ -41,7 +41,10 @@ import org.scijava.util.SizableArrayList;
  * 
  * @author Curtis Rueden
  * @param <T> The type of data stored in the table.
+ * 
+ * @deprecated use {@link org.scijava.table.AbstractTable}
  */
+@Deprecated
 public abstract class AbstractTable<C extends Column<? extends T>, T> extends
 	SizableArrayList<C> implements Table<C, T>
 {

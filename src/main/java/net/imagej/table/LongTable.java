@@ -35,7 +35,10 @@ package net.imagej.table;
  * A table of long-precision integer values.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.LongTable}
  */
+@Deprecated
 public interface LongTable extends Table<LongColumn, Long> {
 
 	/** Gets the value of the given table cell. */

@@ -40,7 +40,10 @@ import org.scijava.util.Sizable;
  *
  * @author Curtis Rueden
  * @param <T> The type of data stored in the table.
+ * 
+ * @deprecated use {@link org.scijava.table.Column}
  */
+@Deprecated
 public interface Column<T> extends List<T>, Sizable {
 
 	/** Gets the header of this column. */

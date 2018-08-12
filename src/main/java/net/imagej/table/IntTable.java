@@ -35,7 +35,10 @@ package net.imagej.table;
  * A table of int-precision integer values.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.IntTable}
  */
+@Deprecated
 public interface IntTable extends Table<IntColumn, Integer> {
 
 	/** Gets the value of the given table cell. */

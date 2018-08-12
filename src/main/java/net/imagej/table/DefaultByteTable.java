@@ -35,7 +35,10 @@ package net.imagej.table;
  * Default implementation of {@link ByteTable}.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.DefaultByteTable}
  */
+@Deprecated
 public class DefaultByteTable extends AbstractTable<ByteColumn, Byte>
 	implements ByteTable
 {

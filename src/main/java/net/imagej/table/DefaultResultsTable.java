@@ -37,12 +37,16 @@ import net.imagej.axis.AxisType;
 import net.imglib2.img.Img;
 import net.imglib2.type.numeric.real.DoubleType;
 
+import org.scijava.table.AbstractTable;
+import org.scijava.table.DefaultDoubleTable;
+import org.scijava.table.DoubleColumn;
+
 /**
  * Default implementation of {@link ResultsTable}.
  * 
  * @author Curtis Rueden
  */
-public class DefaultResultsTable extends AbstractTable<DoubleColumn, Double>
+public class DefaultResultsTable extends DefaultDoubleTable
 	implements ResultsTable
 {
 
@@ -67,13 +71,6 @@ public class DefaultResultsTable extends AbstractTable<DoubleColumn, Double>
 			new ImgPlus<>(img, name, axes);
 		// TODO: Once ImgPlus has a place for row & column labels, add those too.
 		return imgPlus;
-	}
-
-	// -- Internal methods --
-
-	@Override
-	protected DoubleColumn createColumn(final String header) {
-		return new DoubleColumn(header);
 	}
 
 }
