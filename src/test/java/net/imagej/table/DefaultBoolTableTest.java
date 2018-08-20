@@ -42,7 +42,10 @@ import org.junit.Test;
  * Tests {@link DefaultBoolTable}.
  * 
  * @author Alison Walter
+ * 
+ * @deprecated replaced by {@link org.scijava.table.DefaultBoolTableTest}
  */
+@Deprecated
 public class DefaultBoolTableTest {
 
 	private static final String[] HEADERS = { "Header1", "Header2", "Header3" };

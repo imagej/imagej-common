@@ -37,7 +37,10 @@ import org.scijava.util.CharArray;
  * Efficient implementation of {@link Column} for {@code char} primitives.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.CharColumn}
  */
+@Deprecated
 public class CharColumn extends CharArray implements
 	PrimitiveColumn<char[], Character>
 {

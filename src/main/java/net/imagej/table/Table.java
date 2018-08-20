@@ -42,7 +42,10 @@ import java.util.ListIterator;
  * @author Curtis Rueden
  * @param <C> The type of column used by the table.
  * @param <T> The type of data stored in the table.
+ * 
+ * @deprecated use {@link org.scijava.table.Table}
  */
+@Deprecated
 public interface Table<C extends Column<? extends T>, T> extends List<C> {
 
 	/** Gets the number of columns in the table. */

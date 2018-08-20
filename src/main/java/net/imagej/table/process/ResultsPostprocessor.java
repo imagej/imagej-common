@@ -52,7 +52,10 @@ import org.scijava.util.ClassUtils;
  * for a nicer UI experience.
  * 
  * @author Curtis Rueden
+ * 
+ * @deprecated replaced by {@link org.scijava.table.process.ResultsPostprocessor}
  */
+@Deprecated
 @Plugin(type = PostprocessorPlugin.class,
 	priority = Priority.VERY_LOW_PRIORITY + 1)
 public class ResultsPostprocessor extends AbstractPostprocessorPlugin {

@@ -35,7 +35,10 @@ package net.imagej.table;
  * A table of {@code char} values.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.CharTable}
  */
+@Deprecated
 public interface CharTable extends Table<CharColumn, Character> {
 
 	/** Gets the value of the given table cell. */

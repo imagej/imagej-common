@@ -50,7 +50,10 @@ import java.net.URL;
  * 
  * @author Barry DeZonia
  * @author Wayne Rasband
+ * 
+ * @deprecated replaced by {@link org.scijava.table.TableLoader}
  */
+@Deprecated
 public class TableLoader {
 
 	// -- instance variables --

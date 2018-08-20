@@ -35,7 +35,10 @@ package net.imagej.table;
  * Default implementation of {@link IntTable}.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.DefaultIntTable}
  */
+@Deprecated
 public class DefaultIntTable extends AbstractTable<IntColumn, Integer>
 	implements IntTable
 {

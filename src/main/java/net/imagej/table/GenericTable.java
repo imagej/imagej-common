@@ -35,7 +35,10 @@ package net.imagej.table;
  * A flexible table capable of storing any values as {@link Object}s.
  * 
  * @author Curtis Rueden
+ * 
+ * @deprecated use {@link org.scijava.table.GenericTable}
  */
+@Deprecated
 public interface GenericTable extends Table<Column<? extends Object>, Object> {
 	// NB: No implementation needed.
 }

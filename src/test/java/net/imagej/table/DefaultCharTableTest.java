@@ -42,7 +42,10 @@ import org.junit.Test;
  * Tests {@link DefaultCharTable}.
  *
  * @author Alison Walter
+ * 
+ * @deprecated replaced by {@link org.scijava.table.DefaultCharTableTest}
  */
+@Deprecated
 public class DefaultCharTableTest {
 
 	private static final String[] HEADERS = { "Header1", "Header2", "Header3" };

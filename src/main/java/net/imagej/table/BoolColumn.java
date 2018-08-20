@@ -37,7 +37,10 @@ import org.scijava.util.BoolArray;
  * Efficient implementation of {@link Column} for {@code boolean} primitives.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.BoolColumn}
  */
+@Deprecated
 public class BoolColumn extends BoolArray implements
 	PrimitiveColumn<boolean[], Boolean>
 {

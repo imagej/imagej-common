@@ -35,7 +35,10 @@ package net.imagej.table;
  * Default implementation of {@link GenericTable}.
  * 
  * @author Curtis Rueden
+ * 
+ * @deprecated use {@link org.scijava.table.DefaultGenericTable}
  */
+@Deprecated
 public class DefaultGenericTable extends
 	AbstractTable<Column<? extends Object>, Object> implements GenericTable
 {

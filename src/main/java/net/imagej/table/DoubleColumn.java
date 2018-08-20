@@ -37,7 +37,10 @@ import org.scijava.util.DoubleArray;
  * Efficient implementation of {@link Column} for {@code double} primitives.
  *
  * @author Curtis Rueden
+ * 
+ * @deprecated use {@link org.scijava.table.DoubleColumn}
  */
+@Deprecated
 public class DoubleColumn extends DoubleArray implements
 	PrimitiveColumn<double[], Double>
 {

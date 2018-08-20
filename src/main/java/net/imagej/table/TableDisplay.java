@@ -37,7 +37,10 @@ import org.scijava.display.Display;
  * Interface for {@link Table} {@link Display}s.
  * 
  * @author Curtis Rueden
+ * 
+ * @deprecated replaced by {@link org.scijava.table.TableDisplay}
  */
+@Deprecated
 public interface TableDisplay extends Display<Table<?, ?>> {
 	// This interface intentionally left blank.
 }

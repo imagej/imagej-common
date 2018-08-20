@@ -37,7 +37,10 @@ import org.scijava.util.LongArray;
  * Efficient implementation of {@link Column} for {@code long} primitives.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.LongColumn}
  */
+@Deprecated
 public class LongColumn extends LongArray implements
 	PrimitiveColumn<long[], Long>
 {

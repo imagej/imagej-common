@@ -43,7 +43,10 @@ import org.junit.Test;
  * Tests {@link DefaultGenericTable}.
  *
  * @author Alison Walter
+ * 
+ * @deprecated replaced by {@link org.scijava.table.DefaultGenericTableTest}
  */
+@Deprecated
 public class DefaultGenericTableTest {
 
 	@Test

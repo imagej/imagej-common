@@ -37,7 +37,10 @@ import org.scijava.util.ByteArray;
  * Efficient implementation of {@link Column} for {@code byte} primitives.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.ByteColumn}
  */
+@Deprecated
 public class ByteColumn extends ByteArray implements
 	PrimitiveColumn<byte[], Byte>
 {

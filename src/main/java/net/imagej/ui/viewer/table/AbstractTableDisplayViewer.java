@@ -41,7 +41,10 @@ import org.scijava.ui.viewer.AbstractDisplayViewer;
  * Implements the UI-independent elements of a {@link Table} viewer.
  * 
  * @author Curtis Rueden
+ * 
+ * @deprecated replaced by {@link org.scijava.ui.viewer.table.AbstractTableDisplayViewer}
  */
+@Deprecated
 public abstract class AbstractTableDisplayViewer extends
 	AbstractDisplayViewer<Table<?, ?>> implements TableDisplayViewer
 {

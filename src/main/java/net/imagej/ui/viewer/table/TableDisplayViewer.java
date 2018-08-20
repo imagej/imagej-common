@@ -40,7 +40,10 @@ import org.scijava.ui.viewer.DisplayViewer;
  * A display viewer for a display of {@link Table}s.
  * 
  * @author Curtis Rueden
+ * 
+ * @deprecated replaced by {@link org.scijava.ui.viewer.table.TableDisplayViewer}
  */
+@Deprecated
 public interface TableDisplayViewer extends DisplayViewer<Table<?, ?>> {
 
 	@Override

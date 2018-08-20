@@ -35,7 +35,10 @@ package net.imagej.table;
  * A column that can consist of any {@link Object}s.
  * 
  * @author Curtis Rueden
+ * 
+ * @deprecated use {@link org.scijava.table.GenericColumn}
  */
+@Deprecated
 public class GenericColumn extends DefaultColumn<Object> {
 
 	public GenericColumn() {

@@ -31,6 +31,8 @@
 
 package net.imagej.table;
 
+import org.scijava.table.DoubleTable;
+
 import net.imagej.ImgPlus;
 import net.imglib2.type.numeric.real.DoubleType;
 
@@ -39,17 +41,7 @@ import net.imglib2.type.numeric.real.DoubleType;
  * 
  * @author Curtis Rueden
  */
-public interface ResultsTable extends Table<DoubleColumn, Double> {
-
-	/** Gets the value of the given table cell. */
-	default double getValue(final int col, final int row) {
-		return get(col).getValue(row);
-	}
-
-	/** Sets the value of the given table cell. */
-	default void setValue(final int col, final int row, final double value) {
-		get(col).setValue(row, value);
-	}
+public interface ResultsTable extends DoubleTable {
 
 	/** Wraps the results table in an ImgLib {@link net.imglib2.img.Img}. */
 	ImgPlus<DoubleType> img();

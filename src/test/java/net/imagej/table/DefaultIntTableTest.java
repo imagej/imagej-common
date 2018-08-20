@@ -42,7 +42,10 @@ import org.junit.Test;
  * Tests {@link DefaultIntTable}.
  *
  * @author Alison Walter
+ * 
+ * @deprecated replaced by {@link org.scijava.table.DefaultIntTableTest}
  */
+@Deprecated
 public class DefaultIntTableTest {
 
 	private static final String[] HEADERS = { "Header1", "Header2", "Header3",

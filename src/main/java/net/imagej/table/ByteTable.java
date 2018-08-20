@@ -35,7 +35,10 @@ package net.imagej.table;
  * A table of byte-precision integer values.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.ByteTable}
  */
+@Deprecated
 public interface ByteTable extends Table<ByteColumn, Byte> {
 
 	/** Gets the value of the given table cell. */

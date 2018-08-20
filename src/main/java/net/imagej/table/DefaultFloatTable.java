@@ -35,7 +35,10 @@ package net.imagej.table;
  * Default implementation of {@link FloatTable}.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.DefaultFloatTable}
  */
+@Deprecated
 public class DefaultFloatTable extends AbstractTable<FloatColumn, Float>
 	implements FloatTable
 {

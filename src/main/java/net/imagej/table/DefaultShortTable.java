@@ -35,7 +35,10 @@ package net.imagej.table;
  * Default implementation of {@link ShortTable}.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.DefaultShortTable}
  */
+@Deprecated
 public class DefaultShortTable extends AbstractTable<ShortColumn, Short>
 	implements ShortTable
 {

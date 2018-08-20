@@ -35,7 +35,10 @@ package net.imagej.table;
  * Default implementation of {@link CharTable}.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.DefaultCharTable}
  */
+@Deprecated
 public class DefaultCharTable extends AbstractTable<CharColumn, Character>
 	implements CharTable
 {

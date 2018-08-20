@@ -35,7 +35,10 @@ package net.imagej.table;
  * A table of short-precision integer values.
  *
  * @author Alison Walter
+ * 
+ * @deprecated use {@link org.scijava.table.ShortTable}
  */
+@Deprecated
 public interface ShortTable extends Table<ShortColumn, Short> {
 
 	/** Gets the value of the given table cell. */
