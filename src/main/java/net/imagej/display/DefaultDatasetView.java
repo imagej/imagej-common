@@ -502,21 +502,23 @@ public class DefaultDatasetView extends AbstractDataView implements DatasetView
 
 	/** Uninitializes the view. */
 	private void uninitializeView() {
-		converters.clear();
 		projector = null;
 	}
 
 	/** Initializes the view. */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void initializeView(final boolean composite) {
-		converters.clear();
-		final int channelCount = getChannelCount();
-		for (int c = 0; c < channelCount; c++) {
-			autoscale(c);
-			final RealLUTConverter converter =
-				new RealLUTConverter(getData().getImgPlus().getChannelMinimum(c),
-					getData().getImgPlus().getChannelMaximum(c), null);
-			converters.add(converter);
+		// If there are no converters (e.g. after creation), autoscale them!
+		// If there are converters, don't overwrite them!
+		if (converters.isEmpty()) {
+			final int channelCount = getChannelCount();
+			for (int c = 0; c < channelCount; c++) {
+				autoscale(c);
+				final RealLUTConverter converter =
+					new RealLUTConverter(getData().getImgPlus().getChannelMinimum(c),
+						getData().getImgPlus().getChannelMaximum(c), null);
+				converters.add(converter);
+			}
 		}
 
 		final ImgPlus<?> img = getData().getImgPlus();
