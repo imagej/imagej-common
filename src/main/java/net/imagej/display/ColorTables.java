@@ -49,13 +49,13 @@ public final class ColorTables {
 	public static final ColorTable8 ICE = ice();
 	public static final ColorTable8 SPECTRUM = spectrum();
 	public static final ColorTable8 RGB332 = rgb332();
-	public static final ColorTable8 RED = primary(4); // 100
-	public static final ColorTable8 GREEN = primary(2); // 010
-	public static final ColorTable8 BLUE = primary(1); // 001
-	public static final ColorTable8 CYAN = primary(3); // 011
-	public static final ColorTable8 MAGENTA = primary(5); // 101
-	public static final ColorTable8 YELLOW = primary(6); // 110
-	public static final ColorTable8 GRAYS = primary(7); // 111
+	public static final ColorTable8 RED = primary(0b100);
+	public static final ColorTable8 GREEN = primary(0b010);
+	public static final ColorTable8 BLUE = primary(0b001);
+	public static final ColorTable8 CYAN = primary(0b011);
+	public static final ColorTable8 MAGENTA = primary(0b101);
+	public static final ColorTable8 YELLOW = primary(0b110);
+	public static final ColorTable8 GRAYS = primary(0b111);
 	public static final ColorTable8 REDGREEN = redGreen();
 
 	private ColorTables() {
