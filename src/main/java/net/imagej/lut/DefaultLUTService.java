@@ -52,8 +52,6 @@ import net.imagej.axis.AxisType;
 import net.imagej.display.DatasetView;
 import net.imagej.display.ImageDisplay;
 import net.imagej.display.ImageDisplayService;
-import net.imagej.table.ResultsTable;
-import net.imagej.table.TableLoader;
 import net.imagej.util.AppUtils;
 import net.imglib2.RandomAccess;
 import net.imglib2.display.ColorTable;
@@ -75,6 +73,8 @@ import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import org.scijava.service.AbstractService;
 import org.scijava.service.Service;
+import org.scijava.table.DoubleTable;
+import org.scijava.table.TableLoader;
 
 // Attribution: Much of this code was adapted from ImageJ 1.x LutLoader class
 // courtesy of Wayne Rasband.
@@ -311,7 +311,7 @@ public class DefaultLUTService extends AbstractService implements LUTService {
 	private ColorTable legacyTextLUT(final BufferedInputStream is)
 		throws IOException
 	{
-		ResultsTable table = new TableLoader().valuesFromTextFile(is);
+		DoubleTable table = new TableLoader().valuesFromTextFile(is);
 		if (table == null) return null;
 		byte[] reds = new byte[256];
 		byte[] greens = new byte[256];

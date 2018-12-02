@@ -11,7 +11,7 @@
 
 	<groupId>net.imagej</groupId>
 	<artifactId>imagej-common</artifactId>
-	<version>0.27.1-SNAPSHOT</version>
+	<version>0.28.0-SNAPSHOT</version>
 
 	<name>ImageJ Common</name>
 	<description>This library contains ImageJ's core image data model, based on ImgLib2. It is the primary mechanism by which image data is managed internally by ImageJ2. This component also provides the corresponding core image display logic for user interfaces.</description>
@@ -177,7 +177,6 @@ Institute of Molecular Cell Biology and Genetics.</license.copyrightOwners>
 		<dependency>
 			<groupId>org.scijava</groupId>
 			<artifactId>scijava-table</artifactId>
-			<version>${scijava-table.version}</version>
 		</dependency>
 
 		<!-- Third party dependencies -->
