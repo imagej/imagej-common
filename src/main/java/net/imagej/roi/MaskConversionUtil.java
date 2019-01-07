@@ -101,6 +101,7 @@ final public class MaskConversionUtil {
 	}
 
 	public static boolean isBoolType(final Type type) {
+		if (!(type instanceof ParameterizedType)) return false;
 		final Type[] types = ((ParameterizedType) type).getActualTypeArguments();
 		return types.length >= 1 && types[0].equals(BoolType.class);
 	}
