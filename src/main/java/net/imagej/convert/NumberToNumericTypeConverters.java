@@ -23,6 +23,7 @@ package net.imagej.convert;
 
 import net.imglib2.type.numeric.integer.IntType;
 import net.imglib2.type.numeric.integer.LongType;
+import net.imglib2.type.numeric.integer.UnsignedByteType;
 import net.imglib2.type.numeric.real.DoubleType;
 import net.imglib2.type.numeric.real.FloatType;
 
@@ -126,4 +127,25 @@ public class NumberToNumericTypeConverters {
 
 	}
 
+	@Plugin(type = Converter.class)
+	public static class IntegerToUnsignedByteTypeConverter extends
+		NumberToNumericTypeConverter<Integer, UnsignedByteType>
+	{
+
+		@Override
+		public Class<UnsignedByteType> getOutputType() {
+			return UnsignedByteType.class;
+		}
+
+		@Override
+		public Class<Integer> getInputType() {
+			return Integer.class;
+		}
+
+		@Override
+		protected UnsignedByteType convert(final Integer src) {
+			return new UnsignedByteType(src);
+		}
+
+	}
 }

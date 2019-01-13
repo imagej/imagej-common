@@ -2,6 +2,7 @@ package net.imagej.convert;
 
 import net.imglib2.type.numeric.integer.IntType;
 import net.imglib2.type.numeric.integer.LongType;
+import net.imglib2.type.numeric.integer.UnsignedByteType;
 import net.imglib2.type.numeric.real.DoubleType;
 import net.imglib2.type.numeric.real.FloatType;
 
@@ -98,6 +99,27 @@ public class NumericTypeToNumberConverters {
 
 		@Override
 		protected Float convert(final FloatType src) {
+			return src.get();
+		}
+	}
+
+	@Plugin(type = Converter.class)
+	public static class UnsignedByteTypeToIntegerConverter extends
+		NumericTypeToNumberConverter<UnsignedByteType, Integer>
+	{
+
+		@Override
+		public Class<Integer> getOutputType() {
+			return Integer.class;
+		}
+
+		@Override
+		public Class<UnsignedByteType> getInputType() {
+			return UnsignedByteType.class;
+		}
+
+		@Override
+		protected Integer convert(final UnsignedByteType src) {
 			return src.get();
 		}
 	}
