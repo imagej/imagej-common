@@ -44,6 +44,7 @@ import net.imagej.event.DatasetRGBChangedEvent;
 import net.imagej.event.DatasetRestructuredEvent;
 import net.imagej.event.DatasetTypeChangedEvent;
 import net.imagej.event.DatasetUpdatedEvent;
+import net.imagej.types.DataType;
 import net.imagej.types.DataTypeService;
 import net.imglib2.Cursor;
 import net.imglib2.Interval;
@@ -233,15 +234,17 @@ public class DefaultDataset extends AbstractData implements Dataset {
 	@Override
 	public String getTypeLabelShort() {
 		if (isRGBMerged()) return "RGB";
-		NumericType<?> type = getImgPlus().firstElement();
-		return dataTypeService.getTypeByClass(type.getClass()).shortName();
+		final NumericType<?> type = getImgPlus().firstElement();
+		final DataType<?> dataType = dataTypeService.getTypeByClass(type.getClass());
+		return dataType == null ? type.getClass().getSimpleName() : dataType.shortName();
 	}
 
 	@Override
 	public String getTypeLabelLong() {
 		if (isRGBMerged()) return "RGB color";
-		NumericType<?> type = getImgPlus().firstElement();
-		return dataTypeService.getTypeByClass(type.getClass()).longName();
+		final NumericType<?> type = getImgPlus().firstElement();
+		final DataType<?> dataType = dataTypeService.getTypeByClass(type.getClass());
+		return dataType == null ? type.getClass().getName() : dataType.longName();
 	}
 
 	@Override
