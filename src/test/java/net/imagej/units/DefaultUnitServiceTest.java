@@ -81,4 +81,13 @@ public class DefaultUnitServiceTest {
 		c.value(1, "kelvin", "meter");
 	}
 
+	/**
+	 * Tests that the micron symbol 'mu' works.
+	 */
+	@Test
+	public void testMicrons() {
+		final DefaultUnitService c = new DefaultUnitService();
+		assertEquals(0.1, c.value(100_000, "\\u00B5", "meter"), 1e-16);
+		assertEquals(1_000_000.0, c.value(1, "meter", "\\u00B5"), 0.0);
+	}
 }
