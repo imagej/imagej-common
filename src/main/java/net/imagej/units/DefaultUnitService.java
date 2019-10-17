@@ -8,13 +8,13 @@
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -54,7 +54,7 @@ import ucar.units.UnknownUnit;
 
 /**
  * Service for defining units and making unit conversions.
- * 
+ *
  * @author Barry DeZonia
  */
 @Plugin(type = Service.class)
@@ -146,9 +146,19 @@ public class DefaultUnitService extends AbstractService implements UnitService {
 		return true;
 	}
 
+	/**
+     * Clean a unit string. This just converts the symbol 'mu' into 'u'
+     * @param inString
+     * @return a string with mu replaced by u
+     */
+    private String sanitizeUnitString( String inString ) {
+        return inString.replace("\\u00B5", "u");
+    }
+
 	private Unit parseUnit(final String unitName) {
+		String cleanUnitName = sanitizeUnitString(unitName);
 		try {
-			return unitFormatter.parse(unitName);
+			return unitFormatter.parse(cleanUnitName);
 		}
 		catch (final NoSuchUnitException exc) {
 			log.error("Cannot parse unit: " + unitName, exc);
