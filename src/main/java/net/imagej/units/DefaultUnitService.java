@@ -147,14 +147,14 @@ public class DefaultUnitService extends AbstractService implements UnitService {
 	}
 
 	/**
-	 * Removes unsupported characters from a unit string.
+	 * Replaces unsupported characters of a unit string.
 	 *
 	 * @param unitName
 	 * @return a string with unsupported characters replaced
 	 */
 	private String sanitizeUnitString(final String unitName) {
-		// Convert the mu symbol into "micron".
-		return unitName.replace("\\u00B5", "micron");
+		// Convert the mu symbol into "u".
+		return unitName.replace("\\u00B5", "u");
 	}
 
 	private Unit parseUnit(final String unitName) {
