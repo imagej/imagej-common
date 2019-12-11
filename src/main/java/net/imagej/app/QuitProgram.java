@@ -64,16 +64,16 @@ public class QuitProgram extends ContextCommand {
 
 	public static final String MESSAGE = "Quit ImageJ?";
 
-	@Parameter
+	@Parameter(required = false)
 	private StatusService statusService;
 
-	@Parameter
+	@Parameter(required = false)
 	private WindowService windowService;
 
-	@Parameter
+	@Parameter(required = false)
 	private UIService uiService;
 
-	@Parameter
+	@Parameter(required = false)
 	private OptionsService optionsService;
 
 	@Override
@@ -89,13 +89,17 @@ public class QuitProgram extends ContextCommand {
 		if (statusService != null) {
 			statusService.showStatus("Quitting...");
 		}
-		final OptionsMisc opts = optionsService.getOptions(OptionsMisc.class);
-		final boolean exitWhenQuitting = opts.isExitWhenQuitting();
+		boolean exitWhenQuitting = false;
+		if (optionsService != null) {
+			final OptionsMisc opts = optionsService.getOptions(OptionsMisc.class);
+			exitWhenQuitting = opts.isExitWhenQuitting();
+		}
 		getContext().dispose();
 		if (exitWhenQuitting) System.exit(0);
 	}
 
 	private boolean promptForQuit() {
+		if (uiService == null) return true;
 		final DialogPrompt.Result result =
 			uiService.showDialog(MESSAGE, "Quit",
 				DialogPrompt.MessageType.QUESTION_MESSAGE,
