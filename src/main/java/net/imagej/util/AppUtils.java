@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.scijava.Context;
 import org.scijava.app.App;
 import org.scijava.util.FileUtils;
 
@@ -105,7 +106,7 @@ public final class AppUtils {
 		final String pathPrefix)
 	{
 		// scan URL resource paths first
-		final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+		final ClassLoader loader = Context.getClassLoader();
 		final ArrayList<URL> urls = new ArrayList<>();
 		try {
 			urls.addAll(Collections.list(loader.getResources(pathPrefix + "/")));

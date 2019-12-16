@@ -76,8 +76,7 @@ public class LUTServiceTest {
 		final Context context = new Context(LUTService.class);
 		final LUTService lutService = context.getService(LUTService.class);
 
-		final ClassLoader savedLoader =
-			Thread.currentThread().getContextClassLoader();
+		final ClassLoader savedLoader = Context.getClassLoader();
 		try {
 			final ClassLoader loader =
 				new URLClassLoader(new URL[] { jarFile.toURI().toURL() }, ClassLoader
