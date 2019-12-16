@@ -11,7 +11,7 @@
 
 	<groupId>net.imagej</groupId>
 	<artifactId>imagej-common</artifactId>
-	<version>0.29.2-SNAPSHOT</version>
+	<version>0.29.3-SNAPSHOT</version>
 
 	<name>ImageJ Common</name>
 	<description>This library contains ImageJ's core image data model, based on ImgLib2. It is the primary mechanism by which image data is managed internally by ImageJ2. This component also provides the corresponding core image display logic for user interfaces.</description>
