@@ -31,11 +31,18 @@
 
 package net.imagej;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
+import net.imagej.axis.Axes;
+import net.imagej.axis.DefaultLinearAxis;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;
 import net.imglib2.img.array.ArrayImgs;
+import net.imglib2.test.ImgLib2Assert;
+import net.imglib2.type.numeric.ARGBType;
 import net.imglib2.type.numeric.integer.UnsignedByteType;
 import net.imglib2.view.Views;
 
@@ -68,5 +75,31 @@ public class DatasetServiceTest {
 		assertNotNull(copy);
 
 		ctx.dispose();
+	}
+
+	@Test
+	public void testCreateFromColoredImgPlus() {
+		// setup
+		final Context context = new Context(DatasetService.class);
+		final DatasetService datasetService =
+				context.service(DatasetService.class);
+		final DefaultLinearAxis xAxis = new DefaultLinearAxis(Axes.X, "um", 2);
+		final DefaultLinearAxis yAxis = new DefaultLinearAxis(Axes.Y, "um", 1);
+		Img<ARGBType> argbs =
+				ArrayImgs.argbs(new int[] {0x010203, 0x050607}, 2, 1);
+		ImgPlus<ARGBType> image =
+				new ImgPlus<>(argbs, "TestName", xAxis, yAxis);
+
+		// process
+		final Dataset dataset = datasetService.create( image);
+
+		// Test if the resulting dataset is correct.
+		Img<UnsignedByteType> expected = ArrayImgs.unsignedBytes(
+				new byte[] {1, 5, 2, 6, 3, 7}, 2, 1, 3);
+		ImgLib2Assert.assertImageEqualsRealType(expected, dataset, 0.0);
+		assertTrue(dataset.isRGBMerged());
+		assertSame(xAxis, dataset.axis(0));
+		assertSame(yAxis, dataset.axis(1));
+		assertEquals(Axes.CHANNEL, dataset.axis(2).type());
 	}
 }

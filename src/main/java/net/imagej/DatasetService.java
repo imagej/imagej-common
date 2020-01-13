@@ -39,6 +39,8 @@ import net.imagej.display.ImageDisplay;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.ImgFactory;
 import net.imglib2.type.NativeType;
+import net.imglib2.type.Type;
+import net.imglib2.type.numeric.ARGBType;
 import net.imglib2.type.numeric.RealType;
 
 import org.scijava.object.ObjectService;
@@ -145,7 +147,7 @@ public interface DatasetService extends ImageJService {
 	 * @param imgPlus The {@link ImgPlus} backing the dataset.
 	 * @return The newly created dataset.
 	 */
-	<T extends RealType<T>> Dataset create(ImgPlus<T> imgPlus);
+	<T extends Type<T>> Dataset create(ImgPlus<T> imgPlus);
 
 	/**
 	 * Creates a new dataset using the provided {@link RandomAccessibleInterval}.
@@ -154,7 +156,7 @@ public interface DatasetService extends ImageJService {
 	 *          an {@link ImgPlus} that will back the new dataset.
 	 * @return The newly created dataset.
 	 */
-	<T extends RealType<T>> Dataset create(RandomAccessibleInterval<T> rai);
+	<T extends Type<T>> Dataset create(RandomAccessibleInterval<T> rai);
 
 	/**
 	 * Determines whether the given source can be opened as a {@link Dataset}
