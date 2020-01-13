@@ -35,18 +35,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.imagej.axis.Axes;
 import net.imagej.axis.AxisType;
+import net.imagej.axis.CalibratedAxis;
+import net.imagej.axis.IdentityAxis;
 import net.imagej.display.DataView;
 import net.imagej.display.ImageDisplay;
 import net.imagej.types.DataTypeService;
 import net.imglib2.RandomAccessibleInterval;
+import net.imglib2.converter.Converters;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
 import net.imglib2.img.ImgView;
 import net.imglib2.img.cell.CellImgFactory;
 import net.imglib2.img.planar.PlanarImgFactory;
 import net.imglib2.type.NativeType;
+import net.imglib2.type.Type;
 import net.imglib2.type.logic.BitType;
+import net.imglib2.type.numeric.ARGBType;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.integer.ByteType;
 import net.imglib2.type.numeric.integer.IntType;
@@ -60,6 +66,7 @@ import net.imglib2.type.numeric.real.DoubleType;
 import net.imglib2.type.numeric.real.FloatType;
 import net.imglib2.util.Util;
 
+import net.imglib2.view.Views;
 import org.scijava.log.LogService;
 import org.scijava.object.ObjectService;
 import org.scijava.plugin.Parameter;
@@ -196,15 +203,51 @@ public final class DefaultDatasetService extends AbstractService implements
 	}
 
 	@Override
-	public <T extends RealType<T>> Dataset create(final ImgPlus<T> imgPlus) {
+	public <T extends Type<T>> Dataset create(final ImgPlus<T> imgPlus) {
+		T type = imgPlus.firstElement();
+		if(type instanceof ARGBType)
+			return createARGBType((ImgPlus) imgPlus);
+		if(type instanceof RealType)
+			return createRealType((ImgPlus) imgPlus);
+		throw new IllegalArgumentException(
+				"Only RealType and ARGBType are supported. Given pixel type: "
+						+ type.getClass().getSimpleName());
+	}
+
+	private < T extends RealType< T > > Dataset createRealType(
+			ImgPlus<T> imgPlus)
+	{
 		return new DefaultDataset(getContext(), imgPlus);
 	}
 
+	private Dataset createARGBType(ImgPlus<ARGBType> imgPlus) {
+		ImgPlus< UnsignedByteType > multiChannel = argbToMultiChannel(imgPlus);
+		Dataset dataset = createRealType(multiChannel);
+		dataset.setRGBMerged(true);
+		return dataset;
+	}
+
 	@Override
-	public <T extends RealType<T>> Dataset create(
-		final RandomAccessibleInterval<T> rai)
+	public <T extends Type<T>> Dataset create(
+			final RandomAccessibleInterval<T> rai)
 	{
 		return create(wrapToImgPlus(rai));
+	}
+
+	private ImgPlus< UnsignedByteType > argbToMultiChannel(
+			ImgPlus< ARGBType > imgPlus)
+	{
+		RandomAccessibleInterval<ARGBType> rai = imgPlus.getImg();
+		RandomAccessibleInterval<UnsignedByteType> red = Converters
+				.argbChannel(rai, 1);
+		RandomAccessibleInterval<UnsignedByteType> green = Converters.argbChannel(rai, 2);
+		RandomAccessibleInterval<UnsignedByteType> blue = Converters.argbChannel(rai, 3);
+		Img<UnsignedByteType> channels = wrapToImg(Views.stack(red, green, blue));
+		int n = imgPlus.numDimensions();
+		CalibratedAxis[] axes = new CalibratedAxis[n + 1];
+		for (int d = 0; d < n; d++) axes[d] = imgPlus.axis(d);
+		axes[n] = new IdentityAxis(Axes.CHANNEL);
+		return new ImgPlus<>(channels, imgPlus.getName(), axes);
 	}
 
 	@Override
@@ -307,14 +350,14 @@ public final class DefaultDatasetService extends AbstractService implements
 			bitsPerPixel + ", signed=" + signed + ", floating=" + floating);
 	}
 
-	private <T extends RealType<T>> ImgPlus<T> wrapToImgPlus(
+	private <T extends Type<T>> ImgPlus<T> wrapToImgPlus(
 		final RandomAccessibleInterval<T> rai)
 	{
 		if (rai instanceof ImgPlus) return (ImgPlus<T>) rai;
 		return new ImgPlus<>(wrapToImg(rai));
 	}
 
-	private <T extends RealType<T>> Img<T> wrapToImg(
+	private <T extends Type<T>> Img<T> wrapToImg(
 		final RandomAccessibleInterval<T> rai)
 	{
 		if (rai instanceof Img) return (Img<T>) rai;
