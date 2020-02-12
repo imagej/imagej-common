@@ -46,13 +46,13 @@ public class DatasetFactoryTest extends AbstractDatasetTest {
 	public void testPlanar() {
 		final Dataset planar = createPlanarDataset();
 		final Dataset planar2 = planar.factory().create(DIMENSIONS);
-		assertDatasetsMatch(planar, planar2, IntType.class, IntType.class);
+		assertImagesMatch(planar, planar2, IntType.class, IntType.class);
 	}
 
 	@Test
 	public void testCell() {
 		final Dataset cell = createNonplanarDataset();
 		final Dataset cell2 = cell.factory().create(DIMENSIONS);
-		assertDatasetsMatch(cell, cell2, IntType.class, IntType.class);
+		assertImagesMatch(cell, cell2, IntType.class, IntType.class);
 	}
 }
