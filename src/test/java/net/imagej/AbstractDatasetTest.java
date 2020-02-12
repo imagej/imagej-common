@@ -31,10 +31,6 @@
 
 package net.imagej;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-
-import net.imglib2.IterableInterval;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
 import net.imglib2.img.cell.CellImgFactory;
@@ -87,29 +83,5 @@ public class AbstractDatasetTest {
 
 	protected Dataset createNonplanarDataset() {
 		return createDataset(new CellImgFactory<>(new IntType()));
-	}
-
-	protected void assertImagesMatch(final IterableInterval<?> image1,
-		final IterableInterval<?> image2, final Class<?> type1,
-		final Class<?> type2)
-	{
-		assertEquals(image1.numDimensions(), image2.numDimensions());
-		for (int i = 0; i < image1.numDimensions(); i++) {
-			assertEquals(image1.dimension(i), image2.dimension(i));
-		}
-		assertSame(img(image1).getClass(), img(image2).getClass());
-		assertSame(type1, image1.firstElement().getClass());
-		assertSame(type2, image2.firstElement().getClass());
-	}
-
-	private Img<?> img(final IterableInterval<?> image) {
-		if (image instanceof Dataset) {
-			return ((Dataset) image).getImgPlus().getImg();
-		}
-		if (image instanceof Img) {
-			return (Img<?>) image;
-		}
-		throw new IllegalArgumentException(//
-			"No relevant Img for type: " + image.getClass().getName());
 	}
 }

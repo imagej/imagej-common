@@ -31,7 +31,16 @@
 
 package net.imagej;
 
-import net.imglib2.type.numeric.integer.IntType;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+
+import java.util.function.Function;
+
+import net.imglib2.Dimensions;
+import net.imglib2.FinalDimensions;
+import net.imglib2.IterableInterval;
+import net.imglib2.img.Img;
+import net.imglib2.type.numeric.real.DoubleType;
 
 import org.junit.Test;
 
@@ -42,17 +51,109 @@ import org.junit.Test;
  */
 public class DatasetFactoryTest extends AbstractDatasetTest {
 
+	final int[] iDims = { 12, 34 };
+	final long[] lDims = { 12, 34 };
+	final Dimensions dDims = FinalDimensions.wrap(lDims);
+
 	@Test
-	public void testPlanar() {
-		final Dataset planar = createPlanarDataset();
-		final Dataset planar2 = planar.factory().create(DIMENSIONS);
-		assertImagesMatch(planar, planar2, IntType.class, IntType.class);
+	public void testCreateLongArray() {
+		assertCreatedOK(createPlanarDataset(), d -> d.factory().create(lDims), dDims);
+		assertCreatedOK(createNonplanarDataset(), d -> d.factory().create(lDims), dDims);
 	}
 
 	@Test
-	public void testCell() {
-		final Dataset cell = createNonplanarDataset();
-		final Dataset cell2 = cell.factory().create(DIMENSIONS);
-		assertImagesMatch(cell, cell2, IntType.class, IntType.class);
+	public void testCreateDimensions() {
+		assertCreatedOK(createPlanarDataset(), d -> d.factory().create(dDims), dDims);
+		assertCreatedOK(createNonplanarDataset(), d -> d.factory().create(dDims), dDims);
+	}
+
+	@Test
+	public void testCreateIntArray() {
+		assertCreatedOK(createPlanarDataset(), d -> d.factory().create(iDims), dDims);
+		assertCreatedOK(createNonplanarDataset(), d -> d.factory().create(iDims), dDims);
+	}
+
+	@Test
+	@SuppressWarnings("deprecation")
+	public void testCreateLongArrayAndType() {
+		assertCreatedOK(createPlanarDataset(), d -> d.factory().create(lDims, new DoubleType()), dDims, DoubleType.class);
+		assertCreatedOK(createNonplanarDataset(), d -> d.factory().create(lDims, new DoubleType()), dDims, DoubleType.class);
+	}
+
+	@Test
+	@SuppressWarnings("deprecation")
+	public void testCreateDimensionsAndType() {
+		assertCreatedOK(createPlanarDataset(), d -> d.factory().create(dDims, new DoubleType()), dDims, DoubleType.class);
+		assertCreatedOK(createNonplanarDataset(), d -> d.factory().create(dDims, new DoubleType()), dDims, DoubleType.class);
+	}
+
+	@Test
+	@SuppressWarnings("deprecation")
+	public void testCreateIntArrayAndType() {
+		assertCreatedOK(createPlanarDataset(), d -> d.factory().create(iDims, new DoubleType()), dDims, DoubleType.class);
+		assertCreatedOK(createNonplanarDataset(), d -> d.factory().create(iDims, new DoubleType()), dDims, DoubleType.class);
+	}
+
+	@Test
+	@SuppressWarnings("deprecation")
+	public void testCreateSupplierAndLongArray() {
+		assertCreatedOK(createPlanarDataset(), d -> d.factory().create(() -> new DoubleType(), lDims), dDims, DoubleType.class);
+		assertCreatedOK(createNonplanarDataset(), d -> d.factory().create(() -> new DoubleType(), lDims), dDims, DoubleType.class);
+	}
+
+	@Test
+	@SuppressWarnings("deprecation")
+	public void testCreateSupplierAndDimensions() {
+		assertCreatedOK(createPlanarDataset(), d -> d.factory().create(() -> new DoubleType(), dDims), dDims, DoubleType.class);
+		assertCreatedOK(createNonplanarDataset(), d -> d.factory().create(() -> new DoubleType(), dDims), dDims, DoubleType.class);
+	}
+
+	@Test
+	@SuppressWarnings("deprecation")
+	public void testCreateSupplierAndIntArray() {
+		assertCreatedOK(createPlanarDataset(), d -> d.factory().create(() -> new DoubleType(), iDims), dDims, DoubleType.class);
+		assertCreatedOK(createNonplanarDataset(), d -> d.factory().create(() -> new DoubleType(), iDims), dDims, DoubleType.class);
+	}
+
+	@Test
+	public void testImgFactory() {
+		assertCreatedOK(createPlanarDataset(), d -> d.factory().imgFactory(new DoubleType()).create(d), DoubleType.class);
+		assertCreatedOK(createNonplanarDataset(), d -> d.factory().imgFactory(new DoubleType()).create(d), DoubleType.class);
+	}
+
+	// -- Helper methods --
+
+	private void assertCreatedOK(final Dataset dataset,
+		final Function<Dataset, ? extends Img<?>> creator, final Class<?> eType)
+	{
+		assertCreatedOK(dataset, creator, dataset, eType);
+	}
+
+	private void assertCreatedOK(final Dataset dataset,
+		final Function<Dataset, ? extends Img<?>> creator, final Dimensions eDims)
+	{
+		assertCreatedOK(dataset, creator, eDims, dataset.firstElement().getClass());
+	}
+
+	private void assertCreatedOK(final Dataset dataset,
+		final Function<Dataset, ? extends Img<?>> creator, //
+		final Dimensions eDims, final Class<?> eType)
+	{
+		final Img<?> created = creator.apply(dataset);
+		assertSame(eType, created.firstElement().getClass());
+		assertSame(img(dataset).getClass(), img(created).getClass());
+		assertEquals(eDims.numDimensions(), created.numDimensions());
+		for (int d = 0; d < eDims.numDimensions(); d++) {
+			assertEquals(eDims.dimension(d), created.dimension(d));
+		}
+	}
+
+	/** Obtains wrapped {@link Img} of {@link Dataset} and {@link ImgPlus}. */
+	private Img<?> img(final IterableInterval<?> image) {
+		if (image instanceof Dataset) return img(((Dataset) image).getImgPlus());
+		if (image instanceof ImgPlus) return img(((ImgPlus<?>) image).getImg());
+		if (image instanceof Img) return (Img<?>) image;
+		throw new IllegalArgumentException(//
+			"No relevant Img for type: " + image.getClass().getName());
 	}
 }
