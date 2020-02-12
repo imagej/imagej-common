@@ -713,7 +713,7 @@ public class DefaultDataset extends AbstractData implements Dataset {
 	}
 
 	@Override
-	public Img<RealType<?>> copy() {
+	public Dataset copy() {
 		final ImgPlus<? extends RealType<?>> copy = getImgPlus().copy();
 		return new DefaultDataset(getContext(), copy);
 	}
