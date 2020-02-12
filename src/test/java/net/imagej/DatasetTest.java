@@ -43,17 +43,10 @@ import net.imagej.axis.Axes;
 import net.imagej.axis.AxisType;
 import net.imagej.axis.CalibratedAxis;
 import net.imglib2.RandomAccess;
-import net.imglib2.img.Img;
-import net.imglib2.img.ImgFactory;
-import net.imglib2.img.cell.CellImgFactory;
-import net.imglib2.img.planar.PlanarImgFactory;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.integer.IntType;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.scijava.Context;
 
 /**
  * Unit tests for {@link Dataset}.
@@ -62,31 +55,9 @@ import org.scijava.Context;
  * @author Richard Domander
  * @author Curtis Rueden
  */
-public class DatasetTest {
+public class DatasetTest extends AbstractDatasetTest {
 
 	// -- private interface --
-
-	private static final int CPLANES = 2;
-	private static final int ZPLANES = 3;
-	private static final int TPLANES = 4;
-	private static final long[] DIMENSIONS = { 4, 4, CPLANES, ZPLANES, TPLANES };
-
-	private Context context;
-	private DatasetService datasetService;
-
-	private Dataset createDataset(final ImgFactory<IntType> factory) {
-		final Img<IntType> img = factory.create(DIMENSIONS);
-		final ImgPlus<IntType> imgPlus = new ImgPlus<>(img);
-		return datasetService.create(imgPlus);
-	}
-
-	private Dataset createPlanarDataset() {
-		return createDataset(new PlanarImgFactory<>(new IntType()));
-	}
-
-	private Dataset createNonplanarDataset() {
-		return createDataset(new CellImgFactory<>(new IntType()));
-	}
 
 	private int planeValue(final int c, final int z, final int t) {
 		return 100 * t + 10 * z + 1 * c;
@@ -177,45 +148,10 @@ public class DatasetTest {
 
 	// -- public tests --
 
-	@Before
-	public void setUp() {
-		context = new Context(DatasetService.class);
-		datasetService = context.getService(DatasetService.class);
-	}
-
-	@After
-	public void tearDown() {
-		context.dispose();
-	}
-
 	@Test
 	public void testGetPlane() {
 		testPlanarCase();
 		testNonplanarCase();
-	}
-
-	@Test
-	public void testFactory() {
-		final Dataset planar = createPlanarDataset();
-		final Dataset planar2 = planar.factory().create(DIMENSIONS);
-		assertDatasetsMatch(planar, planar2);
-		assertSame(IntType.class, planar.getType().getClass());
-		assertSame(IntType.class, planar2.getType().getClass());
-
-		final Dataset cell = createNonplanarDataset();
-		final Dataset cell2 = cell.factory().create(DIMENSIONS);
-		assertDatasetsMatch(cell, cell2);
-		assertSame(IntType.class, cell.getType().getClass());
-		assertSame(IntType.class, cell2.getType().getClass());
-	}
-
-	private void assertDatasetsMatch(final Dataset d, final Dataset d2) {
-		assertEquals(d.numDimensions(), d2.numDimensions());
-		for (int i = 0; i < d.numDimensions(); i++) {
-			assertEquals(d.dimension(i), d2.dimension(i));
-		}
-		assertSame(d.getImgPlus().getImg().getClass(), //
-			d2.getImgPlus().getImg().getClass());
 	}
 
 	/**
