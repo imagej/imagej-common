@@ -203,15 +203,14 @@ public final class DefaultDatasetService extends AbstractService implements
 	}
 
 	@Override
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public <T extends Type<T>> Dataset create(final ImgPlus<T> imgPlus) {
-		T type = imgPlus.firstElement();
-		if(type instanceof ARGBType)
-			return createARGBType((ImgPlus) imgPlus);
-		if(type instanceof RealType)
-			return createRealType((ImgPlus) imgPlus);
+		final T type = imgPlus.firstElement();
+		if (type instanceof ARGBType) return createARGBType((ImgPlus) imgPlus);
+		if (type instanceof RealType) return createRealType((ImgPlus) imgPlus);
 		throw new IllegalArgumentException(
-				"Only RealType and ARGBType are supported. Given pixel type: "
-						+ type.getClass().getSimpleName());
+			"Only RealType and ARGBType are supported. Given pixel type: " + //
+				type.getClass().getName());
 	}
 
 	private < T extends RealType< T > > Dataset createRealType(

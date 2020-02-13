@@ -31,47 +31,94 @@
 
 package net.imagej;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 import net.imglib2.Dimensions;
-import net.imglib2.exception.IncompatibleTypeException;
-import net.imglib2.img.ImgFactory;
+import net.imglib2.img.Img;
 import net.imglib2.type.numeric.RealType;
-import net.imglib2.util.Util;
 
 /**
- * Base class for {@link ImgFactory} classes which produce {@link Dataset}s.
+ * A factory which produces {@link Dataset}s.
+ * <p>
+ * This class extends the more type-safe {@link DatasetImgFactory} to eliminate
+ * the generic parameter.
+ * </p>
  *
  * @author Curtis Rueden
  */
-public abstract class DatasetFactory extends ImgFactory<RealType<?>> {
+public class DatasetFactory extends DatasetImgFactory<RealType<?>> {
 
-	public DatasetFactory(final RealType<?> type) {
-		super(type);
+	private Function<Img<?>, Dataset> wrapper;
+
+	public DatasetFactory(final RealType<?> type, final Dataset dataset,
+		final ImgCreator creator, final Function<Img<?>, Dataset> wrapper)
+	{
+		super(type, dataset, creator);
+		this.wrapper = wrapper;
 	}
 
 	@Override
-	public abstract Dataset create(final long... dimensions);
+	public Dataset create(final long... dimensions) {
+		return wrapper.apply(super.create(dimensions));
+	}
 
 	@Override
 	public Dataset create(final Dimensions dimensions) {
-		final long[] size = new long[dimensions.numDimensions()];
-		dimensions.dimensions(size);
-		return create(size);
+		// NB: super.create(Dimensions) calls create(long[]).
+		return (Dataset) super.create(dimensions);
 	}
 
 	@Override
 	public Dataset create(final int[] dimensions) {
-		return create(Util.int2long(dimensions));
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public <S> ImgFactory<S> imgFactory(final S type)
-		throws IncompatibleTypeException
-	{
-		return (ImgFactory<S>) this;
+		// NB: super.create(int[]) calls create(long[]).
+		return (Dataset) super.create(dimensions);
 	}
 
 	@Deprecated
 	@Override
-	public abstract Dataset create(final long[] dim, final RealType<?> type);
+	public Dataset create(final long[] dim, final RealType<?> type) {
+		return wrapper.apply(super.create(dim, type));
+	}
+
+	@Deprecated
+	@Override
+	public Dataset create(final Dimensions dim, final RealType<?> type) {
+		// NB: super.create(Dimensions, RealType) calls create(long[], RealType).
+		return (Dataset) super.create(dim, type);
+	}
+
+	@Deprecated
+	@Override
+	public Dataset create(final int[] dim, final RealType<?> type) {
+		// NB: super.create(int[], RealType) calls create(long[], RealType).
+		return (Dataset) super.create(dim, type);
+	}
+
+	@Deprecated
+	@Override
+	public Dataset create(final Supplier<RealType<?>> typeSupplier,
+		final long... dim)
+	{
+		// NB: super.create(Supplier, long[]) calls create(long[], RealType).
+		return (Dataset) super.create(typeSupplier, dim);
+	}
+
+	@Deprecated
+	@Override
+	public Dataset create(final Supplier<RealType<?>> typeSupplier,
+		final Dimensions dim)
+	{
+		// NB: super.create(Supplier, Dimensions) calls create(Dimensions, RealType).
+		return (Dataset) super.create(typeSupplier, dim);
+	}
+
+	@Deprecated
+	@Override
+	public Dataset create(final Supplier<RealType<?>> typeSupplier,
+		final int[] dim)
+	{
+		// NB: super.create(Supplier, int[]) calls create(int[], RealType).
+		return (Dataset) super.create(typeSupplier, dim);
+	}
 }

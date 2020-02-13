@@ -692,6 +692,51 @@ public class DefaultDataset extends AbstractData implements Dataset {
 		return new ImgPlus<>(blankImg, img);
 	}
 
+	/**
+	 * Creates an {@link Img} of the given dimensions and type, using the
+	 * associated {@link ImgFactory} of the specified {@link Dataset}.
+	 */
+	private static <T> Img<T> createImg(final Dataset dataset,
+		final long[] dim, final T type)
+	{
+		final ImgFactory<T> factory;
+		try {
+			factory = dataset.getImgPlus().factory().imgFactory(type);
+		}
+		catch (final IncompatibleTypeException exc) {
+			throw new IllegalStateException("Ill-understood type weirdness", exc);
+		}
+		return factory.create(dim);
+	}
+
+	/**
+	 * Wraps the given {@link Img} as a {@link Dataset} using best available
+	 * means.
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private Dataset wrapAsDataset(final Img<?> img) {
+		final Context ctx = getContext();
+
+		// Img -> ImgPlus, with default metadata.
+		final ImgPlus<?> imp = img instanceof ImgPlus ? //
+			(ImgPlus<?>) img : new ImgPlus<>(img);
+
+		// Wrap ImgPlus to Dataset using DatasetService, if available.
+		final DatasetService datasetService = ctx.getService(DatasetService.class);
+		final Object type = imp.firstElement();
+		if (datasetService != null && type instanceof Type) {
+			return datasetService.create((ImgPlus) imp);
+		}
+
+		// Wrap ImgPlus using DefaultDataset constructor, if compatible.
+		if (type instanceof RealType) {
+			return new DefaultDataset(ctx, (ImgPlus) imp);
+		}
+
+		throw new IllegalArgumentException("Unsupported type: " + //
+			type.getClass().getName());
+	}
+
 	private <T extends RealType<?>> ImgPlus<T> wrapAsImgPlus(final Img<T> newImg,
 		final CalibratedAxis... calibAxes)
 	{
@@ -713,42 +758,15 @@ public class DefaultDataset extends AbstractData implements Dataset {
 	}
 
 	@Override
-	public Img<RealType<?>> copy() {
+	public Dataset copy() {
 		final ImgPlus<? extends RealType<?>> copy = getImgPlus().copy();
 		return new DefaultDataset(getContext(), copy);
 	}
 
 	@Override
 	public DatasetFactory factory() {
-		return new DatasetFactory(getType()) {
-
-			@Override
-			public Dataset create(final long... dimensions) {
-				final ImgPlus<RealType<?>> imp = makeImgPlus(dimensions, type());
-				return new DefaultDataset(getContext(), imp);
-			}
-
-			@Deprecated
-			@Override
-			public Dataset create(final long[] dimensions, final RealType<?> type) {
-				final ImgPlus<RealType<?>> imp = makeImgPlus(dimensions, type);
-				return new DefaultDataset(getContext(), imp);
-			}
-
-			private <T> ImgPlus<T> makeImgPlus(final long[] dim, final T type) {
-				final ImgFactory<T> factory;
-				try {
-					factory = getImgPlus().factory().imgFactory(type);
-				}
-				catch (final IncompatibleTypeException exc) {
-					throw new IllegalStateException("Ill-understood type weirdness", exc);
-				}
-				@SuppressWarnings("deprecation")
-				final Img<T> img = factory.create(dim, type);
-				return img instanceof ImgPlus ?
-					(ImgPlus<T>) img : new ImgPlus<>(img, getImgPlus());
-			}
-		};
+		return new DatasetFactory(getType(), this, //
+			DefaultDataset::createImg, this::wrapAsDataset);
 	}
 
 	@SuppressWarnings("unchecked")

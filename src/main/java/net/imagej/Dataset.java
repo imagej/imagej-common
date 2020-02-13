@@ -237,5 +237,8 @@ public interface Dataset extends Data, ImgPlusMetadata, Img<RealType<?>> {
 	// -- Img methods --
 
 	@Override
+	Dataset copy();
+
+	@Override
 	DatasetFactory factory();
 }
