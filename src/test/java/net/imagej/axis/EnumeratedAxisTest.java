@@ -1,0 +1,89 @@
+/*
+ * #%L
+ * ImageJ software for multidimensional image processing and analysis.
+ * %%
+ * Copyright (C) 2009 - 2020 Board of Regents of the University of
+ * Wisconsin-Madison, Broad Institute of MIT and Harvard, and Max Planck
+ * Institute of Molecular Cell Biology and Genetics.
+ * %%
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ * #L%
+ */
+
+package net.imagej.axis;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+
+import org.junit.Test;
+
+/**
+ * Tests {@link EnumeratedAxis}.
+ * 
+ * @author Curtis Rueden
+ */
+public class EnumeratedAxisTest extends AbstractAxisTest {
+
+	@Test
+	public void testCalibratedValue() {
+		final double[] values = {2, 3, 5, 7, 11, 13, 17};
+		final EnumeratedAxis axis = new EnumeratedAxis(Axes.get("primes"), values);
+		// Verify integer coordinates.
+		for (int i = 0; i < values.length; i++) {
+			assertEquals(values[i], axis.calibratedValue(i), 0.0);
+		}
+		// Verify interpolated coordinates.
+		assertEquals(3, axis.calibratedValue(1), 0.0);
+		assertEquals(4, axis.calibratedValue(1.5), 0.0);
+		assertEquals(5, axis.calibratedValue(2), 0.0);
+		assertEquals(10.5, axis.calibratedValue(3.875), 0.0);
+		// Verify extrapolated coordinates.
+		assertEquals(1, axis.calibratedValue(-1), 0.0);
+		assertEquals(0.5, axis.calibratedValue(-1.5), 0.0);
+		assertEquals(0.25, axis.calibratedValue(-1.75), 0.0);
+		assertEquals(0, axis.calibratedValue(-2), 0.0);
+		assertEquals(-98, axis.calibratedValue(-100), 0.0);
+		assertEquals(21, axis.calibratedValue(7), 0.0);
+		assertEquals(23, axis.calibratedValue(7.5), 0.0);
+		assertEquals(24.2, axis.calibratedValue(7.8), 0.0);
+		assertEquals(25, axis.calibratedValue(8), 0.0);
+		assertEquals(393, axis.calibratedValue(100), 0.0);
+	}
+
+	@Test
+	public void testRawValue() {
+		// TODO
+	}
+
+	@Test
+	public void testCopy() {
+		final double[] values = {2, 3, 5, 7, 11, 13, 17};
+		final EnumeratedAxis axis = new EnumeratedAxis(Axes.get("primes"), values);
+		final EnumeratedAxis copy = axis.copy();
+		assertNotSame(axis, copy);
+		assertEquals(axis, copy);
+		for (int i = 0; i < values.length; i++) {
+			assertEquals(values[i], copy.calibratedValue(i), 0.0);
+		}
+		assertEquals(axis.hashCode(), copy.hashCode());
+	}
+}
