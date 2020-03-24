@@ -1,6 +1,7 @@
 package net.imagej.axis;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * A {@link CalibratedAxis} whose coordinate values are explicitly enumerated by
@@ -13,6 +14,16 @@ import java.util.Arrays;
 public class EnumeratedAxis extends AbstractCalibratedAxis {
 
 	private double[] values;
+
+	public EnumeratedAxis(final AxisType type, final List<Double> values){
+		super(type);
+
+		double[] values_arr = new double[values.size()];
+		for (int idx = 0; idx < values.size(); idx++) {
+			values_arr[idx] = values.get(idx);
+		}
+		setValues(values_arr);
+	}
 
 	public EnumeratedAxis(final AxisType type, final double[] values) {
 		super(type);
@@ -34,7 +45,7 @@ public class EnumeratedAxis extends AbstractCalibratedAxis {
 		}
 		this.values = values;
 	}
-	
+
 	// -- Object methods --
 
 	@Override
