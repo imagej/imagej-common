@@ -34,6 +34,9 @@ package net.imagej.axis;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Test;
 
 /**
@@ -42,6 +45,19 @@ import org.junit.Test;
  * @author Curtis Rueden
  */
 public class EnumeratedAxisTest extends AbstractAxisTest {
+
+	@Test
+	public void testConstructors() {
+		final double[] array = {1, 2, 3, 5, 8, 13, 22};
+		final EnumeratedAxis axis1 = new EnumeratedAxis(Axes.get("fib"), array);
+		assertEquals(5, axis1.calibratedValue(3), 0.0);
+		assertEquals(13, axis1.calibratedValue(5), 0.0);
+
+		final List<Integer> list = Arrays.asList(2, 4, 8, 16, 32, 64, 128);
+		final EnumeratedAxis axis2 = new EnumeratedAxis(Axes.get("pow"), list);
+		assertEquals(16, axis2.calibratedValue(3), 0.0);
+		assertEquals(64, axis2.calibratedValue(5), 0.0);
+	}
 
 	@Test
 	public void testCalibratedValue() {
