@@ -45,6 +45,7 @@ import java.util.List;
 public class EnumeratedAxis extends AbstractCalibratedAxis {
 
 	private double[] values;
+	private boolean invertible;
 
 	/**
 	 * Creates an axis whose calibrated values are defined by the given list of
@@ -114,6 +115,17 @@ public class EnumeratedAxis extends AbstractCalibratedAxis {
 			throw new IllegalArgumentException("Need at least one value");
 		}
 		this.values = values;
+
+		// Check for monotonically increasing values, for invertibility.
+		// (While monotonically decreasing values would also be invertible,
+		// this implementation doesn't currently handle it.)
+		invertible = true;
+		for (int i = 0; i < values.length - 1; i++) {
+			if (values[i] >= values[i+1]) {
+				invertible = false;
+				break;
+			}
+		}
 	}
 
 	// -- Object methods --
@@ -162,10 +174,14 @@ public class EnumeratedAxis extends AbstractCalibratedAxis {
 
 	@Override
 	public double rawValue(final double calibratedValue) {
+		if (!invertible) {
+			throw new UnsupportedOperationException(
+				"Non-invertible calibration values");
+		}
+
 		if (values.length == 1) return 0; // Constant-valued axis.
 
 		// Binary search for the nearest calibrated values.
-		// NB: We assume monotonically increasing values!
 		final int index = Arrays.binarySearch(values, calibratedValue);
 		if (index >= 0) {
 			// Integer index with known calibrated value: return index directly.
