@@ -108,6 +108,20 @@ public class EnumeratedAxisTest extends AbstractAxisTest {
 	}
 
 	@Test
+	public void testWayOutOfBounds() {
+		final double[] values = {10, 10.001, 10.999, 11};
+		final EnumeratedAxis axis = new EnumeratedAxis(Axes.get("pancakes"), values);
+		final double bigValue = 50000;
+		final double bigIndex = 1000 * (bigValue - 11) + 3;
+		final double smallValue = -50000;
+		final double smallIndex = -1000 * (10 - smallValue);
+		assertEquals(bigValue, axis.calibratedValue(bigIndex), 1e-7);
+		assertEquals(bigIndex, axis.rawValue(bigValue), 1e-4);
+		assertEquals(smallValue, axis.calibratedValue(smallIndex), 1e-7);
+		assertEquals(smallIndex, axis.rawValue(smallValue), 1e-4);
+	}
+
+	@Test
 	public void testCopy() {
 		final double[] values = {2, 3, 5, 7, 11, 13, 17};
 		final EnumeratedAxis axis = new EnumeratedAxis(Axes.get("primes"), values);

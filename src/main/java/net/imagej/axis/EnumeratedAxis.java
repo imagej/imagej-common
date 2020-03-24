@@ -136,14 +136,11 @@ public class EnumeratedAxis extends AbstractCalibratedAxis {
 	@Override
 	public double calibratedValue(final double rawValue) {
 		if (values.length == 1) return values[0]; // Constant-valued axis.
-		if (rawValue >= Integer.MAX_VALUE) {
-			throw new IllegalArgumentException("Raw value too large: " + rawValue);
-		}
-		final int i0 = (int) Math.floor(rawValue);
-		final int i1 = (int) Math.ceil(rawValue);
+		final double i0 = Math.floor(rawValue);
+		final double i1 = Math.ceil(rawValue);
 		if (i0 == i1 && i0 >= 0 && i0 < values.length) {
 			// Integer index with known calibrated value: return it directly.
-			return values[i0];
+			return values[(int) i0];
 		}
 		if (i0 < 0) {
 			// Extrapolate from first two values.
@@ -160,7 +157,7 @@ public class EnumeratedAxis extends AbstractCalibratedAxis {
 		}
 		// Interpolate between two nearest values.
 		final double w = rawValue - i0;
-		return (1 - w) * values[i0] + w * values[i1];
+		return (1 - w) * values[(int) i0] + w * values[(int) i1];
 	}
 
 	@Override
