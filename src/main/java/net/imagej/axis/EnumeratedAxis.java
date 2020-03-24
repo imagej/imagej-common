@@ -58,14 +58,8 @@ public class EnumeratedAxis extends AbstractCalibratedAxis {
 	 *          out-of-bounds calibrated values are inferred by linear
 	 *          interpolation or extrapolation, respectively.
 	 */
-	public EnumeratedAxis(final AxisType type, final List<Double> values) {
-		super(type);
-
-		double[] values_arr = new double[values.size()];
-		for (int idx = 0; idx < values.size(); idx++) {
-			values_arr[idx] = values.get(idx);
-		}
-		setValues(values_arr);
+	public EnumeratedAxis(final AxisType type, final List<? extends Number> values) {
+		this(type, values.stream().mapToDouble(x -> x.doubleValue()).toArray());
 	}
 
 	/**
