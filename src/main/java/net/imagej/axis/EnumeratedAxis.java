@@ -165,11 +165,33 @@ public class EnumeratedAxis extends AbstractCalibratedAxis {
 
 	@Override
 	public double rawValue(final double calibratedValue) {
-		// NB: Assumes values array is sorted! We should document and/or enforce this.
+		if (values.length == 1) return 0; // Constant-valued axis.
+
+		// Binary search for the nearest calibrated values.
+		// NB: We assume monotonically increasing values!
 		final int index = Arrays.binarySearch(values, calibratedValue);
-		// TODO finish edge cases here.
-//		return index;
-		throw new UnsupportedOperationException("Unimplemented");
+		if (index >= 0) {
+			// Integer index with known calibrated value: return index directly.
+			return index;
+		}
+		final int i0 = -index - 2;
+		final int i1 = -index - 1;
+		if (i0 < 0) {
+			// Extrapolate from first two values.
+			final double slope = values[1] - values[0];
+			final double offset = values[0];
+			return (calibratedValue - offset) / slope;
+		}
+		if (i1 >= values.length) {
+			// Extrapolate from last two values.
+			final int len = values.length;
+			final double slope = values[len - 1] - values[len - 2];
+			final double offset = values[len - 1];
+			return (calibratedValue - offset) / slope + len - 1;
+		}
+		// Interpolate between two nearest values.
+		final double frac = (values[i1] - calibratedValue) / (values[i1] - values[i0]);
+		return i1 - frac;
 	}
 
 	@Override

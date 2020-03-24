@@ -68,9 +68,7 @@ public class EnumeratedAxisTest extends AbstractAxisTest {
 			assertEquals(values[i], axis.calibratedValue(i), 0.0);
 		}
 		// Verify interpolated coordinates.
-		assertEquals(3, axis.calibratedValue(1), 0.0);
 		assertEquals(4, axis.calibratedValue(1.5), 0.0);
-		assertEquals(5, axis.calibratedValue(2), 0.0);
 		assertEquals(10.5, axis.calibratedValue(3.875), 0.0);
 		// Verify extrapolated coordinates.
 		assertEquals(1, axis.calibratedValue(-1), 0.0);
@@ -85,11 +83,30 @@ public class EnumeratedAxisTest extends AbstractAxisTest {
 		assertEquals(393, axis.calibratedValue(100), 0.0);
 	}
 
-//	@Test
-//	public void testRawValue() {
-//		// TODO
-//	}
-//
+	@Test
+	public void testRawValue() {
+		final double[] values = {2, 3, 5, 7, 11, 13, 17};
+		final EnumeratedAxis axis = new EnumeratedAxis(Axes.get("primes"), values);
+		// Verify integer coordinates.
+		for (int i = 0; i < values.length; i++) {
+			assertEquals(i, axis.rawValue(values[i]), 0.0);
+		}
+		// Verify interpolated coordinates.
+		assertEquals(1.5, axis.rawValue(4), 0.0);
+		assertEquals(3.875, axis.rawValue(10.5), 0.0);
+		// Verify extrapolated coordinates.
+		assertEquals(-1, axis.rawValue(1), 0.0);
+		assertEquals(-1.5, axis.rawValue(0.5), 0.0);
+		assertEquals(-1.75, axis.rawValue(0.25), 0.0);
+		assertEquals(-2, axis.rawValue(0), 0.0);
+		assertEquals(-100, axis.rawValue(-98), 0.0);
+		assertEquals(7, axis.rawValue(21), 0.0);
+		assertEquals(7.5, axis.rawValue(23), 0.0);
+		assertEquals(7.8, axis.rawValue(24.2), 1e-15); // NB: Binary rounding error.
+		assertEquals(8, axis.rawValue(25), 0.0);
+		assertEquals(100, axis.rawValue(393), 0.0);
+	}
+
 	@Test
 	public void testCopy() {
 		final double[] values = {2, 3, 5, 7, 11, 13, 17};
