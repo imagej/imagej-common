@@ -32,6 +32,7 @@
 package net.imagej.axis;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * A {@link CalibratedAxis} whose coordinate values are explicitly enumerated by
@@ -44,6 +45,28 @@ import java.util.Arrays;
 public class EnumeratedAxis extends AbstractCalibratedAxis {
 
 	private double[] values;
+
+	/**
+	 * Creates an axis whose calibrated values are defined by the given list of
+	 * {@code values}. This is a convenience constructor which copies the list
+	 * values to a new array internally.
+	 * 
+	 * @param type The type of axis (e.g. {@link Axes#X} or {@link Axes#TIME}.
+	 * @param values List of calibrated values. The first element of the list is
+	 *          the calibrated value at raw position 0, the second element is the
+	 *          calibrated value at raw position 1, and so forth. Intermediate and
+	 *          out-of-bounds calibrated values are inferred by linear
+	 *          interpolation or extrapolation, respectively.
+	 */
+	public EnumeratedAxis(final AxisType type, final List<Double> values) {
+		super(type);
+
+		double[] values_arr = new double[values.size()];
+		for (int idx = 0; idx < values.size(); idx++) {
+			values_arr[idx] = values.get(idx);
+		}
+		setValues(values_arr);
+	}
 
 	/**
 	 * Creates an axis whose calibrated values are defined by the given
