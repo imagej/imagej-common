@@ -33,6 +33,7 @@ package net.imagej.axis;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 import java.util.List;
@@ -119,6 +120,15 @@ public class EnumeratedAxisTest extends AbstractAxisTest {
 		assertEquals(bigIndex, axis.rawValue(bigValue), 1e-4);
 		assertEquals(smallValue, axis.calibratedValue(smallIndex), 1e-7);
 		assertEquals(smallIndex, axis.rawValue(smallValue), 1e-4);
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void testNonInvertible() {
+		final double[] values = {3, 1, 4, 1, 5, 9, 2, 6};
+		final EnumeratedAxis axis = new EnumeratedAxis(Axes.get("pi"), values);
+		assertEquals(8, axis.calibratedValue(4.75), 0.0);
+		final double index = axis.rawValue(8);
+		fail("Unexpectedly successful inverse: " + index);
 	}
 
 	@Test
