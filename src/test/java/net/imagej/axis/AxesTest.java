@@ -31,12 +31,10 @@
 
 package net.imagej.axis;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
-import java.util.Comparator;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -50,26 +48,11 @@ public class AxesTest {
 	/** Tests {@link Axes#knownTypes()}. */
 	@Test
 	public void testKnownTypes() {
-		final AxisType[] knownTypes = Axes.knownTypes();
-		assertNotNull(knownTypes);
-		assertEquals(5, knownTypes.length);
-		sort(knownTypes);
-		assertSame(Axes.CHANNEL, knownTypes[0]);
-		assertSame(Axes.TIME, knownTypes[1]);
-		assertSame(Axes.X, knownTypes[2]);
-		assertSame(Axes.Y, knownTypes[3]);
-		assertSame(Axes.Z, knownTypes[4]);
+		final List<AxisType> knownTypes = Arrays.asList(Axes.knownTypes());
+		assertTrue(knownTypes.contains(Axes.CHANNEL));
+		assertTrue(knownTypes.contains(Axes.TIME));
+		assertTrue(knownTypes.contains(Axes.X));
+		assertTrue(knownTypes.contains(Axes.Y));
+		assertTrue(knownTypes.contains(Axes.Z));
 	}
-
-	private void sort(final AxisType[] axisTypes) {
-		Arrays.sort(axisTypes, 0, axisTypes.length, new Comparator<AxisType>() {
-
-			@Override
-			public int compare(final AxisType o1, final AxisType o2) {
-				return o1.getLabel().compareTo(o2.getLabel());
-			}
-
-		});
-	}
-
 }
