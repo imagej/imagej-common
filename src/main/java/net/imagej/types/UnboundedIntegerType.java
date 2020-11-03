@@ -143,6 +143,16 @@ public class UnboundedIntegerType implements IntegerType<UnboundedIntegerType> {
 		doMul(val);
 	}
 
+	@Override
+	public void pow(UnboundedIntegerType t) {
+		throw new UnsupportedOperationException("pow is not yet supported for UnboundedIntegerType");
+	}
+
+	@Override
+	public void pow(double power) {
+		throw new UnsupportedOperationException("pow is not yet supported for UnboundedIntegerType");
+	}
+
 	// -- helpers --
 
 	private void doMul(BigDecimal factor) {

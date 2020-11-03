@@ -468,6 +468,16 @@ public class BigComplex implements ComplexType<BigComplex> {
 		mul(new BigComplex(BigDecimal.valueOf(c), BigDecimal.ZERO));
 	}
 
+	@Override
+	public void pow(BigComplex t) {
+		throw new UnsupportedOperationException("pow is not yet supported for BigComplex");
+	}
+
+	@Override
+	public void pow(double power) {
+		throw new UnsupportedOperationException("pow is not yet supported for BigComplex");
+	}
+
 	/**
 	 * Does complex conjugation on self.
 	 */

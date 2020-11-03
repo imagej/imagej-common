@@ -244,6 +244,16 @@ public class PreciseFixedFloatType implements RealType<PreciseFixedFloatType> {
 	}
 
 	@Override
+	public void pow(PreciseFixedFloatType t) {
+		throw new UnsupportedOperationException("pow is not yet supported for PreciseFixedFloatType");
+	}
+
+	@Override
+	public void pow(double power) {
+		throw new UnsupportedOperationException("pow is not yet supported for PreciseFixedFloatType");
+	}
+
+	@Override
 	public void setZero() {
 		amount = BigInteger.ZERO;
 	}

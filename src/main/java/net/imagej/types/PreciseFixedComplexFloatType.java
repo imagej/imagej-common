@@ -195,6 +195,16 @@ public class PreciseFixedComplexFloatType implements
 	}
 
 	@Override
+	public void pow(PreciseFixedComplexFloatType t) {
+		throw new UnsupportedOperationException("pow is not yet supported for PreciseFixedComplexFloatType");
+	}
+
+	@Override
+	public void pow(double power) {
+		throw new UnsupportedOperationException("pow is not yet supported for PreciseFixedComplexFloatType");
+	}
+
+	@Override
 	public void setZero() {
 		real.setZero();
 		imag.setZero();
