@@ -29,22 +29,33 @@
 
 package net.imagej.roi;
 
+import net.imglib2.Interval;
+import net.imglib2.IterableInterval;
+import net.imglib2.Localizable;
 import net.imglib2.RandomAccessible;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.RealRandomAccessible;
 import net.imglib2.RealRandomAccessibleRealInterval;
+import net.imglib2.img.Img;
 import net.imglib2.roi.Mask;
 import net.imglib2.roi.MaskInterval;
 import net.imglib2.roi.MaskPredicate;
+import net.imglib2.roi.Masks;
 import net.imglib2.roi.RealMask;
 import net.imglib2.roi.RealMaskRealInterval;
+import net.imglib2.roi.Regions;
+import net.imglib2.roi.labeling.ImgLabeling;
+import net.imglib2.roi.labeling.LabelingType;
 import net.imglib2.type.logic.BoolType;
+import net.imglib2.type.numeric.integer.UnsignedShortType;
+import net.imglib2.util.Util;
 
 import org.scijava.convert.ConvertService;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import org.scijava.service.AbstractService;
 import org.scijava.service.Service;
+import org.scijava.util.TreeNode;
 
 /**
  * Default implementation of {@link ROIService}.
@@ -230,6 +241,23 @@ public class DefaultROIService extends AbstractService implements ROIService {
 		if (mri != null) return toRealRandomAccessibleRealInterval(mri);
 
 		throw cannotConvert(o, returnType);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ImgLabeling<?, ?> toImgLabeling(ROITree roiTree, Interval interval) {
+		Img<UnsignedShortType> img = Util.getSuitableImgFactory(interval, new UnsignedShortType()).create(interval);
+		ImgLabeling<Integer, UnsignedShortType> labeling = new ImgLabeling<>(img);
+
+		int i = 0;
+		for (TreeNode<?> roiNode : roiTree.children()) {
+			int value = ++i;
+			MaskPredicate<? super Localizable> roi = (MaskPredicate<? super Localizable>) roiNode.data();
+			Mask mask = Masks.emptyMask(roi.numDimensions()).or(roi); // roi is MaskPredicate, but we need Mask
+			IterableInterval<LabelingType<Integer>> region = Regions.sampleWithMask(mask, labeling);
+			region.forEach(t -> t.add(value));
+		}
+		return labeling;
 	}
 
 	// -- Helper methods --
