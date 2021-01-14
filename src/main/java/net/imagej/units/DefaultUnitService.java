@@ -54,6 +54,9 @@ import ucar.units.UnknownUnit;
  * Service for defining units and making unit conversions.
  *
  * @author Barry DeZonia
+ * @author Curtis Rueden
+ * @author Kyle Harrington
+ * @author Ulrik Günther
  */
 @Plugin(type = Service.class)
 public class DefaultUnitService extends AbstractService implements UnitService {

@@ -37,6 +37,9 @@ import org.junit.Test;
  * Tests {@link DefaultUnitService}.
  * 
  * @author Barry DeZonia
+ * @author Curtis Rueden
+ * @author Kyle Harrington
+ * @author Ulrik Günther
  */
 public class DefaultUnitServiceTest {
 
