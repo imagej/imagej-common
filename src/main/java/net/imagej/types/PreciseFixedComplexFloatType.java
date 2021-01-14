@@ -218,6 +218,18 @@ public class PreciseFixedComplexFloatType implements
 	}
 
 	@Override
+	public void pow(final PreciseFixedComplexFloatType c) {
+		setReal(Math.pow(getRealDouble(), c.getRealDouble()));
+		setImag(Math.pow(getImaginaryDouble(), c.getImaginaryDouble()));
+	}
+
+	@Override
+	public void pow(final double power) {
+		setReal(Math.pow(getRealDouble(), power));
+		setImaginary(Math.pow(getImaginaryDouble(), power));
+	}
+
+	@Override
 	public PreciseFixedComplexFloatType createVariable() {
 		return new PreciseFixedComplexFloatType();
 	}

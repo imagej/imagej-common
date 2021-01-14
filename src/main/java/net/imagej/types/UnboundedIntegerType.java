@@ -143,6 +143,16 @@ public class UnboundedIntegerType implements IntegerType<UnboundedIntegerType> {
 		doMul(val);
 	}
 
+	@Override
+	public void pow(final UnboundedIntegerType c) {
+		setReal(Math.pow(getRealDouble(), c.getRealDouble()));
+	}
+
+	@Override
+	public void pow(final double c) {
+		setReal(Math.pow(getRealDouble(), c));
+	}
+
 	// -- helpers --
 
 	private void doMul(BigDecimal factor) {

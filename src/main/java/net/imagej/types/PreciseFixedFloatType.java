@@ -208,6 +208,16 @@ public class PreciseFixedFloatType implements RealType<PreciseFixedFloatType> {
 	}
 
 	@Override
+	public void pow(final PreciseFixedFloatType c) {
+		setReal(Math.pow(getRealDouble(), c.getRealDouble()));
+	}
+
+	@Override
+	public void pow(final double c) {
+		setReal(Math.pow(getRealDouble(), c));
+	}
+
+	@Override
 	public void add(PreciseFixedFloatType v) {
 		add(this, v);
 	}

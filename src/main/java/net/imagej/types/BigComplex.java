@@ -468,6 +468,18 @@ public class BigComplex implements ComplexType<BigComplex> {
 		mul(new BigComplex(BigDecimal.valueOf(c), BigDecimal.ZERO));
 	}
 
+	@Override
+	public void pow(final BigComplex c) {
+		setReal(Math.pow(getRealDouble(), c.getRealDouble()));
+		setImag(Math.pow(getImaginaryDouble(), c.getImaginaryDouble()));
+	}
+
+	@Override
+	public void pow(final double power) {
+		setReal(Math.pow(getRealDouble(), power));
+		setImaginary(Math.pow(getImaginaryDouble(), power));
+	}
+
 	/**
 	 * Does complex conjugation on self.
 	 */

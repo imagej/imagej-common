@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.scijava</groupId>
 		<artifactId>pom-scijava</artifactId>
-		<version>28.0.0</version>
+		<version>29.2.1</version>
 		<relativePath />
 	</parent>
 
 	<groupId>net.imagej</groupId>
 	<artifactId>imagej-common</artifactId>
-	<version>0.33.1-SNAPSHOT</version>
+	<version>0.34.0-SNAPSHOT</version>
 
 	<name>ImageJ Common</name>
 	<description>This library contains ImageJ's core image data model, based on ImgLib2. It is the primary mechanism by which image data is managed internally by ImageJ2. This component also provides the corresponding core image display logic for user interfaces.</description>
