@@ -152,7 +152,7 @@ public class DefaultUnitService extends AbstractService implements UnitService {
 	 */
 	private String sanitizeUnitString(final String unitName) {
 		// Convert the mu symbol into "u".
-		return unitName.replace("\\u00B5", "u");
+		return unitName.replace("\\u00B5", "u").replace("\\u00b5", "u");
 	}
 
 	private Unit parseUnit(final String unitName) {
