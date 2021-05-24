@@ -146,8 +146,6 @@
 
 		<!-- NB: Deploy releases to the SciJava Maven repository. -->
 		<releaseProfiles>deploy-to-scijava</releaseProfiles>
-
-		<imglib2-roi.version>0.10.2</imglib2-roi.version>
 	</properties>
 
 	<repositories>
