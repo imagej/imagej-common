@@ -32,11 +32,11 @@ import org.scijava.convert.AbstractConverter;
 import org.scijava.convert.Converter;
 import org.scijava.plugin.Plugin;
 
-import net.imglib2.Cursor;
+import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;
+import net.imglib2.img.ImgView;
 import net.imglib2.loops.LoopBuilder;
 import net.imglib2.roi.labeling.ImgLabeling;
-import net.imglib2.roi.labeling.LabelingType;
 import net.imglib2.type.numeric.IntegerType;
 
 /**
@@ -51,37 +51,26 @@ import net.imglib2.type.numeric.IntegerType;
  */
 @SuppressWarnings("rawtypes")
 @Plugin(type = Converter.class)
-public class ImgToImgLabelingConverter<T extends IntegerType<T>> extends AbstractConverter<Img, ImgLabeling> {
+public class RandomAccessibleIntervalToImgLabelingConverter<T extends IntegerType<T>> extends AbstractConverter<RandomAccessibleInterval, ImgLabeling> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <L> L convert(Object img, Class<L> type) {
-		Img<T> indexImg = ((Img<T>) img).factory().create(((Img<T>) img));
+	public <L> L convert(Object rai, Class<L> type) {
+		Img<T> indexImg = ImgView.wrap((RandomAccessibleInterval<T>) rai).factory().create((RandomAccessibleInterval<T>) rai);
 		ImgLabeling<Integer, T> labeling = new ImgLabeling<>(indexImg);
 
-		LoopBuilder.setImages(((Img<T>) img), labeling).forEachPixel((i, l) -> {
+		LoopBuilder.setImages((RandomAccessibleInterval<T>) rai, labeling).forEachPixel((i, l) -> {
 			int v = i.getInteger();
 			if (v != 0)
 				l.add(v);
 		});
 
-//		Cursor<T> imgCursor = ((Img<T>) img).cursor();
-//		Cursor<LabelingType<Integer>> labelCursor = labeling.cursor();
-//		while (imgCursor.hasNext()) {
-//			T value = imgCursor.next();
-//			if (value.getInteger() == 0) {
-//				labelCursor.fwd();
-//			} else {
-//				labelCursor.next().add(value.getInteger());
-//			}
-//		}
-
 		return (L) labeling;
 	}
 
 	@Override
-	public Class<Img> getInputType() {
-		return Img.class;
+	public Class<RandomAccessibleInterval> getInputType() {
+		return RandomAccessibleInterval.class;
 	}
 
 	@Override
