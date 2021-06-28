@@ -37,6 +37,9 @@ import org.junit.Test;
  * Tests {@link DefaultUnitService}.
  * 
  * @author Barry DeZonia
+ * @author Curtis Rueden
+ * @author Kyle Harrington
+ * @author Ulrik Günther
  */
 public class DefaultUnitServiceTest {
 
@@ -87,5 +90,8 @@ public class DefaultUnitServiceTest {
 		final DefaultUnitService c = new DefaultUnitService();
 		assertEquals(0.1, c.value(100_000, "\\u00B5m", "meter"), 1e-16);
 		assertEquals(1_000_000.0, c.value(1, "meter", "\\u00B5m"), 0.0);
+
+		assertEquals(0.1, c.value(100_000, "\\u00b5m", "meter"), 1e-16);
+		assertEquals(1_000_000.0, c.value(1, "meter", "\\u00b5m"), 0.0);
 	}
 }
