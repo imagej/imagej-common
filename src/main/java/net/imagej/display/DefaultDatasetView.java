@@ -216,12 +216,12 @@ public class DefaultDatasetView extends AbstractDataView implements DatasetView
 
 				// Attempt to use the ColorTables attached to our ImgPlus
 				if (imgPlus != null) {
-					int planeIndex = 1;
+					int channelStride = 1;
 					for (int i=2; i<imgPlus.dimensionIndex(Axes.CHANNEL); i++) {
-						planeIndex *= imgPlus.dimension(i);
+						channelStride *= imgPlus.dimension(i);
 					}
-					planeIndex = planeIndex + c - 1;
 
+					int planeIndex = c * channelStride;
 					if (planeIndex < imgPlus.getColorTableCount()) ct =
 						imgPlus.getColorTable(planeIndex);
 				}
