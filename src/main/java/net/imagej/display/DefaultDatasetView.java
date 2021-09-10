@@ -1,8 +1,8 @@
 /*
  * #%L
- * ImageJ software for multidimensional image processing and analysis.
+ * ImageJ2 software for multidimensional image processing and analysis.
  * %%
- * Copyright (C) 2009 - 2021 ImageJ developers.
+ * Copyright (C) 2009 - 2021 ImageJ2 developers.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -263,12 +263,12 @@ public class DefaultDatasetView extends AbstractDataView implements DatasetView
 		projector.map();
 	}
 
-	// TODO - add this kind of mapping code to the Imglib Projector classes. Here
-	// it is just a workaround to make modern<->legacy color syncing happy. BDZ
+	// TODO - add this kind of mapping code to the ImgLib2 Projector classes.
+	// Here it is just a workaround to make ImageJ<->ImageJ2 color syncing happy.
 
 	/**
 	 * Reason from a channel collection and internal state what the closest color
-	 * is. This is needed for color synchronization with legacy ImageJ.
+	 * is. This is needed for color synchronization with the original ImageJ.
 	 */
 	@Override
 	public synchronized ColorRGB getColor(final ChannelCollection channels) {

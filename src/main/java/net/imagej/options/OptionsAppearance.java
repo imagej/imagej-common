@@ -1,8 +1,8 @@
 /*
  * #%L
- * ImageJ software for multidimensional image processing and analysis.
+ * ImageJ2 software for multidimensional image processing and analysis.
  * %%
- * Copyright (C) 2009 - 2021 ImageJ developers.
+ * Copyright (C) 2009 - 2021 ImageJ2 developers.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -74,8 +74,8 @@ public class OptionsAppearance extends OptionsPlugin {
 	@Parameter(label = "Menu font size (points)", min = "0")
 	private int menuFontSize = 0;
 
-	// NOTE - this one is not part of legacy ImageJ but is a modern ImageJ
-	// enhancement
+	// NOTE - this one is not part of the original ImageJ,
+	// but is an ImageJ2 enhancement
 	@Parameter(label = "Display fractional scales")
 	private boolean displayFractionalScales = false;
 

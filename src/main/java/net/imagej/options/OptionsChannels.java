@@ -1,8 +1,8 @@
 /*
  * #%L
- * ImageJ software for multidimensional image processing and analysis.
+ * ImageJ2 software for multidimensional image processing and analysis.
  * %%
- * Copyright (C) 2009 - 2021 ImageJ developers.
+ * Copyright (C) 2009 - 2021 ImageJ2 developers.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -79,8 +79,8 @@ public class OptionsChannels extends OptionsPlugin {
 
 	// -- instance variables that are not Parameters --
 
-	private ChannelCollection fgValues; // used by modern ImageJ consumers
-	private ChannelCollection bgValues; // used by modern ImageJ consumers
+	private ChannelCollection fgValues; // used by ImageJ2 consumers
+	private ChannelCollection bgValues; // used by ImageJ2 consumers
 
 	// -- OptionsChannels methods --
 

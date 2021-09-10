@@ -1,8 +1,8 @@
 /*
  * #%L
- * ImageJ software for multidimensional image processing and analysis.
+ * ImageJ2 software for multidimensional image processing and analysis.
  * %%
- * Copyright (C) 2009 - 2021 ImageJ developers.
+ * Copyright (C) 2009 - 2021 ImageJ2 developers.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -32,7 +32,7 @@ package net.imagej;
 import org.scijava.service.Service;
 
 /**
- * Marker interface for all ImageJ {@link Service}s.
+ * Marker interface for all ImageJ2 {@link Service}s.
  * 
  * @author Mark Hiner
  */

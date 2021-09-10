@@ -1,8 +1,8 @@
 /*
  * #%L
- * ImageJ software for multidimensional image processing and analysis.
+ * ImageJ2 software for multidimensional image processing and analysis.
  * %%
- * Copyright (C) 2009 - 2021 ImageJ developers.
+ * Copyright (C) 2009 - 2021 ImageJ2 developers.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -174,10 +174,10 @@ public class ConfigFileParameters extends AbstractContextual {
 	 */
 	private void initialize() {
 		setDefaultValues(dataMap);
-		if (isLegacyConfigFile(configFile)) {
-			loadLegacyConfigValues(dataMap, configFile);
+		if (isImageJConfigFile(configFile)) {
+			loadImageJConfigValues(dataMap, configFile);
 		}
-		else loadModernConfigValues(dataMap, configFile);
+		else loadImageJ2ConfigValues(dataMap, configFile);
 	}
 
 	/** Saves current values to the launcher config file. */
@@ -196,7 +196,7 @@ public class ConfigFileParameters extends AbstractContextual {
 	 * Returns true if specified config file is an old legacy style launcher
 	 * config file.
 	 */
-	private boolean isLegacyConfigFile(final File file) {
+	private boolean isImageJConfigFile(final File file) {
 		if (!file.exists()) return false;
 		try {
 			final FileInputStream fstream = new FileInputStream(file);
@@ -213,7 +213,7 @@ public class ConfigFileParameters extends AbstractContextual {
 	}
 
 	/** Loads launcher config file values from an old legacy style file. */
-	private boolean loadLegacyConfigValues(final Map<String, String> map,
+	private boolean loadImageJConfigValues(final Map<String, String> map,
 		final File file)
 	{
 		if (!file.exists()) return false;
@@ -241,8 +241,8 @@ public class ConfigFileParameters extends AbstractContextual {
 		}
 	}
 
-	/** Loads launcher config file values from a modern ImageJ style file. */
-	private boolean loadModernConfigValues(final Map<String, String> map,
+	/** Loads launcher config file values from an ImageJ2-style file. */
+	private boolean loadImageJ2ConfigValues(final Map<String, String> map,
 		final File file)
 	{
 		if (!file.exists()) return false;
@@ -276,7 +276,7 @@ public class ConfigFileParameters extends AbstractContextual {
 	}
 
 	/**
-	 * Writes launcher config values to a modern ImageJ style launcher config
+	 * Writes launcher config values to an ImageJ2-style launcher config
 	 * file.
 	 */
 	private void
