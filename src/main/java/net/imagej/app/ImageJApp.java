@@ -37,7 +37,7 @@ import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
 /**
- * Application metadata about ImageJ.
+ * Application metadata about ImageJ2.
  * 
  * @author Curtis Rueden
  * @see org.scijava.app.AppService
@@ -45,7 +45,7 @@ import org.scijava.plugin.Plugin;
 @Plugin(type = App.class, name = ImageJApp.NAME, priority = ImageJApp.PRIORITY)
 public class ImageJApp extends AbstractApp {
 
-	public static final String NAME = "ImageJ";
+	public static final String NAME = "ImageJ2";
 	public static final double PRIORITY = Priority.HIGH_PRIORITY;
 
 	@Parameter
