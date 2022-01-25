@@ -1,3 +1,4 @@
+
 package net.imagej.convert;
 
 import static org.junit.Assert.assertEquals;
@@ -23,30 +24,30 @@ import net.imglib2.type.operators.ValueEquals;
 
 @RunWith(Parameterized.class)
 public class NumberAndTypeConversionTest {
-	
-	@Parameters(name="Type conversion test {index}: {0} <=> {1}")
+
+	@Parameters(name = "Type conversion test {index}: {0} <=> {1}")
 	public static Iterable<Object[]> data() {
-		return Arrays.asList(new Object[][] {
-				{ Double.POSITIVE_INFINITY, new DoubleType(Double.POSITIVE_INFINITY)},
-				{ Float.NEGATIVE_INFINITY, new FloatType(Float.NEGATIVE_INFINITY)},
-				{ Integer.MAX_VALUE, new IntType(Integer.MAX_VALUE)},
-				{ Long.MAX_VALUE, new LongType(Long.MAX_VALUE)},
-				{ 255, new UnsignedByteType(255)},
-				// Do one for each RealType
-				{ 0, new UnsignedByteType((byte) 0)},
-				{ 0L, new Unsigned2BitType((byte) 0)},
-				{ 0L, new Unsigned4BitType((byte) 0)},
-				{ 0L, new Unsigned12BitType((byte) 0)},
-				{ 0L, new UnsignedIntType((byte) 0)},
-				{ 0, new UnsignedShortType((byte) 0)},
-				{ 0L, new UnsignedLongType((byte) 0)},
-				{ (byte) 0, new ByteType((byte) 0)},
-				{ 0, new IntType(0)},
-				{ 0L, new LongType(0L)},
-				{ (short) 0, new ShortType((short) 0)},
-				{ 0., new DoubleType(0.)},
-				{ 0.F, new FloatType(0f)}
-			});
+		return Arrays.asList(new Object[][] { { Double.POSITIVE_INFINITY,
+			new DoubleType(Double.POSITIVE_INFINITY) }, //
+			{ Float.NEGATIVE_INFINITY, new FloatType(Float.NEGATIVE_INFINITY) }, //
+			{ Integer.MAX_VALUE, new IntType(Integer.MAX_VALUE) }, //
+			{ Long.MAX_VALUE, new LongType(Long.MAX_VALUE) }, //
+			{ 255, new UnsignedByteType(255) }, //
+			// Do one for each RealType //
+			{ 0, new UnsignedByteType((byte) 0) }, //
+			{ 0L, new Unsigned2BitType((byte) 0) }, //
+			{ 0L, new Unsigned4BitType((byte) 0) }, //
+			{ 0L, new Unsigned12BitType((byte) 0) }, //
+			{ 0L, new UnsignedIntType((byte) 0) }, //
+			{ 0, new UnsignedShortType((byte) 0) }, //
+			{ 0L, new UnsignedLongType((byte) 0) }, //
+			{ (byte) 0, new ByteType((byte) 0) }, //
+			{ 0, new IntType(0) }, //
+			{ 0L, new LongType(0L) }, //
+			{ (short) 0, new ShortType((short) 0) }, //
+			{ 0., new DoubleType(0.) }, //
+			{ 0.F, new FloatType(0f) } //
+		});
 	}
 
 	@Parameter(0)
@@ -75,9 +76,12 @@ public class NumberAndTypeConversionTest {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void testNumberToNumericType() {
-		assertTrue("Conversion support from number to numeric type", convertService.supports(number, numericType.getClass()));
-		ValueEquals converted = (ValueEquals) convertService.convert(number, numericType.getClass());
-		assertTrue("Converted type value equality", converted.valueEquals(numericType));
+		assertTrue("Conversion support from number to numeric type", convertService
+			.supports(number, numericType.getClass()));
+		ValueEquals converted = (ValueEquals) convertService.convert(number,
+			numericType.getClass());
+		assertTrue("Converted type value equality", converted.valueEquals(
+			numericType));
 	}
 
 	/**
@@ -85,8 +89,10 @@ public class NumberAndTypeConversionTest {
 	 */
 	@Test
 	public void testNumericTypeToNumber() {
-		assertTrue("Conversion support from numeric type to number", convertService.supports(numericType, number.getClass()));
-		Number converted = (Number) convertService.convert(numericType, number.getClass());
+		assertTrue("Conversion support from numeric type to number", convertService
+			.supports(numericType, number.getClass()));
+		Number converted = (Number) convertService.convert(numericType, number
+			.getClass());
 		assertEquals("Converted value equality", number, converted);
 	}
 }

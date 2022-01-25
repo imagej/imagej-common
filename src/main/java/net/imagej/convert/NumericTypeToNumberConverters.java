@@ -1,3 +1,4 @@
+
 package net.imagej.convert;
 
 import net.imglib2.type.numeric.integer.*;
@@ -40,7 +41,7 @@ public class NumericTypeToNumberConverters {
 
 	@Plugin(type = Converter.class)
 	public static class ByteTypeToByteConverter extends
-			NumericTypeToNumberConverter<ByteType, Byte>
+		NumericTypeToNumberConverter<ByteType, Byte>
 	{
 
 		@Override
@@ -103,7 +104,7 @@ public class NumericTypeToNumberConverters {
 
 	@Plugin(type = Converter.class)
 	public static class ShortTypeToShortConverter extends
-			NumericTypeToNumberConverter<ShortType, Short>
+		NumericTypeToNumberConverter<ShortType, Short>
 	{
 
 		@Override
@@ -166,7 +167,7 @@ public class NumericTypeToNumberConverters {
 
 	@Plugin(type = Converter.class)
 	public static class Unsigned2BitTypeToLongConverter extends
-			NumericTypeToNumberConverter<Unsigned2BitType, Long>
+		NumericTypeToNumberConverter<Unsigned2BitType, Long>
 	{
 
 		@Override
@@ -187,7 +188,7 @@ public class NumericTypeToNumberConverters {
 
 	@Plugin(type = Converter.class)
 	public static class Unsigned4BitTypeToLongConverter extends
-			NumericTypeToNumberConverter<Unsigned4BitType, Long>
+		NumericTypeToNumberConverter<Unsigned4BitType, Long>
 	{
 
 		@Override
@@ -208,7 +209,7 @@ public class NumericTypeToNumberConverters {
 
 	@Plugin(type = Converter.class)
 	public static class Unsigned12BitTypeToLongConverter extends
-			NumericTypeToNumberConverter<Unsigned12BitType, Long>
+		NumericTypeToNumberConverter<Unsigned12BitType, Long>
 	{
 
 		@Override
@@ -229,7 +230,7 @@ public class NumericTypeToNumberConverters {
 
 	@Plugin(type = Converter.class)
 	public static class UnsignedIntTypeToLongConverter extends
-			NumericTypeToNumberConverter<UnsignedIntType, Long>
+		NumericTypeToNumberConverter<UnsignedIntType, Long>
 	{
 
 		@Override
@@ -250,7 +251,7 @@ public class NumericTypeToNumberConverters {
 
 	@Plugin(type = Converter.class)
 	public static class UnsignedShortTypeToIntegerConverter extends
-			NumericTypeToNumberConverter<UnsignedShortType, Integer>
+		NumericTypeToNumberConverter<UnsignedShortType, Integer>
 	{
 
 		@Override
@@ -271,7 +272,7 @@ public class NumericTypeToNumberConverters {
 
 	@Plugin(type = Converter.class)
 	public static class UnsignedLongTypeToLongConverter extends
-			NumericTypeToNumberConverter<UnsignedLongType, Long>
+		NumericTypeToNumberConverter<UnsignedLongType, Long>
 	{
 
 		@Override
