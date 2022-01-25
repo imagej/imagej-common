@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 
+import net.imglib2.type.numeric.IntegerType;
+import net.imglib2.type.numeric.integer.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,9 +18,6 @@ import org.scijava.Context;
 import org.scijava.convert.ConvertService;
 
 import net.imglib2.type.numeric.NumericType;
-import net.imglib2.type.numeric.integer.IntType;
-import net.imglib2.type.numeric.integer.LongType;
-import net.imglib2.type.numeric.integer.UnsignedByteType;
 import net.imglib2.type.numeric.real.DoubleType;
 import net.imglib2.type.numeric.real.FloatType;
 import net.imglib2.type.operators.ValueEquals;
@@ -33,7 +32,14 @@ public class NumberAndTypeConversionTest {
 				{new Float(Float.NEGATIVE_INFINITY), new FloatType(Float.NEGATIVE_INFINITY)},
 				{new Integer(Integer.MAX_VALUE), new IntType(Integer.MAX_VALUE)},
 				{new Long(Long.MAX_VALUE), new LongType(Long.MAX_VALUE)},
-				{new Integer(255), new UnsignedByteType(255)}
+				{new Integer(255), new UnsignedByteType(255)},
+				// Do one for each RealType
+				{new Byte((byte) 0), new ByteType((byte) 0)},
+				{new Integer(0), new IntType(0)},
+				{new Long(0), new LongType(0l)},
+				{new Short((short) 0), new ShortType((short) 0)},
+				{new Double(0.), new DoubleType(0.)},
+				{new Float(0.), new FloatType(0f)}
 			});
 	}
 
