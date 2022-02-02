@@ -28,9 +28,9 @@
  */
 package net.imagej.convert;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,6 +45,8 @@ import net.imglib2.img.array.ArrayImgs;
 import net.imglib2.roi.labeling.ImgLabeling;
 import net.imglib2.type.numeric.IntegerType;
 import net.imglib2.type.numeric.integer.UnsignedByteType;
+import net.imglib2.view.IntervalView;
+import net.imglib2.view.Views;
 
 public class ImgLabelingConversionTest {
 
@@ -66,7 +68,7 @@ public class ImgLabelingConversionTest {
 	public void testImgToImgLabelingConversion() {
 		Img<UnsignedByteType> img = createTestImg();
 		assertTrue(convertService.supports(img, ImgLabeling.class));
-		assertEquals(ImgToImgLabelingConverter.class, convertService.getHandler(img, ImgLabeling.class).getClass());
+		assertEquals(RandomAccessibleIntervalToImgLabelingConverter.class, convertService.getHandler(img, ImgLabeling.class).getClass());
 
 		ImgLabeling<?, ?> labeling = convertService.convert(img, ImgLabeling.class);
 		assertEquals(3, labeling.getMapping().numSets());
@@ -89,6 +91,17 @@ public class ImgLabelingConversionTest {
 		ImgLabeling<?, ?> labeling = convertService.convert(img, ImgLabeling.class);
 		Img<?> converted = convertService.convert(labeling, Img.class);
 		assertEquals(img.firstElement().getInteger(), ((IntegerType<?>)converted.firstElement()).getInteger());
+	}
+
+	@Test
+	public void testIntervalViewToImgLabelingConversion() {
+		Img<UnsignedByteType> img = createTestImg();
+		IntervalView<UnsignedByteType> slice = Views.hyperSlice(img, 0, 1);
+		assertTrue(convertService.supports(slice, ImgLabeling.class));
+		assertEquals(RandomAccessibleIntervalToImgLabelingConverter.class, convertService.getHandler(slice, ImgLabeling.class).getClass());
+
+		ImgLabeling<?, ?> labeling = convertService.convert(slice, ImgLabeling.class);
+		assertEquals(3, labeling.getMapping().numSets());
 	}
 
 	private ImgLabeling<Integer, UnsignedByteType> createTestImgLabeling() {
