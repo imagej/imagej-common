@@ -54,6 +54,9 @@ import ucar.units.UnknownUnit;
  * Service for defining units and making unit conversions.
  *
  * @author Barry DeZonia
+ * @author Curtis Rueden
+ * @author Kyle Harrington
+ * @author Ulrik Günther
  */
 @Plugin(type = Service.class)
 public class DefaultUnitService extends AbstractService implements UnitService {
@@ -152,7 +155,7 @@ public class DefaultUnitService extends AbstractService implements UnitService {
 	 */
 	private String sanitizeUnitString(final String unitName) {
 		// Convert the mu symbol into "u".
-		return unitName.replace("\\u00B5", "u");
+		return unitName.replace("\\u00B5", "u").replace("\\u00b5", "u");
 	}
 
 	private Unit parseUnit(final String unitName) {
