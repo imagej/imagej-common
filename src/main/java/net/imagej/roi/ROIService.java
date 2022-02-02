@@ -36,6 +36,7 @@ import java.util.List;
 
 import net.imagej.Dataset;
 import net.imagej.ImageJService;
+import net.imglib2.Interval;
 import net.imglib2.KDTree;
 import net.imglib2.RandomAccessible;
 import net.imglib2.RandomAccessibleInterval;
@@ -60,6 +61,7 @@ import net.imglib2.roi.geom.real.WritablePolyline;
 import net.imglib2.roi.geom.real.WritableRealPointCollection;
 import net.imglib2.roi.geom.real.WritableSphere;
 import net.imglib2.roi.geom.real.WritableSuperEllipsoid;
+import net.imglib2.roi.labeling.ImgLabeling;
 import net.imglib2.type.logic.BoolType;
 
 import org.scijava.service.Service;
@@ -582,4 +584,16 @@ public interface ROIService extends ImageJService {
 		return GeomMasks.openSuperEllipsoid(center, semiAxisLengths,
 			exponent);
 	}
+
+	/**
+	 * Get the ROIs of a {@link Dataset} as {@link ImgLabeling}
+	 */
+	default ImgLabeling<?, ?> toImgLabeling(Dataset dataset) {
+		return toImgLabeling(getROIs(dataset), dataset);
+	}
+
+	/**
+	 * Convert the ROIs in a
+	 */
+	ImgLabeling<?, ?> toImgLabeling(ROITree roiTree, Interval interval);
 }
