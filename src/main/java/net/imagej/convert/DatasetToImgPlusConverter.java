@@ -44,7 +44,7 @@ import org.scijava.plugin.Plugin;
  * @author Mark Hiner hinerm at gmail.com
  */
 @SuppressWarnings("rawtypes")
-@Plugin(type = Converter.class, priority = Priority.NORMAL_PRIORITY + 1)
+@Plugin(type = Converter.class, priority = Priority.NORMAL + 1)
 public class DatasetToImgPlusConverter extends AbstractConverter<Dataset, ImgPlus>{
 
 	@SuppressWarnings("unchecked")
