@@ -61,6 +61,27 @@ public class ConvertROITreeToMaskTest {
 				ClosedWritableEllipsoid.class //
 			}, //
 			new Object[] { //
+				new OpenWritableEllipsoid( //
+					new double[] { 0, 0 }, //
+					new double[] { 5, 10 } //
+				), //
+				OpenWritableEllipsoid.class //
+			}, //
+			new Object[] { //
+				new ClosedWritableSphere( //
+					new double[] { 0, 0 }, //
+					10 //
+				), //
+				ClosedWritableSphere.class //
+			}, //
+			new Object[] { //
+				new OpenWritableSphere( //
+					new double[] { 0, 0 }, //
+					10 //
+				), //
+				OpenWritableSphere.class //
+			}, //
+			new Object[] { //
 				new ClosedWritableBox( //
 					new double[] { 0, 0 }, //
 					new double[] { 5, 10 } //
@@ -68,11 +89,25 @@ public class ConvertROITreeToMaskTest {
 				ClosedWritableBox.class //
 			}, //
 			new Object[] { //
+				new OpenWritableBox( //
+					new double[] { 0, 0 }, //
+					new double[] { 5, 10 } //
+				), //
+				OpenWritableBox.class //
+			}, //
+			new Object[] { //
 				new ClosedWritablePolygon2D( //
 					new double[] { 0, 3, 4 }, //
 					new double[] { 0, 0, 4 } //
 				), //
 				ClosedWritablePolygon2D.class //
+			}, //
+			new Object[] { //
+				new OpenWritablePolygon2D( //
+					new double[] { 0, 3, 4 }, //
+					new double[] { 0, 0, 4 } //
+				), //
+				OpenWritablePolygon2D.class //
 			}, //
 			new Object[] { //
 				new DefaultWritableLine( //

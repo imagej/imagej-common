@@ -2,11 +2,7 @@
 package net.imagej.convert;
 
 import net.imglib2.roi.RealMask;
-import net.imglib2.roi.geom.real.ClosedWritableBox;
-import net.imglib2.roi.geom.real.ClosedWritableEllipsoid;
-import net.imglib2.roi.geom.real.ClosedWritablePolygon2D;
-import net.imglib2.roi.geom.real.DefaultWritableLine;
-import net.imglib2.roi.geom.real.DefaultWritablePolyline;
+import net.imglib2.roi.geom.real.*;
 import org.scijava.Priority;
 import org.scijava.convert.Converter;
 import org.scijava.plugin.Plugin;
@@ -30,6 +26,39 @@ public class ROITreeToMaskPredicateConverters {
 	}
 
 	@Plugin(type = Converter.class)
+	public static class ROITreeToOpenWritableEllipsoidConverter extends
+			ROITreeToMaskPredicateConverter<OpenWritableEllipsoid>
+	{
+
+		@Override
+		public Class<OpenWritableEllipsoid> getOutputType() {
+			return OpenWritableEllipsoid.class;
+		}
+	}
+
+	@Plugin(type = Converter.class)
+	public static class ROITreeToClosedWritableSphereConverter extends
+			ROITreeToMaskPredicateConverter<ClosedWritableSphere>
+	{
+
+		@Override
+		public Class<ClosedWritableSphere> getOutputType() {
+			return ClosedWritableSphere.class;
+		}
+	}
+
+	@Plugin(type = Converter.class)
+	public static class ROITreeToOpenWritableSphereConverter extends
+			ROITreeToMaskPredicateConverter<OpenWritableSphere>
+	{
+
+		@Override
+		public Class<OpenWritableSphere> getOutputType() {
+			return OpenWritableSphere.class;
+		}
+	}
+
+	@Plugin(type = Converter.class)
 	public static class ROITreeToClosedWritableBoxConverter extends
 		ROITreeToMaskPredicateConverter<ClosedWritableBox>
 	{
@@ -41,6 +70,17 @@ public class ROITreeToMaskPredicateConverters {
 	}
 
 	@Plugin(type = Converter.class)
+	public static class ROITreeToOpenWritableBoxConverter extends
+			ROITreeToMaskPredicateConverter<OpenWritableBox>
+	{
+
+		@Override
+		public Class<OpenWritableBox> getOutputType() {
+			return OpenWritableBox.class;
+		}
+	}
+
+	@Plugin(type = Converter.class)
 	public static class ROITreeToClosedWritablePolygon2DConverter extends
 		ROITreeToMaskPredicateConverter<ClosedWritablePolygon2D>
 	{
@@ -48,6 +88,17 @@ public class ROITreeToMaskPredicateConverters {
 		@Override
 		public Class<ClosedWritablePolygon2D> getOutputType() {
 			return ClosedWritablePolygon2D.class;
+		}
+	}
+
+	@Plugin(type = Converter.class)
+	public static class ROITreeToOpenWritablePolygon2DConverter extends
+			ROITreeToMaskPredicateConverter<OpenWritablePolygon2D>
+	{
+
+		@Override
+		public Class<OpenWritablePolygon2D> getOutputType() {
+			return OpenWritablePolygon2D.class;
 		}
 	}
 

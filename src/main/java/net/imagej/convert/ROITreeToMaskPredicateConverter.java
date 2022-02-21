@@ -16,7 +16,7 @@ import java.lang.reflect.Type;
  *
  * @author Gabriel Selzer
  */
-public abstract class ROITreeToMaskPredicateConverter<M extends MaskPredicate<RealLocalizable>>
+public abstract class ROITreeToMaskPredicateConverter<M extends MaskPredicate<? extends RealLocalizable>>
 	extends AbstractConverter<ROITree, M> //
 {
 
