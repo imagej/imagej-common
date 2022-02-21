@@ -23,8 +23,8 @@ import java.util.function.Predicate;
 
 /**
  * Test {@link ROITreeToMaskPredicateConverter} and
- * {@link ROITreeToMaskPredicateConverters}.
- * 
+ * {@link MaskPredicateToROITreeConverter}.
+ *
  * @author Gabriel Selzer
  */
 @RunWith(Parameterized.class)

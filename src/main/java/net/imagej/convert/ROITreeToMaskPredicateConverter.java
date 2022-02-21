@@ -2,10 +2,10 @@
 package net.imagej.convert;
 
 import net.imagej.roi.ROITree;
-import net.imglib2.RealLocalizable;
 import net.imglib2.roi.MaskPredicate;
 import org.scijava.convert.Converter;
 import org.scijava.convert.AbstractConverter;
+import org.scijava.plugin.Plugin;
 import org.scijava.util.TreeNode;
 import org.scijava.util.Types;
 
@@ -16,8 +16,9 @@ import java.lang.reflect.Type;
  *
  * @author Gabriel Selzer
  */
-public abstract class ROITreeToMaskPredicateConverter<M extends MaskPredicate<? extends RealLocalizable>>
-	extends AbstractConverter<ROITree, M> //
+@Plugin(type = Converter.class)
+public class ROITreeToMaskPredicateConverter extends
+	AbstractConverter<ROITree, MaskPredicate> //
 {
 
 	@Override
@@ -28,7 +29,8 @@ public abstract class ROITreeToMaskPredicateConverter<M extends MaskPredicate<? 
 	@Override
 	public boolean canConvert(final Object src, final Class<?> dest) {
 		// Assert that src is a ROITree and dest a MaskPredicate
-		if (!super.canConvert(src, dest)) return false;
+		if (!(src instanceof ROITree)) return false;
+		if (!(MaskPredicate.class.isAssignableFrom(dest))) return false;
 		ROITree srcTree = (ROITree) src;
 		// Assert exactly one ROI in the tree
 		if (srcTree.children().size() != 1) return false;
@@ -39,6 +41,22 @@ public abstract class ROITreeToMaskPredicateConverter<M extends MaskPredicate<? 
 		return dest.isInstance(onlyChild.data());
 	}
 
+	/**
+	 * Overriding {@link AbstractConverter#canConvert(Class, Class)} to avoid
+	 * failures from that behavior.
+	 * 
+	 * @param src the {@link Class} converted from
+	 * @param dest the {@link Class} converted to
+	 * @return true iff this {@link Converter} can convert from {@code from} to
+	 *         {@code to}
+	 */
+	@Override
+	public boolean canConvert(final Class<?> src, final Class<?> dest) {
+		if (!(ROITree.class.isAssignableFrom(src))) return false;
+		if (!(MaskPredicate.class.isAssignableFrom(dest))) return false;
+		return true;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T convert(final Object src, final Class<T> dest) {
@@ -47,7 +65,9 @@ public abstract class ROITreeToMaskPredicateConverter<M extends MaskPredicate<? 
 	}
 
 	@Override
-	public abstract Class<M> getOutputType();
+	public Class<MaskPredicate> getOutputType() {
+		return MaskPredicate.class;
+	}
 
 	@Override
 	public Class<ROITree> getInputType() {
