@@ -1,11 +1,13 @@
 
 package net.imagej.convert;
 
+import net.imglib2.roi.RealMask;
 import net.imglib2.roi.geom.real.ClosedWritableBox;
 import net.imglib2.roi.geom.real.ClosedWritableEllipsoid;
 import net.imglib2.roi.geom.real.ClosedWritablePolygon2D;
 import net.imglib2.roi.geom.real.DefaultWritableLine;
 import net.imglib2.roi.geom.real.DefaultWritablePolyline;
+import org.scijava.Priority;
 import org.scijava.convert.Converter;
 import org.scijava.plugin.Plugin;
 
@@ -14,8 +16,7 @@ import org.scijava.plugin.Plugin;
  *
  * @author Gabriel Selzer
  */
-public class ROITreeToMaskPredicateConverters
-{
+public class ROITreeToMaskPredicateConverters {
 
 	@Plugin(type = Converter.class)
 	public static class ROITreeToClosedWritableEllipsoidConverter extends
@@ -71,4 +72,16 @@ public class ROITreeToMaskPredicateConverters
 			return DefaultWritablePolyline.class;
 		}
 	}
+
+	@Plugin(type = Converter.class, priority = Priority.LOW)
+	public static class ROITreeToRealMaskConverter extends
+			ROITreeToMaskPredicateConverter<RealMask>
+	{
+
+		@Override
+		public Class<RealMask> getOutputType() {
+			return RealMask.class;
+		}
+	}
+
 }

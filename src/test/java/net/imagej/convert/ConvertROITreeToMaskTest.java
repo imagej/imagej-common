@@ -6,22 +6,19 @@ import net.imagej.roi.ROITree;
 import net.imglib2.RealLocalizable;
 import net.imglib2.RealPoint;
 import net.imglib2.roi.MaskPredicate;
+import net.imglib2.roi.RealMask;
 import net.imglib2.roi.geom.real.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.scijava.Context;
 import org.scijava.convert.ConvertService;
 import org.scijava.util.TreeNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Test {@link ROITreeToMaskPredicateConverter} and
@@ -45,34 +42,72 @@ public class ConvertROITreeToMaskTest {
 		c = null;
 	}
 
+	// The first index in data
 	@Parameterized.Parameter
 	public MaskPredicate<?> ROI;
 
-	@Parameterized.Parameters(name = "{index}: ROI - {0}")
-	public static Object[] data() {
-		return new Object[] { //
-			new ClosedWritableEllipsoid( //
-				new double[] { 0, 0 }, //
-				new double[] { 5, 10 } //
-			), //
-			new ClosedWritableBox( //
-				new double[] { 0, 0 }, //
-				new double[] { 5, 10 } //
-			), //
-			new ClosedWritablePolygon2D( //
-				new double[] { 0, 3, 4 }, //
-				new double[] { 0, 0, 4 } //
-			), //
-			new DefaultWritableLine( //
-				new double[] { 0, 0 }, //
-				new double[] { 5, 5 }, //
-				true), //
-			new DefaultWritablePolyline(Arrays.asList( //
-				new RealPoint(0, 0), //
-				new RealPoint(1, 1), //
-				new RealPoint(2, 0) //
-			)) //
-		};
+	// The second index in data
+	@Parameterized.Parameter(1)
+	public Class<MaskPredicate<?>> ROIClass;
+
+	@Parameterized.Parameters(name = "{index}: ROITree <-> {1}")
+	public static Collection<Object[]> data() {
+		return Arrays.asList( //
+			new Object[] { //
+				new ClosedWritableEllipsoid( //
+					new double[] { 0, 0 }, //
+					new double[] { 5, 10 } //
+				), //
+				ClosedWritableEllipsoid.class //
+			}, //
+			new Object[] { //
+				new ClosedWritableBox( //
+					new double[] { 0, 0 }, //
+					new double[] { 5, 10 } //
+				), //
+				ClosedWritableBox.class //
+			}, //
+			new Object[] { //
+				new ClosedWritablePolygon2D( //
+					new double[] { 0, 3, 4 }, //
+					new double[] { 0, 0, 4 } //
+				), //
+				ClosedWritablePolygon2D.class //
+			}, //
+			new Object[] { //
+				new DefaultWritableLine( //
+					new double[] { 0, 0 }, //
+					new double[] { 5, 5 }, //
+					true //
+				), //
+				DefaultWritableLine.class, //
+			}, //
+			new Object[] { //
+				new DefaultWritablePolyline(Arrays.asList( //
+					new RealPoint(0, 0), //
+					new RealPoint(1, 1), //
+					new RealPoint(2, 0) //
+				)), //
+				DefaultWritablePolyline.class, //
+			}, //
+			new Object[] { //
+				new RealMask()
+				{
+
+					@Override
+					public boolean test(RealLocalizable realLocalizable) {
+						return realLocalizable.getDoublePosition(0) + realLocalizable
+							.getDoublePosition(1) == 0;
+					}
+
+					@Override
+					public int numDimensions() {
+						return 2;
+					}
+				}, //
+				RealMask.class //
+			} //
+		);
 	}
 
 	@Test
@@ -82,7 +117,7 @@ public class ConvertROITreeToMaskTest {
 		tree.addROIs(Collections.singletonList(ROI));
 		// Assert that the convertService can convert this tree to a mask
 		final ConvertService convertService = c.service(ConvertService.class);
-		MaskPredicate<?> actual = convertService.convert(tree, ROI.getClass());
+		MaskPredicate<?> actual = convertService.convert(tree, ROIClass);
 		Assert.assertEquals(ROI, actual);
 	}
 
