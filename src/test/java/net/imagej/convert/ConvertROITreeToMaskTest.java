@@ -19,6 +19,7 @@ import org.scijava.convert.ConvertService;
 import org.scijava.util.TreeNode;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * Test {@link ROITreeToMaskPredicateConverter} and
@@ -141,6 +142,58 @@ public class ConvertROITreeToMaskTest {
 					}
 				}, //
 				RealMask.class //
+			}, //
+			new Object[] { //
+				new MaskPredicate<RealLocalizable>()
+				{
+
+					@Override
+					public int numDimensions() {
+						return 2;
+					}
+
+					@Override
+					public boolean test(RealLocalizable realLocalizable) {
+						// true iff any coordinate is zero
+						return Arrays //
+							.stream(realLocalizable.positionAsDoubleArray()) //
+							.anyMatch(d -> d == 0);
+					}
+
+					@Override
+					public MaskPredicate<RealLocalizable> and(
+						Predicate<? super RealLocalizable> other)
+				{
+						throw new UnsupportedOperationException();
+					}
+
+					@Override
+					public MaskPredicate<RealLocalizable> or(
+						Predicate<? super RealLocalizable> other)
+				{
+						throw new UnsupportedOperationException();
+					}
+
+					@Override
+					public MaskPredicate<RealLocalizable> negate() {
+						throw new UnsupportedOperationException();
+					}
+
+					@Override
+					public MaskPredicate<RealLocalizable> minus(
+						Predicate<? super RealLocalizable> other)
+				{
+						throw new UnsupportedOperationException();
+					}
+
+					@Override
+					public MaskPredicate<RealLocalizable> xor(
+						Predicate<? super RealLocalizable> other)
+				{
+						throw new UnsupportedOperationException();
+					}
+				}, //
+				MaskPredicate.class //
 			} //
 		);
 	}

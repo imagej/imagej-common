@@ -124,15 +124,4 @@ public class ROITreeToMaskPredicateConverters {
 		}
 	}
 
-	@Plugin(type = Converter.class, priority = Priority.LOW)
-	public static class ROITreeToRealMaskConverter extends
-			ROITreeToMaskPredicateConverter<RealMask>
-	{
-
-		@Override
-		public Class<RealMask> getOutputType() {
-			return RealMask.class;
-		}
-	}
-
 }
