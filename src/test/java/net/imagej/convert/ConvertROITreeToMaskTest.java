@@ -45,11 +45,11 @@ public class ConvertROITreeToMaskTest {
 
 	// The first index in data
 	@Parameterized.Parameter
-	public MaskPredicate<?> ROI;
+	public MaskPredicate<?> roi;
 
 	// The second index in data
 	@Parameterized.Parameter(1)
-	public Class<MaskPredicate<?>> ROIClass;
+	public Class<MaskPredicate<?>> roiClass;
 
 	@Parameterized.Parameters(name = "{index}: ROITree <-> {1}")
 	public static Collection<Object[]> data() {
@@ -202,33 +202,33 @@ public class ConvertROITreeToMaskTest {
 	public void testROITreeToROITest() {
 		// Construct the ROI tree
 		ROITree tree = new DefaultROITree();
-		tree.addROIs(Collections.singletonList(ROI));
+		tree.addROIs(Collections.singletonList(roi));
 		// Assert that the convertService can convert this tree to a mask
 		final ConvertService convertService = c.service(ConvertService.class);
-		MaskPredicate<?> actual = convertService.convert(tree, ROIClass);
-		Assert.assertEquals(ROI, actual);
+		MaskPredicate<?> actual = convertService.convert(tree, roiClass);
+		Assert.assertEquals(roi, actual);
 	}
 
 	@Test
 	public void testROIToROITreeTest() {
 		// Assert that the convertService can convert this mask to a tree
 		final ConvertService convertService = c.service(ConvertService.class);
-		ROITree actual = convertService.convert(ROI, ROITree.class);
+		ROITree actual = convertService.convert(roi, ROITree.class);
 		Assert.assertNotNull(actual);
 		List<TreeNode<?>> rois = actual.children();
 		Assert.assertEquals(1, rois.size());
 		// Assert roi equality
-		Assert.assertEquals(ROI, rois.get(0).data());
+		Assert.assertEquals(roi, rois.get(0).data());
 	}
 
 	@Test
 	public void testTooFullROITree() {
 		// Construct the ROI tree
 		ROITree tree = new DefaultROITree();
-		tree.addROIs(Arrays.asList(ROI, ROI));
+		tree.addROIs(Arrays.asList(roi, roi));
 		// Assert that the convertService cannot convert this tree to a mask
 		final ConvertService convertService = c.service(ConvertService.class);
-		Assert.assertNull(convertService.convert(tree, ROI.getClass()));
+		Assert.assertNull(convertService.convert(tree, roi.getClass()));
 	}
 
 }
