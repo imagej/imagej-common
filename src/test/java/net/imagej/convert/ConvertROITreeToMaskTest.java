@@ -203,8 +203,10 @@ public class ConvertROITreeToMaskTest {
 		// Construct the ROI tree
 		ROITree tree = new DefaultROITree();
 		tree.addROIs(Collections.singletonList(roi));
-		// Assert that the convertService can convert this tree to a mask
 		final ConvertService convertService = c.service(ConvertService.class);
+		// Assert that the convertService supports this conversion
+		Assert.assertTrue(convertService.supports(tree, roiClass));
+		// Assert that the convertService can convert this tree to a mask
 		MaskPredicate<?> actual = convertService.convert(tree, roiClass);
 		Assert.assertEquals(roi, actual);
 	}
@@ -223,12 +225,17 @@ public class ConvertROITreeToMaskTest {
 
 	@Test
 	public void testTooFullROITree() {
+		final ConvertService convertService = c.service(ConvertService.class);
+
 		// Construct the ROI tree
 		ROITree tree = new DefaultROITree();
-		tree.addROIs(Arrays.asList(roi, roi));
-		// Assert that the convertService cannot convert this tree to a mask
-		final ConvertService convertService = c.service(ConvertService.class);
-		Assert.assertNull(convertService.convert(tree, roi.getClass()));
+		tree.addROIs(Collections.singletonList(roi));
+		// Assert that the convertService does support converting this tree
+		Assert.assertTrue(convertService.supports(tree, roi.getClass()));
+		// Add a second ROI to the tree
+		tree.addROIs(Collections.singletonList(roi));
+		// Assert that the convertService does not support converting this tree
+		Assert.assertFalse(convertService.supports(tree, roi.getClass()));
 	}
 
 }
