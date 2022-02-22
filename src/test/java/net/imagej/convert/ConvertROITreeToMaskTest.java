@@ -199,7 +199,7 @@ public class ConvertROITreeToMaskTest {
 	}
 
 	@Test
-	public void testROITreeToROITest() {
+	public void testROITreeToROI() {
 		// Construct the ROI tree
 		ROITree tree = new DefaultROITree();
 		tree.addROIs(Collections.singletonList(roi));
@@ -210,7 +210,7 @@ public class ConvertROITreeToMaskTest {
 	}
 
 	@Test
-	public void testROIToROITreeTest() {
+	public void testROIToROITree() {
 		// Assert that the convertService can convert this mask to a tree
 		final ConvertService convertService = c.service(ConvertService.class);
 		ROITree actual = convertService.convert(roi, ROITree.class);
