@@ -1,14 +1,15 @@
 
 package net.imagej.convert;
 
+import java.util.Collections;
+
 import net.imagej.roi.DefaultROITree;
 import net.imagej.roi.ROITree;
 import net.imglib2.roi.MaskPredicate;
+
 import org.scijava.convert.AbstractConverter;
 import org.scijava.convert.Converter;
 import org.scijava.plugin.Plugin;
-
-import java.util.Collections;
 
 /**
  * Converts {@link MaskPredicate}s into a {@link ROITree} with containing

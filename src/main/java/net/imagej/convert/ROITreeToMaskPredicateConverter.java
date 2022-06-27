@@ -1,15 +1,16 @@
 
 package net.imagej.convert;
 
+import java.lang.reflect.Type;
+
 import net.imagej.roi.ROITree;
 import net.imglib2.roi.MaskPredicate;
-import org.scijava.convert.Converter;
+
 import org.scijava.convert.AbstractConverter;
+import org.scijava.convert.Converter;
 import org.scijava.plugin.Plugin;
 import org.scijava.util.TreeNode;
 import org.scijava.util.Types;
-
-import java.lang.reflect.Type;
 
 /**
  * Abstract {@link Converter} from ROITree to SuperEllipsoid

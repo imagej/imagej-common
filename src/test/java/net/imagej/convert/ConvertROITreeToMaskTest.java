@@ -1,6 +1,12 @@
 
 package net.imagej.convert;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Predicate;
+
 import net.imagej.roi.DefaultROITree;
 import net.imagej.roi.ROITree;
 import net.imglib2.RealLocalizable;
@@ -8,6 +14,7 @@ import net.imglib2.RealPoint;
 import net.imglib2.roi.MaskPredicate;
 import net.imglib2.roi.RealMask;
 import net.imglib2.roi.geom.real.*;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,9 +24,6 @@ import org.junit.runners.Parameterized;
 import org.scijava.Context;
 import org.scijava.convert.ConvertService;
 import org.scijava.util.TreeNode;
-
-import java.util.*;
-import java.util.function.Predicate;
 
 /**
  * Test {@link ROITreeToMaskPredicateConverter} and
