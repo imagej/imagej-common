@@ -36,6 +36,7 @@ import net.imagej.Dataset;
 import net.imagej.ImageJService;
 import net.imagej.Position;
 
+import org.scijava.display.Display;
 import org.scijava.display.DisplayService;
 import org.scijava.event.EventService;
 import org.scijava.plugin.PluginService;
@@ -57,6 +58,94 @@ public interface ImageDisplayService extends ImageJService {
 
 	/** Creates a new {@link DataView} wrapping the given data object. */
 	DataView createDataView(Data data);
+
+	/** Creates a new {@link DatasetView} wrapping the given dataset. */
+	default DatasetView createDatasetView(final Dataset dataset) {
+		DataView dataView = createDataView(dataset);
+		if (!(dataView instanceof DatasetView)) {
+			throw new IllegalStateException("Wrapped DataView is a " + //
+				dataView.getClass().getName() + ", not a DatasetView. There might " +
+				"be a rogue DataView plugin wrapping Datasets inappropriately.");
+		}
+		return (DatasetView) dataView;
+	}
+
+	/**
+	 * Creates an {@link ImageDisplay} for the given data object. This is a more
+	 * specific type-safe version of {@link DisplayService#createDisplay(Object)}.
+	 * 
+	 * @param data The data object for which a display should be created. The
+	 *          object is wrapped to a {@link DataView} and added to a new
+	 *          {@link ImageDisplay}.
+	 * @return Newly created {@link ImageDisplay} containing the given data
+	 *         object.
+	 * @see DisplayService#createDisplay(Object)
+	 */
+	default ImageDisplay createImageDisplay(Data data) {
+		return createImageDisplay(null, data);
+	}
+
+	/**
+	 * Creates an {@link ImageDisplay} for the given data object. This is a more
+	 * specific type-safe version of {@link DisplayService#createDisplay(Object)}.
+	 * 
+	 * @param name The name to be assigned to the display.
+	 * @param data The data object for which a display should be created. The
+	 *          object is wrapped to a {@link DataView} and added to the new
+	 *          {@link ImageDisplay}.
+	 * @return Newly created {@link ImageDisplay} containing the given data
+	 *         object.
+	 * @see DisplayService#createDisplay(String, Object)
+	 */
+	default ImageDisplay createImageDisplay(final String name, final Data data) {
+		final Display<?> display = getDisplayService().createDisplay(name, data);
+		if (!(display instanceof ImageDisplay)) {
+			throw new IllegalStateException("Created Display is a " + //
+				display.getClass().getName() + ", not an ImageDisplay. There might " +
+				"be a rogue Display plugin wrapping DataViews inappropriately.");
+		}
+		return (ImageDisplay) display;
+	}
+
+	/**
+	 * Creates an {@link ImageDisplay} for the given {@link DataView}. This is a
+	 * more specific type-safe version of
+	 * {@link DisplayService#createDisplay(Object)}.
+	 * 
+	 * @param dataView The {@link DataView} for which a display should be created.
+	 *          The view is added to the new {@link ImageDisplay}.
+	 * @return Newly created {@link ImageDisplay} containing the given
+	 *         {@link DataView}.
+	 * @see DisplayService#createDisplay(Object)
+	 */
+	default ImageDisplay createImageDisplay(final DataView dataView) {
+		return createImageDisplay(null, dataView);
+	}
+
+	/**
+	 * Creates an {@link ImageDisplay} for the given {@link DataView}. This is a
+	 * more specific type-safe version of
+	 * {@link DisplayService#createDisplay(Object)}.
+	 * 
+	 * @param name The name to be assigned to the display.
+	 * @param dataView The {@link DataView} for which a display should be created.
+	 *          The view is added to the new {@link ImageDisplay}.
+	 * @return Newly created {@link ImageDisplay} containing the given
+	 *         {@link DataView}.
+	 * @see DisplayService#createDisplay(Object)
+	 */
+	default ImageDisplay createImageDisplay(final String name,
+		final DataView dataView)
+	{
+		final Display<?> display = //
+			getDisplayService().createDisplay(name, dataView);
+		if (!(display instanceof ImageDisplay)) {
+			throw new IllegalStateException("Created Display is a " + //
+				display.getClass().getName() + ", not an ImageDisplay. There might " +
+				"be a rogue Display plugin wrapping DataViews inappropriately.");
+		}
+		return (ImageDisplay) display;
+	}
 
 	/**
 	 * Gets the list of available {@link DataView}s. The list will contain one
