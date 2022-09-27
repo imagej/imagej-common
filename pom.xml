@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.scijava</groupId>
 		<artifactId>pom-scijava</artifactId>
-		<version>31.1.0</version>
+		<version>33.2.0</version>
 		<relativePath />
 	</parent>
 
@@ -147,7 +147,7 @@
 		<!-- NB: Deploy releases to the SciJava Maven repository. -->
 		<releaseProfiles>sign,deploy-to-scijava</releaseProfiles>
 
-		<jitk-tps.version>3.0.2</jitk-tps.version>
+		<udunits.version>4.3.18</udunits.version>
 	</properties>
 
 	<repositories>
@@ -183,7 +183,7 @@
 		<dependency>
 			<groupId>edu.ucar</groupId>
 			<artifactId>udunits</artifactId>
-			<version>4.3.18</version>
+			<version>${udunits.version}</version>
 		</dependency>
 
 		<!-- Test scope dependencies -->
