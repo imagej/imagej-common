@@ -31,6 +31,7 @@ package net.imagej.convert;
 
 import net.imagej.Dataset;
 import net.imagej.DatasetService;
+import net.imagej.display.ColorTables;
 import net.imagej.display.DatasetView;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.array.ArrayImgs;
@@ -76,6 +77,19 @@ public class DatasetToDatasetViewConverterTest {
 		Dataset d = datasetService.create(rai);
 		DatasetView view = convertService.convert(d, DatasetView.class);
 		Assert.assertEquals(d, view.getData());
+	}
+
+	/**
+	 * Ensures reasonable color tables after the conversion
+	 */
+	@Test
+	public void testDefaultColorTables() {
+		RandomAccessibleInterval<UnsignedByteType> rai = ArrayImgs.unsignedBytes(10,
+			10, 10);
+		Dataset d = datasetService.create(rai);
+		DatasetView view = convertService.convert(d, DatasetView.class);
+		Assert.assertEquals(view.getChannelCount(), view.getColorTables().size());
+		Assert.assertEquals(ColorTables.GRAYS, view.getColorTables().get(0));
 	}
 
 }
