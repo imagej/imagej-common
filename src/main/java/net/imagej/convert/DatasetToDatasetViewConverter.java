@@ -64,6 +64,8 @@ public class DatasetToDatasetViewConverter extends
 			throw new IllegalArgumentException("Class " + aClass.getName() +
 				" is incompatible with converted DatasetView.");
 		}
+		// Ensure the view reflects the Dataset
+		view.rebuild();
 		@SuppressWarnings("unchecked")
 		final T result = (T) view;
 		return result;
