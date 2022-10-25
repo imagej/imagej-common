@@ -32,10 +32,14 @@ package net.imagej.convert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import net.imglib2.type.BooleanType;
 import net.imglib2.type.numeric.ComplexType;
+import net.imglib2.type.numeric.IntegerType;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.integer.*;
 import org.junit.After;
@@ -81,7 +85,7 @@ public class NumberAndTypeConversionTest {
 				{ 0L, new Unsigned12BitType((byte) 0) }, //
 				{ 0L, new UnsignedIntType((byte) 0) }, //
 				{ 0, new UnsignedShortType((byte) 0) }, //
-				{ 0L, new UnsignedLongType((byte) 0) }, //
+				{ BigInteger.ZERO, new UnsignedLongType((byte) 0) }, //
 				{ (byte) 0, new ByteType((byte) 0) }, //
 				{ 0, new IntType(0) }, //
 				{ 0L, new LongType(0L) }, //
@@ -170,5 +174,22 @@ public class NumberAndTypeConversionTest {
 				}
 			}
 		}
+
+		@Test
+		public void testNumberToIntegerType() {
+			List<Number> numbers = Arrays.asList((byte) 1, (short) 1, 1, 1L);
+			for (Number number : numbers) {
+				assertTrue(convertService.supports(number, IntegerType.class));
+				convertService.convert(number, IntegerType.class);
+			}
+		}
+
+		@Test
+		public void testBooleanToBooleanType() {
+			Boolean b = true;
+			assertTrue(convertService.supports(b, BooleanType.class));
+			convertService.convert(b, BooleanType.class);
+		}
 	}
+
 }

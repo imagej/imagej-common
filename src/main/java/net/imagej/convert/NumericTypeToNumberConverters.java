@@ -36,8 +36,10 @@ import net.imglib2.type.numeric.real.FloatType;
 import org.scijava.convert.Converter;
 import org.scijava.plugin.Plugin;
 
+import java.math.BigInteger;
+
 /**
- * Converters that convert a Number to a NumericType.
+ * Converters that convert a NumericType to a Number.
  *
  * @author Jan Eglinger
  * @author Gabriel Selzer
@@ -299,13 +301,13 @@ public class NumericTypeToNumberConverters {
 	}
 
 	@Plugin(type = Converter.class)
-	public static class UnsignedLongTypeToLongConverter extends
-		NumericTypeToNumberConverter<UnsignedLongType, Long>
+	public static class UnsignedLongTypeToBigIntegerConverter extends
+		NumericTypeToNumberConverter<UnsignedLongType, BigInteger>
 	{
 
 		@Override
-		public Class<Long> getOutputType() {
-			return Long.class;
+		public Class<BigInteger> getOutputType() {
+			return BigInteger.class;
 		}
 
 		@Override
@@ -314,8 +316,9 @@ public class NumericTypeToNumberConverters {
 		}
 
 		@Override
-		protected Long convert(final UnsignedLongType src) {
-			return src.get();
+		protected BigInteger convert(final UnsignedLongType src) {
+			return src.getBigInteger();
 		}
 	}
+
 }
