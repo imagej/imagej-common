@@ -49,50 +49,31 @@ import org.scijava.plugin.Plugin;
  * {@code ImgLabeling}.
  *
  * @author Gabriel Selzer
+ * @author Curtis Rueden
  */
-@SuppressWarnings("rawtypes")
 @Plugin(type = Converter.class)
 public class RAIToImageDisplayConverter extends
-	AbstractConverter<RandomAccessibleInterval, ImageDisplay> {
+	ConciseConverter<RandomAccessibleInterval, ImageDisplay>
+{
 
 	@Parameter
-	private DatasetService datasetService	;
+	private DatasetService datasetService;
 
 	@Parameter
-	private ImageDisplayService imageDisplayService	;
+	private ImageDisplayService imageDisplayService;
 
-	@Override
-	public <T> T convert(final Object o, final Class<T> aClass) {
-		if (!(o instanceof RandomAccessibleInterval)) {
-			throw new IllegalArgumentException(
-				"Object is not a RandomAccessibleInterval");
-		}
-		final RandomAccessibleInterval<?> rai = (RandomAccessibleInterval<?>) o;
-		Object t = Util.getTypeFromInterval(rai);
+	public RAIToImageDisplayConverter() {
+		super(RandomAccessibleInterval.class, ImageDisplay.class, null);
+	}
+
+	protected ImageDisplay convert(final RandomAccessibleInterval src) {
+		final Object t = Util.getTypeFromInterval(src);
 		if (!(t instanceof Type)) {
 			throw new IllegalArgumentException("Image type is not a Type");
 		}
 		@SuppressWarnings("unchecked")
-		final Dataset dataset = raiToDataset((RandomAccessibleInterval) rai);
-		final ImageDisplay imageDisplay = //
-			imageDisplayService.createImageDisplay(dataset);
-		if (!aClass.isInstance(imageDisplay)) {
-			throw new IllegalArgumentException("Class " + aClass.getName() +
-				" is incompatible with converted ImageDisplay.");
-		}
-		@SuppressWarnings("unchecked")
-		final T result = (T) imageDisplay;
-		return result;
-	}
-
-	@Override
-	public Class<ImageDisplay> getOutputType() {
-		return ImageDisplay.class;
-	}
-
-	@Override
-	public Class<RandomAccessibleInterval> getInputType() {
-		return RandomAccessibleInterval.class;
+		final Dataset dataset = raiToDataset((RandomAccessibleInterval) src);
+		return imageDisplayService.createImageDisplay(dataset);
 	}
 
 	private <T extends Type<T>> Dataset raiToDataset(

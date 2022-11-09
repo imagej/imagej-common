@@ -26,9 +26,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
+
 package net.imagej.convert;
 
 import java.lang.reflect.Type;
+import java.util.function.Function;
 
 import net.imagej.Dataset;
 import net.imglib2.img.Img;
@@ -47,44 +49,9 @@ import org.scijava.util.Types;
  */
 @SuppressWarnings("rawtypes")
 @Plugin(type = Converter.class, priority = Priority.NORMAL + 1)
-public class DatasetToImgConverter extends AbstractConverter<Dataset, Img> {
+public class DatasetToImgConverter extends ConciseConverter<Dataset, Img> {
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T convert(final Object src, final Class<T> dest) {
-		final Dataset data = (Dataset) src;
-		return (T) data.getImgPlus().getImg();
-	}
-
-	@Override
-	public Class<Img> getOutputType() {
-		return Img.class;
-	}
-
-	@Override
-	public Class<Dataset> getInputType() {
-		return Dataset.class;
-	}
-
-	@Override
-	public boolean canConvert(final Object src, final Type dest) {
-		if (src == null)
-			return false;
-		final Class<?> destClass = Types.raw(dest);
-		return canConvert(src, destClass);
-	}
-
-	@Override
-	public boolean canConvert(final Object src, final Class<?> dest) {
-		if (src == null)
-			return false;
-		Class<?> srcClass = src.getClass();
-		if (Dataset.class.isAssignableFrom(srcClass)) {
-			final Dataset data = (Dataset) src;
-			srcClass = data.getImgPlus().getImg().getClass();
-			return Types.isAssignable(srcClass, dest);
-		}
-
-		return false;
+	public DatasetToImgConverter() {
+		super(Dataset.class, Img.class, src -> src.getImgPlus().getImg());
 	}
 }

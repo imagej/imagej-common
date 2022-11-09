@@ -29,10 +29,12 @@
 
 package net.imagej.convert;
 
+import net.imglib2.type.numeric.IntegerType;
 import net.imglib2.type.numeric.integer.*;
 import net.imglib2.type.numeric.real.DoubleType;
 import net.imglib2.type.numeric.real.FloatType;
 
+import org.scijava.Priority;
 import org.scijava.convert.Converter;
 import org.scijava.plugin.Plugin;
 
@@ -43,282 +45,150 @@ import java.math.BigInteger;
  *
  * @author Jan Eglinger
  * @author Gabriel Selzer
+ * @author Curtis Rueden
  */
 public class NumericTypeToNumberConverters {
 
 	private NumericTypeToNumberConverters() {}
 
 	@Plugin(type = Converter.class)
-	public static class DoubleTypeToDoubleConverter extends
-		NumericTypeToNumberConverter<DoubleType, Double>
-	{
-
-		@Override
-		public Class<Double> getOutputType() {
-			return Double.class;
-		}
-
-		@Override
-		public Class<DoubleType> getInputType() {
-			return DoubleType.class;
-		}
-
-		@Override
-		protected Double convert(final DoubleType src) {
-			return src.get();
-		}
-	}
-
-	@Plugin(type = Converter.class)
 	public static class ByteTypeToByteConverter extends
-		NumericTypeToNumberConverter<ByteType, Byte>
+		ConciseConverter<ByteType, Byte>
 	{
 
-		@Override
-		public Class<Byte> getOutputType() {
-			return Byte.class;
-		}
-
-		@Override
-		public Class<ByteType> getInputType() {
-			return ByteType.class;
-		}
-
-		@Override
-		protected Byte convert(final ByteType src) {
-			return src.get();
-		}
-	}
-
-	@Plugin(type = Converter.class)
-	public static class IntTypeToIntegerConverter extends
-		NumericTypeToNumberConverter<IntType, Integer>
-	{
-
-		@Override
-		public Class<Integer> getOutputType() {
-			return Integer.class;
-		}
-
-		@Override
-		public Class<IntType> getInputType() {
-			return IntType.class;
-		}
-
-		@Override
-		protected Integer convert(final IntType src) {
-			return src.get();
-		}
-	}
-
-	@Plugin(type = Converter.class)
-	public static class LongTypeToLongConverter extends
-		NumericTypeToNumberConverter<LongType, Long>
-	{
-
-		@Override
-		public Class<Long> getOutputType() {
-			return Long.class;
-		}
-
-		@Override
-		public Class<LongType> getInputType() {
-			return LongType.class;
-		}
-
-		@Override
-		protected Long convert(final LongType src) {
-			return src.get();
+		public ByteTypeToByteConverter() {
+			super(ByteType.class, Byte.class, ByteType::get);
 		}
 	}
 
 	@Plugin(type = Converter.class)
 	public static class ShortTypeToShortConverter extends
-		NumericTypeToNumberConverter<ShortType, Short>
+		ConciseConverter<ShortType, Short>
 	{
 
-		@Override
-		public Class<Short> getOutputType() {
-			return Short.class;
+		public ShortTypeToShortConverter() {
+			super(ShortType.class, Short.class, ShortType::get);
 		}
+	}
 
-		@Override
-		public Class<ShortType> getInputType() {
-			return ShortType.class;
+	@Plugin(type = Converter.class)
+	public static class IntTypeToIntegerConverter extends
+		ConciseConverter<IntType, Integer>
+	{
+
+		public IntTypeToIntegerConverter() {
+			super(IntType.class, Integer.class, IntType::get);
 		}
+	}
 
-		@Override
-		protected Short convert(final ShortType src) {
-			return src.get();
+	@Plugin(type = Converter.class)
+	public static class LongTypeToLongConverter extends
+		ConciseConverter<LongType, Long>
+	{
+
+		public LongTypeToLongConverter() {
+			super(LongType.class, Long.class, LongType::get);
 		}
 	}
 
 	@Plugin(type = Converter.class)
 	public static class FloatTypeToFloatConverter extends
-		NumericTypeToNumberConverter<FloatType, Float>
+		ConciseConverter<FloatType, Float>
 	{
 
-		@Override
-		public Class<Float> getOutputType() {
-			return Float.class;
+		public FloatTypeToFloatConverter() {
+			super(FloatType.class, Float.class, FloatType::get);
 		}
+	}
 
-		@Override
-		public Class<FloatType> getInputType() {
-			return FloatType.class;
-		}
+	@Plugin(type = Converter.class)
+	public static class DoubleTypeToDoubleConverter extends
+		ConciseConverter<DoubleType, Double>
+	{
 
-		@Override
-		protected Float convert(final FloatType src) {
-			return src.get();
+		public DoubleTypeToDoubleConverter() {
+			super(DoubleType.class, Double.class, DoubleType::get);
 		}
 	}
 
 	@Plugin(type = Converter.class)
 	public static class UnsignedByteTypeToIntegerConverter extends
-		NumericTypeToNumberConverter<UnsignedByteType, Integer>
+		ConciseConverter<UnsignedByteType, Integer>
 	{
 
-		@Override
-		public Class<Integer> getOutputType() {
-			return Integer.class;
-		}
-
-		@Override
-		public Class<UnsignedByteType> getInputType() {
-			return UnsignedByteType.class;
-		}
-
-		@Override
-		protected Integer convert(final UnsignedByteType src) {
-			return src.get();
+		public UnsignedByteTypeToIntegerConverter() {
+			super(UnsignedByteType.class, Integer.class, UnsignedByteType::get);
 		}
 	}
 
 	@Plugin(type = Converter.class)
 	public static class Unsigned2BitTypeToLongConverter extends
-		NumericTypeToNumberConverter<Unsigned2BitType, Long>
+		ConciseConverter<Unsigned2BitType, Long>
 	{
 
-		@Override
-		public Class<Long> getOutputType() {
-			return Long.class;
-		}
-
-		@Override
-		public Class<Unsigned2BitType> getInputType() {
-			return Unsigned2BitType.class;
-		}
-
-		@Override
-		protected Long convert(final Unsigned2BitType src) {
-			return src.get();
+		public Unsigned2BitTypeToLongConverter() {
+			super(Unsigned2BitType.class, Long.class, Unsigned2BitType::get);
 		}
 	}
 
 	@Plugin(type = Converter.class)
 	public static class Unsigned4BitTypeToLongConverter extends
-		NumericTypeToNumberConverter<Unsigned4BitType, Long>
+		ConciseConverter<Unsigned4BitType, Long>
 	{
 
-		@Override
-		public Class<Long> getOutputType() {
-			return Long.class;
-		}
-
-		@Override
-		public Class<Unsigned4BitType> getInputType() {
-			return Unsigned4BitType.class;
-		}
-
-		@Override
-		protected Long convert(final Unsigned4BitType src) {
-			return src.get();
+		public Unsigned4BitTypeToLongConverter() {
+			super(Unsigned4BitType.class, Long.class, Unsigned4BitType::get);
 		}
 	}
 
 	@Plugin(type = Converter.class)
 	public static class Unsigned12BitTypeToLongConverter extends
-		NumericTypeToNumberConverter<Unsigned12BitType, Long>
+		ConciseConverter<Unsigned12BitType, Long>
 	{
 
-		@Override
-		public Class<Long> getOutputType() {
-			return Long.class;
-		}
-
-		@Override
-		public Class<Unsigned12BitType> getInputType() {
-			return Unsigned12BitType.class;
-		}
-
-		@Override
-		protected Long convert(final Unsigned12BitType src) {
-			return src.get();
-		}
-	}
-
-	@Plugin(type = Converter.class)
-	public static class UnsignedIntTypeToLongConverter extends
-		NumericTypeToNumberConverter<UnsignedIntType, Long>
-	{
-
-		@Override
-		public Class<Long> getOutputType() {
-			return Long.class;
-		}
-
-		@Override
-		public Class<UnsignedIntType> getInputType() {
-			return UnsignedIntType.class;
-		}
-
-		@Override
-		protected Long convert(final UnsignedIntType src) {
-			return src.get();
+		public Unsigned12BitTypeToLongConverter() {
+			super(Unsigned12BitType.class, Long.class, Unsigned12BitType::get);
 		}
 	}
 
 	@Plugin(type = Converter.class)
 	public static class UnsignedShortTypeToIntegerConverter extends
-		NumericTypeToNumberConverter<UnsignedShortType, Integer>
+		ConciseConverter<UnsignedShortType, Integer>
 	{
 
-		@Override
-		public Class<Integer> getOutputType() {
-			return Integer.class;
+		public UnsignedShortTypeToIntegerConverter() {
+			super(UnsignedShortType.class, Integer.class, UnsignedShortType::get);
 		}
+	}
 
-		@Override
-		public Class<UnsignedShortType> getInputType() {
-			return UnsignedShortType.class;
-		}
+	@Plugin(type = Converter.class)
+	public static class UnsignedIntTypeToLongConverter extends
+		ConciseConverter<UnsignedIntType, Long>
+	{
 
-		@Override
-		protected Integer convert(final UnsignedShortType src) {
-			return src.get();
+		public UnsignedIntTypeToLongConverter() {
+			super(UnsignedIntType.class, Long.class, UnsignedIntType::get);
 		}
 	}
 
 	@Plugin(type = Converter.class)
 	public static class UnsignedLongTypeToBigIntegerConverter extends
-		NumericTypeToNumberConverter<UnsignedLongType, BigInteger>
+		ConciseConverter<UnsignedLongType, BigInteger>
 	{
 
-		@Override
-		public Class<BigInteger> getOutputType() {
-			return BigInteger.class;
-		}
-
-		@Override
-		public Class<UnsignedLongType> getInputType() {
-			return UnsignedLongType.class;
-		}
-
-		@Override
-		protected BigInteger convert(final UnsignedLongType src) {
-			return src.getBigInteger();
+		public UnsignedLongTypeToBigIntegerConverter() {
+			super(UnsignedLongType.class, BigInteger.class,
+				UnsignedLongType::getBigInteger);
 		}
 	}
 
+	@Plugin(type = Converter.class, priority = Priority.LOW)
+	public static class IntegerTypeToBigIntegerConverter extends
+		ConciseConverter<IntegerType, BigInteger>
+	{
+
+		public IntegerTypeToBigIntegerConverter() {
+			super(IntegerType.class, BigInteger.class, IntegerType::getBigInteger);
+		}
+	}
 }

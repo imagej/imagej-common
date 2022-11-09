@@ -1,4 +1,4 @@
-/*
+/*-
  * #%L
  * ImageJ2 software for multidimensional image processing and analysis.
  * %%
@@ -29,18 +29,60 @@
 
 package net.imagej.convert;
 
-import net.imglib2.Dimensions;
+import org.scijava.convert.AbstractConverter;
 
-import org.scijava.convert.Converter;
+import net.imglib2.type.numeric.NumericType;
+
+import java.util.function.Function;
 
 /**
- * Interface to describe Converters from native long[] arrays to Dimensions
+ * A more concise abstract base class for converter plugins.
  *
- * @author Christian Dietz, University of Konstanz
- * @param <D> resulting Dimensions type
+ * @param <I> input type
+ * @param <O> output type
+ * @author Gabriel Selzer
+ * @author Curtis Rueden
  */
-public interface ConvertLongArrayToDimensions<D extends Dimensions> extends
-	Converter<long[], D>
-{
-	// NB: Marker interface
+public abstract class ConciseConverter<I, O> extends AbstractConverter<I, O> {
+
+	private final Class<I> inType;
+	private final Class<O> outType;
+	private final Function<I, O> conversionFunction;
+
+	public ConciseConverter(final Class<I> inType, final Class<O> outType,
+		final Function<I, O> conversionFunction)
+	{
+		this.inType = inType;
+		this.outType = outType;
+		this.conversionFunction = conversionFunction;
+	}
+
+	@Override
+	public Class<I> getInputType() {
+		return inType;
+	}
+
+	@Override
+	public Class<O> getOutputType() {
+		return outType;
+	}
+
+	@Override
+	public <T> T convert(final Object src, final Class<T> dest) {
+		if (!canConvert(src, dest)) {
+			throw new IllegalArgumentException(//
+				"Cannot convert source object of type " + src.getClass().getName() + //
+					" to destination type " + dest.getName());
+		}
+		@SuppressWarnings("unchecked")
+		final I typedSrc = (I) src;
+		final O result = convert(typedSrc);
+		@SuppressWarnings("unchecked")
+		final T typedResult = (T) result;
+		return typedResult;
+	}
+
+	protected O convert(I src) {
+		return conversionFunction.apply(src);
+	}
 }

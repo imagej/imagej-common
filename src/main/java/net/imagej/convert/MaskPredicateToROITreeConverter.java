@@ -47,23 +47,14 @@ import org.scijava.plugin.Plugin;
  */
 @Plugin(type = Converter.class)
 public class MaskPredicateToROITreeConverter extends
-	AbstractConverter<MaskPredicate, DefaultROITree>
+	ConciseConverter<MaskPredicate, ROITree>
 {
 
-	@Override
-	public <T> T convert(Object src, Class<T> dest) {
-		DefaultROITree tree = new DefaultROITree();
-		tree.addROIs(Collections.singletonList((MaskPredicate<?>) src));
-		return (T) tree;
-	}
-
-	@Override
-	public Class<DefaultROITree> getOutputType() {
-		return DefaultROITree.class;
-	}
-
-	@Override
-	public Class<MaskPredicate> getInputType() {
-		return MaskPredicate.class;
+	public MaskPredicateToROITreeConverter() {
+		super(MaskPredicate.class, ROITree.class, src -> {
+			final DefaultROITree tree = new DefaultROITree();
+			tree.addROIs(Collections.singletonList((MaskPredicate<?>) src));
+			return tree;
+		});
 	}
 }

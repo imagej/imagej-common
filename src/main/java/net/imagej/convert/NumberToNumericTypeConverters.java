@@ -47,128 +47,61 @@ public class NumberToNumericTypeConverters {
 
 	@Plugin(type = Converter.class)
 	public static class DoubleToDoubleTypeConverter extends
-		NumberToNumericTypeConverter<Double, DoubleType>
+		ConciseConverter<Double, DoubleType>
 	{
 
-		@Override
-		public Class<DoubleType> getOutputType() {
-			return DoubleType.class;
-		}
-
-		@Override
-		public Class<Double> getInputType() {
-			return Double.class;
-		}
-
-		@Override
-		protected DoubleType convert(final Double src) {
-			return new DoubleType(src);
+		public DoubleToDoubleTypeConverter() {
+			super(Double.class, DoubleType.class, DoubleType::new);
 		}
 	}
 
 	@Plugin(type = Converter.class)
 	public static class FloatToFloatTypeConverter extends
-		NumberToNumericTypeConverter<Float, FloatType>
+		ConciseConverter<Float, FloatType>
 	{
 
-		@Override
-		public Class<FloatType> getOutputType() {
-			return FloatType.class;
-		}
-
-		@Override
-		public Class<Float> getInputType() {
-			return Float.class;
-		}
-
-		@Override
-		protected FloatType convert(final Float src) {
-			return new FloatType(src);
+		public FloatToFloatTypeConverter() {
+			super(Float.class, FloatType.class, FloatType::new);
 		}
 	}
 
 	@Plugin(type = Converter.class)
 	public static class ByteToByteTypeConverter extends
-		NumberToNumericTypeConverter<Byte, ByteType>
+		ConciseConverter<Byte, ByteType>
 	{
 
-		@Override
-		public Class<ByteType> getOutputType() {
-			return ByteType.class;
-		}
-
-		@Override
-		public Class<Byte> getInputType() {
-			return Byte.class;
-		}
-
-		@Override
-		protected ByteType convert(final Byte src) {
-			return new ByteType(src);
+		public ByteToByteTypeConverter() {
+			super(Byte.class, ByteType.class, ByteType::new);
 		}
 	}
 
 	@Plugin(type = Converter.class)
 	public static class ShortToShortTypeConverter extends
-		NumberToNumericTypeConverter<Short, ShortType>
+		ConciseConverter<Short, ShortType>
 	{
 
-		@Override
-		public Class<ShortType> getOutputType() {
-			return ShortType.class;
-		}
-
-		@Override
-		public Class<Short> getInputType() {
-			return Short.class;
-		}
-
-		@Override
-		protected ShortType convert(final Short src) {
-			return new ShortType(src);
+		public ShortToShortTypeConverter() {
+			super(Short.class, ShortType.class, ShortType::new);
 		}
 	}
 
 	@Plugin(type = Converter.class)
 	public static class IntegerToIntTypeConverter extends
-		NumberToNumericTypeConverter<Integer, IntType>
+		ConciseConverter<Integer, IntType>
 	{
 
-		@Override
-		public Class<IntType> getOutputType() {
-			return IntType.class;
-		}
-
-		@Override
-		public Class<Integer> getInputType() {
-			return Integer.class;
-		}
-
-		@Override
-		protected IntType convert(final Integer src) {
-			return new IntType(src);
+		public IntegerToIntTypeConverter() {
+			super(Integer.class, IntType.class, IntType::new);
 		}
 	}
 
 	@Plugin(type = Converter.class)
 	public static class LongToLongTypeConverter extends
-		NumberToNumericTypeConverter<Long, LongType>
+		ConciseConverter<Long, LongType>
 	{
 
-		@Override
-		public Class<LongType> getOutputType() {
-			return LongType.class;
-		}
-
-		@Override
-		public Class<Long> getInputType() {
-			return Long.class;
-		}
-
-		@Override
-		protected LongType convert(final Long src) {
-			return new LongType(src);
+		public LongToLongTypeConverter() {
+			super(Long.class, LongType.class, LongType::new);
 		}
 	}
-
 }

@@ -39,45 +39,31 @@ import org.scijava.convert.Converter;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
+import java.util.function.Function;
+
 /**
  * Simple {@link Converter} for wrapping {@link Dataset}s into a
  * {@link DatasetView} of it.
  *
  * @author Gabriel Selzer
+ * @author Curtis Rueden
  */
 @Plugin(type = Converter.class, priority = Priority.NORMAL + 1)
 public class DatasetToDatasetViewConverter extends
-	AbstractConverter<Dataset, DatasetView>
+	ConciseConverter<Dataset, DatasetView>
 {
 
 	@Parameter
 	private ImageDisplayService imageDisplayService;
 
+	public DatasetToDatasetViewConverter() {
+		super(Dataset.class, DatasetView.class, null);
+	}
+
 	@Override
-	public <T> T convert(final Object o, final Class<T> aClass) {
-		if (!(o instanceof Dataset)) {
-			throw new IllegalArgumentException("Object is not a Dataset");
-		}
-		final Dataset ds = (Dataset) o;
-		final DatasetView view = imageDisplayService.createDatasetView(ds);
-		if (!aClass.isInstance(view)) {
-			throw new IllegalArgumentException("Class " + aClass.getName() +
-				" is incompatible with converted DatasetView.");
-		}
-		// Ensure the view reflects the Dataset
+	protected DatasetView convert(final Dataset src) {
+		final DatasetView view = imageDisplayService.createDatasetView(src);
 		view.rebuild();
-		@SuppressWarnings("unchecked")
-		final T result = (T) view;
-		return result;
-	}
-
-	@Override
-	public Class<Dataset> getInputType() {
-		return Dataset.class;
-	}
-
-	@Override
-	public Class<DatasetView> getOutputType() {
-		return DatasetView.class;
+		return view;
 	}
 }

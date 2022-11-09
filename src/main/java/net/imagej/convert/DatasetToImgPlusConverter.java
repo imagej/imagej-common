@@ -37,6 +37,8 @@ import org.scijava.convert.AbstractConverter;
 import org.scijava.convert.Converter;
 import org.scijava.plugin.Plugin;
 
+import java.util.function.Function;
+
 /**
  * Simple {@link Converter} for unwrapping {@link Dataset}s to their underlying
  * {@link ImgPlus}.
@@ -45,23 +47,11 @@ import org.scijava.plugin.Plugin;
  */
 @SuppressWarnings("rawtypes")
 @Plugin(type = Converter.class, priority = Priority.NORMAL + 1)
-public class DatasetToImgPlusConverter extends AbstractConverter<Dataset, ImgPlus>{
+public class DatasetToImgPlusConverter extends
+	ConciseConverter<Dataset, ImgPlus>
+{
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T convert(Object src, Class<T> dest) {
-		Dataset data = (Dataset)src;
-		return (T) data.getImgPlus();
+	public DatasetToImgPlusConverter() {
+		super(Dataset.class, ImgPlus.class, Dataset::getImgPlus);
 	}
-
-	@Override
-	public Class<ImgPlus> getOutputType() {
-		return ImgPlus.class;
-	}
-
-	@Override
-	public Class<Dataset> getInputType() {
-		return Dataset.class;
-	}
-
 }
