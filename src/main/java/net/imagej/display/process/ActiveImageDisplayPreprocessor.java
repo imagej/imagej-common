@@ -50,7 +50,7 @@ import org.scijava.plugin.Plugin;
  * 
  * @author Curtis Rueden
  */
-@Plugin(type = PreprocessorPlugin.class, priority = Priority.VERY_HIGH_PRIORITY)
+@Plugin(type = PreprocessorPlugin.class, priority = Priority.VERY_HIGH + 30)
 public class ActiveImageDisplayPreprocessor extends
 	SingleInputPreprocessor<ImageDisplay>
 {

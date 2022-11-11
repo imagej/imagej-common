@@ -47,6 +47,11 @@ import org.scijava.Context;
 import org.scijava.convert.ConvertService;
 import org.scijava.convert.Converter;
 
+/**
+ * Tests {@link net.imagej.convert.ConvertListToFinalInterval}.
+ *
+ * @author Mark Hiner hinerm at gmail.com
+ */
 public class ConvertListToIntervalTest {
 
 	private ConvertService convertService;
@@ -69,11 +74,13 @@ public class ConvertListToIntervalTest {
 	@Test
 	public void convertLongListToDimensionsTest() {
 		final List<Long> dims = new ArrayList<>();
-		for (int i = 0; i < 10; i++) dims.add((long) (Math.random() * 10000));
+		for (int i = 0; i < 10; i++)
+			dims.add((long) (Math.random() * 10000));
 
 		assertTrue(convertService.supports(dims, Dimensions.class));
 
-		final Dimensions dimensions = convertService.convert(dims, Dimensions.class);
+		final Dimensions dimensions = convertService.convert(dims,
+			Dimensions.class);
 
 		assertTrue(dimensions != null);
 
@@ -89,11 +96,13 @@ public class ConvertListToIntervalTest {
 	@Test
 	public void convertIntListToDimensionsTest() {
 		final List<Integer> dims = new ArrayList<>();
-		for (int i = 0; i < 10; i++) dims.add((int) (Math.random() * 10000));
+		for (int i = 0; i < 10; i++)
+			dims.add((int) (Math.random() * 10000));
 
 		assertTrue(convertService.supports(dims, Dimensions.class));
 
-		final Dimensions dimensions = convertService.convert(dims, Dimensions.class);
+		final Dimensions dimensions = convertService.convert(dims,
+			Dimensions.class);
 
 		assertTrue(dimensions != null);
 
@@ -109,7 +118,8 @@ public class ConvertListToIntervalTest {
 	@Test
 	public void testIntFalsePositives() {
 		final List<Integer> dims = new ArrayList<>();
-		for (int i = 0; i < 10; i++) dims.add((int) (Math.random() * 10000));
+		for (int i = 0; i < 10; i++)
+			dims.add((int) (Math.random() * 10000));
 
 		final Converter<List, FinalInterval> converter =
 			new ConvertListToFinalInterval();

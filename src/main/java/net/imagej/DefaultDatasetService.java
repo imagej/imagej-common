@@ -44,7 +44,6 @@ import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.converter.Converters;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
-import net.imglib2.img.ImgView;
 import net.imglib2.img.cell.CellImgFactory;
 import net.imglib2.img.planar.PlanarImgFactory;
 import net.imglib2.type.NativeType;
@@ -62,7 +61,6 @@ import net.imglib2.type.numeric.integer.UnsignedIntType;
 import net.imglib2.type.numeric.integer.UnsignedShortType;
 import net.imglib2.type.numeric.real.DoubleType;
 import net.imglib2.type.numeric.real.FloatType;
-import net.imglib2.util.Util;
 
 import net.imglib2.view.Views;
 import org.scijava.log.LogService;
@@ -228,7 +226,7 @@ public final class DefaultDatasetService extends AbstractService implements
 	public <T extends Type<T>> Dataset create(
 			final RandomAccessibleInterval<T> rai)
 	{
-		return create(wrapToImgPlus(rai));
+		return create(ImgPlus.wrap(rai));
 	}
 
 	private ImgPlus< UnsignedByteType > argbToMultiChannel(
@@ -239,7 +237,7 @@ public final class DefaultDatasetService extends AbstractService implements
 				.argbChannel(rai, 1);
 		RandomAccessibleInterval<UnsignedByteType> green = Converters.argbChannel(rai, 2);
 		RandomAccessibleInterval<UnsignedByteType> blue = Converters.argbChannel(rai, 3);
-		Img<UnsignedByteType> channels = wrapToImg(Views.stack(red, green, blue));
+		Img<UnsignedByteType> channels = ImgPlus.wrapToImg(Views.stack(red, green, blue));
 		int n = imgPlus.numDimensions();
 		CalibratedAxis[] axes = new CalibratedAxis[n + 1];
 		for (int d = 0; d < n; d++) axes[d] = imgPlus.axis(d);
@@ -345,26 +343,5 @@ public final class DefaultDatasetService extends AbstractService implements
 	{
 		throw new IllegalArgumentException("Invalid parameters: bitsPerPixel=" +
 			bitsPerPixel + ", signed=" + signed + ", floating=" + floating);
-	}
-
-	private <T extends Type<T>> ImgPlus<T> wrapToImgPlus(
-		final RandomAccessibleInterval<T> rai)
-	{
-		if (rai instanceof ImgPlus) return (ImgPlus<T>) rai;
-		return new ImgPlus<>(wrapToImg(rai));
-	}
-
-	private <T extends Type<T>> Img<T> wrapToImg(
-		final RandomAccessibleInterval<T> rai)
-	{
-		if (rai instanceof Img) return (Img<T>) rai;
-		return ImgView.wrap(rai, imgFactory(rai));
-	}
-
-	private <T> ImgFactory<T> imgFactory(
-		final RandomAccessibleInterval<T> rai)
-	{
-		final T type = Util.getTypeFromInterval(rai);
-		return Util.getSuitableImgFactory(rai, type);
 	}
 }

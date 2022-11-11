@@ -51,7 +51,7 @@ import org.scijava.plugin.Plugin;
  * @author Curtis Rueden
  * @author Mark Hiner hinerm at gmail.com
  */
-@Plugin(type = PreprocessorPlugin.class, priority = Priority.VERY_HIGH_PRIORITY)
+@Plugin(type = PreprocessorPlugin.class, priority = Priority.VERY_HIGH)
 public class ActiveDatasetPreprocessor extends SingleInputPreprocessor<Dataset>
 {
 

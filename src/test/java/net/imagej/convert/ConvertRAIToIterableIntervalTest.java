@@ -50,8 +50,8 @@ public class ConvertRAIToIterableIntervalTest {
 	public void convertRaitoIterableIntervalTest() {
 
 		// we need a Rai
-		final RandomAccessibleInterval<ByteType> rai =
-			Views.subsample(ArrayImgs.bytes(10, 10, 10), 2);
+		final RandomAccessibleInterval<ByteType> rai = Views.subsample(ArrayImgs
+			.bytes(10, 10, 10), 2);
 
 		// Test if converter can convert
 		@SuppressWarnings("rawtypes")

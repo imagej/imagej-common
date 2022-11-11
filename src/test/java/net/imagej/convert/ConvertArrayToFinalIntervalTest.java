@@ -39,7 +39,7 @@ import org.junit.Test;
 import org.scijava.convert.Converter;
 
 /**
- * Tests converters from native java arrays to FinalIntervals
+ * Tests converters from native java arrays to FinalIntervals.
  *
  * @author Christian Dietz, University of Konstanz
  */
