@@ -38,14 +38,14 @@ import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
 /**
- * Fills single, unresolved module inputs with the active active
- * {@link Dataset}. Hence, rather than a dialog prompting the user to - *
- * manually select an input, the active {@link Dataset} is used automatically. -
- * *
+ * Fills single, unresolved module inputs with the active {@link Dataset}.
+ * Hence, rather than a dialog prompting the user to manually select an input,
+ * the active {@link Dataset} is used automatically.
+ *
  * <p>
- * - * In the case of more than one compatible parameter, the active - *
- * {@link Dataset} is not used and instead the user must select. This behavior -
- * * is consistent with ImageJ v1.x. - *
+ * In the case of more than one compatible parameter, the active {@link Dataset}
+ * is not used and instead the user must select. This behavior is consistent
+ * with ImageJ v1.x.
  * </p>
  * 
  * @author Curtis Rueden
