@@ -171,17 +171,6 @@ public class NumericTypeToNumberConverters {
 		}
 	}
 
-	@Plugin(type = Converter.class)
-	public static class UnsignedLongTypeToBigIntegerConverter extends
-		ConciseConverter<UnsignedLongType, BigInteger>
-	{
-
-		public UnsignedLongTypeToBigIntegerConverter() {
-			super(UnsignedLongType.class, BigInteger.class,
-				UnsignedLongType::getBigInteger);
-		}
-	}
-
 	@Plugin(type = Converter.class, priority = Priority.LOW)
 	public static class IntegerTypeToBigIntegerConverter extends
 		ConciseConverter<IntegerType, BigInteger>
