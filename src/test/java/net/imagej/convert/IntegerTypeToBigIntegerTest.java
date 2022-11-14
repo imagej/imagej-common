@@ -35,6 +35,18 @@ import static org.junit.Assert.assertTrue;
 import java.math.BigInteger;
 import java.util.Arrays;
 
+import net.imglib2.type.numeric.IntegerType;
+import net.imglib2.type.numeric.integer.ByteType;
+import net.imglib2.type.numeric.integer.IntType;
+import net.imglib2.type.numeric.integer.LongType;
+import net.imglib2.type.numeric.integer.ShortType;
+import net.imglib2.type.numeric.integer.Unsigned12BitType;
+import net.imglib2.type.numeric.integer.Unsigned2BitType;
+import net.imglib2.type.numeric.integer.Unsigned4BitType;
+import net.imglib2.type.numeric.integer.UnsignedByteType;
+import net.imglib2.type.numeric.integer.UnsignedIntType;
+import net.imglib2.type.numeric.integer.UnsignedLongType;
+import net.imglib2.type.numeric.integer.UnsignedShortType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,32 +55,28 @@ import org.junit.runners.Parameterized;
 import org.scijava.Context;
 import org.scijava.convert.ConvertService;
 
-import net.imglib2.type.numeric.NumericType;
-import net.imglib2.type.numeric.RealType;
-import net.imglib2.type.numeric.integer.*;
-
 /**
- * Tests the conversion of {@link RealType}s into {@link BigInteger}s
+ * Tests the conversion of {@link IntegerType}s into {@link BigInteger}s.
  * 
  * @author Gabriel Selzer
  */
 @RunWith(Parameterized.class)
-public class NumericTypeToBigIntegerTest {
+public class IntegerTypeToBigIntegerTest {
 
 	@Parameterized.Parameters(name = "Type conversion test {index}: {0} <=> {1}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] { //
-			{ BigInteger.ZERO, new UnsignedByteType((byte) 0) }, //
-			{ BigInteger.ZERO, new Unsigned2BitType((byte) 0) }, //
-			{ BigInteger.ZERO, new Unsigned4BitType((byte) 0) }, //
-			{ BigInteger.ZERO, new Unsigned12BitType((byte) 0) }, //
-			{ BigInteger.ZERO, new UnsignedIntType((byte) 0) }, //
-			{ BigInteger.ZERO, new UnsignedShortType((byte) 0) }, //
-			{ BigInteger.ZERO, new UnsignedLongType((byte) 0) }, //
-			{ BigInteger.ZERO, new ByteType((byte) 0) }, //
-			{ BigInteger.ZERO, new IntType(0) }, //
-			{ BigInteger.ZERO, new LongType(0L) }, //
-			{ BigInteger.ZERO, new ShortType((short) 0) }, //
+			{ BigInteger.ONE, new UnsignedByteType((byte) 1) }, //
+			{ BigInteger.ONE, new Unsigned2BitType((byte) 1) }, //
+			{ BigInteger.ONE, new Unsigned4BitType((byte) 1) }, //
+			{ BigInteger.ONE, new Unsigned12BitType((byte) 1) }, //
+			{ BigInteger.ONE, new UnsignedIntType((byte) 1) }, //
+			{ BigInteger.ONE, new UnsignedShortType((byte) 1) }, //
+			{ BigInteger.ONE, new UnsignedLongType((byte) 1) }, //
+			{ BigInteger.ONE, new ByteType((byte) 1) }, //
+			{ BigInteger.ONE, new IntType(1) }, //
+			{ BigInteger.ONE, new LongType(1L) }, //
+			{ BigInteger.ONE, new ShortType((short) 1) }, //
 		});
 	}
 
@@ -76,7 +84,7 @@ public class NumericTypeToBigIntegerTest {
 	public Object number;
 
 	@Parameterized.Parameter(1)
-	public Object numericType;
+	public Object integerType;
 	private ConvertService convertService;
 
 	@Before
@@ -91,16 +99,13 @@ public class NumericTypeToBigIntegerTest {
 		convertService = null;
 	}
 
-	/**
-	 * Test conversion from {@link Number} to {@link NumericType}
-	 */
+	/** Tests conversion from {@link IntegerType} to {@link BigInteger}. */
 	@Test
 	public void testIntegerTypeToBigInteger() {
-		assertTrue("Conversion support from number to numeric type", convertService
-			.supports(numericType, BigInteger.class));
-		BigInteger converted = convertService.convert(numericType,
-			BigInteger.class);
+		assertTrue("supports", //
+			convertService.supports(integerType, BigInteger.class));
+		final BigInteger converted = //
+			convertService.convert(integerType, BigInteger.class);
 		assertEquals("Converted type value equality", number, converted);
 	}
-
 }
