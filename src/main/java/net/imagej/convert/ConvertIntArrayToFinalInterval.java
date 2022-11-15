@@ -35,36 +35,25 @@ import org.scijava.convert.AbstractConverter;
 import org.scijava.convert.Converter;
 import org.scijava.plugin.Plugin;
 
+import java.util.function.Function;
+
 /**
- * Converter from native int[] array to Dimensions Christian Dietz, University
- * of Konstanz
+ * Converter from native int[] array to Dimensions
+ *
+ * @author Christian Dietz, University of Konstanz
+ * @author Curtis Rueden
  */
 @Plugin(type = Converter.class)
 public class ConvertIntArrayToFinalInterval extends
-	AbstractConverter<int[], FinalInterval> implements
-	ConvertIntArrayToDimensions<FinalInterval>
+	ConciseConverter<int[], FinalInterval>
 {
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T convert(final Object src, final Class<T> dest) {
-		final int[] in = (int[]) src;
-		final long[] out = new long[in.length];
-
-		for (int i = 0; i < in.length; i++) {
-			out[i] = in[i];
-		}
-
-		return (T) new FinalInterval(out);
-	}
-
-	@Override
-	public Class<FinalInterval> getOutputType() {
-		return FinalInterval.class;
-	}
-
-	@Override
-	public Class<int[]> getInputType() {
-		return int[].class;
+	public ConvertIntArrayToFinalInterval() {
+		super(int[].class, FinalInterval.class, src -> {
+			final long[] dims = new long[src.length];
+			for (int i = 0; i < src.length; i++)
+				dims[i] = src[i];
+			return new FinalInterval(dims);
+		});
 	}
 }

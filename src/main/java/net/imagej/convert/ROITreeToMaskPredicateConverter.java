@@ -30,6 +30,7 @@
 package net.imagej.convert;
 
 import java.lang.reflect.Type;
+import java.util.function.Function;
 
 import net.imagej.roi.ROITree;
 import net.imglib2.roi.MaskPredicate;
@@ -41,65 +42,57 @@ import org.scijava.util.TreeNode;
 import org.scijava.util.Types;
 
 /**
- * Abstract {@link Converter} from ROITree to SuperEllipsoid
+ * {@link Converter} from {@link ROITree} to {@link MaskPredicate}.
  *
  * @author Gabriel Selzer
+ * @author Curtis Rueden
  */
 @Plugin(type = Converter.class)
 public class ROITreeToMaskPredicateConverter extends
-	AbstractConverter<ROITree, MaskPredicate> //
+	ConciseConverter<ROITree, MaskPredicate>
 {
+
+	public ROITreeToMaskPredicateConverter() {
+		super(ROITree.class, MaskPredicate.class, src -> (MaskPredicate) src
+			.children().get(0).data());
+	}
 
 	@Override
 	public boolean canConvert(final Object src, final Type dest) {
-		return canConvert(src, Types.raw(dest));
+		// NB: If we don't override this method, the superclass logic invokes
+		// canConvert(Class, Class), which does the wrong thing for this
+		// instance-sensitive converter, because if we don't have the instance,
+		// we can't know whether a particular destination subtype is an acceptable
+		// conversion target. We must delegate to a method that knows the instance.
+		//
+		// This implementation here is probably overkill, and it's hard to be
+		// perfect about this with all generic types, but here we check that *all*
+		// raw types of the given destination type are acceptable conversion targets
+		// for this object. But there are certainly many ways this could go wrong.
+		return Types.raws(dest).stream().allMatch(c -> canConvert(src, c));
 	}
 
 	@Override
 	public boolean canConvert(final Object src, final Class<?> dest) {
-		// Assert that src is a ROITree and dest a MaskPredicate
 		if (!(src instanceof ROITree)) return false;
-		if (!(MaskPredicate.class.isAssignableFrom(dest))) return false;
-		ROITree srcTree = (ROITree) src;
-		// Assert exactly one ROI in the tree
+		// NB: We don't check the dest type versus MaskPredicate here.
+		// An instance-insensitive converter cannot guarantee conversion of a
+		// ROITree to, say, ClosedWritableEllipsoid, because by types alone we don't
+		// know that the ROITree contains a ClosedWritableEllipsoid specifically --
+		// all we know is that it contains zero or more MaskPredicates.
+		// But this converter is *instance-sensitive*, meaning it promises
+		// convertibility to a particular destination type iff the input ROITree's
+		// sole child is that type. So we'll check the destination type at the end,
+		// after we have extracted the contents of the ROITree.
+		@SuppressWarnings("unchecked")
+		final ROITree srcTree = (ROITree) src;
+
+		// Assert exactly one ROI in the tree.
 		if (srcTree.children().size() != 1) return false;
-		TreeNode<?> onlyChild = srcTree.children().get(0);
+		final TreeNode<?> onlyChild = srcTree.children().get(0);
 		if (!onlyChild.children().isEmpty()) return false;
 
-		// Assert the only ROI is of the type we are looking for
+		// Assert the only ROI is of the type we are looking for.
 		return dest.isInstance(onlyChild.data());
-	}
-
-	/**
-	 * Overriding {@link AbstractConverter#canConvert(Class, Class)} to avoid
-	 * failures from that behavior.
-	 * 
-	 * @param src the {@link Class} converted from
-	 * @param dest the {@link Class} converted to
-	 * @return true iff this {@link Converter} can convert from {@code from} to
-	 *         {@code to}
-	 */
-	@Override
-	public boolean canConvert(final Class<?> src, final Class<?> dest) {
-		if (!(ROITree.class.isAssignableFrom(src))) return false;
-		if (!(MaskPredicate.class.isAssignableFrom(dest))) return false;
-		return true;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T convert(final Object src, final Class<T> dest) {
-		ROITree srcTree = (ROITree) src;
-		return (T) srcTree.children().get(0).data();
-	}
-
-	@Override
-	public Class<MaskPredicate> getOutputType() {
-		return MaskPredicate.class;
-	}
-
-	@Override
-	public Class<ROITree> getInputType() {
-		return ROITree.class;
 	}
 }

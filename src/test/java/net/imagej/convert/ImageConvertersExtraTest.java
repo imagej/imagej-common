@@ -31,12 +31,15 @@ package net.imagej.convert;
 
 import net.imagej.Dataset;
 import net.imagej.DatasetService;
+import net.imagej.ImgPlus;
 import net.imagej.display.ColorTables;
 import net.imagej.display.DatasetView;
+import net.imagej.display.ImageDisplay;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.array.ArrayImgs;
 import net.imglib2.type.numeric.integer.UnsignedByteType;
 
+import net.imglib2.view.Views;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -44,13 +47,18 @@ import org.junit.Test;
 import org.scijava.Context;
 import org.scijava.convert.ConvertService;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+
 /**
- * A simple test ensuring {@link DatasetToDatasetViewConverter}
- * functionality.
- * 
+ * Additional (non-parameterized) tests for {@link ImageConverters}.
+ *
  * @author Gabriel Selzer
+ * @author Mark Hiner hinerm at gmail.com
+ * @see ImageConvertersTest
  */
-public class DatasetToDatasetViewConverterTest {
+public class ImageConvertersExtraTest {
 
 	private Context ctx;
 	private ConvertService convertService;
@@ -71,7 +79,7 @@ public class DatasetToDatasetViewConverterTest {
 	}
 
 	@Test
-	public void testDatasetToDatasetViewTest() {
+	public void testDatasetToDatasetView() {
 		RandomAccessibleInterval<UnsignedByteType> rai = ArrayImgs.unsignedBytes(10,
 			10, 10);
 		Dataset d = datasetService.create(rai);
@@ -92,4 +100,33 @@ public class DatasetToDatasetViewConverterTest {
 		Assert.assertEquals(ColorTables.GRAYS, view.getColorTables().get(0));
 	}
 
+	@Test
+	public void testDatasetToImgPlus() {
+		final Dataset ds = datasetService.create(Views.subsample(ArrayImgs.bytes(10,
+			10, 10), 2));
+		// make sure we got the right converter back
+		assertSame(ImageConverters.DatasetToImgPlusConverter.class, convertService
+			.getHandler(ds, ImgPlus.class).getClass());
+
+		final ImgPlus<?> img = convertService.convert(ds, ImgPlus.class);
+		// Make sure we didn't create a loop between the two
+		assertFalse(img.getImg() == ds);
+	}
+
+	@Test
+	public void testRAIToImageDisplay() {
+		RandomAccessibleInterval<UnsignedByteType> rai = ArrayImgs.unsignedBytes(10,
+			10, 10);
+		ImageDisplay display = convertService.convert(rai, ImageDisplay.class);
+		assertNotNull(display);
+	}
+
+	@Test
+	public void testDatasetToImageDisplay() {
+		RandomAccessibleInterval<UnsignedByteType> rai = ArrayImgs.unsignedBytes(10,
+			10, 10);
+		Dataset d = datasetService.create(rai);
+		ImageDisplay display = convertService.convert(d, ImageDisplay.class);
+		Assert.assertTrue(display.isDisplaying(d));
+	}
 }

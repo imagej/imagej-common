@@ -1,4 +1,4 @@
-/*
+/*-
  * #%L
  * ImageJ2 software for multidimensional image processing and analysis.
  * %%
@@ -26,53 +26,63 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
+
 package net.imagej.convert;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
+import org.scijava.convert.AbstractConverter;
 
-import net.imagej.Dataset;
-import net.imagej.DatasetService;
-import net.imagej.ImgPlus;
-import net.imglib2.img.array.ArrayImgs;
-import net.imglib2.view.Views;
+import net.imglib2.type.numeric.NumericType;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.scijava.Context;
-import org.scijava.convert.ConvertService;
+import java.util.function.Function;
 
 /**
- * Unit tests for {@link DatasetToImgPlusConverter}.
+ * A more concise abstract base class for converter plugins.
  *
- * @author Mark Hiner hinerm at gmail.com
+ * @param <I> input type
+ * @param <O> output type
+ * @author Gabriel Selzer
+ * @author Curtis Rueden
  */
-public class ConvertDatasetToImgPlusTest {
+public abstract class ConciseConverter<I, O> extends AbstractConverter<I, O> {
 
-	private Context c;
+	private final Class<I> inType;
+	private final Class<O> outType;
+	private final Function<I, O> conversionFunction;
 
-	@Before
-	public void setUp() {
-		c = new Context();
+	public ConciseConverter(final Class<I> inType, final Class<O> outType,
+		final Function<I, O> conversionFunction)
+	{
+		this.inType = inType;
+		this.outType = outType;
+		this.conversionFunction = conversionFunction;
 	}
 
-	@After
-	public void tearDown() {
-		c.dispose();
-		c = null;
+	@Override
+	public Class<I> getInputType() {
+		return inType;
 	}
 
-	@Test
-	public void testDatasetToImgPlusConverter() {
-		final DatasetService datasetService = c.service(DatasetService.class);
-		final ConvertService convertService = c.service(ConvertService.class);
-		final Dataset ds = datasetService.create(Views.subsample(ArrayImgs.bytes(10, 10, 10), 2));
-		// make sure we got the right converter back
-		assertSame(DatasetToImgPlusConverter.class, convertService.getHandler(ds, ImgPlus.class).getClass());
+	@Override
+	public Class<O> getOutputType() {
+		return outType;
+	}
 
-		final ImgPlus<?> img = convertService.convert(ds, ImgPlus.class);
-		// Make sure we didn't create a loop between the two
-		assertFalse(img.getImg() == ds);
+	@Override
+	public <T> T convert(final Object src, final Class<T> dest) {
+		if (!canConvert(src, dest)) {
+			throw new IllegalArgumentException(//
+				"Cannot convert source object of type " + src.getClass().getName() + //
+					" to destination type " + dest.getName());
+		}
+		@SuppressWarnings("unchecked")
+		final I typedSrc = (I) src;
+		final O result = convert(typedSrc);
+		@SuppressWarnings("unchecked")
+		final T typedResult = (T) result;
+		return typedResult;
+	}
+
+	protected O convert(I src) {
+		return conversionFunction.apply(src);
 	}
 }

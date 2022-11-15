@@ -1,4 +1,4 @@
-/*
+/*-
  * #%L
  * ImageJ2 software for multidimensional image processing and analysis.
  * %%
@@ -30,29 +30,29 @@
 package net.imagej.convert;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import net.imagej.ImgPlus;
-import net.imglib2.Dimensions;
-import net.imglib2.FinalInterval;
-
+import net.imglib2.type.BooleanType;
+import net.imglib2.type.numeric.ComplexType;
+import net.imglib2.type.numeric.IntegerType;
+import net.imglib2.type.numeric.NumericType;
+import net.imglib2.type.numeric.RealType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.scijava.Context;
 import org.scijava.convert.ConvertService;
-import org.scijava.convert.Converter;
 
 /**
- * Tests {@link net.imagej.convert.ConvertListToFinalInterval}.
+ * Tests conversion of {@link Number}s to {@link RealType}s.
  *
- * @author Mark Hiner hinerm at gmail.com
+ * @author Gabriel Selzer
+ * @see NumberToAndFromRealTypeTest
  */
-public class ConvertListToIntervalTest {
+public class NumberToRealTypeTest {
 
 	private ConvertService convertService;
 
@@ -69,63 +69,41 @@ public class ConvertListToIntervalTest {
 	}
 
 	/**
-	 * Test conversion from {@code List<Long>} to {@link Dimensions}
+	 * Tests conversion from {@link Number} to {@link RealType} and its
+	 * superinterfaces.
 	 */
 	@Test
-	public void convertLongListToDimensionsTest() {
-		final List<Long> dims = new ArrayList<>();
-		for (int i = 0; i < 10; i++)
-			dims.add((long) (Math.random() * 10000));
-
-		assertTrue(convertService.supports(dims, Dimensions.class));
-
-		final Dimensions dimensions = convertService.convert(dims,
-			Dimensions.class);
-
-		assertTrue(dimensions != null);
-
-		for (int d = 0; d < dimensions.numDimensions(); d++) {
-			assertEquals(dims.get(d).longValue(), dimensions.dimension(d));
+	public void testNumberToRealTypeIFaces() {
+		List<Number> numbers = Arrays.asList((byte) 1, (short) 1, 1, 1L, 1.F, 1.);
+		List<Class<?>> types = Arrays.asList(RealType.class, ComplexType.class,
+			NumericType.class);
+		for (Number number : numbers) {
+			for (Class<?> c : types) {
+				assertTrue(convertService.supports(number, c));
+				Object result = convertService.convert(number, c);
+				assertTrue(c.isInstance(result));
+				assertEquals(1.0, ((RealType<?>) result).getRealDouble(), 0.0);
+			}
 		}
-
 	}
 
-	/**
-	 * Test conversion from {@code List<Integer>} to {@link Dimensions}
-	 */
 	@Test
-	public void convertIntListToDimensionsTest() {
-		final List<Integer> dims = new ArrayList<>();
-		for (int i = 0; i < 10; i++)
-			dims.add((int) (Math.random() * 10000));
-
-		assertTrue(convertService.supports(dims, Dimensions.class));
-
-		final Dimensions dimensions = convertService.convert(dims,
-			Dimensions.class);
-
-		assertTrue(dimensions != null);
-
-		for (int d = 0; d < dimensions.numDimensions(); d++) {
-			assertEquals(dims.get(d).intValue(), dimensions.dimension(d));
+	public void testNumberToIntegerType() {
+		List<Number> numbers = Arrays.asList((byte) 1, (short) 1, 1, 1L);
+		for (Number number : numbers) {
+			assertTrue(convertService.supports(number, IntegerType.class));
+			Object result = convertService.convert(number, IntegerType.class);
+			assertTrue(result instanceof IntegerType);
+			assertEquals(1L, ((IntegerType<?>) result).getIntegerLong());
 		}
-
 	}
 
-	/**
-	 * Ensure int conversion logic is not over-zealous.
-	 */
 	@Test
-	public void testIntFalsePositives() {
-		final List<Integer> dims = new ArrayList<>();
-		for (int i = 0; i < 10; i++)
-			dims.add((int) (Math.random() * 10000));
-
-		final Converter<List, FinalInterval> converter =
-			new ConvertListToFinalInterval();
-
-		convertService.getContext().inject(converter);
-
-		assertFalse(converter.canConvert(dims, ImgPlus.class));
+	public void testBooleanToBooleanType() {
+		Boolean b = true;
+		assertTrue(convertService.supports(b, BooleanType.class));
+		Object result = convertService.convert(b, BooleanType.class);
+		assertTrue(result instanceof BooleanType);
+		assertEquals(true, ((BooleanType) result).get());
 	}
 }

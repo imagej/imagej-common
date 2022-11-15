@@ -29,55 +29,25 @@
 
 package net.imagej.convert;
 
-import net.imagej.Dataset;
-import net.imagej.display.DatasetView;
-import net.imagej.display.ImageDisplayService;
-
+import net.imglib2.type.BooleanType;
+import net.imglib2.type.logic.BoolType;
 import org.scijava.Priority;
 import org.scijava.convert.AbstractConverter;
 import org.scijava.convert.Converter;
-import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
 /**
- * Simple {@link Converter} for wrapping {@link Dataset}s into a
- * {@link DatasetView} of it.
+ * Converts {@link Boolean}s into {@link BooleanType}s
  *
  * @author Gabriel Selzer
  */
-@Plugin(type = Converter.class, priority = Priority.NORMAL + 1)
-public class DatasetToDatasetViewConverter extends
-	AbstractConverter<Dataset, DatasetView>
+@SuppressWarnings("rawtypes")
+@Plugin(type = Converter.class, priority = Priority.VERY_LOW)
+public class BooleanToBooleanTypeConverter extends
+	ConciseConverter<Boolean, BooleanType>
 {
 
-	@Parameter
-	private ImageDisplayService imageDisplayService;
-
-	@Override
-	public <T> T convert(final Object o, final Class<T> aClass) {
-		if (!(o instanceof Dataset)) {
-			throw new IllegalArgumentException("Object is not a Dataset");
-		}
-		final Dataset ds = (Dataset) o;
-		final DatasetView view = imageDisplayService.createDatasetView(ds);
-		if (!aClass.isInstance(view)) {
-			throw new IllegalArgumentException("Class " + aClass.getName() +
-				" is incompatible with converted DatasetView.");
-		}
-		// Ensure the view reflects the Dataset
-		view.rebuild();
-		@SuppressWarnings("unchecked")
-		final T result = (T) view;
-		return result;
-	}
-
-	@Override
-	public Class<Dataset> getInputType() {
-		return Dataset.class;
-	}
-
-	@Override
-	public Class<DatasetView> getOutputType() {
-		return DatasetView.class;
+	public BooleanToBooleanTypeConverter() {
+		super(Boolean.class, BooleanType.class, BoolType::new);
 	}
 }

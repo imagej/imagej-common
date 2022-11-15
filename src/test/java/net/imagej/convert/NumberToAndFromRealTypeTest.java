@@ -32,8 +32,10 @@ package net.imagej.convert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 
+import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.integer.*;
 import org.junit.After;
 import org.junit.Before;
@@ -50,13 +52,20 @@ import net.imglib2.type.numeric.real.DoubleType;
 import net.imglib2.type.numeric.real.FloatType;
 import net.imglib2.type.operators.ValueEquals;
 
+/**
+ * Tests the conversion of {@link Number}s into {@link RealType}s and back.
+ * 
+ * @author Jan Eglinger
+ * @author Gabriel Selzer
+ * @see NumberToRealTypeTest
+ */
 @RunWith(Parameterized.class)
-public class NumberAndTypeConversionTest {
+public class NumberToAndFromRealTypeTest {
 
 	@Parameters(name = "Type conversion test {index}: {0} <=> {1}")
 	public static Iterable<Object[]> data() {
-		return Arrays.asList(new Object[][] { { Double.POSITIVE_INFINITY,
-			new DoubleType(Double.POSITIVE_INFINITY) }, //
+		return Arrays.asList(new Object[][] { //
+			{ Double.POSITIVE_INFINITY, new DoubleType(Double.POSITIVE_INFINITY) }, //
 			{ Float.NEGATIVE_INFINITY, new FloatType(Float.NEGATIVE_INFINITY) }, //
 			{ Integer.MAX_VALUE, new IntType(Integer.MAX_VALUE) }, //
 			{ Long.MAX_VALUE, new LongType(Long.MAX_VALUE) }, //
@@ -68,13 +77,13 @@ public class NumberAndTypeConversionTest {
 			{ 0L, new Unsigned12BitType((byte) 0) }, //
 			{ 0L, new UnsignedIntType((byte) 0) }, //
 			{ 0, new UnsignedShortType((byte) 0) }, //
-			{ 0L, new UnsignedLongType((byte) 0) }, //
+			{ BigInteger.ZERO, new UnsignedLongType((byte) 0) }, //
 			{ (byte) 0, new ByteType((byte) 0) }, //
 			{ 0, new IntType(0) }, //
 			{ 0L, new LongType(0L) }, //
 			{ (short) 0, new ShortType((short) 0) }, //
 			{ 0., new DoubleType(0.) }, //
-			{ 0.F, new FloatType(0f) } //
+			{ 0.F, new FloatType(0f) }, //
 		});
 	}
 
@@ -104,8 +113,8 @@ public class NumberAndTypeConversionTest {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void testNumberToNumericType() {
-		assertTrue("Conversion support from number to numeric type", convertService
-			.supports(number, numericType.getClass()));
+		assertTrue("Conversion support from number to numeric type",
+			convertService.supports(number, numericType.getClass()));
 		ValueEquals converted = (ValueEquals) convertService.convert(number,
 			numericType.getClass());
 		assertTrue("Converted type value equality", converted.valueEquals(
@@ -117,8 +126,8 @@ public class NumberAndTypeConversionTest {
 	 */
 	@Test
 	public void testNumericTypeToNumber() {
-		assertTrue("Conversion support from numeric type to number", convertService
-			.supports(numericType, number.getClass()));
+		assertTrue("Conversion support from numeric type to number",
+			convertService.supports(numericType, number.getClass()));
 		Number converted = (Number) convertService.convert(numericType, number
 			.getClass());
 		assertEquals("Converted value equality", number, converted);

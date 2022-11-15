@@ -26,6 +26,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
+
 package net.imagej.convert;
 
 import static org.junit.Assert.assertEquals;
@@ -68,7 +69,8 @@ public class ImgLabelingConversionTest {
 	public void testImgToImgLabelingConversion() {
 		Img<UnsignedByteType> img = createTestImg();
 		assertTrue(convertService.supports(img, ImgLabeling.class));
-		assertEquals(RandomAccessibleIntervalToImgLabelingConverter.class, convertService.getHandler(img, ImgLabeling.class).getClass());
+		assertEquals(RandomAccessibleIntervalToImgLabelingConverter.class,
+			convertService.getHandler(img, ImgLabeling.class).getClass());
 
 		ImgLabeling<?, ?> labeling = convertService.convert(img, ImgLabeling.class);
 		assertEquals(3, labeling.getMapping().numSets());
@@ -78,10 +80,11 @@ public class ImgLabelingConversionTest {
 	public void testImgLabelingToImgConversion() {
 		ImgLabeling<Integer, UnsignedByteType> labeling = createTestImgLabeling();
 		assertTrue(convertService.supports(labeling, Img.class));
-		assertEquals(ImgLabelingToImgConverter.class, convertService.getHandler(labeling, Img.class).getClass());
+		assertEquals(ImgLabelingToImgConverter.class, convertService.getHandler(
+			labeling, Img.class).getClass());
 
 		Img<?> img = convertService.convert(labeling, Img.class);
-		assertEquals(2, ((IntegerType<?>)img.firstElement()).getInteger());
+		assertEquals(2, ((IntegerType<?>) img.firstElement()).getInteger());
 		assertEquals(3, img.dimension(0));
 	}
 
@@ -90,7 +93,8 @@ public class ImgLabelingConversionTest {
 		Img<UnsignedByteType> img = createTestImg();
 		ImgLabeling<?, ?> labeling = convertService.convert(img, ImgLabeling.class);
 		Img<?> converted = convertService.convert(labeling, Img.class);
-		assertEquals(img.firstElement().getInteger(), ((IntegerType<?>)converted.firstElement()).getInteger());
+		assertEquals(img.firstElement().getInteger(), ((IntegerType<?>) converted
+			.firstElement()).getInteger());
 	}
 
 	@Test
@@ -98,15 +102,17 @@ public class ImgLabelingConversionTest {
 		Img<UnsignedByteType> img = createTestImg();
 		IntervalView<UnsignedByteType> slice = Views.hyperSlice(img, 0, 1);
 		assertTrue(convertService.supports(slice, ImgLabeling.class));
-		assertEquals(RandomAccessibleIntervalToImgLabelingConverter.class, convertService.getHandler(slice, ImgLabeling.class).getClass());
+		assertEquals(RandomAccessibleIntervalToImgLabelingConverter.class,
+			convertService.getHandler(slice, ImgLabeling.class).getClass());
 
-		ImgLabeling<?, ?> labeling = convertService.convert(slice, ImgLabeling.class);
+		ImgLabeling<?, ?> labeling = convertService.convert(slice,
+			ImgLabeling.class);
 		assertEquals(3, labeling.getMapping().numSets());
 	}
 
 	private ImgLabeling<Integer, UnsignedByteType> createTestImgLabeling() {
 		Img<UnsignedByteType> img = createTestImg();
-		List<Integer> labels = Arrays.asList(1,2);
+		List<Integer> labels = Arrays.asList(1, 2);
 		return ImgLabeling.fromImageAndLabels(img, labels);
 	}
 

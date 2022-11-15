@@ -26,6 +26,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
+
 package net.imagej.convert;
 
 import org.scijava.convert.AbstractConverter;
@@ -39,43 +40,36 @@ import net.imglib2.loops.LoopBuilder;
 import net.imglib2.roi.labeling.ImgLabeling;
 import net.imglib2.type.numeric.IntegerType;
 
+import java.util.RandomAccess;
+import java.util.function.Function;
+
 /**
  * This {@code Converter} converts an {@code Img} to an {@code ImgLabeling}. The
  * pixel values will be the labels of the result {@code ImgLabeling}.
  * 
  * @author Jan Eglinger
- *
- * @param <T>
- *            the ImgLib2 type of the input {@code Img} and the index image of
- *            the resulting {@code ImgLabeling}
+ * @author Curtis Rueden
+ * @param <T> the ImgLib2 type of the input {@code Img} and the index image of
+ *          the resulting {@code ImgLabeling}
  */
 @SuppressWarnings("rawtypes")
 @Plugin(type = Converter.class)
-public class RandomAccessibleIntervalToImgLabelingConverter<T extends IntegerType<T>> extends AbstractConverter<RandomAccessibleInterval, ImgLabeling> {
+public class RandomAccessibleIntervalToImgLabelingConverter<T extends IntegerType<T>>
+	extends ConciseConverter<RandomAccessibleInterval, ImgLabeling>
+{
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <L> L convert(Object rai, Class<L> type) {
-		Img<T> indexImg = ImgView.wrap((RandomAccessibleInterval<T>) rai).factory().create((RandomAccessibleInterval<T>) rai);
-		ImgLabeling<Integer, T> labeling = new ImgLabeling<>(indexImg);
+	public RandomAccessibleIntervalToImgLabelingConverter() {
+		super(RandomAccessibleInterval.class, ImgLabeling.class, src -> {
+			final RandomAccessibleInterval<T> rai = (RandomAccessibleInterval<T>) src;
+			final Img<T> indexImg = ImgView.wrap(rai).factory().create(rai);
+			final ImgLabeling<Integer, T> labeling = new ImgLabeling<>(indexImg);
 
-		LoopBuilder.setImages((RandomAccessibleInterval<T>) rai, labeling).forEachPixel((i, l) -> {
-			int v = i.getInteger();
-			if (v != 0)
-				l.add(v);
+			LoopBuilder.setImages(rai, labeling).forEachPixel((i, l) -> {
+				int v = i.getInteger();
+				if (v != 0) l.add(v);
+			});
+
+			return labeling;
 		});
-
-		return (L) labeling;
 	}
-
-	@Override
-	public Class<RandomAccessibleInterval> getInputType() {
-		return RandomAccessibleInterval.class;
-	}
-
-	@Override
-	public Class<ImgLabeling> getOutputType() {
-		return ImgLabeling.class;
-	}
-
 }

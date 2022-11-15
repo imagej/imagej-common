@@ -37,32 +37,23 @@ import org.scijava.convert.AbstractConverter;
 import org.scijava.convert.Converter;
 import org.scijava.plugin.Plugin;
 
+import java.util.function.Function;
+
 /**
- * Converts RandomAccessibleInterval to IterableInterval using Views
+ * Converts {@link RandomAccessibleInterval} to {@link IterableInterval} using
+ * {@link Views}.
  *
  * @author Christian Dietz, University of Konstanz
+ * @author Curtis Rueden
  */
 @SuppressWarnings("rawtypes")
 @Plugin(type = Converter.class)
 public class ConvertRAIToIterableInterval extends
-	AbstractConverter<RandomAccessibleInterval, IterableInterval> implements
-	Converter<RandomAccessibleInterval, IterableInterval>
+	ConciseConverter<RandomAccessibleInterval, IterableInterval>
 {
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T convert(final Object src, final Class<T> dest) {
-		return (T) Views.iterable((RandomAccessibleInterval<T>) src);
+	public ConvertRAIToIterableInterval() {
+		super(RandomAccessibleInterval.class, IterableInterval.class,
+			Views::iterable);
 	}
-
-	@Override
-	public Class<IterableInterval> getOutputType() {
-		return IterableInterval.class;
-	}
-
-	@Override
-	public Class<RandomAccessibleInterval> getInputType() {
-		return RandomAccessibleInterval.class;
-	}
-
 }

@@ -45,12 +45,16 @@ import net.imglib2.Cursor;
 import net.imglib2.Interval;
 import net.imglib2.Positionable;
 import net.imglib2.RandomAccess;
+import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.RealPositionable;
 import net.imglib2.display.ColorTable;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
+import net.imglib2.img.ImgView;
 import net.imglib2.img.WrappedImg;
 import net.imglib2.img.array.ArrayImg;
+import net.imglib2.type.Type;
+import net.imglib2.util.Util;
 
 /**
  * A simple container for storing an {@link Img} together with its metadata.
@@ -67,6 +71,33 @@ import net.imglib2.img.array.ArrayImg;
 public class ImgPlus<T> extends AbstractCalibratedRealInterval<CalibratedAxis>
 	implements Img<T>, WrappedImg<T>, ImgPlusMetadata
 {
+
+	/** Wraps a {@link RandomAccessibleInterval} into an {@link ImgPlus}. */
+	public static <T extends Type<T>> ImgPlus<T> wrap(
+		final RandomAccessibleInterval<T> rai)
+	{
+		if (rai instanceof ImgPlus) return (ImgPlus<T>) rai;
+		return new ImgPlus<>(wrapToImg(rai));
+	}
+
+	/** Wraps a {@link RandomAccessibleInterval} into an {@link Img}. */
+	public static <T extends Type<T>> Img<T> wrapToImg(
+		final RandomAccessibleInterval<T> rai)
+	{
+		if (rai instanceof Img) return (Img<T>) rai;
+		return ImgView.wrap(rai, imgFactory(rai));
+	}
+
+	/**
+	 * Gets an {@link ImgFactory} suitable for creating {@link Img}s of the given
+	 * {@link RandomAccessibleInterval}'s container, type, and dimensions.
+	 */
+	public static <T> ImgFactory<T> imgFactory(
+		final RandomAccessibleInterval<T> rai)
+	{
+		final T type = Util.getTypeFromInterval(rai);
+		return Util.getSuitableImgFactory(rai, type);
+	}
 
 	private final Img<T> img;
 

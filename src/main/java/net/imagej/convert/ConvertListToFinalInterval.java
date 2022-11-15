@@ -31,6 +31,7 @@ package net.imagej.convert;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.function.Function;
 
 import net.imglib2.FinalInterval;
 
@@ -45,50 +46,44 @@ import org.scijava.plugin.Plugin;
  * {@link Converter} for converting {@link List}s to {@link FinalInterval}. This
  * is a chained conversion, and will support {@link List}s of any type that can
  * be converted to {@code long[]}.
+ *
+ * @author Mark Hiner
+ * @author Curtis Rueden
  */
-@SuppressWarnings("rawtypes")
-@Plugin(type = Converter.class, priority = Priority.LOW_PRIORITY)
+@Plugin(type = Converter.class, priority = Priority.LOW)
 public class ConvertListToFinalInterval extends
-	AbstractConverter<List, FinalInterval>
+	ConciseConverter<List, FinalInterval>
 {
 
 	@Parameter
 	private ConvertService convertService;
 
+	public ConvertListToFinalInterval() {
+		super(List.class, FinalInterval.class, null);
+	}
+
 	@Override
 	public boolean canConvert(final Object src, final Type dest) {
-		return super.canConvert(src, dest) &&
-			convertService.supports(src, long[].class);
+		return super.canConvert(src, dest) && convertService.supports(src,
+			long[].class);
 	}
 
 	@Override
 	public boolean canConvert(final Object src, final Class<?> dest) {
-		return super.canConvert(src, dest) &&
-			convertService.supports(src, long[].class);
+		return super.canConvert(src, dest) && convertService.supports(src,
+			long[].class);
 	}
 
 	@Override
 	public boolean canConvert(final Class<?> src, final Class<?> dest) {
-		return super.canConvert(src, dest) &&
-			convertService.supports(src, long[].class);
+		return super.canConvert(src, dest) && convertService.supports(src,
+			long[].class);
 	}
 
 	@Override
-	public Class<FinalInterval> getOutputType() {
-		return FinalInterval.class;
-	}
-
-	@Override
-	public Class<List> getInputType() {
-		return List.class;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T convert(final Object src, final Class<T> dest) {
+	protected FinalInterval convert(final List src) {
 		final long[] longs = convertService.convert(src, long[].class);
-
-		return (T) new FinalInterval(longs);
+		return new FinalInterval(longs);
 	}
 
 	// -- Deprecated API --
@@ -96,7 +91,7 @@ public class ConvertListToFinalInterval extends
 	@Override
 	@Deprecated
 	public boolean canConvert(final Class<?> src, final Type dest) {
-		return super.canConvert(src, dest) &&
-			convertService.supports(src, long[].class);
+		return super.canConvert(src, dest) && convertService.supports(src,
+			long[].class);
 	}
 }
