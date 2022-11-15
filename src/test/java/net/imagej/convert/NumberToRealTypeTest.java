@@ -29,6 +29,7 @@
 
 package net.imagej.convert;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -79,7 +80,9 @@ public class NumberToRealTypeTest {
 		for (Number number : numbers) {
 			for (Class<?> c : types) {
 				assertTrue(convertService.supports(number, c));
-				convertService.convert(number, c);
+				Object result = convertService.convert(number, c);
+				assertTrue(c.isInstance(result));
+				assertEquals(1.0, ((RealType<?>) result).getRealDouble(), 0.0);
 			}
 		}
 	}
@@ -89,7 +92,9 @@ public class NumberToRealTypeTest {
 		List<Number> numbers = Arrays.asList((byte) 1, (short) 1, 1, 1L);
 		for (Number number : numbers) {
 			assertTrue(convertService.supports(number, IntegerType.class));
-			convertService.convert(number, IntegerType.class);
+			Object result = convertService.convert(number, IntegerType.class);
+			assertTrue(result instanceof IntegerType);
+			assertEquals(1L, ((IntegerType<?>) result).getIntegerLong());
 		}
 	}
 
@@ -97,6 +102,8 @@ public class NumberToRealTypeTest {
 	public void testBooleanToBooleanType() {
 		Boolean b = true;
 		assertTrue(convertService.supports(b, BooleanType.class));
-		convertService.convert(b, BooleanType.class);
+		Object result = convertService.convert(b, BooleanType.class);
+		assertTrue(result instanceof BooleanType);
+		assertEquals(true, ((BooleanType) result).get());
 	}
 }
