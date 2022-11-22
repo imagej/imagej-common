@@ -40,13 +40,52 @@ import org.scijava.module.process.AbstractPreprocessorPlugin;
 import org.scijava.plugin.Parameter;
 
 /**
- * Base class for preprocessors that populate single input parameters. The
+ * A base class for preprocessors that populate single input parameters. The
  * {@link ConvertService} is used so that any single unresolved module that is
  * convertible with the type of this preprocessor can be satisfied. For example,
  * if there is a single unresolved {@code S} parameter, and a {@link Converter}
  * exists from {@code T} to {@code S}, then the parameter can be resolved by
  * this preprocessor.
- * 
+ * <p>
+ * NB: There is another base class,
+ * {@link org.scijava.module.process.AbstractSingleInputPreprocessor}, which
+ * alternately can be used to create module preprocessor plugins for filling
+ * single inputs of particular types. The differences between the two are:
+ * </p>
+ * <ul>
+ * <li>The SciJava {@code AbstractSingleInputPreprocessor} is less structured,
+ * with only a protected helper method {@code getSingleInput(Module, Class)} to
+ * look up whether a particular module instance has a single input parameter of
+ * the given type; implementations may look up any number of single inputs of
+ * whatever types, but must implement {@code process(Module)} directly in
+ * whatever way they see fit. Conversely, this {@code SingleInputPreprocessor}
+ * is more structured, with a generic parameter indicating the type of the
+ * single input that will be handled, and a new protected {@code getValue()}
+ * method returning the single input value to inject as appropriate.</li>
+ * <li>The SciJava {@code AbstractSingleInputPreprocessor} does <em>not</em>
+ * reason about types beyond type assignability, whereas this
+ * {@code SingleInputPreprocessor} checks for single inputs of <em>all types
+ * convertible from the requested type</em>. For example, a module requiring a
+ * single {@code Log} input would be filled by a {@code SingleTreePreprocessor}
+ * plugin extending this {@code SingleInputPreprocessor}, when a
+ * {@code TreeToLogConverter} plugin is present, because the machinery of this
+ * class would notice that a single {@code Log} is required, that a {@code Tree}
+ * can be provided, and that the {@code Tree} can be converted into the needed
+ * {@code Log}.</li>
+ * </ul>
+ * <p>
+ * Therefore: it is recommended to use this class when:
+ * <ol>
+ * <li>your implementing class handles one specific type including subtypes
+ * (i.e. not multiple heterogeneous/unrelated types); and</li>
+ * <li>automatic conversion handling is desirable for your handled type.</li>
+ * </ol>
+ * <p>
+ * Whereas if you need to handle multiple input types, and/or do not necessarily
+ * want type conversion into the destination single input type, it is
+ * recommended to use {@code AbstractSingleInputPreprocessor} instead.
+ * </p>
+ *
  * @author Curtis Rueden
  * @author Mark Hiner hinerm at gmail.com
  */

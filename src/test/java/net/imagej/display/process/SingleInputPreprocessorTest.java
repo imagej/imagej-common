@@ -116,27 +116,27 @@ public class SingleInputPreprocessorTest {
 		run(ChannelCollectionNeeded.class, ChannelCollection.class);
 	}
 
-	/** Tests {@link ActiveDatasetPreprocessor}. */
+	/** Tests {@link ActiveImagePreprocessor}'s handling of {@link Dataset}. */
 	@Test
 	public void testSingleDataset() {
 		assertSame(dataset, run(DatasetNeeded.class, Dataset.class));
 	}
 
-	/** Tests {@link ActiveDatasetViewPreprocessor}. */
+	/** Tests {@link ActiveImagePreprocessor}'s handling of {@link DatasetView}. */
 	@Test
 	public void testSingleDatasetView() {
 		final DatasetView dv = run(DatasetViewNeeded.class, DatasetView.class);
 		assertSame(dataset, dv.getData());
 	}
 
-	/** Tests {@link ActiveDataViewPreprocessor}. */
+	/** Tests {@link ActiveImagePreprocessor}'s handling of {@link DataView}. */
 	@Test
 	public void testSingleDataView() {
 		final DataView dv = run(DataViewNeeded.class, DataView.class);
 		assertSame(dataset, dv.getData());
 	}
 
-	/** Tests {@link ActiveImageDisplayPreprocessor}. */
+	/** Tests {@link ActiveImagePreprocessor}'s handling of {@link ImageDisplay}. */
 	@Test
 	public void testSingleImageDisplay() {
 		assertSame(display, run(ImageDisplayNeeded.class, ImageDisplay.class));
