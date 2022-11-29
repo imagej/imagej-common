@@ -161,30 +161,47 @@ public interface ImageDisplayService extends ImageJService {
 	 * Gets the active {@link Dataset}, if any, of the currently active
 	 * {@link ImageDisplay}.
 	 */
-	Dataset getActiveDataset();
+	default Dataset getActiveDataset() {
+		return getActiveDataset(getActiveImageDisplay());
+	}
 
 	/**
 	 * Gets the active {@link DatasetView}, if any, of the currently active
 	 * {@link ImageDisplay}.
 	 */
-	DatasetView getActiveDatasetView();
+	default DatasetView getActiveDatasetView() {
+		return getActiveDatasetView(getActiveImageDisplay());
+	}
 	
 	/** 
 	 * Gets the active {@link Position}, if any, of the currently active
 	 * {@link ImageDisplay}.
 	 */
-	Position getActivePosition();
+	default Position getActivePosition() {
+		return getActivePosition(getActiveImageDisplay());
+	}
 
 	/**
 	 * Gets the active {@link Dataset}, if any, of the given {@link ImageDisplay}.
 	 */
-	Dataset getActiveDataset(ImageDisplay display);
+	default Dataset getActiveDataset(ImageDisplay display)
+	{
+		final DatasetView activeDatasetView = getActiveDatasetView( display );
+		return activeDatasetView == null ? null : activeDatasetView.getData();
+	}
 
 	/**
 	 * Gets the active {@link DatasetView}, if any, of the given
 	 * {@link ImageDisplay}.
 	 */
-	DatasetView getActiveDatasetView(ImageDisplay display);
+	default DatasetView getActiveDatasetView(ImageDisplay display) {
+		if (display == null) return null;
+		final DataView activeView = display.getActiveView();
+		if (activeView instanceof DatasetView) {
+			return (DatasetView) activeView;
+		}
+		return null;
+	}
 
 	/** Gets a list of all available {@link ImageDisplay}s. */
 	List<ImageDisplay> getImageDisplays();
@@ -193,6 +210,11 @@ public interface ImageDisplayService extends ImageJService {
 	 * Gets the active {@link Position}, if any, of the active
 	 * {@link DatasetView} in the given {@link ImageDisplay}.
 	 */
-	Position getActivePosition(ImageDisplay display);
+	default Position getActivePosition(ImageDisplay display) {
+		if (display == null) return null;
+		final DatasetView activeDatasetView = this.getActiveDatasetView(display);
+		if(activeDatasetView == null) return null;
+		return activeDatasetView.getPlanePosition();
+	}
 
 }

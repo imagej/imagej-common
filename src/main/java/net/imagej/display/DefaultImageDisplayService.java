@@ -108,45 +108,6 @@ public final class DefaultImageDisplayService extends AbstractService
 	}
 
 	@Override
-	public Dataset getActiveDataset() {
-		return getActiveDataset(getActiveImageDisplay());
-	}
-
-	@Override
-	public DatasetView getActiveDatasetView() {
-		return getActiveDatasetView(getActiveImageDisplay());
-	}
-	
-	@Override
-	public Position getActivePosition() {
-		return getActivePosition(getActiveImageDisplay());
-	}
-
-	@Override
-	public Dataset getActiveDataset(final ImageDisplay display) {
-		final DatasetView activeDatasetView = getActiveDatasetView(display);
-		return activeDatasetView == null ? null : activeDatasetView.getData();
-	}
-
-	@Override
-	public DatasetView getActiveDatasetView(final ImageDisplay display) {
-		if (display == null) return null;
-		final DataView activeView = display.getActiveView();
-		if (activeView instanceof DatasetView) {
-			return (DatasetView) activeView;
-		}
-		return null;
-	}
-	
-	@Override
-	public Position getActivePosition(final ImageDisplay display) {
-		if (display == null) return null;
-		final DatasetView activeDatasetView = this.getActiveDatasetView(display);
-		if(activeDatasetView == null) return null;
-		return activeDatasetView.getPlanePosition();
-	}
-
-	@Override
 	public List<ImageDisplay> getImageDisplays() {
 		return displayService.getDisplaysOfType(ImageDisplay.class);
 	}
