@@ -212,7 +212,7 @@ public interface ImageDisplayService extends ImageJService {
 	 */
 	default Position getActivePosition(ImageDisplay display) {
 		if (display == null) return null;
-		final DatasetView activeDatasetView = this.getActiveDatasetView(display);
+		final DatasetView activeDatasetView = getActiveDatasetView(display);
 		if(activeDatasetView == null) return null;
 		return activeDatasetView.getPlanePosition();
 	}
