@@ -226,7 +226,7 @@ public final class DefaultDatasetService extends AbstractService implements
 	public <T extends Type<T>> Dataset create(
 			final RandomAccessibleInterval<T> rai)
 	{
-		return create(ImgPlus.wrap(rai));
+		return create(ImgPlus.wrapRAI(rai));
 	}
 
 	private ImgPlus< UnsignedByteType > argbToMultiChannel(

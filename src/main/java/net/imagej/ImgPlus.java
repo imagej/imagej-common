@@ -73,7 +73,7 @@ public class ImgPlus<T> extends AbstractCalibratedRealInterval<CalibratedAxis>
 {
 
 	/** Wraps a {@link RandomAccessibleInterval} into an {@link ImgPlus}. */
-	public static <T extends Type<T>> ImgPlus<T> wrap(
+	public static <T extends Type<T>> ImgPlus<T> wrapRAI(
 		final RandomAccessibleInterval<T> rai)
 	{
 		if (rai instanceof ImgPlus) return (ImgPlus<T>) rai;
