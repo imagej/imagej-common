@@ -301,11 +301,7 @@ public class ImageConverters {
 	{
 
 		public DatasetToDatasetViewConverter() {
-			super(Dataset.class, DatasetView.class, src -> {
-				final DatasetView view = ds2dv(src);
-				view.rebuild(); // NB: Rebuild immediately to construct color tables.
-				return view;
-			});
+			super(Dataset.class, DatasetView.class, ImageConverters::ds2dv);
 		}
 	}
 
@@ -443,7 +439,9 @@ public class ImageConverters {
 	private static DatasetView ds2dv(final Dataset dataset) {
 		final ImageDisplayService imageDisplayService = dataset.context().service(
 			ImageDisplayService.class);
-		return imageDisplayService.createDatasetView(dataset);
+		final DatasetView dv = imageDisplayService.createDatasetView(dataset);
+		dv.rebuild(); // NB: Rebuild immediately to construct color tables.
+		return dv;
 	}
 
 	private static ImageDisplay dv2disp(final DatasetView datasetView) {
@@ -457,7 +455,9 @@ public class ImageConverters {
 	private static DatasetView disp2dv(final ImageDisplay imageDisplay) {
 		final ImageDisplayService imageDisplayService = imageDisplay.context()
 			.service(ImageDisplayService.class);
-		return imageDisplayService.getActiveDatasetView(imageDisplay);
+		final DatasetView dv = imageDisplayService.getActiveDatasetView(imageDisplay);
+		dv.rebuild(); // NB: Rebuild immediately to construct color tables.
+		return dv;
 	}
 
 	private static Dataset dv2ds(final DatasetView datasetView) {
