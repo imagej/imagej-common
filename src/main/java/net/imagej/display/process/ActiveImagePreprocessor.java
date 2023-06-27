@@ -81,22 +81,29 @@ public class ActiveImagePreprocessor extends AbstractSingleInputPreprocessor {
 	public void process(final Module m) {
 		if (imageDisplayService == null || moduleService == null) return;
 
-		final ImageDisplay imageDisplay = imageDisplayService.getActiveImageDisplay();
+		final ImageDisplay imageDisplay = imageDisplayService
+			.getActiveImageDisplay();
 		if (imageDisplay == null) return;
 
 		final Map<Class<?>, Supplier<?>> types = new LinkedHashMap<>();
 		types.put(ImageDisplay.class, () -> imageDisplay);
-		types.put(DatasetView.class, () -> imageDisplayService.getActiveDatasetView(imageDisplay));
+		types.put(DatasetView.class, () -> imageDisplayService.getActiveDatasetView(
+			imageDisplay));
 		types.put(DataView.class, () -> imageDisplay.getActiveView());
-		types.put(Dataset.class, () -> imageDisplayService.getActiveDataset(imageDisplay));
+		types.put(Dataset.class, () -> imageDisplayService.getActiveDataset(
+			imageDisplay));
 
-		types.keySet().forEach(type -> fill(m, getSingleInput(m, type), types.get(type)));
-		types.keySet().forEach(type -> fill(m, getConvertibleSingleInput(m, type), types.get(type)));
+		types.keySet().forEach(type -> fill(m, getSingleInput(m, type), types.get(
+			type)));
+		types.keySet().forEach(type -> fill(m, getConvertibleSingleInput(m, type),
+			types.get(type)));
 	}
 
 	// -- Helper methods --
 
-	private String getConvertibleSingleInput(final Module m, final Class<?> type) {
+	private String getConvertibleSingleInput(final Module m,
+		final Class<?> type)
+	{
 		if (moduleService == null || convertService == null) return null;
 		final ModuleItem<?> item = moduleService.getSingleInput(m, //
 			convertService.getCompatibleOutputClasses(type));
