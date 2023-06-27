@@ -29,11 +29,7 @@
 
 package net.imagej.display.process;
 
-import net.imagej.Dataset;
-import net.imagej.display.DataView;
-import net.imagej.display.DatasetView;
-import net.imagej.display.ImageDisplay;
-import net.imagej.display.ImageDisplayService;
+import java.util.Arrays;
 
 import org.scijava.Priority;
 import org.scijava.convert.ConvertService;
@@ -45,10 +41,11 @@ import org.scijava.module.process.PreprocessorPlugin;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.function.Supplier;
+import net.imagej.Dataset;
+import net.imagej.display.DataView;
+import net.imagej.display.DatasetView;
+import net.imagej.display.ImageDisplay;
+import net.imagej.display.ImageDisplayService;
 
 /**
  * Assigns the active image based on the active {@link ImageDisplay} when there
@@ -81,22 +78,16 @@ public class ActiveImagePreprocessor extends AbstractSingleInputPreprocessor {
 	public void process(final Module m) {
 		if (imageDisplayService == null || moduleService == null) return;
 
-		final ImageDisplay imageDisplay = imageDisplayService
-			.getActiveImageDisplay();
-		if (imageDisplay == null) return;
-
-		final Map<Class<?>, Supplier<?>> types = new LinkedHashMap<>();
-		types.put(ImageDisplay.class, () -> imageDisplay);
-		types.put(DatasetView.class, () -> imageDisplayService.getActiveDatasetView(
-			imageDisplay));
-		types.put(DataView.class, () -> imageDisplay.getActiveView());
-		types.put(Dataset.class, () -> imageDisplayService.getActiveDataset(
-			imageDisplay));
-
-		types.keySet().forEach(type -> fill(m, getSingleInput(m, type), types.get(
-			type)));
-		types.keySet().forEach(type -> fill(m, getConvertibleSingleInput(m, type),
-			types.get(type)));
+		// TODO: ideally we could link these classes with the mechanism to
+		// determine their values in the fill() method. However, we do not
+		// want to call imageDisplayService.getActiveImageDisplay() if not
+		// necessary as this method has side effects.
+		for (Class<?> type : Arrays.asList(ImageDisplay.class, DatasetView.class,
+			DataView.class, Dataset.class))
+		{
+			fill(m, getSingleInput(m, type), type);
+			fill(m, getConvertibleSingleInput(m, type), type);
+		}
 	}
 
 	// -- Helper methods --
@@ -112,11 +103,32 @@ public class ActiveImagePreprocessor extends AbstractSingleInputPreprocessor {
 	}
 
 	private void fill(final Module module, final String name,
-		final Supplier<?> valueSupplier)
+		final Class<?> valueType)
 	{
 		if (name == null) return;
-		Object value = valueSupplier.get();
+
+		final ImageDisplay imageDisplay = imageDisplayService
+			.getActiveImageDisplay();
+
+		if (imageDisplay == null) return;
+
+		Object value = null;
+
+		if (valueType == ImageDisplay.class) {
+			value = imageDisplay;
+		}
+		else if (valueType == DatasetView.class) {
+			imageDisplayService.getActiveDatasetView(imageDisplay);
+		}
+		else if (valueType == DataView.class) {
+			value = imageDisplay.getActiveView();
+		}
+		else if (valueType == Dataset.class) {
+			value = imageDisplayService.getActiveDataset(imageDisplay);
+		}
+
 		if (value == null) return;
+
 		final Class<?> type = module.getInfo().getInput(name).getType();
 		if (!type.isInstance(value)) value = convertService.convert(value, type);
 		if (value == null) return;
