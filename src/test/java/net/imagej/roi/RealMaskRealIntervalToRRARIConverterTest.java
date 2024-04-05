@@ -273,5 +273,10 @@ public class RealMaskRealIntervalToRRARIConverterTest {
 			return rra.realRandomAccess(interval);
 		}
 
+		@Override
+		public B getType()
+		{
+			return rra.getType();
+		}
 	}
 }
