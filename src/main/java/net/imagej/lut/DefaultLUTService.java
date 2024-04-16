@@ -269,9 +269,7 @@ public class DefaultLUTService extends AbstractService implements LUTService {
 		final HashMap<String, Object> presets = new HashMap<>();
 		presets.put("tableURL", url);
 		// and create the command info
-		// CTR FIXME: Avoid circular dependency.
-		final CommandInfo info =
-			new CommandInfo("net.imagej.plugins.commands.misc.ApplyLookupTable");
+		final CommandInfo info = new CommandInfo(ApplyLookupTable.class);
 		info.setPresets(presets);
 		info.setMenuPath(menuPath);
 		// use the default icon
