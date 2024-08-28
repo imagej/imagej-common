@@ -216,5 +216,10 @@ public class RRARIToRealMaskRealIntervalConverterTest {
 			return source.realRandomAccess(interval);
 		}
 
+		@Override
+		public T getType()
+		{
+			return source.getType();
+		}
 	}
 }
