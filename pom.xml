@@ -139,6 +139,7 @@
 
 	<properties>
 		<package-name>net.imagej</package-name>
+		<automatic-module-name>net.imagej.common</automatic-module-name>
 
 		<license.licenseName>bsd_2</license.licenseName>
 		<license.copyrightOwners>ImageJ2 developers.</license.copyrightOwners>
