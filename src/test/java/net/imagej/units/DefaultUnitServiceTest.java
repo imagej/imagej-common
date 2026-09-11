@@ -88,10 +88,31 @@ public class DefaultUnitServiceTest {
 	@Test
 	public void testMu() {
 		final DefaultUnitService c = new DefaultUnitService();
+		//sanity - u is used by the rest of the conversion logic
+		assertEquals(0.1, c.value(100_000, "um", "meter"), 1e-16);
+		assertEquals(1_000_000.0, c.value(1, "meter", "um"), 0.0);
+		
+		//micro sign
 		assertEquals(0.1, c.value(100_000, "\\u00B5m", "meter"), 1e-16);
 		assertEquals(1_000_000.0, c.value(1, "meter", "\\u00B5m"), 0.0);
 
 		assertEquals(0.1, c.value(100_000, "\\u00b5m", "meter"), 1e-16);
 		assertEquals(1_000_000.0, c.value(1, "meter", "\\u00b5m"), 0.0);
+		
+		//Greek small mu 
+		assertEquals(0.1, c.value(100_000, "\\u03BCm", "meter"), 1e-16);
+		assertEquals(1_000_000.0, c.value(1, "meter", "\\u00b5m"), 0.0);
+
+		assertEquals(0.1, c.value(100_000, "\\u03bCm", "meter"), 1e-16);
+		assertEquals(1_000_000.0, c.value(1, "meter", "\\u00b5m"), 0.0);
+
+		//Unicode µ \\u00B5 micro sign
+		assertEquals(0.1, c.value(100_000, "µm", "meter"), 1e-16);
+		assertEquals(1_000_000.0, c.value(1, "meter", "µm"), 0.0);
+		
+		//Unicode μ \\u03bc Greek small letter mu
+		assertEquals(0.1, c.value(100_000, "μm", "meter"), 1e-16);
+		assertEquals(1_000_000.0, c.value(1, "meter", "μm"), 0.0);
+
 	}
 }
