@@ -7,4 +7,5 @@
 .project
 .serena
 .settings/
+/.factorypath
 /target/
