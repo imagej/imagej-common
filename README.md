@@ -1,4 +1,4 @@
-[![](https://github.com/imagej/imagej-common/actions/workflows/build.yml/badge.svg)](https://github.com/imagej/imagej-common/actions/workflows/build.yml)
+[![Build Status](https://github.com/imagej/imagej-common/actions/workflows/build.yml/badge.svg)](https://github.com/imagej/imagej-common/actions/workflows/build.yml)
 
 This is the ImageJ common library, containing ImageJ2's core image data model,
 based on [ImgLib2](http://imglib2.net/). This is the primary mechanism by which
